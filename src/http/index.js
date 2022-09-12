@@ -3,7 +3,7 @@ import { useInterceptor } from './interceptor';
 import { foreRequestMiddleware, postRequestMiddleware, fallbackMiddleware } from './middlewares';
 import UserApis from './modules/user.api';
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'http://172.20.17.16:8360' : 'http://172.20.17.16:8360';
+const baseURL = process.env.NODE_ENV === 'production' ? 'http://172.20.17.16:8360' : 'https://cls.hhws168.com';
 
 // create a modular namespace ApiModule instance
 const apiMod = new ApiModule({

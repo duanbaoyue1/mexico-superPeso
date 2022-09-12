@@ -11,9 +11,12 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/videos',
+    name: 'Videos',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Videos.vue'),
+    meta: {
+      title: '视频列表'
+    }
   },
   {
     path: '/404',
