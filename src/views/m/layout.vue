@@ -24,7 +24,6 @@
   .el-button--primary {
     font-size: 17px;
     font-weight: 400;
-    color: #fff;
     line-height: 24px;
     background: transparent !important;
     border: none;
