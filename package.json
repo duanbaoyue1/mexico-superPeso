@@ -29,7 +29,7 @@
     "babel-plugin-import": "^1.13.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "postcss-px-to-viewport": "^1.1.1",
+    "postcss-px-to-viewport": "git+https://github.com/evrone/postcss-px-to-viewport.git",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-element": "~1.0.1",

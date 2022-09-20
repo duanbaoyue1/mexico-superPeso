@@ -1,22 +1,43 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import mLayout from '../views/m/layout.vue';
+import webLayout from '../views/layout.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: mLayout,
+    children: [
+      {
+        path: '/',
+        name: 'Home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/m/Home.vue'),
+        meta: {
+          title: '视频列表'
+        }
+      },
+      {
+        path: '/videos',
+        name: 'Videos',
+        component: () => import(/* webpackChunkName: "videos" */ '../views/m/Videos.vue'),
+        meta: {
+          title: '视频列表'
+        }
+      }
+    ]
   },
   {
-    path: '/videos',
-    name: 'Videos',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Videos.vue'),
-    meta: {
-      title: '视频列表'
-    }
+    path: '/web',
+    component: webLayout,
+    children: [
+      {
+        path: '/',
+        name: 'Home',
+        component: () => import(/* webpackChunkName: "web-home" */ '../views/Home.vue')
+      }
+    ]
   },
   {
     path: '/404',
