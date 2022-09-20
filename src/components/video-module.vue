@@ -1,13 +1,13 @@
 <template>
   <div class="video-module">
-    <div class="video" v-for="(item, index) in videos.slice(0, 2)" :key="item.id" @click="playVideo(item.videoUrl)">
+    <div class="video" v-for="(item, index) in videos.slice(0, 4)" :key="item.id" @click="playVideo(item.videoUrl)">
       <img class="poster" :src="item.imageUrl" />
       <img class="play" :src="require('@/assets/img/play@2x.png')" />
       <div class="title">{{ item.title }}</div>
     </div>
-    <div class="show-all" v-if="videos.length > 2" @click="showMore">
+    <div class="show-all" v-if="videos.length > 4" @click="showMore">
       <span>更多案例</span>
-      <img :src="require('@/assets/img/arrow@2x.png')" />
+      <img :src="require('@/assets/img/web/arrow@2x.png')" />
     </div>
   </div>
 </template>
@@ -45,31 +45,35 @@ export default {
 .video-module {
   display: flex;
   .show-all {
-    width: 21px;
-    height: 90px;
-    background: #ffffff;
+    width: 30px;
+    height: 96px;
+    background: transparent;
     border-radius: 5px;
-    font-size: 11px;
-    font-weight: 400;
-    color: #000000;
-    line-height: 13px;
-    padding: 12px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    line-height: 16px;
+    padding: 9px 8px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     box-sizing: border-box;
+    border: 1px solid rgba(220, 188, 168,0.45);
+    margin-left: 5px;
+    margin-top: 20px;
     img {
       width: 9px;
       margin-top: 5px;
     }
   }
   .video {
-    width: 160px;
-    height: 90px;
+    width: 260px;
+    height: 146px;
     position: relative;
     border-radius: 5px;
-    margin-right: 5px;
+    margin-right: 15px;
+    cursor: pointer;
     .poster {
       width: 100%;
       height: 100%;
@@ -80,10 +84,11 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 24px;
+      width: 36px;
+      cursor: pointer;
     }
     .title {
-      font-size: 11px;
+      font-size: 13px;
       color: #ffffff;
       line-height: 16px;
       position: absolute;

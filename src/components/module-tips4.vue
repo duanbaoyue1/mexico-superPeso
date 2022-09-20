@@ -3,30 +3,41 @@
     <div class="module">
       <header>策略原理讲解及选股技巧</header>
       <p>在市场恐慌情绪泛滥的情况下，众多散户会不计成本割掉手中的筹码，如果此时主力空翻多大单接盘，就是一种情绪反转的征兆。后续市场冷静后，该股往往会提前表现，走出一波赚钱行情。</p>
-      <img class="pick" :src="require('@/assets/img/pick1@2x.png')" />
-      <p class="em">大跌后反转</p>
-      <p class="color-333 block">因市场行情太差带动个股一起下跌，或者因个股突发短期影响利空，就会导致股价持续走低。在跌幅过大或者关键性支撑位时，主力就开始出手控制下跌趋势。此时就可以和主力一起慢慢吸筹，反转后再立即加仓。</p>
-      <p class="em">大跌后回调</p>
-      <p class="color-333 block">当主力特别看好一只股票时，就会不计成本拉升股价。比如昨日涨停，次日很多游资和散户选择止盈出局，不断压低股价。此时主力就不慌不忙挂大单承接。一旦空方力量消耗殆尽后，主力的做多效果迅速体现。</p>
+      <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
+      <div class="attrs">
+        <div>
+          <p class="em">大跌后反转</p>
+          <p class="color-333 block">因市场行情太差带动个股一起下跌，或者因个股突发短期影响利空，就会导致股价持续走低。在跌幅过大或者关键性支撑位时，主力就开始出手控制下跌趋势。此时就可以和主力一起慢慢吸筹，反转后再立即加仓。</p>
+        </div>
+        <div>
+          <p class="em">大跌后回调</p>
+          <p class="color-333 block">当主力特别看好一只股票时，就会不计成本拉升股价。比如昨日涨停，次日很多游资和散户选择止盈出局，不断压低股价。此时主力就不慌不忙挂大单承接。一旦空方力量消耗殆尽后，主力的做多效果迅速体现。</p>
+        </div>
+        <div>
+          <p class="em">技术面好</p>
+          <p class="color-333 block">推荐使用同花顺并购买Level2功能，实时关注主力动向。选择本策略的标的时，尽可能选择被市场关注度大，股价活性强的，最好是白马蓝筹股。屏蔽小盘股可以规避主力通过对倒制造大资金流入的假象。</p>
+        </div>
+        <div>
+          <p class="em">基本面</p>
+          <p class="color-333 block">结合公司的市值、PE、股东数近期增减、增长预期等综合分析，市值和交易额太小就不要大额参与，估值过高就要考虑安全边际，股东数增减代表近期主力动作。总之分仓操作才是安全的交易方式。</p>
+        </div>
+      </div>
 
-      <p class="em">技术面好</p>
-      <p class="color-333 block">推荐使用同花顺并购买Level2功能，实时关注主力动向。选择本策略的标的时，尽可能选择被市场关注度大，股价活性强的，最好是白马蓝筹股。屏蔽小盘股可以规避主力通过对倒制造大资金流入的假象。</p>
+      <img class="pick" :src="require('@/assets/img/web/pick2@2x.png')" />
+      <div class="add-attrs">
+        <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
+        <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
+        <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
+        <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
+        <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
+      </div>
 
-      <p class="em">基本面</p>
-      <p class="color-333 block">结合公司的市值、PE、股东数近期增减、增长预期等综合分析，市值和交易额太小就不要大额参与，估值过高就要考虑安全边际，股东数增减代表近期主力动作。总之分仓操作才是安全的交易方式。</p>
-      <img class="pick" :src="require('@/assets/img/pick2@2x.png')" />
-
-      <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
-      <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
-      <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
-      <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
-      <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
-    </div>
-    <div class="tips">
-      <header>风险提示</header>
-      <p>财联社·舞阳免责声明：本平台所提供信息仅供一般参考，不代表本平台推荐或提供任何投资建议。</p>
-      <p>投资有风险。本产品所有集合股票收益走势，均不代表真实收益或对未来收益之预期，计算未纳入印花税、交易费用、分红等因素的计算：所荐个股盈亏仅作统计参考之用，不建议投资者逐一操作，或作为直接投资之依据。</p>
-      <p>投资者须注意，投资的价值及其所得收益均可升可跌，甚至变得毫无价值。任何投资产品的过往表现并非未来表现的可靠指标，不应依赖任何预测、预期及模拟作为未来结果的指标。投资者应基于投资经验、投资目标、财务来源等仔细考量每一项投资的适合度，自行作出投资决定。</p>
+      <div class="tips">
+        <div class="header">风险提示</div>
+        <p>财联社·舞阳免责声明：本平台所提供信息仅供一般参考，不代表本平台推荐或提供任何投资建议。</p>
+        <p>投资有风险。本产品所有集合股票收益走势，均不代表真实收益或对未来收益之预期，计算未纳入印花税、交易费用、分红等因素的计算：所荐个股盈亏仅作统计参考之用，不建议投资者逐一操作，或作为直接投资之依据。</p>
+        <p>投资者须注意，投资的价值及其所得收益均可升可跌，甚至变得毫无价值。任何投资产品的过往表现并非未来表现的可靠指标，不应依赖任何预测、预期及模拟作为未来结果的指标。投资者应基于投资经验、投资目标、财务来源等仔细考量每一项投资的适合度，自行作出投资决定。</p>
+      </div>
     </div>
   </div>
 </template>
@@ -34,25 +45,28 @@
 <style lang="scss" scoped>
 .module-tips {
   .module {
-    width: 351px;
-    background: #ffffff;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    padding: 0 15px 15px;
     box-sizing: border-box;
+    color: #fff;
     header {
-      width: 200px;
-      height: 30px;
-      background: #ffe0d6;
-      border-radius: 0px 0px 5px 5px;
-      margin: 0 auto 10px;
       text-align: center;
-      font-size: 15px;
-      font-weight: 500;
-      color: #cf0f0a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 26px;
+      font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
+      font-weight: bold;
+      color: #ffd1b6;
+      line-height: 35px;
+      padding-bottom: 10px;
+      position: relative;
+      margin-bottom: 20px;
+      &::after {
+        position: absolute;
+        content: ' ';
+        bottom: 0px;
+        width: 100px;
+        height: 4px;
+        background: #ffd1b6;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
     p {
       font-size: 12px;
@@ -64,32 +78,72 @@
     }
     .pick {
       height: 24px;
-      margin-top: 10px;
-      margin-bottom: 5px;
-    }
-    .em {
-      margin-bottom: 2px;
-      font-weight: 500;
-      color: #ea413c;
-    }
-    .block {
-      text-indent: 20px;
-      margin-bottom: 10px;
-    }
-  }
-  .tips {
-    color: #fff;
-    font-size: 11px;
-    header {
-      font-weight: 500;
-      color: #ffffff;
-      line-height: 17px;
-      margin-bottom: 4px;
-    }
-    p {
+      margin-top: 30px;
       margin-bottom: 20px;
-      &:nth-last-of-type(1) {
-        margin-bottom: 0;
+    }
+    .attrs {
+      display: flex;
+      margin-right: -10px;
+      > div {
+        width: 260px;
+        background: #1d2028;
+        border-radius: 100px 5px 5px 5px;
+        padding: 10px;
+        font-size: 14px;
+        color: #bbbcbe;
+        line-height: 24px;
+        margin-right: 10px;
+
+        .em {
+          font-size: 15px;
+          font-weight: bold;
+          color: #ffffff;
+          line-height: 20px;
+          margin-bottom: 6px;
+        }
+        .block {
+          text-indent: 20px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .add-attrs {
+      p {
+        font-size: 15px;
+        font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
+        font-weight: bold;
+        line-height: 20px;
+        margin-bottom: 20px;
+        color: #bbbcbe;
+        span {
+          &:first-child {
+            color: #eb333b;
+          }
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .tips {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #bbbcbe;
+      line-height: 17px;
+      .header {
+        font-size: 14px;
+        font-weight: bold;
+        color: #ffffff;
+        line-height: 19px;
+        margin-bottom: 10px;
+      }
+      p {
+        margin-bottom: 20px;
+        &:nth-last-of-type(1) {
+          margin-bottom: 0;
+        }
       }
     }
   }
