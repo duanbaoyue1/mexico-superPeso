@@ -68,7 +68,7 @@
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
     <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
-    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'"></buy-bottom>
+    <buy-bottom  v-if="!bought" :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
   </div>
 </template>
 
@@ -81,7 +81,7 @@ import BuyBottom from '@/components/buy-bottom.vue';
 import TableData from '@/components/table-data.vue';
 import typeConfig from '@/config/typeConfig.js';
 import VideoModule from '@/components/video-module.vue';
-
+import axios from 'axios'
 export default {
   components: {
     ModuleTips1,
@@ -101,6 +101,7 @@ export default {
       typeInfo: typeConfig[this.$route.query.type],
       // 当前选择日期
       dataDate: '',
+      endDate: '', // 会员剩余日期
       // 是否处于显示模式，未购买也可能进这个模式
       showData: false,
       // 产品id , 以便于购买跳转
@@ -127,16 +128,73 @@ export default {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
-      this.bought = res.data.bought;
-      this.getTradeDates();
-      if (this.bought) {
-        this.showData = true;
-      }
-    });
+    this.inti()
+    // this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
+    //   this.bought = res.data.bought;
+    //   this.getTradeDates();
+    //   if (this.bought) {
+    //     this.showData = true;
+    //   }
+    // });
   },
 
   methods: {
+    inti() {
+      axios({
+        method: 'post',
+        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct',
+      }).then((res) => {
+          this.getTradeDates();
+          if (res.code && res.code == 200) {
+            var data = res.data;
+            if (data.length == 0) {
+              // 无权限
+              this.bought = false
+            } else {
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+                  var newdate = new Date();
+                  var date = new Date(data[i].date);
+                  if (date <= newdate) {
+                    // 无权限
+                    this.bought = false
+                  } else {
+                    // 有权限
+                    this.bought = true
+                    this.showData = true;
+                    // 会员剩余日期
+                    this.endDate = this.daysDistance(new Date(data[i].date),new Date())
+                  }
+                }
+              }
+            }
+          } else {
+            this.bought = false
+          }
+      })
+    },
+    toBuy() {
+      // index首页
+      window.uniWebViewF(function(){
+        var uniWebView = webUni.webView;//必须在这时候保存下来
+        uniWebView.postMessage({
+          data: {
+            action: 'tobuy'
+          }
+        });
+      })
+    },
+    // 获取两个两个日期转换成天
+    daysDistance(date1, date2) {     
+        //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
+        date1 = Date.parse(date1);
+        date2 = Date.parse(date2);
+        //计算两个日期之间相差的毫秒数的绝对值
+        var ms= Math.abs(date2 - date1);
+        //毫秒数除以一天的毫秒数,就得到了天数
+        var days = Math.floor(ms / (24 * 3600 * 1000));
+        return days ;
+    },
     // 日期选择 非交易日不可选
     dealPickerOptionsNot(date) {
       let year = date.getFullYear();
