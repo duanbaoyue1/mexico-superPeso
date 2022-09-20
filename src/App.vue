@@ -12,8 +12,8 @@ export default {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -25,7 +25,7 @@ export default {
 }
 
 .tips-toast {
-  padding-bottom: 10px !important;
+  padding-bottom: 0 !important;
   .el-message-box__header {
     padding-top: 16px !important;
     padding-left: 12px !important;
@@ -33,31 +33,44 @@ export default {
     padding-bottom: 0;
   }
   .el-message-box__title {
-    font-size: 17px;
+    font-size: 15px;
     font-family: PingFangSC-Medium, PingFang SC;
     font-weight: 500;
     color: #333333;
+    text-align: center;
     line-height: 24px;
   }
   .el-button--primary {
     font-size: 17px;
     font-weight: 400;
-    color: #1677ff;
+    color: #fff;
     line-height: 24px;
     background: transparent !important;
     border: none;
     padding: 0;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    width: 120px;
+    height: 24px;
+    background: #f2f6f7 !important;
+    border-radius: 12px;
+    margin: 15px auto;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 18px;
   }
   .el-message-box__btns {
-    border-top: 1px solid #e5e5e5;
-    padding-top: 11px !important;
+    border-top: none;
+    padding: 0px !important;
+    text-align: center !important;
   }
   .el-message-box__content {
-    text-align: left !important;
-    font-size: 15px;
+    font-size: 13px;
+    line-height: 18px;
     font-weight: 400;
     line-height: 21px;
-    padding-bottom: 11px !important;
+    padding-bottom: 0px !important;
   }
 }
 </style>

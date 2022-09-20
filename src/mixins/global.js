@@ -1,6 +1,3 @@
-import { mapState, mapMutations } from 'vuex';
-import Vue from 'vue';
-
 export default {
   data() {
     return {
@@ -44,12 +41,12 @@ export default {
     },
 
     percentFilter(value, fixedNum = 2) {
-      if(value > 0) {
-        return `<span style="color: #e60100">+${(value * 100).toFixed(fixedNum)}%</span>`
-      } else if(value < 0) {
-        return `<span style="color: #0cad00">-${(value * 100).toFixed(fixedNum)}%</span>`
+      if (value > 0) {
+        return `<span style="color: #e60100">+${value}%</span>`;
+      } else if (value < 0) {
+        return `<span style="color: #0cad00">${value}%</span>`;
       } else {
-        return `<span>${value}</span>`
+        return `<span>${value}</span>`;
       }
     }
   },
@@ -60,10 +57,14 @@ export default {
     },
 
     playVideo(videoSrc) {
-      const fullPageVideoInstance = this.$fullPageVideo.play(videoSrc);
-      fullPageVideoInstance.$on('close', () => {
-        this.$fullPageVideo.hide();
-      });
+      try {
+        const fullPageVideoInstance = this.$fullPageVideo.play(videoSrc);
+        fullPageVideoInstance.$on('close', () => {
+          this.$fullPageVideo.hide();
+        });
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     goHome() {
@@ -105,10 +106,7 @@ export default {
         return -1;
       }
       return re;
-    },
-
-    showToast(text, duration) {
-      duration = duration || 2000;
     }
   }
 };
+

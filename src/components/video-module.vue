@@ -1,8 +1,8 @@
 <template>
   <div class="video-module">
-    <div class="video" v-for="(item, index) in videos.slice(0, 2)" :key="item.id">
+    <div class="video" v-for="(item, index) in videos.slice(0, 2)" :key="item.id" @click="playVideo(item.videoUrl)">
       <img class="poster" :src="item.imageUrl" />
-      <img @click="playVideo(item.videoUrl)" class="play" :src="require('@/assets/img/play@2x.png')" />
+      <img class="play" :src="require('@/assets/img/play@2x.png')" />
       <div class="title">{{ item.title }}</div>
     </div>
     <div class="show-all" v-if="videos.length > 2" @click="showMore">
@@ -16,13 +16,13 @@
 export default {
   props: {
     videos: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
       total: 2,
-      index: 0,
+      index: 0
     };
   },
   methods: {
@@ -30,14 +30,14 @@ export default {
       this.$router.push({
         name: 'Videos',
         query: {
-          type: this.$route.query.type,
-        },
+          type: this.$route.query.type
+        }
       });
-    },
+    }
   },
   mounted() {
     console.log(this.videos);
-  },
+  }
 };
 </script>
 
@@ -81,7 +81,6 @@ export default {
       left: 50%;
       transform: translate(-50%, -50%);
       width: 24px;
-      z-index: 22;
     }
     .title {
       font-size: 11px;

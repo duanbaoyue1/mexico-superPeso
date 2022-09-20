@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <div class="video-wrapper" v-for="(item, index) in videos.slice(0, 2)" :key="item.id">
+    <div class="video-wrapper" v-for="(item, index) in videos" :key="item.id" @click="playVideo(item.videoUrl)">
       <div class="video">
         <img class="poster" :src="item.imageUrl" />
-        <img @click="playVideo(item.videoUrl)" class="play" :src="require('@/assets/img/play@2x.png')" />
+        <img class="play" :src="require('@/assets/img/play@2x.png')" />
       </div>
       <div class="info">
         <div class="title">{{ item.title }}</div>
@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       type: this.$route.query.type,
-      videos: [],
+      videos: []
     };
   },
   mounted() {
@@ -27,11 +27,11 @@ export default {
   },
   methods: {
     getVideoLists() {
-      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1`).then((res) => {
+      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1000`).then(res => {
         this.videos = res.data.items;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -88,7 +88,6 @@ img {
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
-      z-index: 22;
     }
     .title {
       font-size: 11px;

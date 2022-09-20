@@ -1,5 +1,5 @@
 <template>
-  <div class="back" :class="{ bought: !!bought }">
+  <div class="back">
     <div v-if="!bought && !showData" class="not-login">
       <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
       <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
@@ -15,7 +15,7 @@
         <div class="best-detail" v-if="bestInfo">
           <div>
             <div class="name">
-              近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }}</span>
+              近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }} </span>
             </div>
             <div class="percent">
               <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate }}</span>
@@ -26,28 +26,16 @@
           <div>
             <div class="name">
               选出后最高涨幅:
-              <span :style="{ color: bestInfo.highestGain > 0 ? '#ea413c' : '#0cad00' }">
-                <span>
-                  {{ bestInfo.highestGain > 0 ? '+' : '-' }}
-                </span>
-                {{ bestInfo.highestGain }}
-                <span>%</span>
-              </span>
+              <span v-html="$options.filters.percentFilter(bestInfo.highestGain, 2, true)"></span>
             </div>
             <div class="percent">
-              <span :style="{ color: bestInfo.monthDayYieldRate > 0 ? '#ea413c' : '#0cad00' }">
-                <span>
-                  {{ bestInfo.monthDayYieldRate > 0 ? '+' : '-' }}
-                </span>
-                {{ bestInfo.monthDayYieldRate }}
-                <span>%</span>
-              </span>
+              <span v-html="$options.filters.percentFilter(bestInfo.monthDayYieldRate, 2, true)"></span>
             </div>
             <div class="tips">近一个月平均日收益<img @click="openBoxWinYield" :src="require('@/assets/img/tips@2x.png')" /></div>
           </div>
         </div>
         <div>
-          <table-data :data="tableData" v-if="tableData.length > 0"></table-data>
+          <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
           <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
         </div>
       </div>
@@ -61,23 +49,18 @@
           </div>
           <div @click="preDay">前一天&gt;</div>
         </div>
-        <table-data :data="tableData" v-if="tableData.length > 0"></table-data>
+        <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
         <div class="best-info" v-if="bestInfo">
           <div>
             近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }}</span>
           </div>
           <div>
             选出后最高涨幅:
-            <span :style="{ color: bestInfo.highestGain > 0 ? '#ea413c' : '#0cad00' }">
-              <span>
-                {{ bestInfo.highestGain > 0 ? '+' : '-' }}
-              </span>
-              {{ bestInfo.highestGain }}
-              <span>%</span>
-            </span>
+            <span v-html="$options.filters.percentFilter(bestInfo.highestGain, 2, true)"></span>
           </div>
         </div>
       </div>
+      <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
       <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
       <video-module :videos="videos" class="video-module"></video-module>
     </div>
@@ -85,7 +68,7 @@
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
     <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
-    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" v-if="!bought"></buy-bottom>
+    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'"></buy-bottom>
   </div>
 </template>
 
@@ -107,7 +90,7 @@ export default {
     ModuleTips4,
     BuyBottom,
     TableData,
-    VideoModule,
+    VideoModule
   },
   data() {
     let self = this;
@@ -136,15 +119,15 @@ export default {
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
-        },
-      },
+        }
+      }
     };
   },
   mounted() {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then((res) => {
+    this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
       this.bought = res.data.bought;
       this.getTradeDates();
       if (this.bought) {
@@ -179,13 +162,13 @@ export default {
     getTableData() {
       if (!this.bought && !this.showData) {
         // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/?strategyType=${this.type}`).then((res) => {
+        this.$http.get(`/core/api/best_times/home_list/?strategyType=${this.type}`).then(res => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
         });
       } else {
-        this.$http.get(`/core/api/best_times/?strategyType=${this.type}&date=${this.dataDate}&token=${this.token}`).then((res) => {
+        this.$http.get(`/core/api/best_times/?strategyType=${this.type}&date=${this.dataDate}&token=${this.token}`).then(res => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
@@ -193,23 +176,22 @@ export default {
       }
     },
     getVideoLists() {
-      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1`).then((res) => {
+      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1000`).then(res => {
         this.videos = res.data.items;
       });
     },
     getBestInfo() {
-      this.$http.get(`/core/api/best_times/best_info/?strategyType=${this.type}`).then((res) => {
+      this.$http.get(`/core/api/best_times/best_info/?strategyType=${this.type}`).then(res => {
         this.bestInfo = res.data;
       });
     },
     getTradeDates() {
-      this.$http.get(`/core/api/best_times/trade_days/`).then((res) => {
+      this.$http.get(`/core/api/best_times/trade_days/`).then(res => {
+        this.tradeDates = res.data.items;
         if (this.bought) {
-          this.tradeDates = res.data.items;
           this.dataDate = this.tradeDates[0];
         } else {
-          this.tradeDates = res.data.items.slice(0, 5);
-          this.dataDate = this.tradeDates[this.tradeDates.length - 1];
+          this.dataDate = this.tradeDates[5];
         }
         this.getTableData();
       });
@@ -217,13 +199,13 @@ export default {
     preDay() {
       let idx = this.tradeDates.indexOf(this.dataDate);
       if (idx == this.tradeDates.length - 1) {
-        this.$dm.alert('日期无交，请重新选择', '温馨提示', {
+        this.$dm.alert('日期无交，请重新选择!', '温馨提示', {
           dangerouslyUseHTMLString: true,
           showClose: false,
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true,
+          center: true
         });
         return;
       }
@@ -233,13 +215,13 @@ export default {
     lastDay() {
       let idx = this.tradeDates.indexOf(this.dataDate);
       if (idx == 0) {
-        this.$dm.alert('日期无交，请重新选择', '温馨提示', {
+        this.$dm.alert('日期无交，请重新选择!', '温馨提示', {
           dangerouslyUseHTMLString: true,
           showClose: false,
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true,
+          center: true
         });
         return;
       }
@@ -250,32 +232,6 @@ export default {
       window.scroll(0, 0);
       this.showData = true;
       this.getTableData();
-    },
-    getInput() {},
-    success() {},
-    changeCountry(e) {
-      console.log(e);
-    },
-    sendCode() {
-      this.type = 'code';
-    },
-    verifyCode() {
-      this.$dialog.alert({
-        title: '验证码错误',
-        message: '弹窗内容',
-      });
-    },
-    resendCode() {
-      this.secondLeft = 60;
-      if (this.timeInterval) {
-        clearInterval(this.timeInterval);
-      }
-      this.timeInterval = setInterval(() => {
-        this.secondLeft--;
-        if (this.secondLeft === 0) {
-          clearInterval(this.timeInterval);
-        }
-      }, 1000);
     },
     changeDateNot(date) {
       this.dataDate = date;
@@ -288,7 +244,7 @@ export default {
         confirmButtonText: '我知道了',
         confirmButtonClass: 'alert-confirm',
         customClass: 'tips-toast',
-        center: true,
+        center: false
       });
     },
     openBoxWinYield() {
@@ -298,10 +254,10 @@ export default {
         confirmButtonText: '我知道了',
         confirmButtonClass: 'alert-confirm',
         customClass: 'tips-toast',
-        center: true,
+        center: false
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -341,7 +297,6 @@ export default {
 }
 
 .video-module {
-  height: 90px;
   margin-bottom: 10px;
 }
 .pro-tips {
@@ -353,12 +308,13 @@ export default {
   margin-top: 15px;
 }
 
+.img-name {
+  margin: 17px auto 0px;
+  width: 210px;
+  display: block;
+}
+
 .not-login {
-  .img-name {
-    margin: 17px auto 0px;
-    width: 210px;
-    display: block;
-  }
   .detail-data {
     border-radius: 5px;
     padding: 10px;

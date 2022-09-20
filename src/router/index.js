@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -24,14 +24,14 @@ Vue.use(VueRouter)
     component: () => import('@/views/notFound.vue')
   },
   {
-    path: '*',    // 此处需特别注意至于最底部
+    path: '*', // 此处需特别注意至于最底部
     redirect: '/404'
   }
-]
+];
 
 const router = new VueRouter({
-  scrollBehavior: () => ({x: 0, y: 0 }),
+  scrollBehavior: () => ({ x: 0, y: 0 }),
   routes
-})
+});
 
-export default router
+export default router;

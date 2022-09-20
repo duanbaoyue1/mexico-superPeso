@@ -1,17 +1,17 @@
 /* global wx */
 
-import { baseApi } from '@/config'
+import { baseApi } from '@/config';
 
 const store = {
   signed: false // 已签名状态
-}
+};
 
 export function getShareTitle() {
-  const el = document.getElementById('wechatShareContentTitle')
+  const el = document.getElementById('wechatShareContentTitle');
   if (el && el.value) {
-    return el.value
+    return el.value;
   }
-  return document.title || document.URL
+  return document.title || document.URL;
 }
 
 /**
@@ -19,11 +19,11 @@ export function getShareTitle() {
  * @return string 图标链接
  */
 export function getDefaultImgUrl() {
-  const el = document.getElementById('wx_pic')
+  const el = document.getElementById('wx_pic');
   if (el) {
-    const img = el.getElementsByTagName('img')[0]
+    const img = el.getElementsByTagName('img')[0];
     if (img) {
-      return img.currentSrc
+      return img.currentSrc;
     }
   }
 }
@@ -33,10 +33,10 @@ export function getDefaultImgUrl() {
  * @return string 页面描述
  */
 export function getMetaDesc() {
-  const meta = document.getElementsByTagName('meta')
+  const meta = document.getElementsByTagName('meta');
   for (let i in meta) {
     if (meta[i].name && meta[i].name.toLowerCase() === 'description') {
-      return meta[i].content
+      return meta[i].content;
     }
   }
 }
@@ -44,18 +44,18 @@ export function getMetaDesc() {
 export function emptyFunc() {}
 
 export function resetShare(options) {
-  options = options || {}
+  options = options || {};
 
-  options.title = options.title || getShareTitle()
-  options.imgUrl = options.imgUrl || getDefaultImgUrl() || ''
-  options.link = options.link || document.URL
-  options.desc = options.desc || getMetaDesc() || options.title
-  options.success = options.success || emptyFunc
-  options.cancel = options.cancel || emptyFunc
+  options.title = options.title || getShareTitle();
+  options.imgUrl = options.imgUrl || getDefaultImgUrl() || '';
+  options.link = options.link || document.URL;
+  options.desc = options.desc || getMetaDesc() || options.title;
+  options.success = options.success || emptyFunc;
+  options.cancel = options.cancel || emptyFunc;
 
-  wx.updateTimelineShareData(options)
+  wx.updateTimelineShareData(options);
 
-  wx.updateAppMessageShareData(options)
+  wx.updateAppMessageShareData(options);
 }
 
 /**
@@ -64,21 +64,21 @@ export function resetShare(options) {
  * @return promise
  */
 function fetchSign(signUrl) {
-  return new Promise(function (resolve) {
-    let xhr = new XMLHttpRequest()
-    xhr.open('get', signUrl)
-    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest')
-    xhr.onreadystatechange = function () {
+  return new Promise(function(resolve) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', signUrl);
+    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+    xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        let res = xhr.responseText
-        res = JSON.parse(res)
+        let res = xhr.responseText;
+        res = JSON.parse(res);
         if (res.success) {
-          resolve(res.data)
+          resolve(res.data);
         }
       }
-    }
-    xhr.send()
-  })
+    };
+    xhr.send();
+  });
 }
 
 /**
@@ -95,7 +95,7 @@ function wxConfig(conf, debug) {
     nonceStr: conf.nonceStr, // 必填，生成签名的随机串
     signature: conf.signature, // 必填，签名，见附录 1
     jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone', 'getLocation'] // 必填，需要使用的 JS 接口列表，所有 JS 接口列表见附录2
-  })
+  });
 }
 
 /**
@@ -104,26 +104,26 @@ function wxConfig(conf, debug) {
  * @return
  */
 function wxSetShareOptions(options) {
-  return new Promise(function (resolve) {
-    wx.ready(function () {
+  return new Promise(function(resolve) {
+    wx.ready(function() {
       const shareOptions = {
         title: options.title,
         link: options.link,
         imgUrl: options.imgUrl,
         success: options.success,
         cancel: options.cancel
-      }
-      console.log(shareOptions)
-      wx.updateTimelineShareData(shareOptions)
+      };
+      console.log(shareOptions);
+      wx.updateTimelineShareData(shareOptions);
 
-      shareOptions.desc = options.desc
-      shareOptions.type = '' // 分享类型，music、video 或 link，默认为 link
-      shareOptions.dataUrl = '' // 如果 type 是 music 或 video，则要提供数据链接，默认为空
-      wx.updateAppMessageShareData(shareOptions)
+      shareOptions.desc = options.desc;
+      shareOptions.type = ''; // 分享类型，music、video 或 link，默认为 link
+      shareOptions.dataUrl = ''; // 如果 type 是 music 或 video，则要提供数据链接，默认为空
+      wx.updateAppMessageShareData(shareOptions);
 
-      resolve('ready')
-    })
-  })
+      resolve('ready');
+    });
+  });
 }
 
 /**
@@ -143,36 +143,36 @@ function wxSetShareOptions(options) {
  */
 export default function wxShare(data, debug) {
   if (!/micromessenger/i.test(window.navigator.userAgent)) {
-    return console.warn('outside Micromessenger')
+    return console.warn('outside Micromessenger');
   }
 
-  const jssdkLoaded = 'wx' in window
+  const jssdkLoaded = 'wx' in window;
 
   if (!jssdkLoaded) {
-    return console.warn('wx jssdk 未加载，return')
+    return console.warn('wx jssdk 未加载，return');
   }
 
-  data = data || {}
-  const options = data.options || {}
-  options.title = options.title || getShareTitle()
-  options.imgUrl = options.imgUrl || getDefaultImgUrl() || ''
-  options.link = options.link || document.URL
-  options.desc = options.desc || getMetaDesc() || options.title
-  options.success = options.success || emptyFunc
-  options.cancel = options.cancel || emptyFunc
+  data = data || {};
+  const options = data.options || {};
+  options.title = options.title || getShareTitle();
+  options.imgUrl = options.imgUrl || getDefaultImgUrl() || '';
+  options.link = options.link || document.URL;
+  options.desc = options.desc || getMetaDesc() || options.title;
+  options.success = options.success || emptyFunc;
+  options.cancel = options.cancel || emptyFunc;
 
   // if (store.signed) {
   //   return wxSetShareOptions(options)
   // } else {
   if (!data.signUrl) {
-    data.signUrl = window.location.href.split('#')[0]
+    data.signUrl = window.location.href.split('#')[0];
   }
 
-  return fetchSign(`${baseApi}/api/v2/promote/js_signature?url=${encodeURIComponent(data.signUrl)}`).then(function (conf) {
-    conf.appId = conf.appId || 'wx8846c28a2ab7c8be'
-    wxConfig(conf, debug)
-    store.signed = true
-    return wxSetShareOptions(options)
-  })
+  return fetchSign(`${baseApi}/api/v2/promote/js_signature?url=${encodeURIComponent(data.signUrl)}`).then(function(conf) {
+    conf.appId = conf.appId || 'wx8846c28a2ab7c8be';
+    wxConfig(conf, debug);
+    store.signed = true;
+    return wxSetShareOptions(options);
+  });
   // }
 }

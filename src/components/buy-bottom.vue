@@ -4,7 +4,7 @@
       <div>{{ title }}</div>
       <div>{{ text }}</div>
     </div>
-    <a class="buy" @click="toBuy">立即订购</a>
+    <a class="buy" @click="toBuy">{{buyText}}</a>
   </div>
 </template>
 
@@ -22,6 +22,10 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+    buyText: {
+      type: String,
+      default: '立即订购'
     }
   }
 }

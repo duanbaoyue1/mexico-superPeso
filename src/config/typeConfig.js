@@ -19,7 +19,7 @@ const minuteUpShadow = {
   tipsTop: '盘中实时（13:00-15:00）更新底部大幅拉升试盘或长时间封板尾盘被动开板的股票。详细请看视频教程和案例。'
 };
 
-const timeDivingGold = {
+const minuteDivingGold = {
   title: '分时潜水捞金',
   btnDesc: '涨停或大阳线股的回调低吸',
   titleImg: 'title4@2x.png',
@@ -30,5 +30,5 @@ module.exports = {
   minuteLargeDdePulseQulet: minuteLargeDdePulseQulet,
   minutePulseQulet: minutePulseQulet,
   minuteUpShadow: minuteUpShadow,
-  timeDivingGold: timeDivingGold
+  minuteDivingGold: minuteDivingGold
 };

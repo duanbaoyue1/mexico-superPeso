@@ -3,17 +3,12 @@ import store from '@/store';
 import { Toast } from 'vant';
 // 根据环境不同引入不同api地址
 import { baseApi } from '@/config';
-console.log(baseApi);
 
 // create an axios instance
 const service = axios.create({
   baseURL: baseApi, // url = base api url + request url
   withCredentials: false, // send cookies when cross-domain requests
-  timeout: 8000 // request timeout
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   authorization: 'Basic MTc2MDA6MjBkZTcyNDEzNGMzM2Y5MzRlOWFiODUwODk1NjI0MDM3MDkyNTE0N2Y4ZGE1YTYwMWI2YTgxYWY2NTFmMjY1Yw=='
-  // }
+  timeout: 5000 // request timeout
 });
 
 // request拦截器 request interceptor
