@@ -142,7 +142,7 @@ export default {
     inti() {
       axios({
         method: 'post',
-        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct',
+        url: '/userreg/ucenter/queryUserProduct',
       }).then((res) => {
           this.getTradeDates();
           if (res.code && res.code == 200) {
