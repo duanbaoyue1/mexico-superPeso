@@ -1,8 +1,8 @@
 module.exports = {
-  'plugins': {
+  plugins: {
     'postcss-px2rem-include': {
       remUnit: 37.5,
-      include: /m/i
+      include: /(components\/m\/|views\/m\/)/i
     }
   }
-}
+};
