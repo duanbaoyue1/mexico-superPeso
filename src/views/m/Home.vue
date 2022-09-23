@@ -128,7 +128,7 @@ export default {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.inti()
+    this.init()
     // this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
     //   this.bought = res.data.bought;
     //   this.getTradeDates();
@@ -139,7 +139,7 @@ export default {
   },
 
   methods: {
-    inti() {
+    init() {
       axios({
         method: 'post',
         url: '/userreg/ucenter/queryUserProduct',
@@ -151,6 +151,7 @@ export default {
             if (data.length == 0) {
               // 无权限
               this.bought = false
+              this.showData = false;
             } else {
               for (let i = 0; i < data.length; i++) {
                 if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
@@ -159,6 +160,7 @@ export default {
                   if (date <= newdate) {
                     // 无权限
                     this.bought = false
+                    this.showData = false;
                   } else {
                     // 有权限
                     this.bought = true
@@ -171,6 +173,7 @@ export default {
             }
           } else {
             this.bought = false
+            this.showData = false;
           }
           this.getTradeDates();
       })
@@ -178,6 +181,7 @@ export default {
     toBuy() {
       // index首页
       window.uniWebViewF(function(){
+        console.log(webUni.webView)
         var uniWebView = webUni.webView;//必须在这时候保存下来
         uniWebView.postMessage({
           data: {

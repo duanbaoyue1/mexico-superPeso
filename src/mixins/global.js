@@ -53,7 +53,26 @@ export default {
 
   methods: {
     toBuy() {
-      location.href = `cailianshe://payment?productId=${this.$route.query.proId}`;
+        window.uniWebViewF(function(){
+          var uniWebView = webUni.webView;//必须在这时候保存下来
+          uniWebView.postMessage({
+            data: {
+              action: 'tobuy'
+            }
+          });
+        })
+      // if (this.$route.query.wy == 1) {
+      //   window.uniWebViewF(function(){
+      //     var uniWebView = webUni.webView;//必须在这时候保存下来
+      //     uniWebView.postMessage({
+      //       data: {
+      //         action: 'tobuy'
+      //       }
+      //     });
+      //   })
+      // } else {
+
+      // }
     },
 
     playVideo(videoSrc) {
