@@ -76,7 +76,7 @@ export default {
       margin-left: 5px;
       cursor: pointer;
     }
-    >span {
+    > span {
       margin-left: 10px;
     }
   }

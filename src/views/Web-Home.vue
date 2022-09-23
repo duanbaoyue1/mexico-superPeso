@@ -41,11 +41,30 @@
       <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
       <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
       <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
+
+      <!-- <div class="video-modal">
+        <div class="content">
+          <div class="header">
+            <span>视频预览</span>
+            <img :src="require('@/assets/img/web/close.png')" />
+          </div>
+          <div class="video-container">
+            <my-video class="players" :sources="videoOption.sources" :options="videoOption.options"></my-video>
+            <div class="video-list">
+              <div>1</div>
+              <div>1</div>
+              <div>1</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
+// import myVideo from 'vue-video';
+import myVideo from '@/components/vue-pc-video/index.vue';
 import ModuleTips1 from '@/components/module-tips1.vue';
 import ModuleTips2 from '@/components/module-tips2.vue';
 import ModuleTips3 from '@/components/module-tips3.vue';
@@ -63,11 +82,24 @@ export default {
     ModuleTips4,
     TableData,
     VideoModule,
-    BestInfo
+    BestInfo,
+    myVideo
   },
   data() {
     let self = this;
     return {
+      videoOption: {
+        sources: [
+          {
+            src: 'https://qiniuyun.hhws168.com/%E5%88%86%E6%97%B6%E5%A4%A7%E5%8D%95%E5%9B%9E%E8%B0%83/%E5%A4%A7%E5%8D%95%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5.mp4',
+            type: 'video/mp4'
+          }
+        ],
+        options: {
+          autoplay: true,
+          volume: 0.6
+        }
+      },
       // 视频列表
       videos: [],
       // 类型配置数据
@@ -282,15 +314,14 @@ export default {
 }
 
 .back {
-  background-image: url('../assets/img/back@2x.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top;
   background: #0f0f12;
 }
 
 .top-header {
-  background: linear-gradient(139deg, #2c3545 0%, #0c0f13 100%);
+  background-image: url('../assets/img/web/beijing@2x.png');
+  height: 260px;
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 260px;
   > div {
     padding-top: 39px;
@@ -441,5 +472,45 @@ export default {
 
 .module-tip {
   margin-top: 30px;
+}
+
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  .content {
+    width: 1140px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2d2d2d;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+      align-items: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 24px;
+      img {
+        width: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .video-container {
+      display: flex;
+      height: 450px;
+      .players {
+        width: 800px;
+        height: 450px;
+      }
+    }
+  }
 }
 </style>
