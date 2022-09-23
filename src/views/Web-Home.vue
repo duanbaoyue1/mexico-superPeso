@@ -16,7 +16,7 @@
     <div class="content-area">
       <div class="login-area">
         <div v-if="!bought && !showData">
-          <video-module :videos="videos" class="video-module"></video-module>
+          <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
           <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 30px auto 10px;"></best-info>
           <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
           <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
@@ -33,7 +33,7 @@
           </div>
           <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
           <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 10px auto 30px;"></best-info>
-          <video-module :videos="videos" class="video-module"></video-module>
+          <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
         </div>
       </div>
 
@@ -41,30 +41,12 @@
       <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
       <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
       <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
-
-      <!-- <div class="video-modal">
-        <div class="content">
-          <div class="header">
-            <span>视频预览</span>
-            <img :src="require('@/assets/img/web/close.png')" />
-          </div>
-          <div class="video-container">
-            <my-video class="players" :sources="videoOption.sources" :options="videoOption.options"></my-video>
-            <div class="video-list">
-              <div>1</div>
-              <div>1</div>
-              <div>1</div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
   </div>
 </template>
 
 <script>
-// import myVideo from 'vue-video';
-import myVideo from '@/components/vue-pc-video/index.vue';
 import ModuleTips1 from '@/components/module-tips1.vue';
 import ModuleTips2 from '@/components/module-tips2.vue';
 import ModuleTips3 from '@/components/module-tips3.vue';
@@ -73,7 +55,9 @@ import TableData from '@/components/table-data.vue';
 import typeConfig from '@/config/typeConfig.js';
 import VideoModule from '@/components/video-module.vue';
 import BestInfo from '@/components/best-info.vue';
+import PcVideoModal from '@/components/pc-video-modal.vue';
 import axios from 'axios';
+
 export default {
   components: {
     ModuleTips1,
@@ -83,23 +67,12 @@ export default {
     TableData,
     VideoModule,
     BestInfo,
-    myVideo
+    PcVideoModal
   },
   data() {
     let self = this;
     return {
-      videoOption: {
-        sources: [
-          {
-            src: 'https://qiniuyun.hhws168.com/%E5%88%86%E6%97%B6%E5%A4%A7%E5%8D%95%E5%9B%9E%E8%B0%83/%E5%A4%A7%E5%8D%95%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5.mp4',
-            type: 'video/mp4'
-          }
-        ],
-        options: {
-          autoplay: true,
-          volume: 0.6
-        }
-      },
+      initVideoIndex: -1,
       // 视频列表
       videos: [],
       // 类型配置数据
@@ -175,12 +148,14 @@ export default {
           }
         } else {
           this.bought = false;
-
-          // TODO test
-          // this.bought = true;
         }
       });
     },
+
+    playVideo(index) {
+      this.initVideoIndex = index;
+    },
+
     toBuy() {
       // index首页
       window.uniWebViewF(function() {
@@ -509,6 +484,33 @@ export default {
       .players {
         width: 800px;
         height: 450px;
+      }
+      .video-list {
+        background: #2d2d2d;
+        border-top: 1px solid #3c3c3c;
+        > div {
+          height: 50px;
+          width: 340px;
+          border-bottom: 1px solid #3c3c3c;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 15px;
+          font-size: 14px;
+          color: #969696;
+          cursor: pointer;
+          line-height: 19px;
+          img {
+            width: 18px;
+          }
+          &.active {
+            background: #1e1e1e;
+            color: #ffcfa3;
+          }
+          &:hover {
+            color: #ffcfa3;
+          }
+        }
       }
     }
   }

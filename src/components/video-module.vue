@@ -1,11 +1,11 @@
 <template>
   <div class="video-module">
-    <div class="video" v-for="(item, index) in videos.slice(0, 4)" :key="item.id" @click="playVideo(item.videoUrl)">
+    <div class="video" v-for="(item, index) in videos.slice(0, 4)" :key="item.id" @click="play(index)">
       <img class="poster" :src="item.imageUrl" />
       <img class="play" :src="require('@/assets/img/play@2x.png')" />
       <div class="title">{{ item.title }}</div>
     </div>
-    <div class="show-all" v-if="videos.length > 4" @click="showMore">
+    <div class="show-all" v-if="videos.length > 4" @click="play(4)">
       <span>更多案例</span>
       <img :src="require('@/assets/img/web/arrow@2x.png')" />
     </div>
@@ -26,13 +26,8 @@ export default {
     };
   },
   methods: {
-    showMore() {
-      this.$router.push({
-        name: 'Videos',
-        query: {
-          type: this.$route.query.type
-        }
-      });
+    play(index) {
+      this.$emit('play', index);
     }
   },
   mounted() {
@@ -59,7 +54,7 @@ export default {
     align-items: center;
     flex-direction: column;
     box-sizing: border-box;
-    border: 1px solid rgba(220, 188, 168,0.45);
+    border: 1px solid rgba(220, 188, 168, 0.45);
     margin-left: 5px;
     margin-top: 20px;
     img {
