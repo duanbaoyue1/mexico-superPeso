@@ -5,6 +5,8 @@ import store from './store';
 import request from '@/utils/request';
 Vue.prototype.$http = request;
 
+import 'amfe-flexible';
+
 import '../public/style/common.css';
 import './plugins/element.js';
 Vue.config.productionTip = false;
@@ -21,3 +23,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
+
