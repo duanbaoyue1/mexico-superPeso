@@ -17,7 +17,9 @@ Vue.use(fullPageVideo);
 // 注册全局mixins
 import global from '@/mixins/global';
 Vue.mixin(global);
-
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+Vue.use(vConsole)
 new Vue({
   router,
   store,

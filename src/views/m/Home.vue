@@ -146,7 +146,6 @@ export default {
       }).then((re) => {
           let res = re.data
           console.log(res)
-          this.getTradeDates();
           if (res.code && res.code == 200) {
             var data = res.data;
             if (data.length == 0) {
@@ -173,6 +172,7 @@ export default {
           } else {
             this.bought = false
           }
+          this.getTradeDates();
       })
     },
     toBuy() {
