@@ -93,7 +93,7 @@ export default {
       line-height: 16px;
       position: absolute;
       bottom: 0;
-      padding: 5px 0;
+      padding: 6px 0;
       left: 0;
       right: 0;
       text-align: center;
