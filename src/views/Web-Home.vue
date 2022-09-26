@@ -116,13 +116,9 @@ export default {
 
   methods: {
     inti() {
-      let url = ''
-      if (process.env.NODE_ENV == 'development') {
-        url = 'https://www.clswy.cn'
-      }
       axios({
         method: 'post',
-        url: url + '/userreg/ucenter/queryUserProduct'
+        url: '/userreg/ucenter/queryUserProduct'
       }).then(res => {
         if (res.code && res.code == 200) {
           this.logins = true // 已登录
