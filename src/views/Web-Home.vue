@@ -44,10 +44,12 @@
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
+    <payment-List ref="paymentList" :type="type"/>
   </div>
 </template>
 
 <script>
+import paymentList from "@/components/paymentList.vue" //支付
 import ModuleTips1 from '@/components/module-tips1.vue';
 import ModuleTips2 from '@/components/module-tips2.vue';
 import ModuleTips3 from '@/components/module-tips3.vue';
@@ -69,7 +71,8 @@ export default {
     VideoModule,
     BestInfo,
     PcVideoModal,
-    login
+    login,
+    paymentList
   },
   data() {
     let self = this;
@@ -99,6 +102,7 @@ export default {
       tradeDates: [],
       loginShow: false, // 登录显示
       logins: false,
+      type: '',
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
@@ -164,6 +168,11 @@ export default {
       // 未登录
       if (this.logins == false) {
         this.loginShow = true
+      } else {
+        this.type = "21" // 大单回调
+        setTimeout(()=>{
+          this.$refs.paymentList.showPayInfoDialog()
+        })
       }
     },
     // 获取两个两个日期转换成天
