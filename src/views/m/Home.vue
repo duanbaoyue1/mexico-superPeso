@@ -125,6 +125,7 @@ export default {
     };
   },
   mounted() {
+    this.token = localStorage.getItem('userinfo') || ''; // 获取token
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
@@ -142,7 +143,7 @@ export default {
     init() {
       axios({
         method: 'post',
-        url: '/userreg/ucenter/queryUserProduct',
+        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct',
       }).then((re) => {
         let res = re.data;
         console.log(res);
