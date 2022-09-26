@@ -40,7 +40,7 @@
       <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
       <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
       <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
-      <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
+      <module-tips4 class="module-tip" v-if="type == 'minuteDivingGold'"></module-tips4>
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
