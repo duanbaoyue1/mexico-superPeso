@@ -67,7 +67,7 @@
     <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
-    <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
+    <module-tips4 class="module-tip" v-if="type == 'minuteDivingGold'"></module-tips4>
     <buy-bottom v-if="!bought" :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
   </div>
 </template>
@@ -141,16 +141,11 @@ export default {
 
   methods: {
     init() {
-      let url = ''
-      if (process.env.NODE_ENV == 'development') {
-        url = 'https://www.clswy.cn'
-      }
       axios({
         method: 'post',
-        url: url + '/userreg/ucenter/queryUserProduct',
+        url: '/userreg/ucenter/queryUserProduct',
       }).then((re) => {
         let res = re.data;
-        console.log(res);
         if (res.code && res.code == 200) {
           var data = res.data;
           if (data.length == 0) {
