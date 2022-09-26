@@ -141,9 +141,6 @@
     },
     mounted() {
       var self = this;
-      if (process.env.NODE_ENV == 'development') {
-        this.url = 'http://www.clswy.cn'
-      }
       //初始化读取cookie中的账号信息，如果有accountInfo，说明该用户之前勾选了记住密码的功能，就自动填上账号密码
       self.loadAccountInfo();
       this.getUserType()
@@ -163,7 +160,7 @@
       // 获取用户类型
       getUserType() {
         axios({
-          url:this.url + '/userreg/user/getUserType',
+          url:'/userreg/user/getUserType',
           method: "post",
         }).then(re => {
           let res = re.data
@@ -243,7 +240,7 @@
           return;
         }
         axios({
-          url: this.url + "/userreg/commons/getsmscode?phone=" + self.formMess.phone,
+          url: "/userreg/commons/getsmscode?phone=" + self.formMess.phone,
           method: "post",
         }).then(re => {
           let res = re.data
