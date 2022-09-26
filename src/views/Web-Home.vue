@@ -203,13 +203,13 @@ export default {
     getTableData() {
       if (!this.bought && !this.showData) {
         // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/?strategyType=${this.type}`).then(res => {
+        this.$http.get(`/core/api/best_times/home_list/`).then(res => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
         });
       } else {
-        this.$http.get(`/core/api/best_times/?strategyType=${this.type}&date=${this.dataDate}&token=${this.token}`).then(res => {
+        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then(res => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
@@ -217,12 +217,12 @@ export default {
       }
     },
     getVideoLists() {
-      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1000`).then(res => {
+      this.$http.get(`/core/api/videos/?page_size=1000`).then(res => {
         this.videos = res.data.items;
       });
     },
     getBestInfo() {
-      this.$http.get(`/core/api/best_times/best_info/?strategyType=${this.type}`).then(res => {
+      this.$http.get(`/core/api/best_times/best_info/`).then(res => {
         this.bestInfo = res.data;
       });
     },
