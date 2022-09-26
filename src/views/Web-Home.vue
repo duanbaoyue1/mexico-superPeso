@@ -8,7 +8,11 @@
         </div>
         <div class="buy-info">
           <div id="price">1688元/月</div>
-          <div class="buy-btn" @click="toBuyP">季付、半年、年付更优惠<img :src="require('@/assets/img/web/buy-btn@2x.png')" /></div>
+          <div class="buy-btn" @click="toBuyP">
+            季付、半年、年付更优惠
+            <img v-if="bought" :src="require('@/assets/img/web/buy-btn2@2x.png')" />
+            <img v-else :src="require('@/assets/img/web/buy-btn@2x.png')" />
+          </div>
         </div>
       </div>
     </div>
@@ -17,7 +21,7 @@
       <div class="login-area">
         <div v-if="!bought && !showData">
           <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
-          <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 30px auto 10px;"></best-info>
+          <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 30px auto 10px"></best-info>
           <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
           <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
         </div>
@@ -32,7 +36,7 @@
             <div class="btn" @click="lastDay">后一天</div>
           </div>
           <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
-          <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 10px auto 30px;"></best-info>
+          <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 10px auto 30px"></best-info>
           <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
         </div>
       </div>
@@ -72,7 +76,10 @@ export default {
     BestInfo,
     PcVideoModal,
     login,
+<<<<<<< HEAD
     paymentList
+=======
+>>>>>>> 34f6b9b3f181fcdc6eed1b2e80883b6ce4dfe658
   },
   data() {
     let self = this;
@@ -106,13 +113,13 @@ export default {
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
-        }
-      }
+        },
+      },
     };
   },
   mounted() {
     document.title = this.typeInfo.title;
-    window.token = this.$cookieFun.getCookie("login_token")
+    window.token = this.$cookieFun.getCookie('login_token');
     this.getVideoLists();
     this.getBestInfo();
     this.inti();
@@ -120,14 +127,14 @@ export default {
 
   methods: {
     inti() {
-      let url = ''
+      let url = '';
       axios({
         method: 'post',
-        url: url + '/userreg/ucenter/queryUserProduct'
-      }).then(re => {
-        let res = re.data
+        url: url + '/userreg/ucenter/queryUserProduct',
+      }).then((re) => {
+        let res = re.data;
         if (res.code && res.code == 200) {
-          this.logins = true // 已登录
+          this.logins = true; // 已登录
           var data = res.data;
           if (data.length == 0) {
             // 无权限
@@ -150,9 +157,9 @@ export default {
               }
             }
           }
-        }else if (res.code == -1) {
-           this.bought = false;
-           this.logins = false // 未登录
+        } else if (res.code == -1) {
+          this.bought = false;
+          this.logins = false; // 未登录
         } else {
           this.bought = false;
         }
@@ -211,13 +218,13 @@ export default {
     getTableData() {
       if (!this.bought && !this.showData) {
         // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/`).then(res => {
+        this.$http.get(`/core/api/best_times/home_list/`).then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
         });
       } else {
-        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then(res => {
+        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
@@ -225,17 +232,17 @@ export default {
       }
     },
     getVideoLists() {
-      this.$http.get(`/core/api/videos/?page_size=1000`).then(res => {
+      this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
         this.videos = res.data.items;
       });
     },
     getBestInfo() {
-      this.$http.get(`/core/api/best_times/best_info/`).then(res => {
+      this.$http.get(`/core/api/best_times/best_info/`).then((res) => {
         this.bestInfo = res.data;
       });
     },
     getTradeDates() {
-      this.$http.get(`/core/api/best_times/trade_days/`).then(res => {
+      this.$http.get(`/core/api/best_times/trade_days/`).then((res) => {
         this.tradeDates = res.data.items;
         if (this.bought) {
           this.dataDate = this.tradeDates[0];
@@ -254,7 +261,7 @@ export default {
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true
+          center: true,
         });
         return;
       }
@@ -270,7 +277,7 @@ export default {
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true
+          center: true,
         });
         return;
       }
@@ -285,8 +292,8 @@ export default {
     changeDateNot(date) {
       this.dataDate = date;
       this.getTableData();
-    }
-  }
+    },
+  },
 };
 </script>
 
