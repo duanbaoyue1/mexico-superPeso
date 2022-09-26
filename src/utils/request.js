@@ -3,6 +3,11 @@ import store from '@/store';
 import { Toast } from 'vant';
 // 根据环境不同引入不同api地址
 import { baseApi } from '@/config';
+import { param2Obj } from '@/utils/index';
+
+
+console.log(param2Obj(location.href));
+
 
 // create an axios instance
 const service = axios.create({
@@ -14,6 +19,16 @@ const service = axios.create({
 // request拦截器 request interceptor
 service.interceptors.request.use(
   config => {
+    // 处理通用字段传输
+    let params = param2Obj(location.href);
+    let url = config.url;
+    if(url.indexOf('?') != -1) {
+      url += '&'
+    } else {
+      url += '?'
+    };
+    url += `appType=${params.appType || ''}&token=${params.token || ''}&strategyType=${params.type || ''}&productId=${params.proId || ''}`;
+    config.url = url;
     if (store.getters.token) {
       config.headers['authorization'] = store.getters.token;
     }
@@ -25,6 +40,7 @@ service.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
 // respone拦截器
 service.interceptors.response.use(
   response => {

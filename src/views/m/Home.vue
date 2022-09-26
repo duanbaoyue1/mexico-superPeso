@@ -68,7 +68,7 @@
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
     <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
-    <buy-bottom  v-if="!bought" :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
+    <buy-bottom v-if="!bought" :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
   </div>
 </template>
 
@@ -81,7 +81,7 @@ import BuyBottom from '@/components/m/buy-bottom.vue';
 import TableData from '@/components/m/table-data.vue';
 import typeConfig from '@/config/typeConfig.js';
 import VideoModule from '@/components/m/video-module.vue';
-import axios from 'axios'
+import axios from 'axios';
 export default {
   components: {
     ModuleTips1,
@@ -90,7 +90,7 @@ export default {
     ModuleTips4,
     BuyBottom,
     TableData,
-    VideoModule
+    VideoModule,
   },
   data() {
     let self = this;
@@ -109,6 +109,8 @@ export default {
       token: this.$route.query.token,
       // 产品类型
       type: this.$route.query.type,
+      // 上线App类型
+      appType: this.$route.query.appType, // clswy  |  clsmain
       // 是否购买
       bought: false, // 是否登陆
       // 列表数据
@@ -120,16 +122,16 @@ export default {
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
-        }
-      }
+        },
+      },
     };
   },
   mounted() {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.inti()
-    // this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
+    this.inti();
+    // this.$http.get(`/core/api/check_auth/`).then(res => {
     //   this.bought = res.data.bought;
     //   this.getTradeDates();
     //   if (this.bought) {
@@ -144,58 +146,58 @@ export default {
         method: 'post',
         url: '/userreg/ucenter/queryUserProduct',
       }).then((re) => {
-          let res = re.data
-          console.log(res)
-          if (res.code && res.code == 200) {
-            var data = res.data;
-            if (data.length == 0) {
-              // 无权限
-              this.bought = false
-            } else {
-              for (let i = 0; i < data.length; i++) {
-                if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
-                  var newdate = new Date();
-                  var date = new Date(data[i].date);
-                  if (date <= newdate) {
-                    // 无权限
-                    this.bought = false
-                  } else {
-                    // 有权限
-                    this.bought = true
-                    this.showData = true;
-                    // 会员剩余日期
-                    this.endDate = this.daysDistance(new Date(data[i].date),new Date())
-                  }
+        let res = re.data;
+        console.log(res);
+        if (res.code && res.code == 200) {
+          var data = res.data;
+          if (data.length == 0) {
+            // 无权限
+            this.bought = false;
+          } else {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+                var newdate = new Date();
+                var date = new Date(data[i].date);
+                if (date <= newdate) {
+                  // 无权限
+                  this.bought = false;
+                } else {
+                  // 有权限
+                  this.bought = true;
+                  this.showData = true;
+                  // 会员剩余日期
+                  this.endDate = this.daysDistance(new Date(data[i].date), new Date());
                 }
               }
             }
-          } else {
-            this.bought = false
           }
-          this.getTradeDates();
-      })
+        } else {
+          this.bought = false;
+        }
+        this.getTradeDates();
+      });
     },
     toBuy() {
       // index首页
-      window.uniWebViewF(function(){
-        var uniWebView = webUni.webView;//必须在这时候保存下来
+      window.uniWebViewF(function () {
+        var uniWebView = webUni.webView; //必须在这时候保存下来
         uniWebView.postMessage({
           data: {
-            action: 'tobuy'
-          }
+            action: 'tobuy',
+          },
         });
-      })
+      });
     },
     // 获取两个两个日期转换成天
-    daysDistance(date1, date2) {     
-        //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
-        date1 = Date.parse(date1);
-        date2 = Date.parse(date2);
-        //计算两个日期之间相差的毫秒数的绝对值
-        var ms= Math.abs(date2 - date1);
-        //毫秒数除以一天的毫秒数,就得到了天数
-        var days = Math.floor(ms / (24 * 3600 * 1000));
-        return days ;
+    daysDistance(date1, date2) {
+      //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
+      date1 = Date.parse(date1);
+      date2 = Date.parse(date2);
+      //计算两个日期之间相差的毫秒数的绝对值
+      var ms = Math.abs(date2 - date1);
+      //毫秒数除以一天的毫秒数,就得到了天数
+      var days = Math.floor(ms / (24 * 3600 * 1000));
+      return days;
     },
     // 日期选择 非交易日不可选
     dealPickerOptionsNot(date) {
@@ -222,13 +224,13 @@ export default {
     getTableData() {
       if (!this.bought && !this.showData) {
         // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/?strategyType=${this.type}`).then(res => {
+        this.$http.get(`/core/api/best_times/home_list/`).then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
         });
       } else {
-        this.$http.get(`/core/api/best_times/?strategyType=${this.type}&date=${this.dataDate}&token=${this.token}`).then(res => {
+        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
           }
@@ -236,17 +238,17 @@ export default {
       }
     },
     getVideoLists() {
-      this.$http.get(`/core/api/videos/?strategyType=${this.type}&page_size=1000`).then(res => {
+      this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
         this.videos = res.data.items;
       });
     },
     getBestInfo() {
-      this.$http.get(`/core/api/best_times/best_info/?strategyType=${this.type}`).then(res => {
+      this.$http.get(`/core/api/best_times/best_info/?`).then((res) => {
         this.bestInfo = res.data;
       });
     },
     getTradeDates() {
-      this.$http.get(`/core/api/best_times/trade_days/`).then(res => {
+      this.$http.get(`/core/api/best_times/trade_days/`).then((res) => {
         this.tradeDates = res.data.items;
         if (this.bought) {
           this.dataDate = this.tradeDates[0];
@@ -265,7 +267,7 @@ export default {
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true
+          center: true,
         });
         return;
       }
@@ -281,7 +283,7 @@ export default {
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
           customClass: 'tips-toast',
-          center: true
+          center: true,
         });
         return;
       }
@@ -304,7 +306,7 @@ export default {
         confirmButtonText: '我知道了',
         confirmButtonClass: 'alert-confirm',
         customClass: 'tips-toast',
-        center: false
+        center: false,
       });
     },
     openBoxWinYield() {
@@ -314,10 +316,10 @@ export default {
         confirmButtonText: '我知道了',
         confirmButtonClass: 'alert-confirm',
         customClass: 'tips-toast',
-        center: false
+        center: false,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
