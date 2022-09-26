@@ -142,7 +142,7 @@
     mounted() {
       var self = this;
       if (process.env.NODE_ENV == 'development') {
-        this.url = 'http://www.clswy.cn/'
+        this.url = 'http://www.clswy.cn'
       }
       //初始化读取cookie中的账号信息，如果有accountInfo，说明该用户之前勾选了记住密码的功能，就自动填上账号密码
       self.loadAccountInfo();
@@ -203,14 +203,6 @@
               self.$cookieFun.delCookie('accountInfoPhone');
               // self.$cookieFun.delCookie('accountInfoPwd');
             }
-
-            // let token = decodeURIComponent(res.login_token);
-            // console.log(token);
-            // self.$cookieFun.setCookie("login_token", token, "d30");
-            // 2021-05-11 判断是否已登录
-            self.$loginCheck.login = "signedIn";
-            // 判断点击
-            self.$cookieFun.setCookie("currentCookie", self.$loginCheck.current, "s60");
             // self.reload(); // 负责重新加载页面. 这种刷新页面不可以对cookie进行修改 所以这种不可以
             location.reload(); // 使用这种使整个页面进行加载 虽然缺点使短暂的空白 但cookie可以修改
 
