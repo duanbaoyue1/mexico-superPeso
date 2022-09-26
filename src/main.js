@@ -4,9 +4,10 @@ import router from './router';
 import store from './store';
 import request from '@/utils/request';
 Vue.prototype.$http = request;
-
+import cookieFun from "./utils/cookieFun.js" // 封装cookieFun的js
 import 'amfe-flexible';
-
+// 封装cookie的 js
+Vue.prototype.$cookieFun = cookieFun;
 import '../public/style/common.css';
 import './plugins/element.js';
 Vue.config.productionTip = false;

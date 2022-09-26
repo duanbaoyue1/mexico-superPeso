@@ -8,7 +8,7 @@
         </div>
         <div class="buy-info">
           <div id="price">1688元/月</div>
-          <div class="buy-btn" @click="toBuy">季付、半年、年付更优惠<img :src="require('@/assets/img/web/buy-btn@2x.png')" /></div>
+          <div class="buy-btn" @click="toBuyP">季付、半年、年付更优惠<img :src="require('@/assets/img/web/buy-btn@2x.png')" /></div>
         </div>
       </div>
     </div>
@@ -43,6 +43,7 @@
       <module-tips4 class="module-tip" v-if="type == 'timeDivingGold'"></module-tips4>
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
+    <login ref="login" v-if="loginShow" />
   </div>
 </template>
 
@@ -57,7 +58,7 @@ import VideoModule from '@/components/video-module.vue';
 import BestInfo from '@/components/best-info.vue';
 import PcVideoModal from '@/components/pc-video-modal.vue';
 import axios from 'axios';
-
+import login from '@/components/login.vue';
 export default {
   components: {
     ModuleTips1,
@@ -67,7 +68,8 @@ export default {
     TableData,
     VideoModule,
     BestInfo,
-    PcVideoModal
+    PcVideoModal,
+    login
   },
   data() {
     let self = this;
@@ -84,7 +86,7 @@ export default {
       showData: false,
       // 产品id , 以便于购买跳转
       proId: this.$route.query.proId,
-      token: this.$route.query.token,
+      token: '',
       // 产品类型
       type: this.$route.query.type,
       // 是否购买
@@ -95,6 +97,7 @@ export default {
       bestInfo: '',
       // 交易日历
       tradeDates: [],
+      loginShow: true, // 登录显示
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
@@ -104,26 +107,25 @@ export default {
   },
   mounted() {
     document.title = this.typeInfo.title;
+    this.token = this.$cookieFun.getCookie("login_token")
     this.getVideoLists();
     this.getBestInfo();
     this.inti();
-    // this.$http.get(`/core/api/check_auth/?token=${this.token}&productId=${this.proId}`).then(res => {
-    //   this.bought = res.data.bought;
-    //   this.getTradeDates();
-    //   if (this.bought) {
-    //     this.showData = true;
-    //   }
-    // });
   },
 
   methods: {
     inti() {
+      let url = ''
+      if (process.env.NODE_ENV == 'development') {
+        url = 'http://www.clswy.cn/'
+      }
       axios({
         method: 'post',
-        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct'
+        url: url + '/userreg/ucenter/queryUserProduct'
       }).then(res => {
         this.getTradeDates();
         if (res.code && res.code == 200) {
+          this.logins = true // 已登录
           var data = res.data;
           if (data.length == 0) {
             // 无权限
@@ -146,6 +148,9 @@ export default {
               }
             }
           }
+        }else if (res.code == -1) {
+           this.bought = false;
+           this.logins = false // 未登录
         } else {
           this.bought = false;
         }
@@ -156,16 +161,11 @@ export default {
       this.initVideoIndex = index;
     },
 
-    toBuy() {
-      // index首页
-      window.uniWebViewF(function() {
-        var uniWebView = webUni.webView; //必须在这时候保存下来
-        uniWebView.postMessage({
-          data: {
-            action: 'tobuy'
-          }
-        });
-      });
+    toBuyP() {
+      // 未登录
+      if (this.logins == false) {
+        this.loginShow = true
+      }
     },
     // 获取两个两个日期转换成天
     daysDistance(date1, date2) {
