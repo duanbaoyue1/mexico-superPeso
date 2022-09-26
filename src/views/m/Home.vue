@@ -124,8 +124,9 @@ export default {
       },
     };
   },
+
   mounted() {
-    this.token = localStorage.getItem('userinfo') || ''; // 获取token
+    window.token = localStorage.getItem('userinfo') || ''; // 获取token
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
