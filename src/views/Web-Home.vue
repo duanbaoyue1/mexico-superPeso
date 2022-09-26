@@ -76,10 +76,7 @@ export default {
     BestInfo,
     PcVideoModal,
     login,
-<<<<<<< HEAD
     paymentList
-=======
->>>>>>> 34f6b9b3f181fcdc6eed1b2e80883b6ce4dfe658
   },
   data() {
     let self = this;
