@@ -123,7 +123,8 @@ export default {
       axios({
         method: 'post',
         url: url + '/userreg/ucenter/queryUserProduct'
-      }).then(res => {
+      }).then(re => {
+        let res = re.data
         if (res.code && res.code == 200) {
           this.logins = true // 已登录
           var data = res.data;

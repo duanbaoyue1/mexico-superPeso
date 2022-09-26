@@ -165,7 +165,8 @@
         axios({
           url:this.url + '/userreg/user/getUserType',
           method: "post",
-        }).then(res => {
+        }).then(re => {
+          let res = re.data
           if (res.state =='ok') {
             this.options = res.data
           }
@@ -188,8 +189,8 @@
             "Content-Type": "application/x-www-form-urlencoded;charset:UTF-8"
           },
           data: obj,
-        }).then(res => {
-          console.log(res);
+        }).then(re => {
+          let res = re.data
           if (res.state == "fail") {
             this.$message.warning(res.message);
           } else {
@@ -244,7 +245,8 @@
         axios({
           url: this.url + "/userreg/commons/getsmscode?phone=" + self.formMess.phone,
           method: "post",
-        }).then(res => {
+        }).then(re => {
+          let res = re.data
           // alert(res.message);
           this.$message.success('res.message');
           if (res.message == "短信发送成功，请手机查看") {
@@ -297,7 +299,8 @@
             "Content-Type": "application/x-www-form-urlencoded;charset:UTF-8"
           },
           data: param
-        }).then(res => {
+        }).then(re => {
+          let res = re.data
           console.log(res.state);
           if (res.state == "fail") {
             // alert(res.message)
