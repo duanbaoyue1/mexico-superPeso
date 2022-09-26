@@ -97,7 +97,8 @@ export default {
       bestInfo: '',
       // 交易日历
       tradeDates: [],
-      loginShow: true, // 登录显示
+      loginShow: false, // 登录显示
+      logins: false,
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
@@ -117,13 +118,12 @@ export default {
     inti() {
       let url = ''
       if (process.env.NODE_ENV == 'development') {
-        url = 'http://www.clswy.cn/'
+        url = 'https://www.clswy.cn'
       }
       axios({
         method: 'post',
         url: url + '/userreg/ucenter/queryUserProduct'
       }).then(res => {
-        this.getTradeDates();
         if (res.code && res.code == 200) {
           this.logins = true // 已登录
           var data = res.data;
@@ -154,6 +154,7 @@ export default {
         } else {
           this.bought = false;
         }
+        this.getTradeDates();
       });
     },
 

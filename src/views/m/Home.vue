@@ -141,9 +141,13 @@ export default {
 
   methods: {
     init() {
+      let url = ''
+      if (process.env.NODE_ENV == 'development') {
+        url = 'https://www.clswy.cn'
+      }
       axios({
         method: 'post',
-        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct',
+        url: url + '/userreg/ucenter/queryUserProduct',
       }).then((re) => {
         let res = re.data;
         console.log(res);
