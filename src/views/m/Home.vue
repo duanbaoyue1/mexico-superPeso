@@ -143,7 +143,7 @@ export default {
     init() {
       axios({
         method: 'post',
-        url: 'http://www.clswy.cn/userreg/ucenter/queryUserProduct',
+        url: 'https://www.clswy.cn/userreg/ucenter/queryUserProduct',
       }).then((re) => {
         let res = re.data;
         console.log(res);
