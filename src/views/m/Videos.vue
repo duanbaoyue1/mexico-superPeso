@@ -66,10 +66,7 @@ img {
       line-height: 17px;
     }
   }
-  &:last-child {
-    border-bottom: 0;
-  }
-
+  
   .video {
     width: 120px;
     height: 68px;

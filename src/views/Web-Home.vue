@@ -7,7 +7,7 @@
           <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
         </div>
         <div class="buy-info">
-          <div id="price">1688元/月</div>
+          <div id="price">{{typeInfo.price}}元/月</div>
           <div class="buy-btn" @click="toBuyP">
             季付、半年、年付更优惠
             <img v-if="bought" :src="require('@/assets/img/web/buy-btn2@2x.png')" />
