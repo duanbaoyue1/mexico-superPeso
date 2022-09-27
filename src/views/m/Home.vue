@@ -126,7 +126,8 @@ export default {
   },
 
   mounted() {
-    window.token = (localStorage.getItem('userinfo') || '').replace(/"/g, ''); // 获取token
+    window.token = (this.$cookieFun.getCookie('login_token') || "").replace(/"/g, "");
+    console.log( window.token)
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
@@ -148,7 +149,7 @@ export default {
             this.showData = false;
           } else {
             for (let i = 0; i < data.length; i++) {
-              if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
                 var newdate = new Date();
                 var date = new Date(data[i].date);
                 if (date <= newdate) {

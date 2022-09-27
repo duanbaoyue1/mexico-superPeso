@@ -48,7 +48,7 @@
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
-    <payment-List ref="paymentList" :type="type"/>
+    <payment-List ref="paymentList" :type="proId"/>
   </div>
 </template>
 
@@ -137,7 +137,7 @@ export default {
             this.bought = false;
           } else {
             for (let i = 0; i < data.length; i++) {
-              if (data[i].id == 21 || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
                 var newdate = new Date();
                 var date = new Date(data[i].date);
                 if (date <= newdate) {
@@ -172,7 +172,6 @@ export default {
       if (this.logins == false) {
         this.loginShow = true
       } else {
-        this.type = "21" // 大单回调
         setTimeout(()=>{
           this.$refs.paymentList.showPayInfoDialog()
         })
