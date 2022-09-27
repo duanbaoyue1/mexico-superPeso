@@ -42,9 +42,9 @@
       </div>
 
       <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
-      <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
-      <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
-      <module-tips4 class="module-tip" v-if="type == 'minuteDivingGold'"></module-tips4>
+      <module-tips2 class="module-tip" v-else-if="type == 'minutePulseQulet'"></module-tips2>
+      <module-tips3 class="module-tip" v-else-if="type == 'minuteUpShadow'"></module-tips3>
+      <module-tips4 class="module-tip" v-else-if="type == 'minuteDivingGold'"></module-tips4>
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
@@ -106,7 +106,6 @@ export default {
       tradeDates: [],
       loginShow: false, // 登录显示
       logins: false,
-      type: '',
       pickerOptionsNot: {
         disabledDate(date) {
           return self.dealPickerOptionsNot(date);
@@ -116,7 +115,7 @@ export default {
   },
   mounted() {
     document.title = this.typeInfo.title;
-    window.token = this.$cookieFun.getCookie('login_token');
+    window.token = (this.$cookieFun.getCookie('login_token') || "").replace(/"/g, "");
     this.getVideoLists();
     this.getBestInfo();
     this.inti();

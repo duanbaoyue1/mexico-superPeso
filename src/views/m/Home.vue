@@ -126,18 +126,11 @@ export default {
   },
 
   mounted() {
-    window.token = localStorage.getItem('userinfo') || ''; // 获取token
+    window.token = (localStorage.getItem('userinfo') || '').replace(/"/g, ''); // 获取token
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
     this.init();
-    // this.$http.get(`/core/api/check_auth/`).then(res => {
-    //   this.bought = res.data.bought;
-    //   this.getTradeDates();
-    //   if (this.bought) {
-    //     this.showData = true;
-    //   }
-    // });
   },
 
   methods: {

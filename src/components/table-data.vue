@@ -1,7 +1,7 @@
 <template>
   <div class="define-table">
     <el-table size="small" border :data="data" style="width: 100%">
-      <el-table-column v-if="!showData" label="日期" width="150">
+      <el-table-column label="日期" width="150">
         <template slot-scope="scope">
           {{ scope.row.date.replace(/-/g, '') }}
         </template>
