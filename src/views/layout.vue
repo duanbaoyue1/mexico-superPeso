@@ -6,7 +6,6 @@
 
 <style lang="scss">
 body {
-  background: #0f0f12;
   margin: 0;
 }
 .tips-toast {
