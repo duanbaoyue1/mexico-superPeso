@@ -78,6 +78,8 @@
   import axios from 'axios';
   import QRCode from 'qrcodejs2'
   import lf1 from '../assets/img/web/ddht.png'
+  import lf2 from '../assets/img/web/qsht.png'
+  import lf3 from '../assets/img/web/qslj.png'
   export default{
     data(){
       return{
@@ -95,6 +97,8 @@
         },
         imgurl2: {
           "21": lf1,
+          "22": lf2,
+          "23": lf3
         },
         originalProducts: [{
           "type": "21",
@@ -198,6 +202,7 @@
       },
       // 分时大单回调是0
       showPayInfoDialog() {
+        console.log(this.type)
         let index = ""
         if (this.type == '21') { // 分时大单回调
           index = 0
