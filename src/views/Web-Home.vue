@@ -7,7 +7,7 @@
           <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
         </div>
         <div class="buy-info">
-          <div id="price">{{typeInfo.price}}元/月</div>
+          <div id="price">{{ typeInfo.price }}元/月</div>
           <div class="buy-btn" @click="toBuyP">
             季付、半年、年付更优惠
             <img v-if="bought" :src="require('@/assets/img/web/buy-btn2@2x.png')" />
@@ -45,7 +45,7 @@
       <module-tips2 class="module-tip" v-else-if="type == 'minutePulseQulet'"></module-tips2>
       <module-tips3 class="module-tip" v-else-if="type == 'minuteUpShadow'"></module-tips3>
       <module-tips4 class="module-tip" v-else-if="type == 'minuteDivingGold'"></module-tips4>
-      <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos"></pc-video-modal>
+      <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos" @close-play="closePlayVideo"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
     <payment-List ref="paymentList" :type="proId"/>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import paymentList from "@/components/paymentList.vue" //支付
+import paymentList from '@/components/paymentList.vue'; //支付
 import ModuleTips1 from '@/components/module-tips1.vue';
 import ModuleTips2 from '@/components/module-tips2.vue';
 import ModuleTips3 from '@/components/module-tips3.vue';
@@ -65,6 +65,7 @@ import BestInfo from '@/components/best-info.vue';
 import PcVideoModal from '@/components/pc-video-modal.vue';
 import axios from 'axios';
 import login from '@/components/login.vue';
+
 export default {
   components: {
     ModuleTips1,
@@ -76,7 +77,7 @@ export default {
     BestInfo,
     PcVideoModal,
     login,
-    paymentList
+    paymentList,
   },
   data() {
     let self = this;
@@ -115,7 +116,7 @@ export default {
   },
   mounted() {
     document.title = this.typeInfo.title;
-    window.token = (this.$cookieFun.getCookie('login_token') || "").replace(/"/g, "");
+    window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     this.getVideoLists();
     this.getBestInfo();
     this.inti();
@@ -123,10 +124,9 @@ export default {
 
   methods: {
     inti() {
-      let url = '';
       axios({
         method: 'post',
-        url: url + '/userreg/ucenter/queryUserProduct',
+        url: '/userreg/ucenter/queryUserProduct',
       }).then((re) => {
         let res = re.data;
         if (res.code && res.code == 200) {
@@ -167,10 +167,14 @@ export default {
       this.initVideoIndex = index;
     },
 
+    closePlayVideo() {
+      this.initVideoIndex = -1;
+    },
+
     toBuyP() {
       // 未登录
       if (this.logins == false) {
-        this.loginShow = true
+        this.loginShow = true;
       } else {
         setTimeout(()=>{
           this.$refs.paymentList.showPayInfoDialog()
@@ -466,6 +470,7 @@ export default {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
   .content {
     width: 1140px;
     position: absolute;

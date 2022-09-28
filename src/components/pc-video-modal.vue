@@ -23,17 +23,17 @@
 import Vue from 'vue';
 import VueCoreVideoPlayer from 'vue-core-video-player';
 Vue.use(VueCoreVideoPlayer, {
-  lang: 'zh-CN'
+  lang: 'zh-CN',
 });
 
 export default {
   props: {
     videos: {
-      type: Array
+      type: Array,
     },
     initVideoIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
 
   watch: {
@@ -41,12 +41,12 @@ export default {
       if (newIndex != -1) {
         this.playVideo(newIndex);
       }
-    }
+    },
   },
 
   data() {
     return {
-      curPlayVideo: null
+      curPlayVideo: null,
     };
   },
 
@@ -60,7 +60,8 @@ export default {
       this.initVideoIndex = -1;
       this.curPlayVideo = null;
       document.body.style.overflow = '';
-    }
-  }
+      this.$emit('close-play')
+    },
+  },
 };
 </script>
