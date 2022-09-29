@@ -54,12 +54,11 @@ export default {
     }
   }
   .el-table--small .el-table__cell {
-    padding: 2px 0px;
+    padding: 3px 0px;
     text-align: center;
   }
   .el-table .cell {
-    font-size: 9px;
-    font-size: 9px;
+    font-size: 10px;
     color: #333333;
     line-height: 13px;
     padding: 0;
