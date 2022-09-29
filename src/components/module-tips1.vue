@@ -10,7 +10,7 @@
           <p class="color-333 block">本策略选出来的标的主要集中在中小盘，也是游资最集中的流通盘范围，一旦炒作一个版块，涨得最多的就是小盘股，所以在策略中选票一定要结合热点选，热点龙头拉得快涨得多。</p>
         </div>
         <div>
-          <p class="em">涨停基金</p>
+          <p class="em">涨停基因</p>
           <p class="color-333 block">曾经被市场炒作过的票往往众所周知，所以一旦该票重启大涨，就会很快被市场关注，主力只需要点火即可，后续市场大量资金会来合力推升。如果近期有涨停并暴力大跌洗盘的更佳。</p>
         </div>
         <div>
@@ -26,8 +26,8 @@
       <img class="pick" :src="require('@/assets/img/web/pick2@2x.png')" />
       <div class="add-attrs">
         <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
-        <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
-        <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
+        <p><span>最高收益：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
+        <p><span>实时收益：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
         <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
         <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
       </div>

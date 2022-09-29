@@ -16,28 +16,32 @@
 export default {
   props: {
     videos: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
       total: 2,
-      index: 0
+      index: 0,
     };
   },
   methods: {
     showMore() {
-      this.$router.push({
-        name: 'Videos',
-        query: {
-          type: this.$route.query.type
-        }
-      });
-    }
+      let routeInfo = this.$router.resolve({ name: 'Videos', query: { type: this.$route.query.type } });
+      window.open(routeInfo.href, '_blank');
+      location.href = routeInfo.href;
+
+      // this.$router.push({
+      //   name: 'Videos',
+      //   query: {
+      //     type: this.$route.query.type,
+      //   },
+      // });
+    },
   },
   mounted() {
     console.log(this.videos);
-  }
+  },
 };
 </script>
 

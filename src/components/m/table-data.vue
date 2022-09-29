@@ -8,12 +8,12 @@
       </el-table-column>
       <el-table-column prop="name" label="名称" width="70"> </el-table-column>
       <el-table-column prop="getTime" label="选出时间" width="60"> </el-table-column>
-      <el-table-column label="最高涨幅" width="65">
+      <el-table-column label="最高收益" width="65">
         <template slot-scope="scope">
           <div v-html="$options.filters.percentFilter(scope.row.maxPriceChangeRate, 2, true)"></div>
         </template>
       </el-table-column>
-      <el-table-column label="实时涨幅" width="65">
+      <el-table-column label="实时收益" width="65">
         <template slot-scope="scope">
           <div v-html="$options.filters.percentFilter(scope.row.currentPriceChangeRate, 2, true)"></div>
         </template>

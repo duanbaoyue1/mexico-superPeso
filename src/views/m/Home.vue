@@ -8,7 +8,7 @@
         <header>
           <div class="info">
             <div>{{ typeInfo.title }}</div>
-            <div>实时监控强势度的低吸机会</div>
+            <div>实时监控强势股的低吸机会</div>
           </div>
           <div class="buy" @click="toBuy">立即购买></div>
         </header>
@@ -256,7 +256,7 @@ export default {
     preDay() {
       let idx = this.tradeDates.indexOf(this.dataDate);
       if (idx == this.tradeDates.length - 1) {
-        this.$dm.alert('日期无交，请重新选择!', '温馨提示', {
+        this.$dm.alert('日期无效，请重新选择!', '温馨提示', {
           dangerouslyUseHTMLString: true,
           showClose: false,
           confirmButtonText: '我知道了',
@@ -272,7 +272,7 @@ export default {
     lastDay() {
       let idx = this.tradeDates.indexOf(this.dataDate);
       if (idx == 0) {
-        this.$dm.alert('日期无交，请重新选择!', '温馨提示', {
+        this.$dm.alert('日期无效，请重新选择!', '温馨提示', {
           dangerouslyUseHTMLString: true,
           showClose: false,
           confirmButtonText: '我知道了',
