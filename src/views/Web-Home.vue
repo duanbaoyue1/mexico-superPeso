@@ -363,9 +363,9 @@ export default {
   margin-top: -35px;
   padding: 30px;
   .more-data {
-    padding: 6px 0;
+    padding: 8px 0;
     margin: 0 auto;
-    border: 1px solid #ddd;
+    border: 1px solid #666;
     border-top: none;
     text-align: center;
     font-size: 14px;
