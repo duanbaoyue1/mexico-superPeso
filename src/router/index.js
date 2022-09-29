@@ -51,6 +51,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: 'history',
+  base: '/hslh/', // 这个配置也很重要，否则会出现页面空白情况
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes
 });
