@@ -8,7 +8,7 @@
         <header>
           <div class="info">
             <div>{{ typeInfo.title }}</div>
-            <div>实时监控强势度的低吸机会</div>
+            <div>实时监控强势股的低吸机会</div>
           </div>
           <div class="buy" @click="toBuy">立即购买></div>
         </header>

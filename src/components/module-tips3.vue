@@ -2,7 +2,7 @@
   <div class="module-tips">
     <div class="module">
       <header>策略原理讲解及选股技巧</header>
-      <p>主力操盘运作流程主要有四个：建仓、洗盘、拉升、出货。但在拉主升浪之前，主力往往会拉上引线试盘，试探对手盘的抛压。如果抛压小就开启主升浪行情，也是我们上车的最好时机。</p>
+      <p>主力操盘运作流程主要有四个：建仓、洗盘、拉升、出货。但在拉主升浪之前，主力往往会拉上引线试盘，试探对手盘的抛压。如果抛压小就开启主升浪行情，也是我们买入的最好时机。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
         <div>
@@ -26,8 +26,8 @@
       <img class="pick" :src="require('@/assets/img/web/pick2@2x.png')" />
       <div class="add-attrs">
         <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
-        <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
-        <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
+        <p><span>最高收益：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
+        <p><span>实时收益：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
         <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
         <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
       </div>
