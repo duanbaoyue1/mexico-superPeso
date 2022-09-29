@@ -16,7 +16,7 @@
     </video>
     <div @click="play"></div>
     <div v-show="videoCloseBtn" class="btn-close-wrap">
-      <div @click="close" class="btn-back">
+      <!-- <div @click="close" class="btn-back">
         <svg
           t="1595578880034"
           viewBox="0 0 1024 1024"
@@ -34,7 +34,7 @@
           ></path>
         </svg>
         <span>返回</span>
-      </div>
+      </div> -->
 
       <svg
         class="btn-close"

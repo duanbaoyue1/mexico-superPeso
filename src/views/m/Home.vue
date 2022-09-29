@@ -1,8 +1,8 @@
 <template>
   <div class="back">
+    <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
+    <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
     <div v-if="!bought && !showData" class="not-login">
-      <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
-      <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
       <video-module :videos="videos" class="video-module"></video-module>
       <div class="detail-data">
         <header>
@@ -43,11 +43,11 @@
     <div v-else class="has-login">
       <div class="login-area">
         <div class="date-choose">
-          <div @click="lastDay">&lt;后一天</div>
+          <div @click="preDay">&lt;前一天</div>
           <div class="date">
             <el-date-picker v-model="dataDate" value-format="yyyy-MM-dd" type="date" align="center" popper-class="define-date" :editable="false" :clearable="false" @change="changeDateNot" :picker-options="pickerOptionsNot" placeholder="选择日期"> </el-date-picker>
           </div>
-          <div @click="preDay">前一天&gt;</div>
+          <div @click="lastDay">后一天&gt;</div>
         </div>
         <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
         <div class="best-info" v-if="bestInfo">
@@ -60,8 +60,6 @@
           </div>
         </div>
       </div>
-      <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
-      <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
       <video-module :videos="videos" class="video-module"></video-module>
     </div>
     <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
@@ -126,8 +124,8 @@ export default {
   },
 
   mounted() {
-    window.token = (this.$cookieFun.getCookie('login_token') || "").replace(/"/g, "");
-    console.log( window.token)
+    window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
+    console.log(window.token);
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
