@@ -37,12 +37,12 @@ export default {
   props: {
     showData: {
       type: Boolean,
-      default: false
+      default: false,
     },
     data: {
-      type: Array
-    }
-  }
+      type: Array,
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -50,10 +50,10 @@ export default {
   background: transparent;
   .el-table {
     background: transparent;
-    border-color: #dddddd;
+    border-color: #666;
     tr {
       background: transparent;
-      font-size: 13px;
+      font-size: 14px;
       color: #ffffff;
       line-height: 17px;
     }
@@ -72,8 +72,7 @@ export default {
     text-align: center;
   }
   .el-table .cell {
-    font-size: 9px;
-    font-size: 9px;
+    font-size: 14px;
     line-height: 13px;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -84,19 +83,26 @@ export default {
     background-color: transparent;
   }
   .el-table th.el-table__cell > .cell {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     color: #ffffff;
     line-height: 17px;
   }
   .el-table td.el-table__cell {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #666;
   }
   .el-table--border .el-table__cell {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #666;
   }
-  .el-table--enable-row-hover .el-table__body tr:hover>td.el-table__cell {
+  .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
     background: transparent;
+  }
+  .el-table td.el-table__cell,
+  .el-table th.el-table__cell.is-leaf {
+    border-bottom: 1px solid #666 !important;
+  }
+  .el-table--border::after, .el-table--group::after, .el-table::before {
+    background-color: #666 !important;
   }
 }
 </style>
