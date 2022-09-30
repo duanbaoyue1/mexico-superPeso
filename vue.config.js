@@ -1,6 +1,9 @@
 module.exports = {
   publicPath: './',
 
+  // 前台不显示sourcemap
+  productionSourceMap: false,  
+
   devServer: {
     proxy: {
       '^/userreg': {

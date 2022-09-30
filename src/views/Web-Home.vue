@@ -205,6 +205,15 @@ export default {
         return this.tradeDates.indexOf(str) === -1 || str === this.todayDate();
       }
     },
+    // 当前时间的日期String 2021-07-15
+    todayDate() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var mouth = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      var curTime = year + '-' + mouth + '-' + day;
+      return curTime;
+    },
     // 当前日期的时分秒
     todayHour() {
       var d = new Date();
