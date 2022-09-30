@@ -28,15 +28,7 @@ export default {
   methods: {
     showMore() {
       let routeInfo = this.$router.resolve({ name: 'Videos', query: { type: this.$route.query.type } });
-      window.open(routeInfo.href, '_blank');
       location.href = routeInfo.href;
-
-      // this.$router.push({
-      //   name: 'Videos',
-      //   query: {
-      //     type: this.$route.query.type,
-      //   },
-      // });
     },
   },
   mounted() {
