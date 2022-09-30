@@ -9,37 +9,9 @@ export default {
   },
 
   filters: {
-    communityPurposeFilter(items) {
-      const TARGETS = ['', '交友', '脱单', '拓展人脉'];
-      let target = items.map(t => TARGETS[t]).join(' / ');
-      return target;
-    },
-    discussCategoryFilter(item) {
-      const CATEGORY_MAP = {
-        1: '工作',
-        2: '生活',
-        3: '学习'
-      };
-      return CATEGORY_MAP[item];
-    },
-    ageFilter(age) {
-      age = parseInt(age);
-      if (age === 45) {
-        age = '45+';
-      }
-      return age;
-    },
-    educationFilter(item) {
-      const EDUCATION = { 0: '没有', 1: '高中', 2: '本科', 3: '学士前', 4: '硕士', 8: '博士', 9: '博士后', 16: '其他' };
-      return EDUCATION[item];
-    },
     nullFilter(item) {
       return item || '';
     },
-    barCodeProductNameFilter(item) {
-      return item.name || '';
-    },
-
     percentFilter(value, fixedNum = 2) {
       if (value > 0) {
         return `<span style="color: #e60100">+${value}%</span>`;
