@@ -468,6 +468,7 @@ export default {
     border-radius: 5px;
     background: #fff;
     padding: 10px;
+    margin-bottom: 10px;
     .date-choose {
       display: flex;
       justify-content: space-between;
