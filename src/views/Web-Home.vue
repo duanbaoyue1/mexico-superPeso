@@ -1,5 +1,6 @@
 <template>
   <div class="back">
+    <heard />
     <div class="top-header">
       <div class="width-container">
         <div class="pro-info">
@@ -65,7 +66,7 @@ import BestInfo from '@/components/best-info.vue';
 import PcVideoModal from '@/components/pc-video-modal.vue';
 import axios from 'axios';
 import login from '@/components/login.vue';
-
+import heard from '@/components/heard.vue';
 export default {
   components: {
     ModuleTips1,
@@ -78,6 +79,7 @@ export default {
     PcVideoModal,
     login,
     paymentList,
+    heard
   },
   data() {
     let self = this;
