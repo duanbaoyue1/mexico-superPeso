@@ -5,6 +5,10 @@
 </template>
 
 <style lang="scss">
+html {
+  min-height: 100%;
+  background-color: #0f0f12;
+}
 body {
   margin: 0;
 }
