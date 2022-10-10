@@ -11,7 +11,7 @@ const routes = [
     component: mLayout,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'Home',
         component: () => import(/* webpackChunkName: "home" */ '../views/m/Home.vue'),
         meta: {
@@ -19,7 +19,7 @@ const routes = [
         },
       },
       {
-        path: '/videos',
+        path: 'videos',
         name: 'Videos',
         component: () => import(/* webpackChunkName: "videos" */ '../views/m/Videos.vue'),
         meta: {
@@ -33,9 +33,17 @@ const routes = [
     component: webLayout,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'Home',
         component: () => import(/* webpackChunkName: "web-home" */ '../views/Web-Home.vue'),
+      },
+      {
+        path: 'course',
+        name: 'Course',
+        component: () => import(/* webpackChunkName: "web-course" */ '../views/Web-Course.vue'),
+        meta: {
+          title: '华氏量化高端策略-实战培训教程',
+        },
       },
     ],
   },
@@ -51,7 +59,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: process.env.NODE_ENV == 'development'? 'hash': 'history',
   base: process.env.NODE_ENV == 'development' ? '/' : '/hslh/', // 这个配置也很重要，否则会出现页面空白情况
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes,
