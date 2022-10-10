@@ -95,7 +95,6 @@ export default {
     paymentList,
   },
   data() {
-    let self = this;
     return {
       // 是否显示试看视频
       showOneVideo: false,
@@ -145,8 +144,6 @@ export default {
                 } else {
                   // 有权限
                   this.bought = true;
-                  // 会员剩余日期
-                  this.endDate = this.daysDistance(new Date(data[i].date), new Date());
                 }
               }
             }
