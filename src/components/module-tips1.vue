@@ -1,8 +1,8 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及选股技巧</header>
-      <p>一只票不会无缘无故涨停，底部起涨往往酝酿一波主升浪行情。但一味地打板极易追涨杀跌导致巨亏！如果在缩量回调的时候低吸买入，进可攻退可守，分仓操作更稳健。而且对于买卖点不苛刻，更适合普通散户。</p>
+      <header>策略原理讲解及策略介绍</header>
+      <p>一只票不会无缘无故涨停，底部起涨往往酝酿一波主升浪行情。但一味地打板极易追涨杀跌导致巨亏！如果在缩量回调的时候低吸介入，进可攻退可守，分仓操作更稳健。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
         <div>
