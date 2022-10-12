@@ -105,22 +105,22 @@
           "showname": "大单回调策略",
           "data": [{
             "id": 20,
-            "price": 1188800,
+            "price": 988800,
             "name": "1年",
             "keepday": 370
           }, {
             "id": 28,
-            "price": 768800,
+            "price": 588800,
             "name": "6个月",
             "keepday": 186
           }, {
             "id": 29,
-            "price": 468800,
+            "price": 328800,
             "name": "3个月",
             "keepday": 93
           }, {
             "id": 30,
-            "price": 168800,
+            "price": 128800,
             "name": "1个月",
             "keepday": 31
           }]
@@ -129,22 +129,22 @@
           "showname": "强势回调策略",
           "data": [{
             "id": 20,
-            "price": 1058800,
+            "price": 468800,
             "name": "1年",
             "keepday": 370
           }, {
             "id": 28,
-            "price": 668800,
+            "price": 268800,
             "name": "6个月",
             "keepday": 186
           }, {
             "id": 29,
-            "price": 368800,
+            "price": 148800,
             "name": "3个月",
             "keepday": 93
           }, {
             "id": 30,
-            "price": 158800,
+            "price": 58800,
             "name": "1个月",
             "keepday": 31
           }]
@@ -153,22 +153,22 @@
           "showname": "潜水捞金策略",
           "data": [{
             "id": 20,
-            "price": 888800,
+            "price": 248800,
             "name": "1年",
             "keepday": 370
           }, {
             "id": 28,
-            "price": 568800,
+            "price": 168800,
             "name": "6个月",
             "keepday": 186
           }, {
             "id": 29,
-            "price": 298800,
+            "price": 88800,
             "name": "3个月",
             "keepday": 93
           }, {
             "id": 30,
-            "price": 138800,
+            "price": 38800,
             "name": "1个月",
             "keepday": 31
           }]
