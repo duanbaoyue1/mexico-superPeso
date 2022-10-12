@@ -1,7 +1,7 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及选股技巧</header>
+      <header>策略原理讲解及介绍</header>
       <p>主力操盘运作流程主要有四个：建仓、洗盘、拉升、出货。但在拉主升浪之前，主力往往会拉上影线试盘，试探对手盘的抛压。如果抛压小就开启主升浪行情，也是我们买入的最好时机。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
