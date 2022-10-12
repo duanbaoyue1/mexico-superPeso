@@ -4,7 +4,7 @@ export default {
       isWechat: /MicroMessenger/i.test(navigator.userAgent),
       canvasCompressWidth: 0,
       canvasCompressHeight: 0,
-      showShareCanvas: false
+      showShareCanvas: false,
     };
   },
 
@@ -13,6 +13,9 @@ export default {
       return item || '';
     },
     percentFilter(value, fixedNum = 2) {
+      if (value == -999) {
+        return '-';
+      }
       if (value > 0) {
         return `<span style="color: #e60100">+${value}%</span>`;
       } else if (value < 0) {
@@ -20,19 +23,19 @@ export default {
       } else {
         return `<span>${value}</span>`;
       }
-    }
+    },
   },
 
   methods: {
     toBuy() {
-        window.uniWebViewF(function(){
-          var uniWebView = webUni.webView;//必须在这时候保存下来
-          uniWebView.postMessage({
-            data: {
-              action: 'tobuy'
-            }
-          });
-        })
+      window.uniWebViewF(function () {
+        var uniWebView = webUni.webView; //必须在这时候保存下来
+        uniWebView.postMessage({
+          data: {
+            action: 'tobuy',
+          },
+        });
+      });
       // if (this.$route.query.wy == 1) {
       //   window.uniWebViewF(function(){
       //     var uniWebView = webUni.webView;//必须在这时候保存下来
@@ -54,7 +57,7 @@ export default {
           this.$fullPageVideo.hide();
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
@@ -97,7 +100,6 @@ export default {
         return -1;
       }
       return re;
-    }
-  }
+    },
+  },
 };
-
