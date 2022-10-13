@@ -18,7 +18,7 @@ const minutePulseQulet = {
 
 const minuteUpShadow = {
   title: '分时尾盘上影',
-  btnDesc: '底部拉升试盘的买入机会',
+  btnDesc: '底部拉升试盘的介入机会',
   titleImg: 'title3@2x.png',
   tipsTop: '盘中实时（13:00-15:00）更新底部大幅拉升试盘或长时间封板尾盘被动开板的股票。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb3@2x.png',
@@ -29,7 +29,7 @@ const minuteDivingGold = {
   title: '分时潜水捞金',
   btnDesc: '跟随主力逆势抄底的机会',
   titleImg: 'title4@2x.png',
-  tipsTop: '盘中实时（9:30-15:00）更新股价持续下跌，但是主力大资金持续买入的股票。详细请看视频教程和案例。',
+  tipsTop: '盘中实时（9:30-15:00）更新股价持续下跌，但是仍有资金介入的个股。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb4@2x.png',
   price: 388,
 };
