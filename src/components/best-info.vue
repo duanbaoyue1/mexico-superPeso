@@ -32,7 +32,7 @@ export default {
 
   methods: {
     openBoxWin() {
-      this.$dm.alert('<ul><li style="color: #EA413C">1、统计范围：选取策略所有股票</li><li>2、次日开始一周内有2%以上的止盈机会则为胜。 </li><li>3、统计近一个月的胜率</li></ul>', '近一月个股胜率', {
+      this.$dm.alert('<ul><li style="color: #EA413C">1、统计范围：选取策略所有股票</li><li>2、次日开始一周内有2%以上的止盈机会则为胜</li><li>3、统计近一个月的胜率</li></ul>', '近一月个股胜率', {
         dangerouslyUseHTMLString: true,
         showClose: false,
         confirmButtonText: '我知道了',
