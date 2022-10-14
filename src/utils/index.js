@@ -81,10 +81,16 @@ export function formatTime(time, option) {
  * @returns {Object}
  */
 export function param2Obj(url) {
-  const search = url.split('?')[1];
-  if (!search) {
+  const search1 = url.split('?')[1];
+  if (!search1) {
     return {};
   }
+  
+  let arr = search1.split('&')
+  const arr1 = arr.filter((item) => {
+    return item.indexOf('=')>-1;
+  }) //财联社会加一个版本号 
+  let search = arr1.join('&')
   return JSON.parse(
     '{"' +
       decodeURIComponent(search)
