@@ -2,71 +2,62 @@
   <div class="back">
     <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleImg)" />
     <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
-    <div v-if="!bought && !showData" class="not-login">
-      <video-module :videos="videos" class="video-module"></video-module>
-      <div class="detail-data">
-        <header>
-          <div class="info">
-            <div>{{ typeInfo.title }}</div>
-            <div>实时监控强势股的低吸机会</div>
+
+    <div class="content-area">
+      <div class="date-choose">
+        <div @click="preDay">&lt;前一天</div>
+        <div class="date">
+          <el-date-picker v-model="dataDate" value-format="yyyy-MM-dd" type="date" align="center" popper-class="define-date" :editable="false" :clearable="false" @change="changeDateNot" :picker-options="pickerOptionsNot" placeholder="选择日期"> </el-date-picker>
+        </div>
+        <div @click="lastDay">后一天&gt;</div>
+      </div>
+      <table-data :data="tableData" :isFirst="dataDate == tradeDates[0]"></table-data>
+    </div>
+
+    <div class="detail-data">
+      <header>
+        <div class="info">
+          <div>{{ typeInfo.title }}</div>
+          <div>实时监控强势股的低吸机会</div>
+        </div>
+        <div class="buy-area">
+          <div class="buy" @click="toBuy">{{ this.bought ? '立即续费' : '立即购买' }}></div>
+          <div class="expires" v-if="bought && endDate > 0">{{ endDate }}天到期</div>
+        </div>
+      </header>
+      <div class="best-detail" v-if="bestInfo">
+        <div>
+          <div class="name">
+            近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }} </span>
           </div>
-          <div class="buy" @click="toBuy">立即购买></div>
-        </header>
-        <div class="best-detail" v-if="bestInfo">
-          <div>
-            <div class="name">
-              近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }} </span>
-            </div>
-            <div class="percent">
-              <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate }}</span>
-              <span>%</span>
-            </div>
-            <div class="tips">近一个月个股胜率<img @click="openBoxWin" :src="require('@/assets/img/tips@2x.png')" /></div>
+          <div class="percent">
+            <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate }}</span>
+            <span>%</span>
           </div>
-          <div>
-            <div class="name">
-              选出后最高涨幅:
-              <span v-html="$options.filters.percentFilter(bestInfo.highestGain, 2, true)"></span>
-            </div>
-            <div class="percent">
-              <span v-html="$options.filters.percentFilter(bestInfo.monthDayYieldRate, 2, true)"></span>
-            </div>
-            <div class="tips">近一个月平均日收益<img @click="openBoxWinYield" :src="require('@/assets/img/tips@2x.png')" /></div>
-          </div>
+          <div class="tips">近一个月个股胜率<img @click="openBoxWin" :src="require('@/assets/img/tips@2x.png')" /></div>
         </div>
         <div>
-          <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
-          <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
-        </div>
-      </div>
-    </div>
-    <div v-else class="has-login">
-      <div class="login-area">
-        <div class="date-choose">
-          <div @click="preDay">&lt;前一天</div>
-          <div class="date">
-            <el-date-picker v-model="dataDate" value-format="yyyy-MM-dd" type="date" align="center" popper-class="define-date" :editable="false" :clearable="false" @change="changeDateNot" :picker-options="pickerOptionsNot" placeholder="选择日期"> </el-date-picker>
-          </div>
-          <div @click="lastDay">后一天&gt;</div>
-        </div>
-        <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
-        <div class="best-info" v-if="bestInfo">
-          <div>
-            近期最强牛股: <span style="color: #ea413c">{{ bestInfo.bestStockName }}</span>
-          </div>
-          <div>
+          <div class="name">
             选出后最高涨幅:
             <span v-html="$options.filters.percentFilter(bestInfo.highestGain, 2, true)"></span>
           </div>
+          <div class="percent">
+            <span v-html="$options.filters.percentFilter(bestInfo.monthDayYieldRate, 2, true)"></span>
+          </div>
+          <div class="tips">近一个月平均日收益<img @click="openBoxWinYield" :src="require('@/assets/img/tips@2x.png')" /></div>
         </div>
       </div>
-      <video-module :videos="videos" class="video-module"></video-module>
+      <div>
+        <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
+      </div>
     </div>
+
+    <video-module :videos="videos" class="video-module"></video-module>
     <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
     <module-tips4 class="module-tip" v-if="type == 'minuteDivingGold'"></module-tips4>
-    <buy-bottom v-if="!bought" :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
+    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
   </div>
 </template>
 
@@ -100,8 +91,6 @@ export default {
       // 当前选择日期
       dataDate: '',
       endDate: '', // 会员剩余日期
-      // 是否处于显示模式，未购买也可能进这个模式
-      showData: false,
       // 产品id , 以便于购买跳转
       proId: this.$route.query.proId,
       token: this.$route.query.token,
@@ -128,48 +117,15 @@ export default {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.init();
+    this.getUserBoughtInfo((data) => {
+      this.bought = data.bought;
+      this.logins = data.logins;
+      this.endDate = data.endDate;
+      this.getTradeDates();
+    });
   },
 
   methods: {
-    init() {
-      axios({
-        method: 'post',
-        url: '/userreg/ucenter/queryUserProduct',
-      }).then((re) => {
-        let res = re.data;
-        if (res.code && res.code == 200) {
-          var data = res.data;
-          if (data.length == 0) {
-            // 无权限
-            this.bought = false;
-            this.showData = false;
-          } else {
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
-                var newdate = new Date();
-                var date = new Date(data[i].date);
-                if (date <= newdate) {
-                  // 无权限
-                  this.bought = false;
-                  this.showData = false;
-                } else {
-                  // 有权限
-                  this.bought = true;
-                  this.showData = true;
-                  // 会员剩余日期
-                  this.endDate = this.daysDistance(new Date(data[i].date), new Date());
-                }
-              }
-            }
-          }
-        } else {
-          this.bought = false;
-          this.showData = false;
-        }
-        this.getTradeDates();
-      });
-    },
     toBuy() {
       // index首页
       window.uniWebViewF(function () {
@@ -225,20 +181,11 @@ export default {
       return hourTime;
     },
     getTableData() {
-      if (!this.bought && !this.showData) {
-        // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/`).then((res) => {
-          if (res.data) {
-            this.tableData = res.data.items || [];
-          }
-        });
-      } else {
-        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
-          if (res.data) {
-            this.tableData = res.data.items || [];
-          }
-        });
-      }
+      this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
+        if (res.data) {
+          this.tableData = res.data.items || [];
+        }
+      });
     },
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
@@ -256,7 +203,7 @@ export default {
         if (this.bought) {
           this.dataDate = this.tradeDates[0];
         } else {
-          this.dataDate = this.tradeDates[5];
+          this.dataDate = this.tradeDates[6];
         }
         this.getTableData();
       });
@@ -295,8 +242,8 @@ export default {
     },
     showHisData() {
       window.scroll(0, 0);
-      this.showData = true;
-      this.getTableData();
+      let routeInfo = this.$router.resolve({ name: 'More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy } });
+      location.href = routeInfo.href;
     },
     changeDateNot(date) {
       this.dataDate = date;
@@ -379,16 +326,17 @@ export default {
   display: block;
 }
 
-.not-login {
-  .detail-data {
-    border-radius: 5px;
-    padding: 10px;
-    background: #fff;
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
+.detail-data {
+  border-radius: 5px;
+  padding: 10px;
+  background: #fff;
+  margin-bottom: 10px;
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    .buy-area {
       .buy {
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;
@@ -396,115 +344,124 @@ export default {
         color: #cf0f0a;
         line-height: 20px;
       }
-      .info {
-        div {
-          font-size: 14px;
-          font-weight: 500;
-          color: #000000;
-          line-height: 20px;
-          margin-bottom: 3px;
-          &:last-child {
-            font-size: 12px;
-            font-weight: 400;
-            color: #333333;
-            line-height: 17px;
-            margin-bottom: 0;
-          }
-        }
+      .expires {
+        font-size: 12px;
+        font-weight: 400;
+        color: #969696;
+        line-height: 17px;
       }
     }
-    .best-detail {
-      display: flex;
-      flex: 1;
-      > div {
-        flex: 1;
-        text-align: center;
-        .name {
+
+    .info {
+      div {
+        font-size: 14px;
+        font-weight: 500;
+        color: #000000;
+        line-height: 20px;
+        margin-bottom: 3px;
+        &:last-child {
           font-size: 12px;
           font-weight: 400;
-          color: #666666;
+          color: #333333;
           line-height: 17px;
-          margin-bottom: 10px;
-        }
-        .percent {
-          font-size: 14px;
-          font-weight: 600;
-          color: #e60100;
-          line-height: 20px;
-          margin-bottom: 5px;
-        }
-        .tips {
-          font-size: 12px;
-          font-weight: 400;
-          color: #969696;
-          margin-bottom: 10px;
-          height: 17px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          img {
-            width: 12px;
-            margin-left: 5px;
-          }
+          margin-bottom: 0;
         }
       }
     }
-    .more-data {
-      font-size: 10px;
-      font-weight: 400;
-      color: #333333;
-      line-height: 12px;
-      padding: 4px 0;
-      margin: 0 auto;
-      border: 1px solid #ebeef5;
-      border-top: none;
+  }
+
+  .more-data {
+    width: 140px;
+    height: 24px;
+    background: #f2f6f7;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 24px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .best-detail {
+    display: flex;
+    flex: 1;
+    > div {
+      flex: 1;
       text-align: center;
+      .name {
+        font-size: 12px;
+        font-weight: 400;
+        color: #666666;
+        line-height: 17px;
+        margin-bottom: 10px;
+      }
+      .percent {
+        font-size: 14px;
+        font-weight: 600;
+        color: #e60100;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+      .tips {
+        font-size: 12px;
+        font-weight: 400;
+        color: #969696;
+        margin-bottom: 10px;
+        height: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 12px;
+          margin-left: 5px;
+        }
+      }
     }
   }
 }
 
-.has-login {
-  .login-area {
-    border-radius: 5px;
-    background: #fff;
-    padding: 10px;
+.content-area {
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  .date-choose {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #666666;
+    line-height: 16px;
     margin-bottom: 10px;
-    .date-choose {
+    .date {
+      height: 24px;
+      border-radius: 3px;
+      padding: 0 5px;
+      font-size: 15px;
+      color: #cf0f0a;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 11px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 16px;
-      margin-bottom: 10px;
-      .date {
-        height: 24px;
-        border-radius: 3px;
-        padding: 0 5px;
-        font-size: 15px;
-        color: #cf0f0a;
-        display: flex;
-        align-items: center;
-        img {
-          width: 14px;
-          display: block;
-          margin-right: 4px;
-        }
+      img {
+        width: 14px;
+        display: block;
+        margin-right: 4px;
       }
     }
-    .best-info {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #666666;
-      line-height: 17px;
-      display: flex;
-      justify-content: space-between;
-    }
+  }
+  .best-info {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 17px;
+    display: flex;
+    justify-content: space-between;
   }
 }
+
 .module-tip {
   margin-top: 10px;
 }

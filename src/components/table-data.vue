@@ -1,6 +1,6 @@
 <template>
   <div class="define-table">
-    <el-table size="small" border :data="data" style="width: 100%">
+    <el-table size="small" border :data="data" style="width: 100%" v-if="data.length > 0">
       <el-table-column label="日期" width="150">
         <template slot-scope="scope">
           {{ scope.row.date.replace(/-/g, '') }}
@@ -29,80 +29,26 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="no-data" v-else-if="isFirst">
+      <img :src="require('@/assets/img/no-data@2x.png')" />
+      <div>数据正在运算中，请稍后…</div>
+    </div>
+    <div v-else class="no-data">
+      <img :src="require('@/assets/img/no-data@2x.png')" />
+      <div>当日没有选出标的</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    showData: {
-      type: Boolean,
-      default: false,
-    },
     data: {
       type: Array,
+    },
+    isFirst: {
+      type: Boolean,
     },
   },
 };
 </script>
-<style lang="scss">
-.define-table {
-  background: transparent;
-  .el-table {
-    background: transparent;
-    border-color: #666;
-    tr {
-      background: transparent;
-      font-size: 14px;
-      color: #ffffff;
-      line-height: 17px;
-    }
-    thead {
-      .cell {
-        .cell {
-          font-weight: 500;
-          color: #333333;
-        }
-      }
-    }
-  }
-
-  .el-table--small .el-table__cell {
-    padding: 2px 0px;
-    text-align: center;
-  }
-  .el-table .cell {
-    font-size: 14px;
-    line-height: 13px;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-top: 9px !important;
-    padding-bottom: 9px !important;
-  }
-  .el-table th.el-table__cell {
-    background-color: transparent;
-  }
-  .el-table th.el-table__cell > .cell {
-    font-size: 14px;
-    font-weight: bold;
-    color: #ffffff;
-    line-height: 17px;
-  }
-  .el-table td.el-table__cell {
-    border-bottom: 1px solid #666;
-  }
-  .el-table--border .el-table__cell {
-    border-right: 1px solid #666;
-  }
-  .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
-    background: transparent;
-  }
-  .el-table td.el-table__cell,
-  .el-table th.el-table__cell.is-leaf {
-    border-bottom: 1px solid #666 !important;
-  }
-  .el-table--border::after, .el-table--group::after, .el-table::before {
-    background-color: #666 !important;
-  }
-}
-</style>

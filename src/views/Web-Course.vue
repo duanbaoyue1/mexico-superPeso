@@ -209,6 +209,10 @@ export default {
 </script>
 
 <style lang="scss">
+html {
+  background-color: #0f0f12;
+}
+
 .width-container {
   width: 1200px;
   margin: 0 auto;

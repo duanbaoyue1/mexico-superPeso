@@ -5,8 +5,6 @@ import { Toast } from 'vant';
 import { baseApi } from '@/config';
 import { param2Obj } from '@/utils/index';
 
-console.log(param2Obj(location.href));
-
 // create an axios instance
 const service = axios.create({
   baseURL: baseApi, // url = base api url + request url

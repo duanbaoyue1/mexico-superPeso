@@ -26,6 +26,14 @@ const routes = [
           title: '视频列表',
         },
       },
+      {
+        path: 'more-datas',
+        name: 'More-Datas',
+        component: () => import(/* webpackChunkName: "more-datas" */ '../views/m/More-Datas.vue'),
+        meta: {
+          title: '更多数据',
+        },
+      },
     ],
   },
   {
@@ -34,7 +42,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'Web-Home',
         component: () => import(/* webpackChunkName: "web-home" */ '../views/Web-Home.vue'),
       },
       {
@@ -43,6 +51,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "web-course" */ '../views/Web-Course.vue'),
         meta: {
           title: '华氏量化高端策略-实战培训教程',
+        },
+      },
+      {
+        path: 'more-datas',
+        name: 'Web-More-Datas',
+        component: () => import(/* webpackChunkName: "web-more-datas" */ '../views/Web-More-Datas.vue'),
+        meta: {
+          title: '更多数据',
         },
       },
     ],
@@ -59,8 +75,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: process.env.NODE_ENV == 'development'? 'hash': 'history',
-  base: process.env.NODE_ENV == 'development' ? '/' : '/hslh/', // 这个配置也很重要，否则会出现页面空白情况
+  mode: process.env.NODE_ENV != 'production' ? 'hash' : 'history',
+  base: process.env.NODE_ENV != 'production' ? '/' : '/hslh/', // 这个配置也很重要，否则会出现页面空白情况
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes,
 });

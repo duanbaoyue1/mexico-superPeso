@@ -1,33 +1,10 @@
 <template>
   <div class="back">
     <heard />
-    <div class="top-header">
-      <div class="width-container">
-        <div class="pro-info">
-          <img class="img-name" :src="require('@/assets/img/' + typeInfo.titleWebImg)" />
-          <div class="pro-tips">{{ typeInfo.tipsTop }}</div>
-        </div>
-        <div class="buy-info">
-          <div id="price">{{ typeInfo.price }}元/月</div>
-          <div class="buy-btn" @click="toBuyP">
-            季付、半年、年付更优惠
-            <img v-if="bought" :src="require('@/assets/img/web/buy-btn2@2x.png')" />
-            <img v-else :src="require('@/assets/img/web/buy-btn@2x.png')" />
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <top-head :bought="bought" :typeInfo="typeInfo" @to-buy="toBuyP"></top-head>
     <div class="content-area">
       <div class="login-area">
-        <div v-if="!bought && !showData">
-          <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
-          <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 30px auto 10px"></best-info>
-          <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
-          <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
-        </div>
-
-        <div v-else>
+        <div>
           <div class="date-choose">
             <div class="date">
               <span class="label">选择日期：</span>
@@ -35,8 +12,9 @@
             </div>
             <div class="btn" @click="preDay">前一天</div>
             <div class="btn" @click="lastDay">后一天</div>
+            <div class="btn history" @click="showHisData">查看历史数据统计></div>
           </div>
-          <table-data :showData="showData" :data="tableData" v-if="tableData.length > 0"></table-data>
+          <table-data :data="tableData" :isFirst="dataDate == tradeDates[0]"></table-data>
           <best-info :bestInfo="bestInfo" v-if="bestInfo" class="best-info" style="margin: 10px auto 30px"></best-info>
           <video-module @play="playVideo" :videos="videos" class="video-module"></video-module>
         </div>
@@ -49,7 +27,7 @@
       <pc-video-modal :initVideoIndex="initVideoIndex" :videos="videos" @close-play="closePlayVideo"></pc-video-modal>
     </div>
     <login ref="login" v-if="loginShow" />
-    <payment-List ref="paymentList" :type="proId"/>
+    <payment-List ref="paymentList" :type="proId" />
   </div>
 </template>
 
@@ -64,9 +42,10 @@ import typeConfig from '@/config/typeConfig.js';
 import VideoModule from '@/components/video-module.vue';
 import BestInfo from '@/components/best-info.vue';
 import PcVideoModal from '@/components/pc-video-modal.vue';
-import axios from 'axios';
 import login from '@/components/login.vue';
 import heard from '@/components/heard.vue';
+import TopHead from '@/components/top-head.vue';
+
 export default {
   components: {
     ModuleTips1,
@@ -79,7 +58,8 @@ export default {
     PcVideoModal,
     login,
     paymentList,
-    heard
+    heard,
+    TopHead,
   },
   data() {
     let self = this;
@@ -92,8 +72,6 @@ export default {
       // 当前选择日期
       dataDate: '',
       endDate: '', // 会员剩余日期
-      // 是否处于显示模式，未购买也可能进这个模式
-      showData: false,
       // 产品id , 以便于购买跳转
       proId: this.$route.query.proId,
       token: '',
@@ -121,48 +99,19 @@ export default {
     window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     this.getVideoLists();
     this.getBestInfo();
-    this.inti();
+    this.getUserBoughtInfo((data) => {
+      this.bought = data.bought;
+      this.logins = data.logins;
+      this.endDate = data.endDate;
+      this.getTradeDates();
+    })
   },
 
   methods: {
-    inti() {
-      axios({
-        method: 'post',
-        url: '/userreg/ucenter/queryUserProduct',
-      }).then((re) => {
-        let res = re.data;
-        if (res.code && res.code == 200) {
-          this.logins = true; // 已登录
-          var data = res.data;
-          if (data.length == 0) {
-            // 无权限
-            this.bought = false;
-          } else {
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
-                var newdate = new Date();
-                var date = new Date(data[i].date);
-                if (date <= newdate) {
-                  // 无权限
-                  this.bought = false;
-                } else {
-                  // 有权限
-                  this.bought = true;
-                  this.showData = true;
-                  // 会员剩余日期
-                  this.endDate = this.daysDistance(new Date(data[i].date), new Date());
-                }
-              }
-            }
-          }
-        } else if (res.code == -1) {
-          this.bought = false;
-          this.logins = false; // 未登录
-        } else {
-          this.bought = false;
-        }
-        this.getTradeDates();
-      });
+    showHisData() {
+      window.scroll(0, 0);
+      let routeInfo = this.$router.resolve({ name: 'Web-More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy } });
+      location.href = routeInfo.href;
     },
 
     playVideo(index) {
@@ -178,22 +127,12 @@ export default {
       if (this.logins == false) {
         this.loginShow = true;
       } else {
-        setTimeout(()=>{
-          this.$refs.paymentList.showPayInfoDialog()
-        })
+        setTimeout(() => {
+          this.$refs.paymentList.showPayInfoDialog();
+        });
       }
     },
-    // 获取两个两个日期转换成天
-    daysDistance(date1, date2) {
-      //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
-      date1 = Date.parse(date1);
-      date2 = Date.parse(date2);
-      //计算两个日期之间相差的毫秒数的绝对值
-      var ms = Math.abs(date2 - date1);
-      //毫秒数除以一天的毫秒数,就得到了天数
-      var days = Math.floor(ms / (24 * 3600 * 1000));
-      return days;
-    },
+    
     // 日期选择 非交易日不可选
     dealPickerOptionsNot(date) {
       let year = date.getFullYear();
@@ -226,20 +165,11 @@ export default {
       return hourTime;
     },
     getTableData() {
-      if (!this.bought && !this.showData) {
-        // 通用数据查看
-        this.$http.get(`/core/api/best_times/home_list/`).then((res) => {
-          if (res.data) {
-            this.tableData = res.data.items || [];
-          }
-        });
-      } else {
-        this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
-          if (res.data) {
-            this.tableData = res.data.items || [];
-          }
-        });
-      }
+      this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
+        if (res.data) {
+          this.tableData = res.data.items || [];
+        }
+      });
     },
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
@@ -257,7 +187,7 @@ export default {
         if (this.bought) {
           this.dataDate = this.tradeDates[0];
         } else {
-          this.dataDate = this.tradeDates[5];
+          this.dataDate = this.tradeDates[6];
         }
         this.getTableData();
       });
@@ -294,11 +224,6 @@ export default {
       this.dataDate = this.tradeDates[idx - 1];
       this.getTableData();
     },
-    showHisData() {
-      window.scroll(0, 0);
-      this.showData = true;
-      this.getTableData();
-    },
     changeDateNot(date) {
       this.dataDate = date;
       this.getTableData();
@@ -308,62 +233,8 @@ export default {
 </script>
 
 <style lang="scss">
-.width-container {
-  width: 1200px;
-  margin: 0 auto;
-}
-
 .back {
   background: #0f0f12;
-}
-
-.top-header {
-  background-image: url('../assets/img/web/beijing@2x.png');
-  height: 260px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 260px;
-  > div {
-    padding-top: 39px;
-    padding-left: 30px;
-    padding-right: 30px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    .pro-info {
-      width: 600px;
-    }
-    .buy-info {
-      text-align: right;
-      #price {
-        font-size: 40px;
-        font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
-        font-weight: bold;
-        color: #ffffff;
-        line-height: 52px;
-        margin-bottom: 31px;
-      }
-      .buy-btn {
-        display: flex;
-        align-items: center;
-        font-size: 16px;
-        color: #ffffff;
-        line-height: 21px;
-        cursor: pointer;
-        img {
-          width: 180px;
-          margin-left: 10px;
-        }
-      }
-    }
-    .pro-tips {
-      font-size: 16px;
-      font-weight: 400;
-      color: #adadad;
-      line-height: 21px;
-      margin-top: 30px;
-    }
-  }
 }
 
 .content-area {
@@ -403,6 +274,7 @@ export default {
   color: #666666;
   line-height: 16px;
   margin-bottom: 15px;
+  position: relative;
 
   .date {
     display: flex;
@@ -467,11 +339,22 @@ export default {
     &:hover {
       color: #cf0f0a;
     }
+    &.history {
+      width: 153px;
+      position: absolute;
+      right: 0;
+      border: 1px solid #cea58d;
+      color: #cea58d;
+      background: transparent;
+      &:hover {
+        background: #cea58d;
+        color: #fff;
+      }
+    }
   }
 }
 
 .module-tip {
   margin-top: 30px;
 }
-
 </style>

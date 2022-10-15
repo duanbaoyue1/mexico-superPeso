@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -48,6 +50,60 @@ export default {
       // } else {
 
       // }
+    },
+
+    // 获取两个两个日期转换成天
+    daysDistance(date1, date2) {
+      //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
+      date1 = Date.parse(date1);
+      date2 = Date.parse(date2);
+      //计算两个日期之间相差的毫秒数的绝对值
+      var ms = Math.abs(date2 - date1);
+      //毫秒数除以一天的毫秒数,就得到了天数
+      var days = Math.floor(ms / (24 * 3600 * 1000));
+      return days;
+    },
+
+    getUserBoughtInfo(cb) {
+      let bought,
+        endDate = 0,
+        logins;
+      axios({
+        method: 'post',
+        url: '/userreg/ucenter/queryUserProduct',
+      }).then((re) => {
+        let res = re.data;
+        if (res.code && res.code == 200) {
+          logins = true; // 已登录
+          var data = res.data;
+          if (data.length == 0) {
+            // 无权限
+            bought = false;
+          } else {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+                var newdate = new Date();
+                var date = new Date(data[i].date);
+                if (date <= newdate) {
+                  // 无权限
+                  bought = false;
+                } else {
+                  // 有权限
+                  bought = true;
+                  // 会员剩余日期
+                  endDate = this.daysDistance(new Date(data[i].date), new Date());
+                }
+              }
+            }
+          }
+        } else if (res.code == -1) {
+          bought = false;
+          logins = false; // 未登录
+        } else {
+          bought = false;
+        }
+        cb && cb({ bought, logins, endDate });
+      });
     },
 
     playVideo(videoSrc) {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Button, Table, TableColumn, Alert, Dialog, MessageBox, DatePicker,Input,Checkbox,
+import { Button, Table, TableColumn, Alert, Dialog, MessageBox, DatePicker,Input,Checkbox,Pagination,
 Select,Menu ,Option,MenuItem,Link,Loading,Message} from 'element-ui'
 
 Vue.use(Button)
@@ -9,6 +9,7 @@ Vue.use(Dialog)
 Vue.use(Alert)
 Vue.use(DatePicker)
 Vue.use(Input)
+Vue.use(Pagination)
 Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Menu)
