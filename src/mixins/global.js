@@ -65,45 +65,49 @@ export default {
     },
 
     getUserBoughtInfo(cb) {
-      let bought,
+      let bought = false,
         endDate = 0,
-        logins;
+        logins = false;
       axios({
         method: 'post',
         url: '/userreg/ucenter/queryUserProduct',
-      }).then((re) => {
-        let res = re.data;
-        if (res.code && res.code == 200) {
-          logins = true; // 已登录
-          var data = res.data;
-          if (data.length == 0) {
-            // 无权限
-            bought = false;
-          } else {
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
-                var newdate = new Date();
-                var date = new Date(data[i].date);
-                if (date <= newdate) {
-                  // 无权限
-                  bought = false;
-                } else {
-                  // 有权限
-                  bought = true;
-                  // 会员剩余日期
-                  endDate = this.daysDistance(new Date(data[i].date), new Date());
+      })
+        .then((re) => {
+          let res = re.data;
+          if (res.code && res.code == 200) {
+            logins = true; // 已登录
+            var data = res.data;
+            if (data.length == 0) {
+              // 无权限
+              bought = false;
+            } else {
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
+                  var newdate = new Date();
+                  var date = new Date(data[i].date);
+                  if (date <= newdate) {
+                    // 无权限
+                    bought = false;
+                  } else {
+                    // 有权限
+                    bought = true;
+                    // 会员剩余日期
+                    endDate = this.daysDistance(new Date(data[i].date), new Date());
+                  }
                 }
               }
             }
+          } else if (res.code == -1) {
+            bought = false;
+            logins = false; // 未登录
+          } else {
+            bought = false;
           }
-        } else if (res.code == -1) {
-          bought = false;
-          logins = false; // 未登录
-        } else {
-          bought = false;
-        }
-        cb && cb({ bought, logins, endDate });
-      });
+          cb && cb({ bought, logins, endDate });
+        })
+        .catch((res) => {
+          cb && cb({ bought, logins, endDate });
+        });
     },
 
     playVideo(videoSrc) {
@@ -124,8 +128,8 @@ export default {
     parseQuery(query) {
       const arr1 = query.split('&');
       const arr = arr1.filter((item) => {
-        return item.indexOf('=')>-1;
-      })
+        return item.indexOf('=') > -1;
+      });
       const allOptions = {};
       for (const i in arr) {
         const val = arr[i];

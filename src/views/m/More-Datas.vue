@@ -48,7 +48,7 @@
         </el-table>
       </div>
 
-      <div class="pagination">
+      <div class="define-pagination">
         <el-pagination small layout="prev, pager, next" :total="total" :page-size="pageSize" @current-change="handleCurrentChange" hide-on-single-page> </el-pagination>
       </div>
     </div>
@@ -58,7 +58,6 @@
 <script>
 import TableData from '@/components/m/table-data.vue';
 import typeConfig from '@/config/typeConfig.js';
-import axios from 'axios';
 export default {
   components: {
     TableData,
@@ -123,7 +122,7 @@ html {
   padding: 10px;
   margin-bottom: 10px;
 }
-.pagination {
+.define-pagination {
   margin-top: 10px;
   text-align: center;
 }

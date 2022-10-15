@@ -181,11 +181,18 @@ export default {
       return hourTime;
     },
     getTableData() {
-      this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
-        if (res.data) {
-          this.tableData = res.data.items || [];
-        }
-      });
+      this.$http
+        .get(`/core/api/best_times/?date=${this.dataDate}`)
+        .then((res) => {
+          if (res.data) {
+            this.tableData = res.data.items || [];
+          } else {
+            this.tableData = [];
+          }
+        })
+        .catch((res) => {
+          this.tableData = [];
+        });
     },
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
@@ -250,7 +257,7 @@ export default {
       this.getTableData();
     },
     openBoxWin() {
-      this.$dm.alert('<ul><li style="color: #EA413C">1、统计范围：选取策略所有股票</li><li>2、次日开始一周内有2%以上的止盈机会则为胜</li><li>3、统计近一个月的胜率</li></ul>', '近一月个股胜率', {
+      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>次日开始一周内有2%以上的止盈机会则为胜</li><li>统计近一个月的胜率</li></ul>', '近一月个股胜率', {
         dangerouslyUseHTMLString: true,
         showClose: false,
         confirmButtonText: '我知道了',
@@ -260,7 +267,7 @@ export default {
       });
     },
     openBoxWinYield() {
-      this.$dm.alert('<ul><li style="color: #EA413C">1、统计范围：选取策略所有股票</li><li>2、统计选出后至今的最高价 </li><li>3、将所有收益平均到每一天</li></ul>', '近一月平均日收益', {
+      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>统计选出后至今的最高价 </li><li>将所有收益平均到每一天</li></ul>', '近一月平均日收益', {
         dangerouslyUseHTMLString: true,
         showClose: false,
         confirmButtonText: '我知道了',

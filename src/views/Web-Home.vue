@@ -104,7 +104,7 @@ export default {
       this.logins = data.logins;
       this.endDate = data.endDate;
       this.getTradeDates();
-    })
+    });
   },
 
   methods: {
@@ -132,7 +132,7 @@ export default {
         });
       }
     },
-    
+
     // 日期选择 非交易日不可选
     dealPickerOptionsNot(date) {
       let year = date.getFullYear();
@@ -165,11 +165,18 @@ export default {
       return hourTime;
     },
     getTableData() {
-      this.$http.get(`/core/api/best_times/?date=${this.dataDate}`).then((res) => {
-        if (res.data) {
-          this.tableData = res.data.items || [];
-        }
-      });
+      this.$http
+        .get(`/core/api/best_times/?date=${this.dataDate}`)
+        .then((res) => {
+          if (res.data) {
+            this.tableData = res.data.items || [];
+          } else {
+            this.tableData = [];
+          }
+        })
+        .catch((res) => {
+          this.tableData = [];
+        });
     },
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
@@ -200,7 +207,7 @@ export default {
           showClose: false,
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
-          customClass: 'tips-toast',
+          customClass: 'tips-toast-web',
           center: true,
         });
         return;
@@ -216,7 +223,7 @@ export default {
           showClose: false,
           confirmButtonText: '我知道了',
           confirmButtonClass: 'alert-confirm',
-          customClass: 'tips-toast',
+          customClass: 'tips-toast-web',
           center: true,
         });
         return;
