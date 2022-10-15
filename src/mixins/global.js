@@ -122,7 +122,10 @@ export default {
     },
 
     parseQuery(query) {
-      const arr = query.split('&');
+      const arr1 = query.split('&');
+      const arr = arr1.filter((item) => {
+        return item.indexOf('=')>-1;
+      })
       const allOptions = {};
       for (const i in arr) {
         const val = arr[i];
