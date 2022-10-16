@@ -65,7 +65,7 @@
       color: #303133 !important;
     }
     .el-pager li.active {
-      color: #e60100;
+      color: #e60100 !important;
     }
   }
 
