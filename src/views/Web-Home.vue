@@ -112,7 +112,6 @@ export default {
 
   mounted() {
     document.title = this.typeInfo.title;
-    window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     this.getVideoLists();
     this.getBestInfo();
     this.getUserBoughtInfo((data) => {

@@ -129,13 +129,13 @@ export default {
   },
 
   mounted() {
-    window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
     this.getUserBoughtInfo((data) => {
       this.bought = data.bought;
       this.logins = data.logins;
+      console.log('this.bought', this.bought);
       this.endDate = data.endDate;
       this.getTradeDates();
     });

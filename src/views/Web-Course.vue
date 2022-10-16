@@ -114,7 +114,6 @@ export default {
     };
   },
   mounted() {
-    window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     this.inti();
     this.getVideoClasses();
   },

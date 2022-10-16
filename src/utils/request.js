@@ -4,6 +4,7 @@ import { Toast } from 'vant';
 // 根据环境不同引入不同api地址
 import { baseApi } from '@/config';
 import { param2Obj } from '@/utils/index';
+import cookieFun from './cookieFun';
 
 // create an axios instance
 const service = axios.create({
@@ -17,13 +18,14 @@ service.interceptors.request.use(
   (config) => {
     // 处理通用字段传输
     let params = param2Obj(location.href);
+    let token = (cookieFun.getCookie('login_token') || '').replace(/"/g, '');
     let url = config.url;
     if (url.indexOf('?') != -1) {
       url += '&';
     } else {
       url += '?';
     }
-    url += `appType=${params.wy == 1 ? 'clswy' : 'clsmain'}&token=${window.token || ''}&strategyType=${params.type || ''}&productId=${params.proId || ''}`;
+    url += `appType=${params.wy == 1 ? 'clswy' : 'clsmain'}&token=${token}&strategyType=${params.type || ''}&productId=${params.proId || ''}`;
     config.url = url;
     if (store.getters.token) {
       config.headers['authorization'] = store.getters.token;
