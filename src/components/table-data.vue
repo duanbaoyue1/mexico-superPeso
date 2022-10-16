@@ -1,12 +1,8 @@
 <template>
   <div class="define-table">
     <el-table size="small" border :data="data" style="width: 100%" v-if="data.length > 0">
-      <el-table-column label="日期" width="150">
-        <template slot-scope="scope">
-          {{ scope.row.date.replace(/-/g, '') }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="名称" width="239"> </el-table-column>
+      <el-table-column prop="name" label="个股名称" width="239"> </el-table-column>
+      <el-table-column prop="code" label="个股代码" width="150"> </el-table-column>
       <el-table-column prop="getTime" label="选出时间" width="150"> </el-table-column>
       <el-table-column label="最高涨幅" width="150">
         <template slot-scope="scope">

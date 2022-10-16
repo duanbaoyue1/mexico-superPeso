@@ -25,7 +25,6 @@
     font-size: 17px;
     font-weight: 400;
     line-height: 24px;
-    background: transparent !important;
     border: none;
     padding: 0;
     padding-top: 0px !important;
@@ -37,7 +36,7 @@
     margin: 15px auto;
     font-size: 13px;
     font-weight: 400;
-    color: #333333;
+    color: #333333 !important;
     line-height: 18px;
   }
   .el-message-box__btns {
