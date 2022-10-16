@@ -53,6 +53,20 @@ export default {
       // }
     },
 
+    getCookie(name) {
+      var arr,
+        reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
+      arr = document.cookie.match(reg);
+      if (arr != null) return unescape(arr[2]);
+      else return null;
+    },
+    delCookie(name) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval = this.getCookie(name);
+      if (cval != null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
+    },
+
     judgeNewTableAndVoice(table, oldTable, typeText) {
       let oldIds = oldTable.map((t) => t.code);
       var tipsArray = [];
@@ -119,6 +133,7 @@ export default {
           } else if (res.code == -1) {
             bought = false;
             logins = false; // 未登录
+            this.delCookie('login_token');
           } else {
             bought = false;
           }
