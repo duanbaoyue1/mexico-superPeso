@@ -61,6 +61,9 @@
 
 .m-layout {
   .define-pagination {
+    .el-pager li:hover {
+      color: #303133 !important;
+    }
     .el-pager li.active {
       color: #e60100;
     }
