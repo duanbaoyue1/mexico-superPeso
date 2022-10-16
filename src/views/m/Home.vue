@@ -84,6 +84,7 @@ export default {
   data() {
     let self = this;
     return {
+      timeInterval: '',
       // 视频列表
       videos: [],
       // 类型配置数据
@@ -110,6 +111,21 @@ export default {
         },
       },
     };
+  },
+
+  watch: {
+    dataDate(newDate, oldDate) {
+      if (this.bought && newDate == this.tradeDates[0]) {
+        if (!this.timeInterval) {
+          this.timeInterval = setInterval(() => {
+            this.getTableData();
+          }, 15000);
+        }
+      } else {
+        clearInterval(this.timeInterval);
+        this.timeInterval = null;
+      }
+    },
   },
 
   mounted() {
@@ -181,6 +197,7 @@ export default {
       return hourTime;
     },
     getTableData() {
+      let oldTableData = [...this.tableData];
       this.$http
         .get(`/core/api/best_times/?date=${this.dataDate}`)
         .then((res) => {
@@ -188,6 +205,10 @@ export default {
             this.tableData = res.data.items || [];
           } else {
             this.tableData = [];
+          }
+          if (this.bought && oldTableData.length > 0 && this.tableData.length > 0 && this.dataDate == this.tradeDates[0]) {
+            // 判断哪些本次新增的并提醒
+            this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
         })
         .catch((res) => {

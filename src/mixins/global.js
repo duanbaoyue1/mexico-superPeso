@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ttsRecorder from '../utils/tts-recorder';
 
 export default {
   data() {
@@ -50,6 +51,24 @@ export default {
       // } else {
 
       // }
+    },
+
+    judgeNewTableAndVoice(table, oldTable, typeText) {
+      let oldIds = oldTable.map((t) => t.code);
+      var tipsArray = [];
+      table.forEach((item) => {
+        if (oldIds.indexOf(item.code) == -1) {
+          tipsArray.push(item.name);
+        }
+      });
+      if (tipsArray.length > 0) {
+        tipsArray = [typeText, ...tipsArray];
+        this.playVoice(tipsArray.join(','));
+      }
+    },
+
+    playVoice(text) {
+      ttsRecorder.playVoice(text);
     },
 
     // 获取两个两个日期转换成天

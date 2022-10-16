@@ -64,6 +64,7 @@ export default {
   data() {
     let self = this;
     return {
+      timeInterval: '',
       initVideoIndex: -1,
       // 视频列表
       videos: [],
@@ -94,6 +95,21 @@ export default {
       },
     };
   },
+  watch: {
+    dataDate(newDate, oldDate) {
+      if (this.bought && newDate == this.tradeDates[0]) {
+        if (!this.timeInterval) {
+          this.timeInterval = setInterval(() => {
+            this.getTableData();
+          }, 15000);
+        }
+      } else {
+        clearInterval(this.timeInterval);
+        this.timeInterval = null;
+      }
+    },
+  },
+
   mounted() {
     document.title = this.typeInfo.title;
     window.token = (this.$cookieFun.getCookie('login_token') || '').replace(/"/g, '');
@@ -165,6 +181,7 @@ export default {
       return hourTime;
     },
     getTableData() {
+      let oldTableData = [...this.tableData];
       this.$http
         .get(`/core/api/best_times/?date=${this.dataDate}`)
         .then((res) => {
@@ -173,11 +190,16 @@ export default {
           } else {
             this.tableData = [];
           }
+          if (this.bought && oldTableData.length > 0 && this.tableData.length > 0 && this.dataDate == this.tradeDates[0]) {
+            // 判断哪些本次新增的并提醒
+            this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
+          }
         })
         .catch((res) => {
           this.tableData = [];
         });
     },
+    
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
         this.videos = res.data.items;

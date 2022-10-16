@@ -24,7 +24,9 @@
     "vue-core-video-player": "^0.2.0",
     "vue-router": "^3.4.3",
     "vue-video": "^0.1.7",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "crypto-js": "^4.0.0",
+    "enc": "^0.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
@@ -40,6 +42,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-element": "~1.0.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.12",
+    "worker-loader": "^3.0.8"
   }
 }

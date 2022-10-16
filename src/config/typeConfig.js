@@ -5,6 +5,7 @@ const minuteLargeDdePulseQulet = {
   tipsTop: '盘中实时(9:30-15:00)更新近日曾经超大单净量拉涨停或者长阳线的个股回调机会。最好结合热点选股。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb1@2x.png',
   price: 1288,
+  voicePrefix: '大单回调',
 };
 
 const minutePulseQulet = {
@@ -14,6 +15,7 @@ const minutePulseQulet = {
   tipsTop: '盘中实时（9:30-15:00）更新近日曾经大资金流入并且出现大阳线的个股回调机会。最好结合热点选股。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb2@2x.png',
   price: 588,
+  voicePrefix: '强势回调',
 };
 
 const minuteUpShadow = {
@@ -23,6 +25,7 @@ const minuteUpShadow = {
   tipsTop: '盘中实时（13:00-15:00）更新底部大幅拉升试盘或长时间封板尾盘被动开板的股票。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb3@2x.png',
   price: 588,
+  voicePrefix: '尾盘上影',
 };
 
 const minuteDivingGold = {
@@ -32,6 +35,7 @@ const minuteDivingGold = {
   tipsTop: '盘中实时（9:30-15:00）更新股价持续下跌，但是仍有资金介入的个股。详细请看视频教程和案例。',
   titleWebImg: 'titleWeb4@2x.png',
   price: 388,
+  voicePrefix: '潜水捞金',
 };
 
 module.exports = {
