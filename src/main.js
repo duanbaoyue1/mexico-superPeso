@@ -20,7 +20,6 @@ import global from '@/mixins/global';
 Vue.mixin(global);
 import Vconsole from 'vconsole'
 
-console.log(process.env.NODE_ENV);
 if(process.env.NODE_ENV == 'development') {
   let vConsole = new Vconsole()
   Vue.use(vConsole)

@@ -156,7 +156,6 @@ class TTSRecorder {
     let jsonData = JSON.parse(resultData);
     // 合成失败
     if (jsonData.code !== 0) {
-      alert(`合成失败: ${jsonData.code}:${jsonData.message}`);
       console.error(`${jsonData.code}:${jsonData.message}`);
       this.resetAudio();
       return;

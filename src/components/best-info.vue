@@ -52,9 +52,6 @@ export default {
       });
     }
   },
-  mounted() {
-    console.log(this.videos);
-  }
 };
 </script>
 
