@@ -9,7 +9,7 @@
           <div v-html="$options.filters.percentFilter(scope.row.maxPriceChangeRate, 2, true)"></div>
         </template>
       </el-table-column>
-      <el-table-column label="实时涨幅" width="150">
+      <el-table-column label="至今涨幅" width="150">
         <template slot-scope="scope">
           <div v-html="$options.filters.percentFilter(scope.row.currentPriceChangeRate, 2, true)"></div>
         </template>
