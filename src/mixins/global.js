@@ -20,9 +20,9 @@ export default {
         return '-';
       }
       if (value > 0) {
-        return `<span style="color: #e60100">+${value}%</span>`;
+        return `<span style="color: #e60100">+${parseFloat(value).toFixed(fixedNum)}%</span>`;
       } else if (value < 0) {
-        return `<span style="color: #0cad00">${value}%</span>`;
+        return `<span style="color: #0cad00">${parseFloat(value).toFixed(fixedNum)}%</span>`;
       } else {
         return `<span>${value}</span>`;
       }
