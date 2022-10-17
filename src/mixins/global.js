@@ -68,6 +68,7 @@ export default {
     },
 
     judgeNewTableAndVoice(table, oldTable, typeText) {
+      oldTable = oldTable || [];
       let oldIds = oldTable.map((t) => t.code);
       var tipsArray = [];
       table.forEach((item) => {

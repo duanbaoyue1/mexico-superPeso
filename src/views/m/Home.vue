@@ -206,7 +206,7 @@ export default {
           } else {
             this.tableData = [];
           }
-          if (this.bought && oldTableData.length > 0 && this.tableData.length > 0 && this.dataDate == this.tradeDates[0]) {
+          if (this.bought && this.dataDate == this.tradeDates[0] && this.tableData.length > 0) {
             // 判断哪些本次新增的并提醒
             this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
