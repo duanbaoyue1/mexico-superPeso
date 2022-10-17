@@ -64,6 +64,7 @@ export default {
   data() {
     let self = this;
     return {
+      isFirstTableData: true,
       timeInterval: '',
       initVideoIndex: -1,
       // 视频列表
@@ -97,6 +98,7 @@ export default {
   },
   watch: {
     dataDate(newDate, oldDate) {
+      this.isFirstTableData = true;
       if (this.bought && newDate == this.tradeDates[0]) {
         if (!this.timeInterval) {
           this.timeInterval = setInterval(() => {
@@ -189,10 +191,11 @@ export default {
           } else {
             this.tableData = [];
           }
-          if (this.bought && this.dataDate == this.tradeDates[0] && this.tableData.length > 0) {
+          if (this.bought && !this.isFirstTableData && this.dataDate == this.tradeDates[0] && this.tableData.length > 0) {
             // 判断哪些本次新增的并提醒
             this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
+          this.isFirstTableData = false;
         })
         .catch((res) => {
           this.tableData = [];
