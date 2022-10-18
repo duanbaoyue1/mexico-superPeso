@@ -10,7 +10,7 @@
           </el-table-column>
           <el-table-column prop="name" label="个股名称" width="70"> </el-table-column>
           <el-table-column prop="code" label="个股代码" width="70"> </el-table-column>
-          <el-table-column prop="getTime" label="选出时间" width="60"> </el-table-column>
+          <el-table-column prop="firstGetTime" label="选出时间" width="60"> </el-table-column>
 
           <el-table-column label="次日开盘" width="65">
             <template slot-scope="scope">
