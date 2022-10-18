@@ -3,7 +3,7 @@
     <el-table size="small" border :data="data" style="width: 100%" v-if="data.length > 0">
       <el-table-column prop="name" label="个股名称" width="239"> </el-table-column>
       <el-table-column prop="code" label="个股代码" width="150"> </el-table-column>
-      <el-table-column prop="getTime" label="选出时间" width="150"> </el-table-column>
+      <el-table-column prop="firstGetTime" label="选出时间" width="150"> </el-table-column>
       <el-table-column label="最高涨幅" width="150">
         <template slot-scope="scope">
           <div v-html="$options.filters.percentFilter(scope.row.maxPriceChangeRate, 2, true)"></div>
