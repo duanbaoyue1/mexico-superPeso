@@ -80,12 +80,12 @@
             </div>
           </div>
 
-          <div class="wy_text_left wy_font_size_15 wy_color_fff">
+          <!-- <div class="wy_text_left wy_font_size_15 wy_color_fff">
             注册码
             <div>
               <el-input type="text" class="loginInput" v-model="formMess.regc"></el-input>
             </div>
-          </div>
+          </div> -->
           <div class="wy_text_left login_button wy_color_fff">
             <el-button type="primary" @click="registerFun">注册</el-button>
           </div>
