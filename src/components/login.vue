@@ -362,7 +362,7 @@
     z-index: 99;
   }
   .login-z {
-    height: 540px;
+    height:480px;
     top: 0;
     bottom: 0;
     margin: auto;
