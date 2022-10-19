@@ -188,8 +188,6 @@ export default {
         .then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
-          } else {
-            this.tableData = [];
           }
           if (this.bought && !this.isFirstTableData && this.dataDate == this.tradeDates[0] && this.tableData.length > 0) {
             // 判断哪些本次新增的并提醒
@@ -197,11 +195,9 @@ export default {
           }
           this.isFirstTableData = false;
         })
-        .catch((res) => {
-          this.tableData = [];
-        });
+        .catch((res) => {});
     },
-    
+
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
         this.videos = res.data.items;
