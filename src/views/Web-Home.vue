@@ -102,6 +102,7 @@ export default {
       if (this.bought && newDate == this.tradeDates[0]) {
         if (!this.timeInterval) {
           this.timeInterval = setInterval(() => {
+            this.isFirstTableData = false;
             this.getTableData();
           }, 15000);
         }
@@ -188,20 +189,15 @@ export default {
         .then((res) => {
           if (res.data) {
             this.tableData = res.data.items || [];
-          } else {
-            this.tableData = [];
           }
           if (this.bought && !this.isFirstTableData && this.dataDate == this.tradeDates[0] && this.tableData.length > 0) {
             // 判断哪些本次新增的并提醒
             this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
-          this.isFirstTableData = false;
         })
-        .catch((res) => {
-          this.tableData = [];
-        });
+        .catch((res) => {});
     },
-    
+
     getVideoLists() {
       this.$http.get(`/core/api/videos/?page_size=1000`).then((res) => {
         this.videos = res.data.items;
@@ -367,6 +363,7 @@ export default {
     align-items: center;
     margin-left: 10px;
     cursor: pointer;
+    user-select: none;
     &:hover {
       color: #cf0f0a;
     }
