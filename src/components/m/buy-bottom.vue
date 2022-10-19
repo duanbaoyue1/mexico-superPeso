@@ -27,6 +27,11 @@ export default {
       type: String,
       default: '立即订购'
     }
+  },
+  methods: {
+    toBuy(){
+      this.$emit('tobuy')
+    }
   }
 }
 </script>
