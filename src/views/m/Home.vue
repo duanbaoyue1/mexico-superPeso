@@ -128,6 +128,7 @@ export default {
       bestInfo: '',
       agree: false,
       agree1: false,
+      clsPro: '',
       toBuyCls: '',
       // 交易日历
       tradeDates: [],
