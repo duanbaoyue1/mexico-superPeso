@@ -146,6 +146,7 @@ export default {
       if (this.bought && newDate == this.tradeDates[0]) {
         if (!this.timeInterval) {
           this.timeInterval = setInterval(() => {
+            this.isFirstTableData = false;
             this.getTableData();
           }, 15000);
         }
@@ -160,7 +161,7 @@ export default {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    if (this.$route.query.wy ==1) {
+    if (this.$route.query.wy == 1) {
       this.getUserBoughtInfo((data) => {
         this.bought = data.bought;
         this.logins = data.logins;
@@ -171,84 +172,84 @@ export default {
     } else {
       // 大单回调的产品购买链接
       if (this.type == 'minuteLargeDdePulseQulet') {
-        this.clsPro = 27824
-        this.toBuyCls = 'cailianshe://payment?productId=' + 27824
+        this.clsPro = 27824;
+        this.toBuyCls = 'cailianshe://payment?productId=' + 27824;
       } else if (this.type == 'minutePulseQulet') {
         // 强势回调
-        this.clsPro = 27825
-        this.toBuyCls = 'cailianshe://payment?productId=' + 27825
+        this.clsPro = 27825;
+        this.toBuyCls = 'cailianshe://payment?productId=' + 27825;
       } else if (this.type == 'minuteDivingGold') {
-        this.clsPro = 27826
+        this.clsPro = 27826;
         // 潜水捞金
-        this.toBuyCls = 'cailianshe://payment?productId=' +  27826
+        this.toBuyCls = 'cailianshe://payment?productId=' + 27826;
       }
-      await this.getUserCls()
+      await this.getUserCls();
       this.getTradeDates();
     }
-
   },
 
   methods: {
     // 财联社方法
     toProduct() {
       // this.buy = true
-      this.agree1 = false
+      this.agree1 = false;
     },
     // 退出// 财联社方法
-		toback() {
-			var u = navigator.userAgent;
-			// 安卓
-			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
-			// IOS
-			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
-			if(isAndroid){
-				window.wuyang.goToBack()
-			}else if(isiOS){
-				window.webkit.messageHandlers.goToBack.postMessage("test")
-			}
-		},
+    toback() {
+      var u = navigator.userAgent;
+      // 安卓
+      var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+      // IOS
+      var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isAndroid) {
+        window.wuyang.goToBack();
+      } else if (isiOS) {
+        window.webkit.messageHandlers.goToBack.postMessage('test');
+      }
+    },
     agreeT() {
-      this.agree = false
-      console.log(this.agree)
-      localStorage.setItem(this.type, '同意使用产品')
+      this.agree = false;
+      console.log(this.agree);
+      localStorage.setItem(this.type, '同意使用产品');
     },
     getUserCls() {
-      return new Promise((resolve,reject)=>{
+      return new Promise((resolve, reject) => {
         // 财联社权限判断
-        let token = this.$route.query.token || ""
-        let os = this.$route.query.os || ""
-        this.bought = false
-        this.logins = false
+        let token = this.$route.query.token || '';
+        let os = this.$route.query.os || '';
+        this.bought = false;
+        this.logins = false;
         axios({
           method: 'get',
-          url:'/getui/cls/checkAuth?token=' + token + '&os=' + os + '&productId=' + this.clsPro,
+          url: '/getui/cls/checkAuth?token=' + token + '&os=' + os + '&productId=' + this.clsPro,
         })
           .then((re) => {
             let res = re.data;
             if (res.code && res.code == 200) {
-              if (res && res.data && res.data.bought && res.data.expiryDate && res.data.bought == true && res.data.expiryDate !== -1) { //已付费 未到期
-                this.bought = true
-                this.logins = true
-                this.endDate = res.data.expiryDate
-                resolve()
+              if (res && res.data && res.data.bought && res.data.expiryDate && res.data.bought == true && res.data.expiryDate !== -1) {
+                //已付费 未到期
+                this.bought = true;
+                this.logins = true;
+                this.endDate = res.data.expiryDate;
+                resolve();
               } else {
-                  // 如果没有点过同意协议就弹出让他点
-                  let agreeHt = localStorage.getItem(this.type)
-                  if (!agreeHt) {
-                    this.agree = true
-                  }
-                  resolve()
+                // 如果没有点过同意协议就弹出让他点
+                let agreeHt = localStorage.getItem(this.type);
+                if (!agreeHt) {
+                  this.agree = true;
+                }
+                resolve();
               }
             }
           })
           .catch((res) => {
-            let agreeHt = localStorage.getItem(this.type)
+            let agreeHt = localStorage.getItem(this.type);
             if (!agreeHt) {
-              this.agree = true
+              this.agree = true;
             }
-            resolve()
-          });  
-      })
+            resolve();
+          });
+      });
     },
     toBuy() {
       if (this.$route.query.wy == 1) {
@@ -263,8 +264,8 @@ export default {
           });
         });
       } else {
-        this.agree1 = true
-        console.log(this.agree1)
+        this.agree1 = true;
+        console.log(this.agree1);
       }
     },
     // 获取两个两个日期转换成天
@@ -321,7 +322,6 @@ export default {
             // 判断哪些本次新增的并提醒
             this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
-          this.isFirstTableData = false;
         })
         .catch((res) => {});
     },
@@ -414,9 +414,9 @@ export default {
 <style lang="scss">
 .agree_list .el-dialog {
   width: 339px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 12px;
-  padding:15px;
+  padding: 15px;
   box-sizing: border-box;
   padding-bottom: 40px;
   .el-dialog__body {
@@ -431,12 +431,12 @@ export default {
     font-weight: bold;
     text-align: center;
     font-size: 14px;
-    color: #CB020C;
+    color: #cb020c;
   }
   .bcent {
     margin-top: 14px;
     font-size: 14px;
-    color: #CB020C;
+    color: #cb020c;
     line-height: 1.5;
   }
   .back_argee {
@@ -460,7 +460,7 @@ export default {
     width: 45%;
     float: right;
     margin-right: 3%;
-    background-color: #CB020C;
+    background-color: #cb020c;
     color: #fff;
     font-size: 13px;
   }
@@ -472,7 +472,7 @@ export default {
     width: 90%;
     float: left;
     margin-left: 5%;
-    background-color: #CB020C;
+    background-color: #cb020c;
     color: #fff;
     font-size: 13px;
   }

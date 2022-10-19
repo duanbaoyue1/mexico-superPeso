@@ -102,6 +102,7 @@ export default {
       if (this.bought && newDate == this.tradeDates[0]) {
         if (!this.timeInterval) {
           this.timeInterval = setInterval(() => {
+            this.isFirstTableData = false;
             this.getTableData();
           }, 15000);
         }
@@ -193,7 +194,6 @@ export default {
             // 判断哪些本次新增的并提醒
             this.judgeNewTableAndVoice(this.tableData, oldTableData, this.typeInfo.voicePrefix);
           }
-          this.isFirstTableData = false;
         })
         .catch((res) => {});
     },
@@ -363,6 +363,7 @@ export default {
     align-items: center;
     margin-left: 10px;
     cursor: pointer;
+    user-select: none;
     &:hover {
       color: #cf0f0a;
     }
