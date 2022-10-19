@@ -8,7 +8,13 @@
               {{ scope.row.date.replace(/-/g, '') }}
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="个股名称" width="70"> </el-table-column>
+          <el-table-column prop="name" label="个股名称" width="70"> 
+            <template slot-scope="scope">
+              <div @click="toNewPage(scope.row)">
+                {{ scope.row.name }}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="code" label="个股代码" width="70"> </el-table-column>
           <el-table-column prop="firstGetTime" label="选出时间" width="60"> </el-table-column>
 
@@ -85,6 +91,17 @@ export default {
   },
 
   methods: {
+    toNewPage(val){
+      if (this.$route.query.wy !=1 && val.name.indexOf('*')==-1) {
+        let str;
+        if (val.code.substr(0, 1) == 6) {
+          str = "sh"
+        } else {
+          str = "sz"
+        }
+        window.location.href = 'cailianshe://stock_detail?stock_id=' + str + val.code
+      }
+    },
     handleCurrentChange(value) {
       console.log(value);
       this.pageIndex = value;

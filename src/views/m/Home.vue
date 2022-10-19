@@ -251,6 +251,7 @@ export default {
       })
     },
     toBuy() {
+              console.log(this.agree1)
       if (this.$route.query.wy == 1) {
         // index首页
         window.uniWebViewF(function () {
@@ -264,7 +265,7 @@ export default {
         });
       } else {
         this.agree1 = true
-        console.log(this.agree1)
+
       }
     },
     // 获取两个两个日期转换成天
