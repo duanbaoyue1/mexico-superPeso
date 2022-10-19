@@ -51,13 +51,35 @@
         <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
       </div>
     </div>
-
+    <el-dialog :visible="agree" class="agree_list" v-if="agree">
+      <div class="agreeB">
+        <div class="title">用户订阅须知</div>
+        <div class="bcent">
+          1.本产品提供LEVEL2数据模型均依据盘末资金与往日资金量化对比计算而来，作为客观数据提供给用户。<br />
+          2.客户在使用本产品前，必须仔细阅读相关说明书，了解其实际功能、使用方法、算法规则；<br />
+          3.本产品不提供买入、卖出建议、股票池等投资建议，仅供客户参考，不能确保客户获得盈利或资金不受损失。客户应基于独立的判断，自行决定并承担损失。
+        </div>
+        <div class="back_argee" @click="toback">退出</div>
+        <div class="argee1" id="agree" @click="agreeT">同意并使用</div>
+      </div>
+    </el-dialog>
+    <el-dialog :visible="agree1" class="agree_list" v-if="agree1">
+      <div class="agreeB">
+        <div class="title">用户订阅须知</div>
+        <div class="bcent">
+          1.本产品提供LEVEL2数据模型均依据固定算法计算而来，作为客观数据提供给用户。<br />
+          2.客户在使用本产品前，必须仔细阅读相关说明书，了解其实际功能、使用方法、算法规则；<br />
+          3.本产品不提供买入、卖出建议、股票池等投资建议，仅供客户参考，不能确保客户获得盈利或资金不受损失。客户应基于独立的判断，自行决定并承担损失。
+        </div>
+        <a :href="toBuyCls"><div class="argee2" @click="toProduct">同意并使用</div></a>
+      </div>
+    </el-dialog>
     <video-module :videos="videos" class="video-module"></video-module>
     <module-tips1 class="module-tip" v-if="type == 'minuteLargeDdePulseQulet'"></module-tips1>
     <module-tips2 class="module-tip" v-if="type == 'minutePulseQulet'"></module-tips2>
     <module-tips3 class="module-tip" v-if="type == 'minuteUpShadow'"></module-tips3>
     <module-tips4 class="module-tip" v-if="type == 'minuteDivingGold'"></module-tips4>
-    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @click="toBuy"></buy-bottom>
+    <buy-bottom :title="typeInfo.title" :text="typeInfo.btnDesc" :buyText="bought ? '立即续费' : '立即购买'" @tobuy="toBuy"></buy-bottom>
   </div>
 </template>
 
@@ -104,6 +126,9 @@ export default {
       tableData: [],
       // 股票最佳信息
       bestInfo: '',
+      agree: false,
+      agree1: false,
+      toBuyCls: '',
       // 交易日历
       tradeDates: [],
       pickerOptionsNot: {
@@ -130,31 +155,116 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     document.title = this.typeInfo.title;
     this.getVideoLists();
     this.getBestInfo();
-    this.getUserBoughtInfo((data) => {
-      this.bought = data.bought;
-      this.logins = data.logins;
-      console.log('this.bought', this.bought);
-      this.endDate = data.endDate;
+    if (this.$route.query.wy ==1) {
+      this.getUserBoughtInfo((data) => {
+        this.bought = data.bought;
+        this.logins = data.logins;
+        console.log('this.bought', this.bought);
+        this.endDate = data.endDate;
+        this.getTradeDates();
+      });
+    } else {
+      // 大单回调的产品购买链接
+      if (this.type == 'minuteLargeDdePulseQulet') {
+        this.clsPro = 27824
+        this.toBuyCls = 'cailianshe://payment?productId=' + 27824
+      } else if (this.type == 'minutePulseQulet') {
+        // 强势回调
+        this.clsPro = 27825
+        this.toBuyCls = 'cailianshe://payment?productId=' + 27825
+      } else if (this.type == 'minuteDivingGold') {
+        this.clsPro = 27826
+        // 潜水捞金
+        this.toBuyCls = 'cailianshe://payment?productId=' +  27826
+      }
+      await this.getUserCls()
       this.getTradeDates();
-    });
+    }
+
   },
 
   methods: {
+    // 财联社方法
+    toProduct() {
+      // this.buy = true
+      this.agree1 = false
+    },
+    // 退出// 财联社方法
+		toback() {
+			var u = navigator.userAgent;
+			// 安卓
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+			// IOS
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+			if(isAndroid){
+				window.wuyang.goToBack()
+			}else if(isiOS){
+				window.webkit.messageHandlers.goToBack.postMessage("test")
+			}
+		},
+    agreeT() {
+      this.agree = false
+      console.log(this.agree)
+      localStorage.setItem(this.type, '同意使用产品')
+    },
+    getUserCls() {
+      return new Promise((resolve,reject)=>{
+        // 财联社权限判断
+        let token = this.$route.query.token || ""
+        let os = this.$route.query.os || ""
+        this.bought = false
+        this.logins = false
+        axios({
+          method: 'get',
+          url:'/getui/cls/checkAuth?token=' + token + '&os=' + os + '&productId=' + this.clsPro,
+        })
+          .then((re) => {
+            let res = re.data;
+            if (res.code && res.code == 200) {
+              if (res && res.data && res.data.bought && res.data.expiryDate && res.data.bought == true && res.data.expiryDate !== -1) { //已付费 未到期
+                this.bought = true
+                this.logins = true
+                this.endDate = res.data.expiryDate
+                resolve()
+              } else {
+                  // 如果没有点过同意协议就弹出让他点
+                  let agreeHt = localStorage.getItem(this.type)
+                  if (!agreeHt) {
+                    this.agree = true
+                  }
+                  resolve()
+              }
+            }
+          })
+          .catch((res) => {
+            let agreeHt = localStorage.getItem(this.type)
+            if (!agreeHt) {
+              this.agree = true
+            }
+            resolve()
+          });  
+      })
+    },
     toBuy() {
-      // index首页
-      window.uniWebViewF(function () {
-        console.log(webUni.webView);
-        var uniWebView = webUni.webView; //必须在这时候保存下来
-        uniWebView.postMessage({
-          data: {
-            action: 'tobuy',
-          },
+      if (this.$route.query.wy == 1) {
+        // index首页
+        window.uniWebViewF(function () {
+          console.log(webUni.webView);
+          var uniWebView = webUni.webView; //必须在这时候保存下来
+          uniWebView.postMessage({
+            data: {
+              action: 'tobuy',
+            },
+          });
         });
-      });
+      } else {
+        this.agree1 = true
+        console.log(this.agree1)
+      }
     },
     // 获取两个两个日期转换成天
     daysDistance(date1, date2) {
@@ -305,6 +415,71 @@ export default {
 </script>
 
 <style lang="scss">
+.agree_list .el-dialog {
+  width: 339px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding:15px;
+  box-sizing: border-box;
+  padding-bottom: 40px;
+  .el-dialog__body {
+    padding-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    color: #CB020C;
+  }
+  .bcent {
+    margin-top: 14px;
+    font-size: 14px;
+    color: #CB020C;
+    line-height: 1.5;
+  }
+  .back_argee {
+    width: 45%;
+    line-height: 30px;
+    background: #ddd;
+    color: #333;
+    text-align: center;
+    border-radius: 15px;
+    margin-left: 3%;
+    float: left;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .argee1 {
+    line-height: 30px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 15px;
+    width: 45%;
+    float: right;
+    margin-right: 3%;
+    background-color: #CB020C;
+    color: #fff;
+    font-size: 13px;
+  }
+  .argee2 {
+    line-height: 30px;
+    margin-top: 20px;
+    text-align: center;
+    border-radius: 15px;
+    width: 90%;
+    float: left;
+    margin-left: 5%;
+    background-color: #CB020C;
+    color: #fff;
+    font-size: 13px;
+  }
+}
 .back {
   background-image: url('../../assets/img/back@2x.png');
   background-size: contain;

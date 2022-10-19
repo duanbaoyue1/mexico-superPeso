@@ -30,29 +30,23 @@ export default {
   },
 
   methods: {
-    toBuy() {
-      window.uniWebViewF(function () {
-        var uniWebView = webUni.webView; //必须在这时候保存下来
-        uniWebView.postMessage({
-          data: {
-            action: 'tobuy',
-          },
-        });
-      });
-      // if (this.$route.query.wy == 1) {
-      //   window.uniWebViewF(function(){
-      //     var uniWebView = webUni.webView;//必须在这时候保存下来
-      //     uniWebView.postMessage({
-      //       data: {
-      //         action: 'tobuy'
-      //       }
-      //     });
-      //   })
-      // } else {
-
-      // }
-    },
-
+    // toBuy() {
+    //   if (this.$route.query.wy == 1) {
+    //     // index首页
+    //     window.uniWebViewF(function () {
+    //       console.log(webUni.webView);
+    //       var uniWebView = webUni.webView; //必须在这时候保存下来
+    //       uniWebView.postMessage({
+    //         data: {
+    //           action: 'tobuy',
+    //         },
+    //       });
+    //     });
+    //   } else {
+    //     this.$emit('')
+    //     this.agree1 = true
+    //   }
+    // },
     getCookie(name) {
       var arr,
         reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
@@ -97,7 +91,6 @@ export default {
       var days = Math.floor(ms / (24 * 3600 * 1000));
       return days;
     },
-
     getUserBoughtInfo(cb) {
       let bought = false,
         endDate = 0,
