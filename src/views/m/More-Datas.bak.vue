@@ -1,48 +1,52 @@
 <template>
   <div class="back">
-    <heard />
-    <top-head :bought="bought" :typeInfo="typeInfo" @to-buy="toBuyP"></top-head>
-    <div class="content-area width-container">
+    <div class="content-area">
       <div class="define-table">
         <el-table size="small" border :data="tableData" style="width: 100%" v-if="tableData.length > 0">
-          <el-table-column label="日期" width="109">
+          <el-table-column label="日期" width="65">
             <template slot-scope="scope">
               {{ scope.row.date.replace(/-/g, '') }}
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="个股名称" width="150"> </el-table-column>
-          <el-table-column prop="code" label="个股代码" width="150"> </el-table-column>
-          <el-table-column prop="firstGetTime" label="选出时间" width="130"> </el-table-column>
+          <el-table-column prop="name" label="个股名称" width="70"> 
+            <template slot-scope="scope">
+              <div @click="toNewPage(scope.row)">
+                {{ scope.row.name }}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="code" label="个股代码" width="70"> </el-table-column>
+          <el-table-column prop="firstGetTime" label="选出时间" width="60"> </el-table-column>
 
-          <el-table-column label="次日开盘" width="100">
+          <el-table-column label="次日开盘" width="65">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.nextOpenChangeRate, 2, true)"></div>
             </template>
           </el-table-column>
 
-          <el-table-column label="次日最高" width="100">
+          <el-table-column label="次日最高" width="65">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.nextHighChangeRate, 2, true)"></div>
             </template>
           </el-table-column>
 
-          <el-table-column label="三日最高" width="100">
+          <el-table-column label="三日最高" width="70">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.threeHighChangeRate, 2, true)"></div>
             </template>
           </el-table-column>
-          <el-table-column label="一周最高" width="100">
+          <el-table-column label="一周最高" width="70">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.weekHighChangeRate, 2, true)"></div>
             </template>
           </el-table-column>
 
-          <el-table-column label="至今最高" width="100">
+          <el-table-column label="至今最高" width="65">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.maxPriceChangeRate, 2, true)"></div>
             </template>
           </el-table-column>
-          <el-table-column label="至今涨幅" width="100">
+          <el-table-column label="至今涨幅" width="65">
             <template slot-scope="scope">
               <div v-html="$options.filters.percentFilter(scope.row.currentPriceChangeRate, 2, true)"></div>
             </template>
@@ -51,32 +55,21 @@
       </div>
 
       <div class="define-pagination">
-        <el-pagination large layout="prev, pager, next" :total="total" :page-size="pageSize" @current-change="handleCurrentChange" hide-on-single-page> </el-pagination>
+        <el-pagination small layout="prev, pager, next" :total="total" :page-size="pageSize" @current-change="handleCurrentChange" hide-on-single-page> </el-pagination>
       </div>
-
-      <risk-tips></risk-tips>
     </div>
-    <login ref="login" v-if="loginShow" />
-    <payment-List ref="paymentList" :type="proId" />
   </div>
 </template>
 
 <script>
-import paymentList from '@/components/paymentList.vue'; //支付
-import login from '@/components/login.vue';
-import heard from '@/components/heard.vue';
+import TableData from '@/components/m/table-data.vue';
 import typeConfig from '@/config/typeConfig.js';
-import TopHead from '@/components/top-head.vue';
-import RiskTips from '@/components/risk-tips.vue';
 export default {
   components: {
-    paymentList,
-    login,
-    heard,
-    RiskTips,
-    TopHead,
+    TableData,
   },
   data() {
+    let self = this;
     return {
       // 类型配置数据
       typeInfo: typeConfig[this.$route.query.type],
@@ -86,40 +79,34 @@ export default {
       type: this.$route.query.type,
       // 列表数据
       tableData: [],
+      dataDate: '2022-10-10',
       total: 50,
       pageSize: 20,
       pageIndex: 1,
-      loginShow: false, // 登录显示
-      logins: false,
-      bought: false,
     };
   },
 
   mounted() {
     this.getTableData();
-    this.getUserBoughtInfo((data) => {
-      this.bought = data.bought;
-      this.logins = data.logins;
-      this.endDate = data.endDate;
-    });
   },
 
   methods: {
-    toBuyP() {
-      // 未登录
-      if (this.logins == false) {
-        this.loginShow = true;
-      } else {
-        setTimeout(() => {
-          this.$refs.paymentList.showPayInfoDialog();
-        });
+    toNewPage(val){
+      if (this.$route.query.wy !=1 && val.name.indexOf('*')==-1) {
+        let str;
+        if (val.code.substr(0, 1) == 6) {
+          str = "sh"
+        } else {
+          str = "sz"
+        }
+        window.location.href = 'cailianshe://stock_detail?stock_id=' + str + val.code
       }
     },
     handleCurrentChange(value) {
+      console.log(value);
       this.pageIndex = value;
       this.getTableData();
     },
-
     getTableData() {
       this.$http.get(`/core/api/best_times/full_list/?page=${this.pageIndex}&page_size=${this.pageSize}`).then((res) => {
         if (res.data) {
@@ -133,15 +120,24 @@ export default {
 </script>
 
 <style lang="scss">
-.back {
-  background: #0f0f12;
+html {
+  background-color: #cf0f0a;
 }
+.back {
+  background-image: url('../../assets/img/back@2x.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+  padding: 13px 13px 13px !important;
+  background-color: #cf0f0a;
+  padding-bottom: 63px !important;
+}
+
 .content-area {
-  background: #15171e;
-  padding: 30px;
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px;
   margin-bottom: 10px;
-  box-sizing: border-box;
-  margin-top: -50px !important;
 }
 .define-pagination {
   margin-top: 10px;
