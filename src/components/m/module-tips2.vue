@@ -1,7 +1,7 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及介绍</header>
+      <header>策略原理讲解及详细介绍</header>
       <p>通常情况下，资金拉升标的不会连续，基本上是拉升一两天，回调几天后再拉升！这样温和调整可以节省拉升所需资金，逐步抬高参与者持股成本，清洗浮筹。策略算法计算资金回调机会。</p>
       <img class="pick" :src="require('@/assets/img/pick1@2x.png')" />
       <p class="em">热点板块</p>

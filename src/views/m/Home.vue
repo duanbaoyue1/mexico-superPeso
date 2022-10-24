@@ -18,7 +18,7 @@
       <header>
         <div class="info">
           <div>{{ typeInfo.title }}</div>
-          <div>实时监控强势股的低吸机会</div>
+          <div>{{typeInfo.btnDesc}}</div>
         </div>
         <div class="buy-area">
           <div class="buy" @click="toBuy">{{ this.bought ? '立即续费' : '立即购买' }}></div>
@@ -386,27 +386,7 @@ export default {
     changeDateNot(date) {
       this.dataDate = date;
       this.getTableData();
-    },
-    openBoxWin() {
-      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>次日开始一周内有2%以上的止盈机会则为胜</li><li>统计近一个月的胜率</li></ul>', '近一月个股胜率', {
-        dangerouslyUseHTMLString: true,
-        showClose: false,
-        confirmButtonText: '我知道了',
-        confirmButtonClass: 'alert-confirm',
-        customClass: 'tips-toast',
-        center: false,
-      });
-    },
-    openBoxWinYield() {
-      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>统计选出后至今的最高价 </li><li>将所有收益平均到每一天</li></ul>', '近一月平均日收益', {
-        dangerouslyUseHTMLString: true,
-        showClose: false,
-        confirmButtonText: '我知道了',
-        confirmButtonClass: 'alert-confirm',
-        customClass: 'tips-toast',
-        center: false,
-      });
-    },
+    }
   },
 };
 </script>

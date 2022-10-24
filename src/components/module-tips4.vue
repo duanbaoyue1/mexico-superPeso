@@ -1,7 +1,7 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及介绍</header>
+      <header>策略原理讲解及详细介绍</header>
       <p>在市场恐慌情绪泛滥的情况下，众多交易者会不计成本割掉手中的筹码，如果此时主力空翻多大单接盘，就是一种情绪反转的征兆。后续市场冷静后，该标的往往会提前表现，走出一波行情。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
@@ -82,7 +82,7 @@ export default {
       margin-top: 0;
     }
     .pick {
-      height: 24px;
+      height: 34px;
       margin-top: 30px;
       margin-bottom: 20px;
     }

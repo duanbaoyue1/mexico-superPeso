@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV == 'development' ? './': '/hslh/',
+  publicPath: process.env.NODE_ENV != 'production' ? './': '/hslh/',
 
   // 前台不显示sourcemap
   productionSourceMap: false,

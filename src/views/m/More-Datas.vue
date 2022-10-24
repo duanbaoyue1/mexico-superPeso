@@ -4,7 +4,7 @@
       <header>
         <div class="info">
           <div>{{ typeInfo.title }}</div>
-          <div>实时监控强势股的低吸机会</div>
+          <div>{{ typeInfo.btnDesc }}</div>
         </div>
       </header>
       <div class="best-detail" v-if="bestInfo">
@@ -13,13 +13,13 @@
             <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate }}</span>
             <span>%</span>
           </div>
-          <div class="tips">近一个月个股胜率</div>
+          <div class="tips">近一个月个股胜率<img @click="openBoxWin" :src="require('@/assets/img/tips@2x.png')" /></div>
         </div>
         <div>
           <div class="percent">
             <span v-html="$options.filters.percentFilter(bestInfo.monthDayYieldRate, 2, true)"></span>
           </div>
-          <div class="tips">近一个月平均日收益</div>
+          <div class="tips">近一个月平均日收益<img @click="openBoxWinYield" :src="require('@/assets/img/tips@2x.png')" /></div>
         </div>
       </div>
     </div>
@@ -230,6 +230,16 @@ html {
         font-size: 14px;
         font-weight: 400;
         color: #969696;
+
+        height: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 12px;
+          margin-left: 5px;
+        }
       }
     }
   }

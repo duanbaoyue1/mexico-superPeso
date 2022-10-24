@@ -1,7 +1,7 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及介绍</header>
+      <header>策略原理讲解及详细介绍</header>
       <p>一只标的不会无缘无故拉升，底部启动往往酝酿一波主升浪行情。但一味地冒进很容易适得其反！如果在缩量回调的时候低吸介入，可做到进可攻退可守。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
@@ -82,7 +82,7 @@ export default {
       margin-top: 0;
     }
     .pick {
-      height: 24px;
+      height: 34px;
       margin-top: 30px;
       margin-bottom: 20px;
     }
