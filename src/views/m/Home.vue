@@ -240,6 +240,12 @@ export default {
                 }
                 resolve();
               }
+            } else {
+              let agreeHt = localStorage.getItem(this.type);
+              if (!agreeHt) {
+                this.agree = true;
+              }
+              resolve();
             }
           })
           .catch((res) => {
