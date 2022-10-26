@@ -1,8 +1,9 @@
 <template>
   <div class="m-layout">
-    <keep-alive :include="include">
-      <router-view />
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
     </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
   </div>
 </template>
 
@@ -12,22 +13,6 @@ export default {
     return {
       include: [],
     };
-  },
-
-  mounted() {
-    this.$router.options.routes.forEach((item) => {
-      if (item.meta && item.meta.keepAlive) {
-        this.include.push(item.name);
-      }
-      if (item.children) {
-        item.children.forEach((child) => {
-          if (child.meta && child.meta.keepAlive) {
-            this.include.push(child.name);
-          }
-        });
-      }
-      console.log(this.include);
-    });
   },
 };
 </script>

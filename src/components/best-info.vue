@@ -10,7 +10,7 @@
     <div>
       近一个月个股胜率<img @click="openBoxWin" :src="require('@/assets/img/tips@2x.png')" />
       <span class="percent">
-        <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate }}%</span>
+        <span :style="{ color: bestInfo.monthWinRate > 0 ? '#ea413c' : '#0cad00' }">{{ bestInfo.monthWinRate.toFixed(2) }}%</span>
       </span>
     </div>
     <div>

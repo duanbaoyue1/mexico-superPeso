@@ -16,7 +16,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '../views/m/Home.vue'),
         meta: {
           title: '视频列表',
-          keepAlive: true
+          keepAlive: true,
         },
       },
       {
@@ -33,7 +33,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "more-datas" */ '../views/m/More-Datas.vue'),
         meta: {
           title: '更多数据',
-          keepAlive: true
+          keepAlive: true,
         },
       },
     ],
@@ -46,6 +46,9 @@ const routes = [
         path: '',
         name: 'Web-Home',
         component: () => import(/* webpackChunkName: "web-home" */ '../views/Web-Home.vue'),
+        meta: {
+          keepAlive: true,
+        },
       },
       {
         path: 'course',
@@ -61,6 +64,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "web-more-datas" */ '../views/Web-More-Datas.vue'),
         meta: {
           title: '更多数据',
+          keepAlive: true,
         },
       },
     ],
