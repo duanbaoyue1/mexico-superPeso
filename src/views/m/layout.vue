@@ -1,8 +1,36 @@
 <template>
   <div class="m-layout">
-    <router-view />
+    <keep-alive :include="include">
+      <router-view />
+    </keep-alive>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      include: [],
+    };
+  },
+
+  mounted() {
+    this.$router.options.routes.forEach((item) => {
+      if (item.meta && item.meta.keepAlive) {
+        this.include.push(item.name);
+      }
+      if (item.children) {
+        item.children.forEach((child) => {
+          if (child.meta && child.meta.keepAlive) {
+            this.include.push(child.name);
+          }
+        });
+      }
+      console.log(this.include);
+    });
+  },
+};
+</script>
 
 <style lang="scss">
 .tips-toast {
