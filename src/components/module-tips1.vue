@@ -27,7 +27,7 @@
       <div class="add-attrs">
         <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
         <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
-        <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
+        <p><span>至今涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
         <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
         <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
       </div>
