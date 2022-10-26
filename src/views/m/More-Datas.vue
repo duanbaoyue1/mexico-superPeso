@@ -1,6 +1,6 @@
 <template>
   <div class="back">
-    <div class="detail-data content-area">
+    <div class="detail-data-more content-area">
       <header>
         <div class="info">
           <div>{{ typeInfo.title }}</div>
@@ -175,7 +175,7 @@ html {
   }
 }
 
-.detail-data {
+.detail-data-more {
   border-radius: 5px;
   padding: 10px;
   background: #fff;
