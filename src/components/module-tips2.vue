@@ -1,7 +1,7 @@
 <template>
   <div class="module-tips">
     <div class="module">
-      <header>策略原理讲解及详细介绍</header>
+      <!-- <header>策略原理讲解及详细介绍</header>
       <p>通常情况下，资金拉升标的不会连续，基本上是拉升一两天，回调几天后再拉升！这样温和调整可以节省拉升所需资金，逐步抬高参与者持股成本，清洗浮筹。策略算法计算资金回调机会。</p>
       <img class="pick" :src="require('@/assets/img/web/pick1@2x.png')" />
       <div class="attrs">
@@ -21,13 +21,13 @@
           <p class="em">基本面</p>
           <p class="color-333 block">结合公司的市值、PE、股东数近期增减、增长预期等综合分析，市值和交易额太小则基本面较差，估值过高就要考虑安全边际，股东数增减代表近期主力动作。</p>
         </div>
-      </div>
+      </div> -->
 
       <img class="pick" :src="require('@/assets/img/web/pick2@2x.png')" />
       <div class="add-attrs">
         <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
-        <p><span>最高收益：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
-        <p><span>实时收益：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
+        <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
+        <p><span>实时涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
         <p><span>流通市值：</span><span class="color-666">流通市值小的标的一定不要大额交易。</span></p>
         <p><span>昨日交易：</span><span class="color-666">昨日的交易金额，可根据金额判断资金容量。</span></p>
       </div>

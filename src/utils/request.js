@@ -25,7 +25,7 @@ service.interceptors.request.use(
     } else {
       url += '?';
     }
-    url += `appType=${params.wy == 1 ? 'clswy' : 'clsmain'}&token=${token}&strategyType=${params.type || ''}&productId=${params.proId || ''}`;
+    url += `os=${params.os}&appType=${params.wy == 1 ? 'clswy' : 'clsmain'}&token=${token}&strategyType=${params.type || ''}&productId=${params.proId || ''}`;
     config.url = url;
     if (store.getters.token) {
       config.headers['authorization'] = store.getters.token;
