@@ -7,7 +7,11 @@
       <div class="date-choose">
         <div @click="preDay">&lt;前一天</div>
         <div class="date">
-          <el-date-picker v-model="dataDate" value-format="yyyy-MM-dd" type="date" align="center" popper-class="define-date" :editable="false" :clearable="false" @change="changeDateNot" :picker-options="pickerOptionsNot" placeholder="选择日期"> </el-date-picker>
+          <div>
+            <i class="el-input__icon el-icon-date"></i>
+            {{dataDate}}
+          </div>
+          <el-date-picker v-model="dataDate" value-format="yyyy-MM-dd" type="date" align="center" popper-class="define-date" :editable="false" :clearable="false" @change="changeDateNot" :picker-options="pickerOptionsNot" placeholder="选择日期" class="select"> </el-date-picker>
         </div>
         <div @click="lastDay">后一天&gt;</div>
       </div>
@@ -55,7 +59,7 @@
       <div class="agreeB">
         <div class="title">用户订阅须知</div>
         <div class="bcent">
-          1.本产品提供LEVEL2数据模型均依据盘末资金与往日资金量化对比计算而来，作为客观数据提供给用户。<br />
+          1.本产品提供LEVEL2数据模型均依据固定算法计算而来，作为客观数据提供给用户。<br />
           2.客户在使用本产品前，必须仔细阅读相关说明书，了解其实际功能、使用方法、算法规则；<br />
           3.本产品不提供买入、卖出建议、股票池等投资建议，仅供客户参考，不能确保客户获得盈利或资金不受损失。客户应基于独立的判断，自行决定并承担损失。
         </div>
@@ -94,6 +98,7 @@ import typeConfig from '@/config/typeConfig.js';
 import VideoModule from '@/components/m/video-module.vue';
 import axios from 'axios';
 export default {
+  name: 'Home',
   components: {
     ModuleTips1,
     ModuleTips2,
@@ -633,10 +638,17 @@ export default {
       color: #cf0f0a;
       display: flex;
       align-items: center;
+      position: relative;
       img {
         width: 14px;
         display: block;
         margin-right: 4px;
+      }
+      .select  {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
       }
     }
   }
