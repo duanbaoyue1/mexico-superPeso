@@ -1,14 +1,12 @@
 import axios from 'axios';
 import store from '@/store';
 import { Toast } from 'vant';
-// 根据环境不同引入不同api地址
-import { baseApi } from '@/config';
 import { param2Obj } from '@/utils/index';
 import cookieFun from './cookieFun';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: baseApi, // url = base api url + request url
+  baseURL: process.env.VUE_APP_BASE_API, // url = base api url + request url
   withCredentials: false, // send cookies when cross-domain requests
   timeout: 5000, // request timeout
 });
@@ -19,10 +17,8 @@ service.interceptors.request.use(
     // 处理通用字段传输
     let params = param2Obj(location.href);
     let token = (cookieFun.getCookie('login_token') || '').replace(/"/g, '');
-    console.log(token, params.wy, params.token);
     // 财联社token从url中获取，舞阳从cookie中
     token = params.wy == 1 ? token: params.token;
-    console.log('token', token);
     let url = config.url;
     if (url.indexOf('?') != -1) {
       url += '&';

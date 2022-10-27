@@ -30,9 +30,6 @@ export default {
       this.$emit('play', index);
     }
   },
-  mounted() {
-    console.log(this.videos);
-  }
 };
 </script>
 

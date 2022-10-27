@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --mode=development",
-    "testserver": "cross-env NODE_ENV=testserver vue-cli-service build --mode=testserver",
-    "serve": "vue-cli-service serve --mode=development",
+    "testserver": "vue-cli-service build --mode=test",
+    "serve": "vue-cli-service serve --mode=development --open",
     "build": "vue-cli-service build --mode=production",
     "lint": "vue-cli-service lint"
   },
@@ -14,7 +14,10 @@
     "amfe-flexible": "^2.2.1",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.0.0",
+    "dotenv": "^16.0.3",
     "element-ui": "^2.4.5",
+    "enc": "^0.4.0",
     "jquery": "^3.6.1",
     "postcss-px2rem-include": "^0.0.2",
     "qrcodejs2": "^0.0.2",
@@ -24,9 +27,7 @@
     "vue-core-video-player": "^0.2.0",
     "vue-router": "^3.4.3",
     "vue-video": "^0.1.7",
-    "vuex": "^3.4.0",
-    "crypto-js": "^4.0.0",
-    "enc": "^0.4.0"
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

@@ -170,7 +170,6 @@ export default {
       this.getUserBoughtInfo((data) => {
         this.bought = data.bought;
         this.logins = data.logins;
-        console.log('this.bought', this.bought);
         this.endDate = data.endDate;
         this.getTradeDates();
       });
@@ -214,7 +213,6 @@ export default {
     },
     agreeT() {
       this.agree = false;
-      console.log(this.agree);
       localStorage.setItem(this.type, '同意使用产品');
     },
     getUserCls() {
@@ -263,11 +261,9 @@ export default {
       });
     },
     toBuy() {
-              console.log(this.agree1)
       if (this.$route.query.wy == 1) {
         // index首页
         window.uniWebViewF(function () {
-          console.log(webUni.webView);
           var uniWebView = webUni.webView; //必须在这时候保存下来
           uniWebView.postMessage({
             data: {

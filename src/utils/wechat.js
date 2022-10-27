@@ -1,7 +1,5 @@
 /* global wx */
 
-import { baseApi } from '@/config';
-
 const store = {
   signed: false // 已签名状态
 };
@@ -113,7 +111,6 @@ function wxSetShareOptions(options) {
         success: options.success,
         cancel: options.cancel
       };
-      console.log(shareOptions);
       wx.updateTimelineShareData(shareOptions);
 
       shareOptions.desc = options.desc;
@@ -168,7 +165,7 @@ export default function wxShare(data, debug) {
     data.signUrl = window.location.href.split('#')[0];
   }
 
-  return fetchSign(`${baseApi}/api/v2/promote/js_signature?url=${encodeURIComponent(data.signUrl)}`).then(function(conf) {
+  return fetchSign(`${process.env.VUE_APP_BASE_API}/api/v2/promote/js_signature?url=${encodeURIComponent(data.signUrl)}`).then(function(conf) {
     conf.appId = conf.appId || 'wx8846c28a2ab7c8be';
     wxConfig(conf, debug);
     store.signed = true;

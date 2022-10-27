@@ -103,7 +103,6 @@ export default {
       }
     },
     handleCurrentChange(value) {
-      console.log(value);
       this.pageIndex = value;
       this.getTableData();
     },
