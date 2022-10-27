@@ -391,7 +391,7 @@ export default {
     },
     showHisData() {
       window.scroll(0, 0);
-      let routeInfo = this.$router.resolve({ name: 'More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy } });
+      let routeInfo = this.$router.resolve({ name: 'More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy, token: this.$route.query.token } });
       location.href = routeInfo.href;
     },
     changeDateNot(date) {

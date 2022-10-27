@@ -128,7 +128,7 @@ export default {
   methods: {
     showHisData() {
       window.scroll(0, 0);
-      let routeInfo = this.$router.resolve({ name: 'Web-More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy } });
+      let routeInfo = this.$router.resolve({ name: 'Web-More-Datas', query: { type: this.type, proId: this.proId, wy: this.$route.query.wy, token: this.$route.query.token } });
       location.href = routeInfo.href;
     },
 
