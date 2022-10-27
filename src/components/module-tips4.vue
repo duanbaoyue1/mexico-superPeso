@@ -28,7 +28,7 @@
         <p><span>选出时间：</span><span class="color-666">系统策略实时选出标的精准时间。</span></p>
         <p><span>最高涨幅：</span><span class="color-666">标的选出后，曾经最高的涨幅。</span></p>
         <p><span>至今涨幅：</span><span class="color-666">标的选出后，最新股价的涨幅。</span></p>
-        <p><span>流通市值：</span><span class="color-666">可交易的流通股价值。</span></p>
+        <p><span>流通市值：</span><span class="color-666">流通股本 x最新股价。</span></p>
         <p><span>昨日交易：</span><span class="color-666">昨日交易资金量。</span></p>
       </div>
 
