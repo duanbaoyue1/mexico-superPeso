@@ -19,8 +19,10 @@ service.interceptors.request.use(
     // 处理通用字段传输
     let params = param2Obj(location.href);
     let token = (cookieFun.getCookie('login_token') || '').replace(/"/g, '');
+    console.log(token, params.wy, params.token);
     // 财联社token从url中获取，舞阳从cookie中
     token = params.wy == 1 ? token: params.token;
+    console.log('token', token);
     let url = config.url;
     if (url.indexOf('?') != -1) {
       url += '&';

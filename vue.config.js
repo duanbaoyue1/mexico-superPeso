@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV != 'production' ? './': '/hslh/',
+  publicPath: process.env.NODE_ENV != 'production' ? './' : '/hslh/',
 
   // 前台不显示sourcemap
   productionSourceMap: false,
@@ -7,6 +7,11 @@ module.exports = {
   devServer: {
     proxy: {
       '^/userreg': {
+        target: 'http://8.131.94.90',
+        ws: true,
+        changeOrigin: true,
+      },
+      '^/getui/cls': {
         target: 'http://8.131.94.90',
         ws: true,
         changeOrigin: true,
