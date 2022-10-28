@@ -157,12 +157,13 @@ export default {
       let mounth = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
       let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
       var str = year + '-' + mounth + '-' + day;
-      var todayDateTime = this.todayHour();
-      if (todayDateTime > '12:00:00') {
-        return this.tradeDates.indexOf(str) === -1;
-      } else {
-        return this.tradeDates.indexOf(str) === -1 || str === this.todayDate();
-      }
+      return this.tradeDates.indexOf(str) === -1;
+      // var todayDateTime = this.todayHour();
+      // if (todayDateTime > '12:00:00') {
+      //   return this.tradeDates.indexOf(str) === -1;
+      // } else {
+      //   return this.tradeDates.indexOf(str) === -1 || str === this.todayDate();
+      // }
     },
     // 当前时间的日期String 2021-07-15
     todayDate() {
