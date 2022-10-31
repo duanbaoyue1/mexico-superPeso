@@ -7,6 +7,7 @@ export default {
       isWechat: /MicroMessenger/i.test(navigator.userAgent),
       canvasCompressWidth: 0,
       canvasCompressHeight: 0,
+      isPlayingVideo: false,
       showShareCanvas: false,
     };
   },
@@ -159,10 +160,15 @@ export default {
     },
 
     playVideo(videoSrc) {
+      if (this.isPlayingWapVideo) {
+        return;
+      }
+      this.isPlayingWapVideo = true;
       try {
         const fullPageVideoInstance = this.$fullPageVideo.play(videoSrc);
         fullPageVideoInstance.$on('close', () => {
           this.$fullPageVideo.hide();
+          this.isPlayingWapVideo = false;
         });
       } catch (error) {
         console.log(error);
