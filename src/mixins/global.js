@@ -7,7 +7,7 @@ export default {
       isWechat: /MicroMessenger/i.test(navigator.userAgent),
       canvasCompressWidth: 0,
       canvasCompressHeight: 0,
-      isPlayingVideo: false,
+      isPlayingWapVideo: false,  // 当前是否在播放wap端视频
       showShareCanvas: false,
     };
   },

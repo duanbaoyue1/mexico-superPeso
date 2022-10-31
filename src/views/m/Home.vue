@@ -52,7 +52,7 @@
         </div>
       </div>
       <div>
-        <div class="more-data" v-if="tableData.length > 0" @click="showHisData">更多历史数据></div>
+        <div class="more-data" @click="showHisData">更多历史数据></div>
       </div>
     </div>
     <el-dialog :visible="agree" class="agree_list" v-if="agree">
