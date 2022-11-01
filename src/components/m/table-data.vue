@@ -32,7 +32,7 @@
       </el-table-column>
     </el-table>
 
-    <div class="no-data" v-else-if="isFirst">
+    <div class="no-data" v-else-if="isFirst && !after15">
       <img :src="require('@/assets/img/no-data@2x.png')" />
       <div>数据正在运算中，请稍后…</div>
     </div>
@@ -52,6 +52,11 @@ export default {
     isFirst: {
       type: Boolean,
     },
+  },
+  data() {
+    return {
+      after15: this.todayHour() > '15:00:00'
+    }
   },
   methods: {
     toNewPage(val){

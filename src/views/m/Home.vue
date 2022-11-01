@@ -312,15 +312,6 @@ export default {
       var curTime = year + '-' + mouth + '-' + day;
       return curTime;
     },
-    // 当前日期的时分秒
-    todayHour() {
-      var d = new Date();
-      var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
-      var minute = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-      var second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-      var hourTime = hour + ':' + minute + ':' + second;
-      return hourTime;
-    },
     getTableData() {
       let oldTableData = [...this.tableData];
       this.$http

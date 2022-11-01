@@ -31,6 +31,15 @@ export default {
   },
 
   methods: {
+    todayHour() {
+      var d = new Date();
+      var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+      var minute = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+      var second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
+      var hourTime = hour + ':' + minute + ':' + second;
+      return hourTime;
+    },
+    
     openBoxWin() {
       this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>次日开始一周内有2%以上的止盈机会则为胜</li><li>统计近一个月的胜率</li></ul>', '近一月个股胜率', {
         dangerouslyUseHTMLString: true,
