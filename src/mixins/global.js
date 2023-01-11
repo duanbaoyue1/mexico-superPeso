@@ -1,36 +1,140 @@
 import axios from 'axios';
-import ttsRecorder from '../utils/tts-recorder';
+import { mapState, mapActions } from 'vuex';
+import { dateFormat } from '@/utils/mUtils';
 
 export default {
   data() {
-    return {
-      isWechat: /MicroMessenger/i.test(navigator.userAgent),
-      canvasCompressWidth: 0,
-      canvasCompressHeight: 0,
-      isPlayingWapVideo: false, // 当前是否在播放wap端视频
-      showShareCanvas: false,
-    };
+    return {};
+  },
+
+  computed: {
+    ...mapState(['appGlobal', 'userInfo']),
   },
 
   filters: {
     nullFilter(item) {
       return item || '';
     },
-    percentFilter(value, fixedNum = 2) {
-      if (value == -999) {
-        return '-';
-      }
-      if (value > 0) {
-        return `<span style="color: #e60100">+${parseFloat(value).toFixed(fixedNum)}%</span>`;
-      } else if (value < 0) {
-        return `<span style="color: #0cad00">${parseFloat(value).toFixed(fixedNum)}%</span>`;
-      } else {
-        return `<span>${value}</span>`;
-      }
+
+    dateFormate(date, format = 'yyyy/MM/dd') {
+      return dateFormat(date, format);
     },
   },
 
   methods: {
+    ...mapActions(['showMessageBox', 'hideMessageBox']),
+    async getUserInfo() {
+      let data1 = await this.$http.post(`/clyb/iuurv`);
+      let data2 = await this.$http.post(`/clyb/iuurf`);
+      let userInfo = { ...data1.data, ...data2.data };
+      console.log('set user info', userInfo);
+      this.$store.commit('setUserInfo', userInfo);
+    },
+
+    validateEmail(email) {
+      // 邮箱验证正则
+      var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+      return reg.test(email);
+    },
+
+    mergeTwoArray(arr1, arr2) {
+      let arr = [];
+      arr1.forEach((item, index) => {
+        arr.push({ ...item, ...arr2[index] });
+      });
+      return arr;
+    },
+
+    // 解压
+    unzip(b64Data) {
+      // const strData = atob(b64Data);
+      const charData = b64Data.split('').map(function (x) {
+        return x.charCodeAt(0);
+      });
+      const binData = new Uint8Array(charData);
+      const data = pako.inflate(binData);
+      const array = new Uint16Array(data);
+      // 防止一次解压造成内存溢出，这里进行分段解压
+      let result = '';
+      let i = 0;
+      const maxRange = 8 * 1024;
+      for (i = 0; i < array.length / maxRange; i++) {
+        result += String.fromCharCode.apply(null, array.slice(i * maxRange, (i + 1) * maxRange));
+      }
+      result += String.fromCharCode.apply(null, array.slice(i * maxRange));
+      return decodeURIComponent(result);
+    },
+
+    // 压缩
+    zip(str) {
+      return pako.gzip(str, { to: 'string' });
+    },
+
+    /**
+     *
+     * @param {*} path
+     * @param {*} query
+     * @param {*} replace 是否替换当前路由
+     */
+    innerJump(path, query, replace = false) {
+      query = query || {};
+      query.appChecked = true;
+      if (replace) {
+        this.$router.replace({ name: path, query: query });
+      } else {
+        this.$router.push({ name: path, query: query });
+      }
+    },
+
+    async getAppMode() {
+      let data1 = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahv`);
+      let data2 = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahf`);
+      let appMode = { ...data1.data, ...data2.data };
+      return appMode;
+    },
+
+    async getOrderRelateUrl(orderId) {
+      try {
+        let data = await this.$http.post(`/zihai/mvecvmjtyyfojfp`, { orderId: orderId });
+        return data.data;
+      } catch (error) {
+        console.error(error);
+        return {};
+      }
+    },
+
+    toAppMethod(name, params) {
+      params = params || {};
+      try {
+        console.log('start method:', `${name}_${this.appGlobal.appName}`);
+        window.wjs[`${name}_${this.appGlobal.appName}`].apply(this, JSON.stringify(params));
+      } catch (error) {
+        console.log('no such method:', `${name}_${this.appGlobal.appName}`);
+      }
+    },
+
+    bindAppCallbackMethod(name, callback) {
+      try {
+        window[`${name}_${this.appGlobal.appName}`] = function (recieveData) {
+          recieveData = recieveData || '';
+          console.log('receive app method', name);
+          console.log(recieveData);
+          callback && callback.apply(this, [JSON.parse(recieveData)]);
+        };
+      } catch (error) {
+        console.log('no such callback method', `${name}_${this.appGlobal.appName}`);
+      }
+    },
+
+    goPrivacy() {
+      // TODO
+    },
+    goTerms() {
+      // TODO
+    },
+    goHelpCenter() {
+      this.$router.push({ name: 'help-center' });
+    },
     todayHour() {
       var d = new Date();
       var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
@@ -39,44 +143,6 @@ export default {
       var hourTime = hour + ':' + minute + ':' + second;
       return hourTime;
     },
-
-    openBoxWin() {
-      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>次日开始一周内有2%以上的止盈机会则为胜</li><li>统计近一个月的胜率</li></ul>', '近一月个股胜率', {
-        dangerouslyUseHTMLString: true,
-        showClose: false,
-        confirmButtonText: '我知道了',
-        confirmButtonClass: 'alert-confirm',
-        customClass: 'tips-toast',
-        center: false,
-      });
-    },
-    openBoxWinYield() {
-      this.$dm.alert('<ul><li style="color: #EA413C">统计范围：选取策略所有股票</li><li>统计选出后至今的最高价 </li><li>将所有收益平均到每一天</li></ul>', '近一月平均日收益', {
-        dangerouslyUseHTMLString: true,
-        showClose: false,
-        confirmButtonText: '我知道了',
-        confirmButtonClass: 'alert-confirm',
-        customClass: 'tips-toast',
-        center: false,
-      });
-    },
-    // toBuy() {
-    //   if (this.$route.query.wy == 1) {
-    //     // index首页
-    //     window.uniWebViewF(function () {
-    //       console.log(webUni.webView);
-    //       var uniWebView = webUni.webView; //必须在这时候保存下来
-    //       uniWebView.postMessage({
-    //         data: {
-    //           action: 'tobuy',
-    //         },
-    //       });
-    //     });
-    //   } else {
-    //     this.$emit('')
-    //     this.agree1 = true
-    //   }
-    // },
     getCookie(name) {
       var arr,
         reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
@@ -91,25 +157,6 @@ export default {
       if (cval != null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
     },
 
-    judgeNewTableAndVoice(table, oldTable, typeText) {
-      oldTable = oldTable || [];
-      let oldIds = oldTable.map((t) => t.code);
-      var tipsArray = [];
-      table.forEach((item) => {
-        if (oldIds.indexOf(item.code) == -1 && item.name.indexOf('**') == -1) {
-          tipsArray.push(item.name);
-        }
-      });
-      if (tipsArray.length > 0) {
-        tipsArray = [typeText, ...tipsArray];
-        this.playVoice(tipsArray.join(','));
-      }
-    },
-
-    playVoice(text) {
-      ttsRecorder.playVoice(text);
-    },
-
     // 获取两个两个日期转换成天
     daysDistance(date1, date2) {
       //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
@@ -121,71 +168,14 @@ export default {
       var days = Math.floor(ms / (24 * 3600 * 1000));
       return days;
     },
-    getUserBoughtInfo(cb) {
-      let bought = false,
-        endDate = 0,
-        logins = false;
-      axios({
-        method: 'post',
-        url: '/userreg/ucenter/queryUserProduct',
-      })
-        .then((re) => {
-          let res = re.data;
-          if (res.code && res.code == 200) {
-            logins = true; // 已登录
-            var data = res.data;
-            if (data.length == 0) {
-              // 无权限
-              bought = false;
-            } else {
-              for (let i = 0; i < data.length; i++) {
-                if (data[i].id == this.proId || data[i].id == 1 || data[i].id == 2 || data[i].id == 3) {
-                  var newdate = new Date();
-                  var date = new Date(data[i].date);
-                  if (date <= newdate) {
-                    // 无权限
-                    bought = false;
-                  } else {
-                    // 有权限
-                    bought = true;
-                    // 会员剩余日期
-                    endDate = this.daysDistance(new Date(data[i].date), new Date());
-                  }
-                }
-              }
-            }
-          } else if (res.code == -1) {
-            bought = false;
-            logins = false; // 未登录
-            this.delCookie('login_token');
-          } else {
-            bought = false;
-          }
-          cb && cb({ bought, logins, endDate });
-        })
-        .catch((res) => {
-          cb && cb({ bought, logins, endDate });
-        });
-    },
-
-    playVideo(videoSrc) {
-      if (this.isPlayingWapVideo) {
-        return;
-      }
-      this.isPlayingWapVideo = true;
-      try {
-        const fullPageVideoInstance = this.$fullPageVideo.play(videoSrc);
-        fullPageVideoInstance.$on('close', () => {
-          this.$fullPageVideo.hide();
-          this.isPlayingWapVideo = false;
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    },
 
     goHome() {
-      this.$router.push({ name: 'Home' });
+      // App方法
+      this.toAppMethod('goHome');
+    },
+
+    goAppBack() {
+      this.toAppMethod('goBack');
     },
 
     parseQuery(query) {

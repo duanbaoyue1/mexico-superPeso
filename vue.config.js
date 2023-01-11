@@ -1,25 +1,14 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV != 'production' ? './' : '/hslh/',
-
+  publicPath: process.env.NODE_ENV != 'production' ? './' : './',
   // 前台不显示sourcemap
   productionSourceMap: false,
 
   devServer: {
-    proxy: {
-      '^/userreg': {
-        target: 'http://8.131.94.90',
-        ws: true,
-        changeOrigin: true,
-      },
-      '^/getui/cls': {
-        target: 'http://8.131.94.90',
-        ws: true,
-        changeOrigin: true,
-      },
-    },
+    proxy: 'http://test.paisago.in',
   },
 
   chainWebpack: (config) => {
+    config.plugins.delete('prefetch');
     // 配置
     config.module
       .rule('worker')

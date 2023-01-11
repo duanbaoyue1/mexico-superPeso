@@ -1,70 +1,162 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import mLayout from '../views/m/layout.vue';
-import webLayout from '../views/layout.vue';
+import layout from '../views/layout.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    component: mLayout,
+    component: layout,
     children: [
       {
-        path: '',
-        name: 'Home',
-        component: () => import(/* webpackChunkName: "home" */ '../views/m/Home.vue'),
+        path: 'permissions',
+        name: 'Permissions',
+        component: () => import(/* webpackChunkName: "permissions" */ '../views/permissions.vue'),
+        meta: {},
+      },
+      {
+        path: 'information',
+        name: 'information',
+        component: () => import(/* webpackChunkName: "information" */ '../views/information.vue'),
         meta: {
-          title: '视频列表',
-          keepAlive: true,
+          title: 'Complete information',
         },
       },
       {
-        path: 'videos',
-        name: 'Videos',
-        component: () => import(/* webpackChunkName: "videos" */ '../views/m/Videos.vue'),
+        path: 'contacts',
+        name: 'contacts',
+        component: () => import(/* webpackChunkName: "contacts" */ '../views/contacts.vue'),
         meta: {
-          title: '视频列表',
+          title: 'Complete information',
         },
       },
       {
-        path: 'more-datas',
-        name: 'More-Datas',
-        component: () => import(/* webpackChunkName: "more-datas" */ '../views/m/More-Datas.vue'),
+        path: 'complete-bank',
+        name: 'complete-bank',
+        component: () => import(/* webpackChunkName: "complete-bank" */ '../views/complete-bank.vue'),
         meta: {
-          title: '更多数据',
-          keepAlive: true,
-        },
-      },
-    ],
-  },
-  {
-    path: '/web',
-    component: webLayout,
-    children: [
-      {
-        path: '',
-        name: 'Web-Home',
-        component: () => import(/* webpackChunkName: "web-home" */ '../views/Web-Home.vue'),
-        meta: {
-          keepAlive: true,
+          title: 'Complete information',
         },
       },
       {
-        path: 'course',
-        name: 'Course',
-        component: () => import(/* webpackChunkName: "web-course" */ '../views/Web-Course.vue'),
+        path: 'add-bank',
+        name: 'add-bank',
+        component: () => import(/* webpackChunkName: "add-bank" */ '../views/add-bank.vue'),
         meta: {
-          title: '华氏量化高端策略-实战培训教程',
+          title: 'Select Bank Account',
         },
       },
       {
-        path: 'more-datas',
-        name: 'Web-More-Datas',
-        component: () => import(/* webpackChunkName: "web-more-datas" */ '../views/Web-More-Datas.vue'),
+        path: 'loan-success',
+        name: 'loan-success',
+        component: () => import(/* webpackChunkName: "loan-success" */ '../views/loan-success.vue'),
         meta: {
-          title: '更多数据',
-          keepAlive: true,
+          title: 'Loan Application',
+        },
+      },
+      {
+        path: 'loan-success-multi',
+        name: 'loan-success-multi',
+        component: () => import(/* webpackChunkName: "loan-success-multi" */ '../views/loan-success-multi.vue'),
+        meta: {
+          title: 'Loan Application',
+        },
+      },
+      {
+        path: 'loan-fail',
+        name: 'loan-fail',
+        component: () => import(/* webpackChunkName: "loan-fail" */ '../views/loan-fail.vue'),
+        meta: {
+          title: 'Loan Application',
+        },
+      },
+      {
+        path: 'loan-confirm',
+        name: 'loan-confirm',
+        component: () => import(/* webpackChunkName: "loan-confirm" */ '../views/loan-confirm.vue'),
+        meta: {
+          title: 'Loan Application',
+        },
+      },
+      {
+        path: 'utr-help',
+        name: 'utr-help',
+        component: () => import(/* webpackChunkName: "utr-help" */ '../views/utr-help.vue'),
+        meta: {
+          title: 'Help',
+        },
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: () => import(/* webpackChunkName: "about" */ '../views/about.vue'),
+        meta: {
+          title: 'About us',
+        },
+      },
+      {
+        path: 'help-center',
+        name: 'help-center',
+        component: () => import(/* webpackChunkName: "help-center" */ '../views/help-center.vue'),
+        meta: {
+          title: 'Help Center',
+        },
+      },
+      {
+        path: 'order-detail',
+        name: 'order-detail',
+        component: () => import(/* webpackChunkName: "order-detail" */ '../views/order-detail.vue'),
+        meta: {
+          title: 'Order Detail',
+        },
+      },
+      {
+        path: 'defer-detail',
+        name: 'defer-detail',
+        component: () => import(/* webpackChunkName: "defer-detail" */ '../views/defer-detail.vue'),
+        meta: {
+          title: 'Deferment',
+        },
+      },
+      {
+        path: 'utr',
+        name: 'utr',
+        component: () => import(/* webpackChunkName: "utr" */ '../views/utr.vue'),
+        meta: {
+          title: 'UTR',
+        },
+      },
+      {
+        path: 'defer-history',
+        name: 'defer-history',
+        component: () => import(/* webpackChunkName: "defer-history" */ '../views/defer-history.vue'),
+        meta: {
+          title: 'Deferment',
+        },
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import(/* webpackChunkName: "settings" */ '../views/settings.vue'),
+        meta: {
+          title: 'Set up',
+        },
+      },
+      {
+        path: 'create-password',
+        name: 'create-password',
+        component: () => import(/* webpackChunkName: "create-password" */ '../views/create-password.vue'),
+        meta: {
+          title: 'Create Password',
+        },
+      },
+      {
+        path: 'retrieve-password',
+        name: 'retrieve-password',
+        component: () => import(/* webpackChunkName: "retrieve-password" */ '../views/retrieve-password.vue'),
+        meta: {
+          title: 'Retrieve Password',
         },
       },
     ],
@@ -81,8 +173,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: process.env.NODE_ENV != 'production' ? 'hash' : 'history',
-  base: process.env.NODE_ENV != 'production' ? '/' : '/hslh/', // 这个配置也很重要，否则会出现页面空白情况
+  mode: process.env.NODE_ENV != 'production' ? 'hash' : 'hash',
+  base: process.env.NODE_ENV != 'production' ? '/' : '/', // 这个配置也很重要，否则会出现页面空白情况
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes,
 });

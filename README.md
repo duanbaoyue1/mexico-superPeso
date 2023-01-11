@@ -1,54 +1,35 @@
-# weiyunbyte
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+10. 订单还款相关URL 需要再添加一个loan agreement 协议Url
+11. 订单还款相关URL 报错
+12. 发起展期（预还款）method not allowed
 
 
-### UI稿
-See [UI](https://share.lanhuapp.com/#/invite?sid=lX07GuyG).
 
-测试服：
-APP:
-https://test-clswap.hhws168.com/#/?proId=21&type=minuteLargeDdePulseQulet&wy=1&os=ios
-https://test-clswap.hhws168.com/#/?proId=22&type=minutePulseQulet&wy=1&os=ios
-https://test-clswap.hhws168.com/#/?proId=23&type=minuteDivingGold&wy=1&os=ios
-PC:
-https://test-clswap.hhws168.com/#/web?proId=21&type=minuteLargeDdePulseQulet&wy=1&os=ios
-https://test-clswap.hhws168.com/#/web?proId=22&type=minutePulseQulet&wy=1&os=ios
-https://test-clswap.hhws168.com/#/web?proId=23&type=minuteDivingGold&wy=1&os=ios
+window.appValidate('{"appName":"paisaGo","token":"63ad0171e4b00789dc15b33b","userId":"123","phone":"123","debug":true,"appVersion":1000,"afId":"","gaId":"","gpsAddress":"","gps":"","appVersionV":"","androidId":""}')
+
+token: 63ad4768e4b00789dc15b349 orderId: 63ad42b9e4b0d4386e44344b // 国立
+token: 63ad1d4ce4b00789dc15b340 orderId: 63ad1dcfe4b09fca07d8ece9  // 锋
 
 
-线上:
-APP:
-https://www.clswy.cn/hslh/?type=minuteLargeDdePulseQulet&proId=21&wy=1&os=ios
-https://www.clswy.cn/hslh/?type=minutePulseQulet&proId=22&wy=1&os=ios
-https://www.clswy.cn/hslh/?type=minuteDivingGold&proId=23&wy=1&os=ios
-PC:
-https://www.clswy.cn/hslh/web?type=minuteLargeDdePulseQulet&proId=21&wy=1&os=ios
-https://www.clswy.cn/hslh/web?type=minutePulseQulet&proId=22&wy=1&os=ios
-https://www.clswy.cn/hslh/web?type=minuteDivingGold&proId=23&wy=1&os=ios
+用户名密码： 5555555555 / 3
 
-测试服账号：
-13800000003  
-测试服密码：
-wy123
+
+
+已放款：
+订单号：221534825210746261
+appName：rupeeWay
+
+未放款：
+订单号：223536711415931482
+appName：tankaGarden
+
+已结清：
+订单号：223536688161052196
+appName：tankaGarden
+
+都使用这个token：63ae61c7e4b0b4f694f1a600
+
+
+token: 63ae61c7e4b0b4f694f1a600
+appName: paisaGo
+订单号：63ad1dcfe4b09fca07d8ece9

@@ -1,46 +1,214 @@
-const minuteLargeDdePulseQulet = {
-  title: '分时大单回调',
-  btnDesc: '盘中超大单净流入的回调机会',
-  titleImg: 'title1@2x.png',
-  tipsTop: '大单回调是由财联社舞阳打造的智能化分析模型，通过对超大单金额的净流入表现，在盘中实时筛选流通市值较小，最近几个交易日资金介入较强、并且出现回调走势的标的。相关智能策略讲解和案例供用户参考，不作为投资建议。',
-  titleWebImg: 'titleWeb1@2x.png',
-  price: 1288,
-  voicePrefix: '大担回调',
-};
+const EDUCATION = [
+  {
+    label: 'Primary School',
+    value: 'Primary School',
+  },
+  {
+    label: 'Senior School',
+    value: 'Senior School',
+  },
+  {
+    label: 'High School',
+    value: 'High School',
+  },
+  {
+    label: 'Bachelors',
+    value: 'Bachelors',
+  },
+  {
+    label: 'Masters',
+    value: 'Masters',
+  },
+  {
+    label: 'Doctors',
+    value: 'Doctors',
+  },
+  {
+    label: 'Not Educated',
+    value: 'Not Educated',
+  },
+];
 
-const minutePulseQulet = {
-  title: '分时强势回调',
-  btnDesc: '盘中强势股的回调低吸',
-  titleImg: 'title2@2x.png',
-  tipsTop: '强势回调是由财联社舞阳打造的智能化分析模型，监控曾经大资金流入并且出现大阳线的标的，筛选出流通市值较大的标的回调机会。相关智能策略讲解和案例供用户参考，不作为投资建议。',
-  titleWebImg: 'titleWeb2@2x.png',
-  price: 588,
-  voicePrefix: '强势回调',
-};
+const OCCUPATION = [
+  {
+    label: 'Salaried',
+    value: 'Salaried',
+  },
+  {
+    label: 'Self-employed',
+    value: 'Self-employed',
+  },
+  {
+    label: 'Student',
+    value: 'Student',
+  },
+  {
+    label: 'Retired',
+    value: 'Retired',
+  },
+  {
+    label: 'Unemployed',
+    value: 'Unemployed',
+  },
+  {
+    label: 'others',
+    value: 'others',
+  },
+];
 
-// const minuteUpShadow = {
-//   title: '分时尾盘上影',
-//   btnDesc: '底部拉升试盘的介入机会',
-//   titleImg: 'title3@2x.png',
-//   tipsTop: '盘中实时（13:00-15:00）更新底部大幅拉升试盘或长时间封板尾盘被动开板的股票。详细请看视频教程和案例。',
-//   titleWebImg: 'titleWeb3@2x.png',
-//   price: 588,
-//   voicePrefix: '尾盘上影',
-// };
+const SALARY = [
+  {
+    label: 'less than 15000',
+    value: 'less than 15000',
+  },
+  {
+    label: '15000-25000',
+    value: '15000-25000',
+  },
+  {
+    label: '25001-35000',
+    value: '25001-35000',
+  },
+  {
+    label: '35001-45000',
+    value: '35001-45000',
+  },
+  {
+    label: '45001-55000',
+    value: '45001-55000',
+  },
+  {
+    label: 'more than 55000',
+    value: 'more than 55000',
+  },
+];
 
-const minuteDivingGold = {
-  title: '分时潜水捞金',
-  btnDesc: '盘中超大单逆势介入的回调机会',
-  titleImg: 'title4@2x.png',
-  tipsTop: '潜水捞金是由财联社舞阳打造的智能化分析模型，盘中实时更新当日股价分时涨幅较低，且资金逆势持续介入的标的。相关智能策略讲解和案例供用户参考，不作为投资建议。',
-  titleWebImg: 'titleWeb4@2x.png',
-  price: 388,
-  voicePrefix: '潜水捞金',
-};
+const MARITAL_STATUS = [
+  {
+    label: 'Single',
+    value: 'Single',
+  },
+  {
+    label: 'Married',
+    value: 'Married',
+  },
+  {
+    label: 'divorce',
+    value: 'divorce',
+  },
+  {
+    label: 'widowed',
+    value: 'widowed',
+  },
+];
+
+const LOAN_PURPOSE = [
+  {
+    label: 'Family fuction',
+    value: 'Family fuction',
+  },
+  {
+    label: 'Holiday/Travel',
+    value: 'Holiday/Travel',
+  },
+  {
+    label: 'Education',
+    value: 'Education',
+  },
+  {
+    label: 'Health',
+    value: 'Health',
+  },
+  {
+    label: 'Other personal use',
+    value: 'Other personal use',
+  },
+];
+
+const ACCOMMODATION = [
+  {
+    label: 'Own house',
+    value: 'Own house',
+  },
+  {
+    label: 'Rented',
+    value: 'Rented',
+  },
+  {
+    label: 'Others',
+    value: 'Others',
+  },
+];
+
+const CHILDREN = [
+  {
+    label: '0',
+    value: '0',
+  },
+  {
+    label: '1',
+    value: '1',
+  },
+  {
+    label: '2',
+    value: '2',
+  },
+  {
+    label: '3',
+    value: '3',
+  },
+  {
+    label: '>3',
+    value: '>3',
+  },
+];
+
+const PAY_METHOD = [
+  {
+    label: 'Bank Transfer',
+    value: 'Bank Transfer',
+  },
+  {
+    label: 'Cash',
+    value: 'Cash',
+  },
+  {
+    label: 'Cheque',
+    value: 'Cheque',
+  },
+];
+
+const RELATION_SHIPS = [
+  {
+    label: 'Father',
+    value: 'Father',
+  },
+  {
+    label: 'Mother',
+    value: 'Mother',
+  },
+  {
+    label: 'Spouse',
+    value: 'Spouse',
+  },
+  {
+    label: 'Brother',
+    value: 'Brother',
+  },
+  {
+    label: 'Sister',
+    value: 'Sister',
+  },
+];
 
 module.exports = {
-  minuteLargeDdePulseQulet: minuteLargeDdePulseQulet,
-  minutePulseQulet: minutePulseQulet,
-  // minuteUpShadow: minuteUpShadow,
-  minuteDivingGold: minuteDivingGold,
+  EDUCATION: EDUCATION,
+  OCCUPATION: OCCUPATION,
+  SALARY: SALARY,
+  MARITAL_STATUS: MARITAL_STATUS,
+  LOAN_PURPOSE: LOAN_PURPOSE,
+  ACCOMMODATION: ACCOMMODATION,
+  CHILDREN: CHILDREN,
+  PAY_METHOD: PAY_METHOD,
+  RELATION_SHIPS: RELATION_SHIPS,
 };
