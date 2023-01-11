@@ -97,7 +97,6 @@ export default {
       this.curNav = index;
     },
     complete() {
-      
       this.$emit('complete', { choosedIfsc: this.choosedIfsc, choosedBank: this.choosedBank, choosedState: this.choosedState, choosedCity: this.choosedCity, choosedBank: this.choosedBank, choosedBranchName: this.choosedBranchName });
     },
   },
