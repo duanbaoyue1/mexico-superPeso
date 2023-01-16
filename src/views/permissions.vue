@@ -95,7 +95,7 @@ export default {
       // } catch (error) {
       //   console.log(error);
       // }
-      this.toAppMethod('testMethod', 'bbb', 'ccc');
+      this.toAppMethod('testMethod', { b: 1, c: 2 });
     }, 0);
   },
 };
