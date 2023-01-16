@@ -86,9 +86,6 @@ export default {
   },
 
   mounted() {
-    // window.wjs.testMethod_pasigo = (name, test) => {
-    //   console.log(name, test);
-    // };
     setTimeout(() => {
       this.toAppMethod('testMethod', { b: 1, c: 2 });
     }, 2000);

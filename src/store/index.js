@@ -9,11 +9,11 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiPrefix: 'http://test.paisago.in',
+      apiPrefix: 'https://test.paisago.in',
       // apiPrefix: '/',
       appName: 'paisaGo',
       // token: '63ad4768e4b00789dc15b349',
-      token: '63b539b2e4b0860bb4ef8ce0',
+      token: '63c4f07fe4b0f0d1643f25da',
       // token: '63aead1ee4b0b4f694f1a607',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型

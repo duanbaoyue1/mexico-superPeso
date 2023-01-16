@@ -15,13 +15,6 @@ export default {
   },
   mounted() {
     this.getUserInfo();
-    // window.wjs.aaa_pasigo = (name, test) => {
-    //   console.log(name, test);
-    // };
-    // setTimeout(() => {
-    //   this.toAppMethod('aaa', 'bbb', 'ccc');
-    // }, 1000);
-
     // let string = '1234';
     // let string = '{"id":"221534825210746261"}';
     // console.log('111', this.zip(string));
@@ -65,7 +58,6 @@ export default {
         if(typeof appGlobal === 'string') {
           appGlobal = JSON.parse(appGlobal);
         }
-        console.log('window.appValidate', appGlobal);
         console.log('set app global', appGlobal);
         that.setAppGlobal(appGlobal);
         clearTimeout(appCheckTimeout);
