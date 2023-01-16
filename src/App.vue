@@ -64,6 +64,7 @@ export default {
       }, 2000);
       let that = this;
       window.appValidate = function (appGlobal) {
+        console.log(appGlobal);
         appGlobal = JSON.parse(appGlobal);
         console.log('set app global', appGlobal);
         that.setAppGlobal(appGlobal);
