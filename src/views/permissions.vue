@@ -95,12 +95,12 @@ export default {
       // } catch (error) {
       //   console.log(error);
       // }
-      try {
-        window.wjs.testMethod_paisaGo(JSON.stringify({ b: 1, c: 2 }));
-      } catch (error) {
-        console.log('调用失败', error);
-      }
-      // this.toAppMethod('testMethod', { b: 1, c: 2 });
+      // try {
+      //   wjs.testMethod_paisaGo(JSON.stringify({ b: 1, c: 2 }));
+      // } catch (error) {
+      //   console.log('调用失败', error);
+      // }
+      this.toAppMethod('testMethod', { b: 1, c: 2 });
     }, 2000);
   },
 };

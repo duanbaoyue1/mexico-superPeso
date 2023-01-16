@@ -106,9 +106,8 @@ export default {
     toAppMethod(name, params) {
       params = params || {};
       try {
-        console.log('window.wjs', JSON.stringify(window.wjs));
         console.log('start method:', `${name}_${this.appGlobal.appName}`);
-        window.wjs[`${name}_${this.appGlobal.appName}`].apply(this, [JSON.stringify(params)]);
+        wjs[`${name}_${this.appGlobal.appName}`](JSON.stringify(params));
       } catch (error) {
         console.error(error);
         console.log('no such method:', `${name}_${this.appGlobal.appName}`);
