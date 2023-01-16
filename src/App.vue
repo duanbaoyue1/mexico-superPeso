@@ -30,9 +30,7 @@ export default {
     //   console.log(res);
     //   console.log(this.zip(string));
     // });
-
     // this.$http.post(`/zihai/pgwhphsu`);
-
     // this.$http.post(`/clyb/pjjwu`, { loginName: '5555555555', password: '3' });
   },
   watch: {
