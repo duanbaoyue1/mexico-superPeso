@@ -96,7 +96,7 @@ export default {
       //   console.log(error);
       // }
       this.toAppMethod('testMethod', { b: 1, c: 2 });
-    }, 0);
+    }, 2000);
   },
 };
 </script>

@@ -11,7 +11,7 @@ export default new Vuex.Store({
     appGlobal: {
       apiPrefix: 'http://test.paisago.in',
       // apiPrefix: '/',
-      appName: 'rupeeWay',
+      appName: 'paisaGo',
       // token: '63ad4768e4b00789dc15b349',
       token: '63b539b2e4b0860bb4ef8ce0',
       // token: '63aead1ee4b0b4f694f1a607',

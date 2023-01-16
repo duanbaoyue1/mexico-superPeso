@@ -62,6 +62,9 @@ export default {
       }, 2000);
       let that = this;
       window.appValidate = function (appGlobal) {
+        if(typeof appGlobal === 'string') {
+          appGlobal = JSON.parse(appGlobal);
+        }
         console.log('window.appValidate', appGlobal);
         console.log('set app global', appGlobal);
         that.setAppGlobal(appGlobal);
