@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       ALL_ATTRS: ALL_ATTRS,
-      canSubmit: true, // 是否可以提交
+      canSubmit: false, // 是否可以提交
       submitSuccess: false,
       editData: {},
     };
