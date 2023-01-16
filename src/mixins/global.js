@@ -109,6 +109,7 @@ export default {
         console.log('start method:', `${name}_${this.appGlobal.appName}`);
         window.wjs[`${name}_${this.appGlobal.appName}`].apply(this, JSON.stringify(params));
       } catch (error) {
+        console.error(error);
         console.log('no such method:', `${name}_${this.appGlobal.appName}`);
       }
     },
