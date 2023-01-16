@@ -76,7 +76,9 @@ export default {
   },
   data() {
     window.choosePhoneCallback = (data) => {
-      data = JSON.parse(data);
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
       let { type, phone, name } = data;
       if (type) {
         this.$set(this.editData, type, phone);

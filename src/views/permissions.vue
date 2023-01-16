@@ -90,16 +90,6 @@ export default {
     //   console.log(name, test);
     // };
     setTimeout(() => {
-      // try {
-      //   wjs.testMethod_paisaGo('aaa', 'bbb');
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      // try {
-      //   wjs.testMethod_paisaGo(JSON.stringify({ b: 1, c: 2 }));
-      // } catch (error) {
-      //   console.log('调用失败', error);
-      // }
       this.toAppMethod('testMethod', { b: 1, c: 2 });
     }, 2000);
   },
