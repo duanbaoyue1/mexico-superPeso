@@ -34,6 +34,7 @@ import Vconsole from 'vconsole';
 //   Vue.use(vConsole);
 // }
 
+
 new Vue({
   router,
   store,
