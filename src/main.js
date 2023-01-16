@@ -34,7 +34,6 @@ if (process.env.NODE_ENV == 'production') {
   Vue.use(vConsole);
 }
 
-
 new Vue({
   router,
   store,
