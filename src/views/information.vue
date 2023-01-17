@@ -79,7 +79,7 @@ export default {
     async submit() {
       let saveData = { ...this.editData };
       if (!this.validateEmail(saveData.email)) {
-        this.$toast('Please enter the correct email address');
+        this.$toast('Please enter the correct email address.');
         return;
       }
       try {
