@@ -62,6 +62,44 @@ export default {
 
   mounted() {
     this.getBanks();
+
+    // 银行卡选择后app抓取数据回调
+    window.synDataCallback = async (data) => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        try {
+          await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
+            orderId: this.$route.query.orderId,
+            remittanceAccountId: this.choosedBankId,
+          });
+          let appMode = await this.getAppMode();
+          if (appMode.confirmType == 1) {
+            // 需要进确认申请页
+            this.innerJump('loan-confirm', {
+              orderId: this.$route.query.orderId,
+            });
+          } else {
+            // 不需要进确认申请页
+            this.innerJump('loan-success', {
+              orderId: this.$route.query.orderId,
+            });
+          }
+        } catch (error) {
+          this.showMessageBox({
+            content: error.message,
+            confirmBtnText: 'Ok',
+            confirmCallback: () => {
+              console.log('confirmCallback');
+              this.hideMessageBox();
+            },
+            iconPath: 'message/error',
+            showClose: false,
+          });
+        }
+      }
+    };
   },
 
   methods: {
@@ -80,23 +118,8 @@ export default {
     async submit() {
       try {
         if (this.$route.query.from == 'order') {
-          // 从订单进来的
-          await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
-            orderId: this.$route.query.orderId,
-            remittanceAccountId: this.choosedBankId,
-          });
-          let appMode = await this.getAppMode();
-          if (appMode.confirmType == 1) {
-            // 需要进确认申请页
-            this.innerJump('loan-confirm', {
-              orderId: this.$route.query.orderId,
-            });
-          } else {
-            // 不需要进确认申请页
-            this.innerJump('loan-success', {
-              orderId: this.$route.query.orderId,
-            });
-          }
+          // 从订单进来的, 需要先通知app方法
+          this.toAppMethod('synData', {});
         } else {
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/wvpwoojady/qjhwfxozwqjwii`, {
