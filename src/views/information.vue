@@ -82,7 +82,6 @@ export default {
         this.$toast('Please enter the correct email address');
         return;
       }
-
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
