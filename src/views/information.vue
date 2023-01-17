@@ -77,17 +77,11 @@ export default {
       this.$set(this.editData, data.attr, data.value);
     },
     async submit() {
-      
-      let saveData = {
-        education: 'Senior School',
-        email: 'asdfsfd',
-        firstName: 'sdfasdfa',
-        lastName: 'asdfasdf',
-        loanPurpose: 'Family fuction',
-        middleName: 'sdfasdf',
-        monthlyIncome: 'less than 15000',
-        occupation: 'Self-employed',
-      };
+      let saveData = { ...this.editData };
+      if (!this.validateEmail(saveData.email)) {
+        this.$toast('Please enter the correct email address');
+        return;
+      }
 
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
@@ -95,30 +89,12 @@ export default {
           this.submitSuccess = true;
           setTimeout(() => {
             this.submitSuccess = false;
+            this.innerJump('contacts', { orderId: this.$route.query.orderId }, true);
           }, 1000);
         }
       } catch (error) {
         this.$toast(error.message);
       }
-
-      // let saveData = { ...this.editData };
-      // if (!this.validateEmail(saveData.email)) {
-      //   this.$toast('Please enter the correct email address');
-      //   return;
-      // }
-
-      // try {
-      //   let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
-      //   if (data.returnCode == 2000) {
-      //     this.submitSuccess = true;
-      //     setTimeout(() => {
-      //       this.submitSuccess = false;
-      //       this.innerJump('contacts', { orderId: this.$route.query.orderId }, true);
-      //     }, 1000);
-      //   }
-      // } catch (error) {
-      //   this.$toast(error.message);
-      // }
     },
   },
 };
