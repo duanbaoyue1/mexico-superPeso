@@ -1,10 +1,13 @@
 <template>
   <div class="complete-bank">
-    <div class="step">
-      <m-icon class="icon" type="information/step4" :width="98" :height="28" />
-      <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
-    </div>
-    <div class="head-top">Payment method</div>
+    <template v-if="from == 'order'">
+      <div class="step">
+        <m-icon class="icon" type="information/step4" :width="98" :height="28" />
+        <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
+      </div>
+      <div class="head-top">Payment method</div>
+    </template>
+
     <div class="cards">
       <div v-if="cards.length" class="cards-list">
         <div v-for="card in cards" class="cards-item" :key="card.id" @click="chooseBank(card)">
@@ -49,6 +52,7 @@ export default {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
       cards: [],
+      from: this.$route.query.from,
       // cards: [],
       choosedBankId: '',
       editData: {
