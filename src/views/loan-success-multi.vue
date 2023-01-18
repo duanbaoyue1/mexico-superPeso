@@ -18,7 +18,7 @@
         <div class="label">Interest</div>
         <div class="value">{{ loan.interest }}</div>
         <div class="label">Max amount (₹)</div>
-        <div class="value">{{ loan.amountRange }}</div>
+        <div class="value">{{ JSON.parse(loan.amountRange).newConfig }}</div>
       </div>
     </div>
 
@@ -70,8 +70,8 @@ export default {
     async getRecommendLoans() {
       let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
       let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-      this.loans = this.mergeTwoArray(data1.data.list, data2.data.list);
-      console.log('列表条数', data1.data.list.length);
+      // this.loans = this.mergeTwoArray(data1.data.list, data2.data.list);
+      this.loans = data2.data.mergPushProductList;
     },
     check() {
       this.toAppMethod('goAllOrders', {});
