@@ -13,9 +13,7 @@ export default {
   computed: {
     ...mapState(['isAppChecked']),
   },
-  mounted() {
-    
-  },
+  mounted() {},
   watch: {
     $route(to, from) {
       document.body.style.overflow = '';
@@ -56,8 +54,6 @@ export default {
         that.setAppGlobal(appGlobal);
         clearTimeout(appCheckTimeout);
         that.setAppChecked(true);
-        // 可能token已经更新，需要重新获取一次
-        that.getUserInfo();
       };
     },
   },
