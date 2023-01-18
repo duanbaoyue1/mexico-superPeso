@@ -13,7 +13,7 @@ export default new Vuex.Store({
       // apiPrefix: '/',
       appName: 'paisaGo',
       // token: '63ad4768e4b00789dc15b349',
-      token: '63c4f07fe4b0f0d1643f25da',
+      token: '63c79c26e4b082c736280b4c',
       // token: '63aead1ee4b0b4f694f1a607',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
@@ -34,6 +34,7 @@ export default new Vuex.Store({
         ...state.appGlobal,
         ...data,
       };
+      localStorage.setItem('app-local', JSON.stringify(state.appGlobal));
     },
     showMessageBox(state, data) {
       state.messageBox = {
@@ -64,7 +65,6 @@ export default new Vuex.Store({
   },
   actions: {
     async setAppGlobal({ commit }, data) {
-      localStorage.setItem('app-local', JSON.stringify(data));
       commit('setAppGlobal', data);
     },
     async showMessageBox({ commit }, data) {
@@ -78,6 +78,10 @@ export default new Vuex.Store({
     },
     async setAppChecked({ commit }, data) {
       commit('setAppChecked', data);
+    },
+    async updateToken({ commit }, token) {
+      console.log('update token', token);
+      commit('setAppGlobal', { token });
     },
   },
   modules: {},

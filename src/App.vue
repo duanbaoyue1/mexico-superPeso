@@ -23,6 +23,9 @@ export default {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.checkAndSetAppLocal();
+      if(to.query.token) {
+        this.updateToken(to.query.token);
+      }
       if (to.query.appChecked) {
         this.setAppChecked(true);
       } else {
@@ -31,7 +34,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setAppGlobal', 'setAppChecked']),
+    ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
     checkAndSetAppLocal() {
       let appLocal = localStorage.getItem('app-local');
       if (appLocal) {
