@@ -41,6 +41,30 @@ export default {
   },
   mounted() {
     this.getRecommendLoans();
+    // 银行卡选择后app抓取数据回调
+    window.synDataCallback = async (data) => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        let loanIds = this.loans.filter((t) => !t.unChecked).map((t) => t.id);
+        try {
+          let data1 = await this.$http.post(`/zihai/qvsxvbget/xiyymmst`, {
+            orderNo: this.$route.query.orderId,
+            productList: loanIds,
+          });
+          if (data1.returnCode == 2000) {
+            await this.$http.post(`/zihai/qvsxvbget/bmzcx`, {
+              orderIdList: data1.data.orderIdList,
+            });
+            this.$toast('Apply successfully');
+            this.getRecommendLoans();
+          }
+        } catch (error) {
+          this.$toast(error.message);
+        }
+      }
+    };
   },
   methods: {
     async getRecommendLoans() {
@@ -57,22 +81,7 @@ export default {
     },
 
     async applyMulti() {
-      let loanIds = this.loans.filter((t) => !t.unChecked).map((t) => t.id);
-      try {
-        let data1 = await this.$http.post(`/zihai/qvsxvbget/xiyymmst`, {
-          orderNo: this.$route.query.orderId,
-          productList: loanIds,
-        });
-        if (data1.returnCode == 2000) {
-          await this.$http.post(`/zihai/qvsxvbget/bmzcx`, {
-            orderIdList: data1.data.orderIdList,
-          });
-          this.$toast('Apply successfully');
-          this.getRecommendLoans();
-        }
-      } catch (error) {
-        this.$toast(error.message);
-      }
+      this.toAppMethod('synData', {});
     },
   },
 };
