@@ -68,8 +68,8 @@ export default {
   },
   methods: {
     async getRecommendLoans() {
-      let data1 = await this.$http.post(`/xiaqpdt/wvnryylacuwlol`);
-      let data2 = await this.$http.post(`/xiaqpdt/wvnryylacuwloo`);
+      let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
+      let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
       this.loans = this.mergeTwoArray(data1.data.list, data2.data.list);
       console.log('列表条数', data1.data.list.length);
     },
