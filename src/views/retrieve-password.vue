@@ -53,17 +53,9 @@ export default {
   },
 
   mounted() {
-    // [...document.getElementsByClassName('eye')].forEach((t) => {
-    //   t.addEventListener('click', (handler) => {
-    //     let $input = handler.target.previousSibling;
-    //     let type = $input.getAttribute('type');
-    //     if (type == 'password') {
-    //       $input.setAttribute('type', 'text');
-    //     } else {
-    //       $input.setAttribute('type', 'password');
-    //     }
-    //   });
-    // });
+    setTimeout(() => {
+      this.getUserInfo();
+    }, 200);
   },
 
   methods: {
@@ -83,7 +75,6 @@ export default {
           newPassword: md5(this.editData.newPassword),
           enterPassword: md5(this.editData.enterPassword),
         });
-        
       } catch (error) {
         this.$toast(error.message);
       }

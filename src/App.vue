@@ -14,9 +14,7 @@ export default {
     ...mapState(['isAppChecked']),
   },
   mounted() {
-    setTimeout(() => {
-      this.getUserInfo();
-    }, 200);
+    
   },
   watch: {
     $route(to, from) {

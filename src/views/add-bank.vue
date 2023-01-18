@@ -51,7 +51,9 @@ export default {
     };
   },
   mounted() {
-    console.log(this.userInfo);
+    setTimeout(() => {
+      this.getUserInfo();
+    }, 200);
   },
 
   methods: {

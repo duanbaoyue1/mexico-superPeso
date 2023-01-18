@@ -49,6 +49,10 @@ export default {
   },
 
   mounted() {
+    setTimeout(() => {
+      this.getUserInfo();
+    }, 200);
+
     [...document.getElementsByClassName('eye')].forEach((t) => {
       t.addEventListener('click', (handler) => {
         let $input = handler.target.previousSibling;
