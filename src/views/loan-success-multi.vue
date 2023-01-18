@@ -10,8 +10,8 @@
       <div v-for="(loan, index) in loans" :key="loan.id" class="loan-item" :class="{ active: !loan.unChecked }" @click="checkLoan(index)">
         <img class="icon" :src="loan.icon" />
         <div class="name">{{ loan.productName }}</div>
-        <div class="reloan-wrapper">
-          <div class="reloan">{{ loan.button }}</div>
+        <div class="reloan-wrapper" v-show="loan.isReloan">
+          <div class="reloan">Reloan</div>
         </div>
         <div class="label">Lending Company</div>
         <div class="value">{{ loan.companyName }}</div>
