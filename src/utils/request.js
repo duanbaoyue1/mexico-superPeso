@@ -78,8 +78,18 @@ service.interceptors.response.use(
     const res = JSON.parse(unzip(response.data));
     console.log(response.config.url, ': ', res);
     if (res.returnCode && res.returnCode !== 2000) {
-      // 登录超时,重新登录
-      return Promise.reject(res || 'error');
+      // 4005: 登录超时,重新登录
+      // 4006: 强制升级
+      if (res.returnCode === 4005 || res.returnCode === 4006) {
+        try {
+          let appGlobal = JSON.parse(localStorage.getItem('app-local'));
+          wjs[`error40054006_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
+        } catch (error) {
+          return Promise.reject(res || 'error');
+        }
+      } else {
+        return Promise.reject(res || 'error');
+      }
     } else {
       return Promise.resolve(res);
     }

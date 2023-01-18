@@ -14,17 +14,9 @@ export default {
     ...mapState(['isAppChecked']),
   },
   mounted() {
-    this.getUserInfo();
-    // let string = '1234';
-    // let string = '{"id":"221534825210746261"}';
-    // console.log('111', this.zip(string));
-    // this.$http.post(`/internal/test/gzip`, { source: string, model: 1 }).then((res) => {
-    //   console.log('gzip data');
-    //   console.log(res);
-    //   console.log(this.zip(string));
-    // });
-    // this.$http.post(`/zihai/pgwhphsu`);
-    // this.$http.post(`/clyb/pjjwu`, { loginName: '5555555555', password: '3' });
+    setTimeout(() => {
+      this.getUserInfo();
+    }, 500);
   },
   watch: {
     $route(to, from) {
@@ -46,6 +38,7 @@ export default {
         this.setAppGlobal(JSON.parse(appLocal));
       }
     },
+
     checkInApp() {
       if (process.env.NODE_ENV != 'production') {
         return;
@@ -55,20 +48,16 @@ export default {
       }, 2000);
       let that = this;
       window.appValidate = function (appGlobal) {
-        if(typeof appGlobal === 'string') {
+        if (typeof appGlobal === 'string') {
           appGlobal = JSON.parse(appGlobal);
         }
         console.log('set app global', appGlobal);
         that.setAppGlobal(appGlobal);
         clearTimeout(appCheckTimeout);
         that.setAppChecked(true);
+        // 可能token已经更新，需要重新获取一次
+        that.getUserInfo();
       };
-      // this.bindAppCallbackMethod('appValidate', function (appGlobal) {
-      //   console.log('set app global', appGlobal)
-      //   that.setAppGlobal(appGlobal);
-      //   clearTimeout(appCheckTimeout);
-      //   that.setAppChecked(true);
-      // });
     },
   },
 };
