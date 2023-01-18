@@ -75,6 +75,7 @@ export default {
           newPassword: md5(this.editData.newPassword),
           enterPassword: md5(this.editData.enterPassword),
         });
+        this.toAppMethod('refreshtoken', data.data);
       } catch (error) {
         this.$toast(error.message);
       }

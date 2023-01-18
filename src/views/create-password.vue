@@ -81,6 +81,7 @@ export default {
         let data = await this.$http.post(`/clyb/hiylovzblwjjii`, { passwd: md5(this.editData.passwd) });
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
+          this.toAppMethod('refreshtoken', data.data);
         }
       } catch (error) {
         this.$toast(error.message);
