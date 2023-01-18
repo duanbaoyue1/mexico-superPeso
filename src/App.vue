@@ -14,16 +14,14 @@ export default {
     ...mapState(['isAppChecked']),
   },
   mounted() {
-    setTimeout(() => {
-      this.getUserInfo();
-    }, 500);
+    this.getUserInfo();
   },
   watch: {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.checkAndSetAppLocal();
-      if(to.query.token) {
+      if (to.query.token) {
         this.updateToken(to.query.token);
       }
       if (to.query.appChecked) {

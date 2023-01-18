@@ -71,7 +71,7 @@ export default {
       let data1 = await this.$http.post(`/xiaqpdt/wvnryylacuwlol`);
       let data2 = await this.$http.post(`/xiaqpdt/wvnryylacuwloo`);
       this.loans = this.mergeTwoArray(data1.data.list, data2.data.list);
-      console.log(this.loans);
+      console.log('列表条数', data1.data.list.length);
     },
     check() {
       this.toAppMethod('goAllOrders', {});
