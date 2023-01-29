@@ -1,14 +1,14 @@
 <template>
   <div class="settings">
-    <div class="btn" @click="$router.push({ name: 'create-password' })">Create password</div>
-    <div class="btn" @click="$router.push({ name: 'retrieve-password' })">Change Login Password</div>
-    <div class="btn" @click="showLegal = true;">Legal</div>
+    <div v-if="!hasPassword" class="btn" @click="$router.push({ name: 'create-password' })">Create password</div>
+    <div v-else class="btn" @click="$router.push({ name: 'retrieve-password' })">Change Login Password</div>
+    <div class="btn" @click="showLegal = true">Legal</div>
 
     <div class="legal-modal" v-if="showLegal">
       <div class="content">
         <div @click="goTerms">Terms of Use</div>
         <div @click="goPrivacy">Privacy Policy</div>
-        <m-icon class="close" type="message/close" :width="24" :height="24" @click="showLegal = false;"/>
+        <m-icon class="close" type="message/close" :width="24" :height="24" @click="showLegal = false" />
       </div>
     </div>
   </div>
@@ -18,10 +18,17 @@
 export default {
   data() {
     return {
+      hasPassword: 0,
       showLegal: false,
     };
   },
   methods: {},
+  async mounted() {
+    try {
+      let data = await this.$http.post(`/clyb/qgqaf`);
+      this.hasPassword = data.data.hasPassword;
+    } catch (error) {}
+  },
 };
 </script>
 

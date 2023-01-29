@@ -1,7 +1,7 @@
 
-10. 订单还款相关URL 需要再添加一个loan agreement 协议Url
-11. 订单还款相关URL 报错
-12. 发起展期（预还款）method not allowed
+
+13. 是否有接口判断是创建密码还是修改密码
+14. /xiaqpdt/qvsxvbfzcdpo/pgwhf 少数据
 
 
 
