@@ -72,7 +72,7 @@
           >₹<span>{{ detail.penaltyInterest }}</span></span
         >
       </div>
-      <div class="flex-between">
+      <div class="flex-between" v-if="detail.actualRepaymentAmount">
         <span>Repayment</span>
         <span class="font-bold color-orange align-end"
           >₹<span class="fs-24">{{ detail.actualRepaymentAmount }}</span></span

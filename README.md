@@ -1,7 +1,6 @@
 
 
-13. 是否有接口判断是创建密码还是修改密码
-14. /xiaqpdt/qvsxvbfzcdpo/pgwhf 少数据
+14. /xiaqpdt/qvsxvbfzcdpo/pgwhf 少数据icon
 
 
 
