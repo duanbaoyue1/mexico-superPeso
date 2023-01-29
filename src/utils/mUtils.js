@@ -81,14 +81,17 @@ export const returnFloat = (value) => {
 export const dateFormat = (date, format) => {
   if (!date || !format) return '';
   if (typeof date === 'string') {
+    console.log(date);
+
     var mts = date.match(/(\/Date\((\d+)\)\/)/);
     if (mts && mts.length >= 3) {
       date = parseInt(mts[2]);
     }
-    if (/^(\d{2})-(\d{2})-(\d{4})$/.test(date)) {
+    if (/^(\d{1,2})-(\d{1,2})-(\d{4})$/.test(date)) {
       date = date.split('-').reverse().join('-');
     }
   }
+
   date = new Date(date);
   if (!date || date.toUTCString() == 'Invalid Date') {
     return '';
