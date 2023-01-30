@@ -9,12 +9,12 @@
 
       <div class="flex-between">
         <span>Application date</span>
-        <span>{{ item.approvalDate }}</span>
+        <span>{{ item.approvalDate | dateFormate('yyyy/MM/dd') }}</span>
       </div>
 
       <div class="flex-between">
         <span>Updated due date</span>
-        <span>{{ item.updatedDueDate }}</span>
+        <span>{{ item.updatedDueDate | dateFormate('yyyy/MM/dd') }}</span>
       </div>
 
       <div class="flex-between">

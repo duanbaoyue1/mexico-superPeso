@@ -39,9 +39,9 @@ export default {
     },
 
     checkInApp() {
-      // if (process.env.NODE_ENV != 'production') {
-      //   return;
-      // }
+      if (process.env.NODE_ENV != 'production') {
+        return;
+      }
       let appCheckTimeout = setTimeout(() => {
         this.setAppChecked(false);
       }, 2000);
