@@ -246,7 +246,7 @@ export default {
 
     async getDeferTimes() {
       let data = await this.$http.post(`/uzeaulazu/kgwhjiykpp`, {
-        orderId: this.orderId,
+        id: this.orderId,
       });
       this.deferTimes = data.data.num;
     },

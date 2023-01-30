@@ -1,8 +1,5 @@
 
 
-14. /xiaqpdt/qvsxvbfzcdpo/pgwhf 少数据icon
-
-
 
 window.appValidate('{"appName":"paisaGo","token":"63ad0171e4b00789dc15b33b","userId":"123","phone":"123","debug":true,"appVersion":1000,"afId":"","gaId":"","gpsAddress":"","gps":"","appVersionV":"","androidId":""}')
 

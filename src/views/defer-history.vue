@@ -1,25 +1,25 @@
 <template>
   <div class="defer-history">
-    <div class="items" v-for="item in lists" :key="item">
-      <div class="head fs-18">Deferment xx</div>
+    <div class="items" v-for="(item, index) in lists" :key="index">
+      <div class="head fs-18">Deferment {{index + 1}}</div>
       <div class="flex-between">
         <span>Deferment term</span>
-        <span>{{ item.iqfiwekkwdcs }} days</span>
+        <span>{{ item.extendedTerm }} days</span>
       </div>
 
       <div class="flex-between">
         <span>Application date</span>
-        <span>{{ item.uueveoyxnxfi }}</span>
+        <span>{{ item.approvalDate }}</span>
       </div>
 
       <div class="flex-between">
         <span>Updated due date</span>
-        <span>{{ item.tumurdmntdburd }}</span>
+        <span>{{ item.updatedDueDate }}</span>
       </div>
 
       <div class="flex-between">
         <span>Repayment amount</span>
-        <span>₹ {{ item.unwtwi }}</span>
+        <span>₹ {{ item.amount }}</span>
       </div>
     </div>
   </div>
@@ -46,6 +46,7 @@ export default {
         id: this.$route.query.orderId,
       });
       this.lists = this.mergeTwoArray(data1.data.list, data2.data.list);
+      console.log(this.lists);
     },
   },
 };

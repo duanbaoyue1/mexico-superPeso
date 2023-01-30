@@ -22,7 +22,7 @@ export default {
       if (to.query.token) {
         this.updateToken(to.query.token);
       }
-      if (to.query.appChecked) {
+      if (to.query.appChecked || sessionStorage.getItem('app-checked')) {
         this.setAppChecked(true);
       } else {
         this.checkInApp();
@@ -39,9 +39,9 @@ export default {
     },
 
     checkInApp() {
-      if (process.env.NODE_ENV != 'production') {
-        return;
-      }
+      // if (process.env.NODE_ENV != 'production') {
+      //   return;
+      // }
       let appCheckTimeout = setTimeout(() => {
         this.setAppChecked(false);
       }, 2000);
