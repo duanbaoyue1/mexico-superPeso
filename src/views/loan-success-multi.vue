@@ -157,6 +157,8 @@ export default {
         width: 50px;
         height: 50px;
         background-image: url(../assets/img/loan/unchoose.png);
+        background-repeat: no-repeat;
+        background-size: contain;
       }
 
       .logo {
