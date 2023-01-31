@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-detail">
+  <div class="defer-detail" v-show="detail">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
       <p>Only pay for ₹{{ detail.overDueFee }} today and you can defer {{ detail.extendedTerm }} days.</p>
