@@ -13,7 +13,7 @@ export default new Vuex.Store({
       // apiPrefix: '/',
       appName: 'paisaGo',
       // token: '63ad4768e4b00789dc15b349',
-      token: '63d78cc7e4b0d7a5c2d53000',
+      token: '63d8b174e4b00b460f22da7a',
       // token: '63aead1ee4b0b4f694f1a607',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型

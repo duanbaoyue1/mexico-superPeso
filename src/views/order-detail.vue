@@ -1,5 +1,5 @@
 <template>
-  <div class="order-detail">
+  <div class="order-detail" v-show="detail">
     <div class="step" :class="{ 'show-date': showDate }">
       <div class="step-item status" :class="'order_' + detail.orderStatus">
         <div class="step-line"></div>
