@@ -209,7 +209,7 @@ export default {
 
     return {
       orderId: this.$route.query.orderId,
-      choosed: false,
+      choosed: true, // 是否勾选复贷
       showPaymentTips: false,
       detail: '',
       deferTimes: 0,
@@ -220,12 +220,22 @@ export default {
   mounted() {
     this.getDetail();
     this.getDeferTimes();
-
-    console.log(this.orderUrl);
+    this.queryOrderReloan();
   },
 
   methods: {
+    async queryOrderReloan() {
+      try {
+        let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwt`, { orderId: this.orderId });
+        this.choosed = data.data;
+      } catch (error) {}
+    },
+
     async replay() {
+      // 更新复贷
+      try {
+        await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
+      } catch (error) {}
       location.href = this.orderUrl.repaymentUrl;
     },
     applyDefer() {

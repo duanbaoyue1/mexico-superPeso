@@ -35,7 +35,7 @@
         <div>
           <span class="color-orange">₹</span>
           <span class="value">{{ detail.amount }}</span>
-          <m-icon class="icon" type="gray-down" :width="16" :height="12" />
+          <!-- <m-icon class="icon" type="gray-down" :width="16" :height="12" /> -->
         </div>
       </div>
       <div class="flex-between">
@@ -267,7 +267,7 @@ export default {
         align-items: flex-end;
         .value {
           margin-left: 4px;
-          margin-right: 9px;
+          margin-right: 0px;
           font-size: 24px;
           font-weight: bold;
           color: #fe5404;
