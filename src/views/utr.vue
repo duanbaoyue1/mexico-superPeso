@@ -5,12 +5,12 @@
       <span class="color-red" @click="goUTRHelp()">How to check UTR?</span>
     </div>
     <input class="utr-value" v-model="utr" placeholder="Please enter UTR" />
-    <div class="error-tips color-red fs-12">Please enter correct UTR.</div>
+    <div class="error-tips color-red fs-12" :class="{ 'show-error': showError }">Please enter correct UTR.</div>
     <div class="repay">
       <div class="head">Repay</div>
       <div>
         1.When payment is completed,remember to fill in the UTR here; <br />
-        2.If you haven't complete the payment, you can click <span class="font-bold color-blue">here</span> to repay; <br />
+        2.If you haven't complete the payment, you can click <span class="font-bold color-blue" @click="recreate">here</span> to repay; <br />
         3.If multiple payments are made, multiple UTRs can be submitted repeatedly”
       </div>
     </div>
@@ -19,7 +19,7 @@
       <div class="btns">
         <button class="btn-default" :disabled="!canSubmit" @click="submit">Submit</button>
       </div>
-      <div class="help-center">I don't get UTR?</div>
+      <div class="help-center" @click="goAppBack">I don't get UTR?</div>
     </div>
   </div>
 </template>
@@ -29,27 +29,44 @@ export default {
   watch: {
     utr() {
       this.canSubmit = this.utr.length == 12;
+      this.showError = this.utr.length != 12;
     },
   },
   data() {
     return {
+      orderId: this.$route.query.orderId,
       utr: '',
+      showError: false,
       canSubmit: false,
+      orderUrl: '',
     };
   },
+  async mounted() {
+    this.orderUrl = await this.getOrderRelateUrl(this.orderId);
+  },
   methods: {
+    recreate() {
+      location.href = this.orderUrl.repaymentUrl;
+    },
     async submit() {
       try {
-        await this.$http.post(`/wvzlxylao/wvzlxjep`, {
+        let data = await this.$http.post(`/wvzlxylao/wvzlxjep`, {
           utr: this.utr,
-          orderId: this.$route.query.orderId,
+          orderId: this.orderId,
         });
+        console.log(data);
+        if (data.returnCode == 2000) {
+          this.$toast('Submitted successfully, UTR to be confirmed');
+          setTimeout(() => {
+            this.goAppBack();
+          }, 1000);
+        }
       } catch (error) {
         this.$toast(error.message);
       }
     },
     goUTRHelp() {
-      this.innerJump('utr-help', { orderId: this.$route.query.orderId });
+      this.innerJump('utr-help', { orderId: this.orderId });
     },
   },
 };
@@ -100,6 +117,7 @@ export default {
     font-weight: 400;
     color: #000000;
     line-height: 18px;
+    margin-bottom: 10px;
   }
   .utr-value {
     width: 320px;
@@ -112,10 +130,15 @@ export default {
     line-height: 20px;
     padding: 0 20px;
     box-sizing: border-box;
+    margin-bottom: 12px;
   }
   .error-tips {
     margin-top: 12px;
     margin-bottom: 20px;
+    visibility: hidden;
+    &.show-error {
+      visibility: visible;
+    }
   }
   .repay {
     font-size: 14px;
