@@ -27,7 +27,7 @@
         <button class="btn-line" @click="goHome">Back Home</button>
         <button class="btn-default" @click="applyMulti">Apply Immediately</button>
       </div>
-      <div class="tips color-red">products selected, high pass rate, when apply together</div>
+      <div class="tips color-red">{{ checkedNums }} products selected, high pass rate, when apply together</div>
     </div>
   </div>
 </template>
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       loans: [],
+      checkedNums: 0,
     };
   },
   mounted() {
@@ -70,14 +71,19 @@ export default {
     async getRecommendLoans() {
       let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
       let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-      // this.loans = this.mergeTwoArray(data1.data.list, data2.data.list);
       this.loans = data2.data.mergPushProductList;
+      this.updateCheckedNum();
     },
     check() {
       this.toAppMethod('goAllOrders', {});
     },
     checkLoan(index) {
       this.$set(this.loans, index, { ...this.loans[index], unChecked: !this.loans[index].unChecked });
+      this.updateCheckedNum();
+    },
+
+    updateCheckedNum() {
+      this.checkedNums = this.loans.filter((t) => !t.unChecked).length;
     },
 
     async applyMulti() {
@@ -146,8 +152,8 @@ export default {
       &::after {
         position: absolute;
         content: ' ';
-        top: -1px;
-        right: -1px;
+        top: -2px;
+        right: -2px;
         width: 50px;
         height: 50px;
         background-image: url(../assets/img/loan/unchoose.png);
