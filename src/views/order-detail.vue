@@ -56,7 +56,7 @@
           >₹<span>{{ detail.approvalAmount }}</span></span
         >
       </div>
-      <div class="flex-between">
+      <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Loan agreement</span>
         <div class="color-blue" @click="checkAgreement">check <m-icon class="icon" type="blue-right" :width="8" :height="12" /></div>
       </div>
