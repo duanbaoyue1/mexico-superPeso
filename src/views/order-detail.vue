@@ -100,7 +100,7 @@
             <div class="tips">Must view before rep</div>
           </div>
         </div>
-        <div class="policy" @click="choosed = !choosed">
+        <div class="policy" @click="choosed = !choosed" v-if="showAuto">
           <m-icon class="icon-i" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
           <span>To reduce unnecessary operations, re-loan is automatically initiated after successful repayment, and significantly increased your loan limit.</span>
         </div>
@@ -211,6 +211,7 @@ export default {
       loadinged: false,
       orderId: this.$route.query.orderId,
       choosed: true, // 是否勾选复贷
+      showAuto: false, // 是否显示复贷
       showPaymentTips: true,
       detail: '',
       deferTimes: 0,
@@ -228,7 +229,7 @@ export default {
     async queryOrderReloan() {
       try {
         let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwt`, { orderId: this.orderId });
-        this.choosed = data.data;
+        this.showAuto = data.data;
       } catch (error) {}
     },
 
