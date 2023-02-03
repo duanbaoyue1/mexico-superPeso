@@ -76,7 +76,9 @@ export default {
         this.innerJump('loan-success', { orderId: this.$route.query.orderId }, true);
       } catch (error) {
         this.$toast(error.message);
-        this.innerJump('loan-fail', { orderId: this.$route.query.orderId }, true);
+        setTimeout(() => {
+          this.innerJump('loan-fail', { orderId: this.$route.query.orderId }, true);
+        }, 1000)
       }
     },
   },
@@ -164,6 +166,7 @@ export default {
     }
 
     .policy {
+      padding: 0 20px;
       font-size: 10px;
       font-weight: 400;
       color: #000000;
@@ -172,7 +175,6 @@ export default {
       align-items: center;
       transform: scale(0.9);
       margin-bottom: 10px;
-      justify-content: center;
       width: 110%;
       margin-left: -5%;
       .icon {
