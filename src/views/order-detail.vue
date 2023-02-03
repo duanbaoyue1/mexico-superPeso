@@ -1,5 +1,5 @@
 <template>
-  <div class="order-detail" v-show="detail">
+  <div class="order-detail" v-show="loadinged">
     <div class="step" :class="{ 'show-date': showDate }">
       <div class="step-item status" :class="'order_' + detail.orderStatus">
         <div class="step-line"></div>
@@ -11,7 +11,7 @@
           <div>
             <div class="head">
               <span>Application Date</span>
-              <span>{{ detail.applyTime | dateFormate('yyyy/MM/dd') }}</span>
+              <span>{{ detail.applyTime }}</span>
             </div>
             <div class="desc">
               <span>Product</span>
@@ -29,7 +29,7 @@
         <div class="step-line"></div>
         <div class="step-wrapper head">
           <span>Due Date</span>
-          <span>{{ (detail.actualRepaymentTime || detail.expectedRepaymentTime) | dateFormate('yyyy/MM/dd') }}</span>
+          <span>{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="policy" @click="choosed = !choosed">
           <m-icon class="icon-i" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
-          <span>re-loan is automatically initiated after successful repayment, and significantly increased your loan limit.</span>
+          <span>To reduce unnecessary operations, re-loan is automatically initiated after successful repayment, and significantly increased your loan limit.</span>
         </div>
       </div>
     </div>
@@ -208,9 +208,10 @@ export default {
     // public final static int ABANDONED = 110;
 
     return {
+      loadinged: false,
       orderId: this.$route.query.orderId,
       choosed: true, // 是否勾选复贷
-      showPaymentTips: false,
+      showPaymentTips: true,
       detail: '',
       deferTimes: 0,
       orderUrl: '',
@@ -262,19 +263,24 @@ export default {
     },
 
     async getDetail() {
-      let data2 = await this.$http.post(`/zihai/yvelgho`, {
-        orderId: this.orderId,
-      });
-      let data1 = await this.$http.post(`/zihai/yvelghl`, {
-        orderId: this.orderId,
-      });
+      try {
+        let data2 = await this.$http.post(`/zihai/yvelgho`, {
+          orderId: this.orderId,
+        });
+        let data1 = await this.$http.post(`/zihai/yvelghl`, {
+          orderId: this.orderId,
+        });
 
-      this.detail = { ...data1.data, ...data2.data };
-      console.log('order detail', this.detail);
-      console.log('order status', this.detail.orderStatus);
-      console.log('this.orderStatuste', this.orderStatusText);
-      if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
-        this.orderUrl = await this.getOrderRelateUrl(this.orderId);
+        this.detail = { ...data1.data, ...data2.data };
+        console.log('order detail', this.detail);
+        console.log('order status', this.detail.orderStatus);
+        console.log('this.orderStatuste', this.orderStatusText);
+        if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
+          this.orderUrl = await this.getOrderRelateUrl(this.orderId);
+        }
+      } catch (error) {
+      } finally {
+        this.loadinged = true;
       }
     },
   },
@@ -342,6 +348,7 @@ export default {
         color: #1143a4;
         margin-top: 20px;
         background: #ffffff;
+        position: relative;
         .tips {
           position: absolute;
           top: -10px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-detail" v-show="detail">
+  <div class="defer-detail" v-show="loadinged">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
       <p>Only pay for ₹{{ detail.overDueFee }} today and you can defer {{ detail.extendedTerm }} days.</p>
@@ -86,6 +86,7 @@ export default {
   computed: {},
   data() {
     return {
+      loadinged: false,
       showPaymentTips: false,
       detail: '',
       orderUrl: '',
@@ -109,17 +110,21 @@ export default {
       location.href = this.orderUrl.extensionUrl;
     },
     async getDetail() {
-      let data1 = await this.$http.post('/uzeaulazu/yvelghl', {
-        id: this.$route.query.orderId,
-      });
-      let data2 = await this.$http.post('/uzeaulazu/yvelgho', {
-        id: this.$route.query.orderId,
-      });
-      this.detail = {
-        ...data1.data,
-        ...data2.data,
-      };
-      console.log(this.detail);
+      try {
+        let data1 = await this.$http.post('/uzeaulazu/yvelghl', {
+          id: this.$route.query.orderId,
+        });
+        let data2 = await this.$http.post('/uzeaulazu/yvelgho', {
+          id: this.$route.query.orderId,
+        });
+        this.detail = {
+          ...data1.data,
+          ...data2.data,
+        };
+      } catch (error) {
+      } finally {
+        this.loadinged = true;
+      }
     },
   },
 };

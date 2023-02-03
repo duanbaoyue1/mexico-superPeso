@@ -2,7 +2,7 @@
   <div class="add-bank">
     <div class="edit-area">
       <div class="line-item">
-        <input v-model="userInfo.loginName" placeholder="Please enter your name" />
+        <input v-model="userInfo.aadhaarName" placeholder="Please enter your name" />
       </div>
       <div class="head">
         <span>IFSC Code</span>
@@ -68,7 +68,7 @@ export default {
         return;
       }
       let saveData = { ...this.editData };
-      saveData.name = this.userInfo.loginName;
+      saveData.name = this.userInfo.aadhaarName;
       delete saveData.accountNumberConfirm;
 
       if (saveData.ifsc.length != 11) {

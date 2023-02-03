@@ -18,11 +18,11 @@
         <div class="label">Interest</div>
         <div class="value">{{ loan.interest }}</div>
         <div class="label">Max amount (₹)</div>
-        <div class="value">{{ JSON.parse(loan.amountRange).newConfig }}</div>
+        <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1]}}</div>
       </div>
     </div>
 
-    <div class="bottom-action">
+    <div class="bottom-action" v-if="loans.length > 0">
       <div class="btns">
         <button class="btn-line" @click="goHome">Back Home</button>
         <button class="btn-default" @click="applyMulti">Apply Immediately</button>
