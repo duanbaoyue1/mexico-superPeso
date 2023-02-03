@@ -72,13 +72,13 @@
           >₹<span>{{ detail.penaltyInterest }}</span></span
         >
       </div>
-      <div class="flex-between" v-if="detail.actualRepaymentAmount">
+      <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Repayment</span>
-        <span class="font-bold color-orange align-end"
+        <span class="font-bold color-orange align-end" style="line-height: 26px"
           >₹<span class="fs-24">{{ detail.actualRepaymentAmount }}</span></span
         >
       </div>
-      <div class="flex-between" v-if="deferTimes > 0" @click="goDeferHis">
+      <div class="flex-between" v-if="detail.orderStatus >= 80" @click="goDeferHis">
         <span>History of deferment</span>
         <div class="color-blue">{{ deferTimes }} times <m-icon class="icon" type="blue-right" :width="8" :height="12" /></div>
       </div>
@@ -212,7 +212,7 @@ export default {
       orderId: this.$route.query.orderId,
       choosed: true, // 是否勾选复贷
       showAuto: false, // 是否显示复贷
-      showPaymentTips: true,
+      showPaymentTips: false,
       detail: '',
       deferTimes: 0,
       orderUrl: '',
