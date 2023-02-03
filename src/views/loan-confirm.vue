@@ -11,11 +11,11 @@
       </div>
       <div class="item">
         <span>Application Date</span>
-        <span>{{ orderInfo.applyTime | dateFormate('yyyy/MM/dd') }}</span>
+        <span>{{ orderInfo.applyTime  }}</span>
       </div>
       <div class="item">
         <span>Due Date</span>
-        <span>{{ orderInfo.expectedRepaymentTime | dateFormate('yyyy/MM/dd') }}</span>
+        <span>{{ orderInfo.expectedRepaymentTime }}</span>
       </div>
       <div class="item">
         <span>Wallet Number</span>

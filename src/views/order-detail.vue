@@ -75,7 +75,7 @@
       <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Repayment</span>
         <span class="font-bold color-orange align-end" style="line-height: 26px"
-          >₹<span class="fs-24">{{ detail.actualRepaymentAmount }}</span></span
+          >₹<span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span></span
         >
       </div>
       <div class="flex-between" v-if="detail.orderStatus >= 80" @click="goDeferHis">

@@ -1,7 +1,7 @@
 <template>
   <div class="defer-history">
     <div class="items" v-for="(item, index) in lists" :key="index">
-      <div class="head fs-18">Deferment {{index + 1}}</div>
+      <div class="head fs-18">Deferment {{ index + 1 }}</div>
       <div class="flex-between">
         <span>Deferment term</span>
         <span>{{ item.extendedTerm }} days</span>
@@ -9,12 +9,12 @@
 
       <div class="flex-between">
         <span>Application date</span>
-        <span>{{ item.approvalDate | dateFormate('yyyy/MM/dd') }}</span>
+        <span>{{ item.approvalDate }}</span>
       </div>
 
       <div class="flex-between">
         <span>Updated due date</span>
-        <span>{{ item.updatedDueDate | dateFormate('yyyy/MM/dd') }}</span>
+        <span>{{ item.updatedDueDate }}</span>
       </div>
 
       <div class="flex-between">

@@ -11,7 +11,7 @@
           <div>
             <div class="head">
               <span>Application Date</span>
-              <span>{{ detail.startTime | dateFormate('yyyy/MM/dd') }}</span>
+              <span>{{ detail.startTime }}</span>
             </div>
           </div>
         </div>
@@ -22,7 +22,7 @@
           <div>
             <div class="head">
               <span>Due Date</span>
-              <span>{{ detail.updatedDueDate | dateFormate('yyyy/MM/dd') }}</span>
+              <span>{{ detail.updatedDueDate }}</span>
             </div>
           </div>
         </div>
