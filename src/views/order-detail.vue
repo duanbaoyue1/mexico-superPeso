@@ -45,7 +45,7 @@
       </div>
       <div class="flex-between" v-if="detail.orderBillId">
         <span>Loan ID</span>
-        <span>{{ detail.orderBillId }}</span>
+        <span>{{ detail.orderNo }}</span>
       </div>
     </div>
 
@@ -504,6 +504,7 @@ export default {
       line-height: 24px;
       margin-bottom: 30px;
       .step-line {
+        background: #ff1412;
         &::after {
           position: absolute;
           content: ' ';
@@ -521,14 +522,23 @@ export default {
       &.order_30,
       &.order_70,
       &.order_80 {
+        .step-line {
+          background: #febc1d;
+        }
         color: #febc1d;
       }
       &.order_40,
       &.order_90 {
+        .step-line {
+          background: #ff1412;
+        }
         color: #ff1412;
       }
       &.order_100,
       &.order_101 {
+        .step-line {
+          background: #04ca1c;
+        }
         color: #04ca1c;
       }
     }

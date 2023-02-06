@@ -18,7 +18,7 @@
         <div class="label">Interest</div>
         <div class="value">{{ loan.interest }}</div>
         <div class="label">Max amount (₹)</div>
-        <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1]}}</div>
+        <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1] }}</div>
       </div>
     </div>
 

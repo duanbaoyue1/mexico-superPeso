@@ -2,7 +2,7 @@
   <div class="defer-detail" v-show="loadinged">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
-      <p>Only pay for ₹{{ detail.overDueFee }} today and you can defer {{ detail.extendedTerm }} days.</p>
+      <p>Only pay for ₹{{ detail.amount }} today and you can defer {{ detail.extendedTerm }} days.</p>
     </div>
     <div class="step">
       <div class="step-item status">
@@ -226,7 +226,7 @@ export default {
       font-weight: 400;
       color: #000000;
       line-height: 25px;
-      white-space: nowrap;
+      word-break: break-word;
       &:first-child {
         margin-bottom: 10px;
         font-size: 20px;
@@ -345,6 +345,7 @@ export default {
       line-height: 24px;
       margin-bottom: 30px;
       .step-line {
+        background: #E6EBF5;
         &::after {
           position: absolute;
           content: ' ';
@@ -356,6 +357,7 @@ export default {
           transform: translateX(-50%);
         }
       }
+
     }
   }
 }
