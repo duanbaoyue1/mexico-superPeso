@@ -43,7 +43,7 @@
         <span>Account No.</span>
         <span>{{ detail.bankCardNo }}</span>
       </div>
-      <div class="flex-between" v-if="detail.orderBillId">
+      <div class="flex-between">
         <span>Loan ID</span>
         <span>{{ detail.orderNo }}</span>
       </div>
