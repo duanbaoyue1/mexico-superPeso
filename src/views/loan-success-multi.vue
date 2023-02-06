@@ -71,7 +71,7 @@ export default {
     async getRecommendLoans() {
       let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
       let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-      this.loans = data2.data.mergPushProductList;
+      this.loans = data2.data.mergPushProductList || [];
       this.updateCheckedNum();
     },
     check() {
