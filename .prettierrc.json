@@ -1,7 +1,20 @@
 {
-  "singleQuote": true,
-  "semi": true,
-  "useTabs": false,
+  "printWidth": 1200,
   "tabWidth": 2,
-  "printWidth": 2000
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "proseWrap": "preserve",
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "endOfLine": "auto",
+  "eslintIntegration": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "ignorePath": ".prettierignore",
+  "jsxBracketSameLine": false,
+  "jsxSingleQuote": false,
+  "requireConfig": false,
+  "stylelintIntegration": true,
+  "trailingComma": "es5",
+  "tslintIntegration": true
 }

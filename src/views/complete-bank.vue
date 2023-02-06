@@ -13,7 +13,7 @@
         <div v-for="card in cards" class="cards-item" :key="card.id" @click="chooseBank(card)">
           <div class="card-name">
             <m-icon class="bank" type="bank/bank" :width="30" :height="30" />
-            <span>{{card.name}} ({{ card.accountNumber }})</span>
+            <span>{{ card.name }} ({{ card.accountNumber }})</span>
           </div>
           <m-icon class="choose" :type="choosedBankId == card.id ? 'bank/choosed' : 'bank/not-choosed'" :width="18" :height="18" />
           <div class="bottom"></div>
@@ -68,7 +68,7 @@ export default {
     this.getBanks();
 
     // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async (data) => {
+    window.synDataCallback = async data => {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }

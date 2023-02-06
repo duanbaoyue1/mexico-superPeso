@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
+    <div v-else-if="showRedirect"></div>
     <router-view v-else />
   </div>
 </template>
@@ -13,12 +14,22 @@ export default {
   computed: {
     ...mapState(['isAppChecked']),
   },
+  data() {
+    return {
+      showRedirect: false,
+    };
+  },
   mounted() {},
   watch: {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.checkAndSetAppLocal();
+      if (to.query.nextUrl && from && from.name) {
+        // 为了解决进到还款页面以后退出到utr页面的问题
+        this.showRedirect = true;
+        location.href = to.query.nextUrl;
+      }
       if (to.query.token) {
         this.updateToken(to.query.token);
       }

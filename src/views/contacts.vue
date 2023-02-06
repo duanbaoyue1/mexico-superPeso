@@ -53,7 +53,11 @@
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
-      <span> Congratulations! <br />Your personal information has been verified </span>
+      <span>
+        Congratulations!
+        <br />
+        Your personal information has been verified
+      </span>
     </div>
   </div>
 </template>
@@ -75,7 +79,7 @@ export default {
     },
   },
   data() {
-    window.choosePhoneCallback = (data) => {
+    window.choosePhoneCallback = data => {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }

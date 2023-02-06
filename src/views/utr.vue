@@ -9,8 +9,12 @@
     <div class="repay">
       <div class="head">Repay</div>
       <div>
-        1.When payment is completed,remember to fill in the UTR here; <br />
-        2.If you haven't complete the payment, you can click <span class="font-bold color-blue" @click="recreate">here</span> to repay; <br />
+        1.When payment is completed,remember to fill in the UTR here;
+        <br />
+        2.If you haven't complete the payment, you can click
+        <span class="font-bold color-blue" @click="recreate">here</span>
+        to repay;
+        <br />
         3.If multiple payments are made, multiple UTRs can be submitted repeatedly”
       </div>
     </div>

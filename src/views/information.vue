@@ -44,7 +44,11 @@
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
-      <span> Congratulations! <br />Your personal information has been verified </span>
+      <span>
+        Congratulations!
+        <br />
+        Your personal information has been verified
+      </span>
     </div>
   </div>
 </template>

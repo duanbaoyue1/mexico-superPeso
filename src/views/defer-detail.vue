@@ -66,8 +66,11 @@
           <m-icon type="message/utr" :width="50" :height="50" />
         </div>
         <div class="content">
-          When payment is completed, <br />
-          remember to <a @click="goFillUtr">fill in the UTR</a> in this app.
+          When payment is completed,
+          <br />
+          remember to
+          <a @click="goFillUtr">fill in the UTR</a>
+          in this app.
         </div>
         <div class="action">
           <div class="confirm" @click="repay">Repay</div>
@@ -107,7 +110,7 @@ export default {
       this.showPaymentTips = true;
     },
     async repay() {
-      location.href = this.orderUrl.extensionUrl;
+      this.innerJump('utr', { nextUrl: this.orderUrl.extensionUrl, orderId: this.orderId });
     },
     async getDetail() {
       try {
@@ -345,7 +348,7 @@ export default {
       line-height: 24px;
       margin-bottom: 30px;
       .step-line {
-        background: #E6EBF5;
+        background: #e6ebf5;
         &::after {
           position: absolute;
           content: ' ';
@@ -357,7 +360,6 @@ export default {
           transform: translateX(-50%);
         }
       }
-
     }
   }
 }

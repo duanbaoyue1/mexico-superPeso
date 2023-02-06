@@ -19,7 +19,11 @@
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
-      <span> Congratulations! <br />Your personal information has been verified </span>
+      <span>
+        Congratulations!
+        <br />
+        Your personal information has been verified
+      </span>
     </div>
   </div>
 </template>
@@ -30,7 +34,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).filter((t) => !!t).length === 2;
+        this.canSubmit = Object.values(this.editData).filter(t => !!t).length === 2;
       },
       deep: true,
     },
@@ -53,8 +57,8 @@ export default {
       this.getUserInfo();
     }, 200);
 
-    [...document.getElementsByClassName('eye')].forEach((t) => {
-      t.addEventListener('click', (handler) => {
+    [...document.getElementsByClassName('eye')].forEach(t => {
+      t.addEventListener('click', handler => {
         let $input = handler.target.previousSibling;
         let type = $input.getAttribute('type');
         if (type == 'password') {

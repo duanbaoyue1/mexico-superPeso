@@ -21,7 +21,11 @@
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
-      <span> Congratulations! <br />Your personal information has been verified </span>
+      <span>
+        Congratulations!
+        <br />
+        Your personal information has been verified
+      </span>
     </div>
   </div>
 </template>
@@ -32,7 +36,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).filter((t) => !!t).length === 3;
+        this.canSubmit = Object.values(this.editData).filter(t => !!t).length === 3;
       },
       deep: true,
     },

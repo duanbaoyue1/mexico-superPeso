@@ -43,12 +43,12 @@ export default {
   mounted() {
     this.getRecommendLoans();
     // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async (data) => {
+    window.synDataCallback = async data => {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
-        let loanIds = this.loans.filter((t) => !t.unChecked).map((t) => t.id);
+        let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
         try {
           let data1 = await this.$http.post(`/zihai/qvsxvbget/xiyymmst`, {
             orderNo: this.$route.query.orderId,
@@ -83,7 +83,7 @@ export default {
     },
 
     updateCheckedNum() {
-      this.checkedNums = this.loans.filter((t) => !t.unChecked).length;
+      this.checkedNums = this.loans.filter(t => !t.unChecked).length;
     },
 
     async applyMulti() {

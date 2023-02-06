@@ -52,35 +52,45 @@
     <div class="order-more">
       <div class="flex-between">
         <span>Loan Amount</span>
-        <span class="font-bold color-000"
-          >₹<span>{{ detail.approvalAmount }}</span></span
-        >
+        <span class="font-bold color-000">
+          ₹
+          <span>{{ detail.approvalAmount }}</span>
+        </span>
       </div>
       <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Loan agreement</span>
-        <div class="color-blue" @click="checkAgreement">check <m-icon class="icon" type="blue-right" :width="8" :height="12" /></div>
+        <div class="color-blue" @click="checkAgreement">
+          check
+          <m-icon class="icon" type="blue-right" :width="8" :height="12" />
+        </div>
       </div>
       <div class="flex-between">
         <span>Received</span>
-        <span class="font-bold color-blue"
-          >₹<span>{{ detail.actualAmount }}</span></span
-        >
+        <span class="font-bold color-blue">
+          ₹
+          <span>{{ detail.actualAmount }}</span>
+        </span>
       </div>
       <div class="flex-between" v-if="detail.penaltyInterest > 0">
         <span>Overdue fee</span>
-        <span class="font-bold color-blue"
-          >₹<span>{{ detail.penaltyInterest }}</span></span
-        >
+        <span class="font-bold color-blue">
+          ₹
+          <span>{{ detail.penaltyInterest }}</span>
+        </span>
       </div>
       <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Repayment</span>
-        <span class="font-bold color-orange align-end" style="line-height: 26px"
-          >₹<span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span></span
-        >
+        <span class="font-bold color-orange align-end" style="line-height: 26px">
+          ₹
+          <span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span>
+        </span>
       </div>
       <div class="flex-between" v-if="detail.orderStatus >= 80" @click="goDeferHis">
         <span>History of deferment</span>
-        <div class="color-blue">{{ deferTimes }} times <m-icon class="icon" type="blue-right" :width="8" :height="12" /></div>
+        <div class="color-blue">
+          {{ deferTimes }} times
+          <m-icon class="icon" type="blue-right" :width="8" :height="12" />
+        </div>
       </div>
     </div>
 
@@ -90,8 +100,11 @@
           <m-icon type="message/utr" :width="50" :height="50" />
         </div>
         <div class="content">
-          When payment is completed, <br />
-          remember to <a @click="goFillUtr">fill in the UTR</a> in this app.
+          When payment is completed,
+          <br />
+          remember to
+          <a @click="goFillUtr">fill in the UTR</a>
+          in this app.
         </div>
         <div class="action">
           <div class="confirm" @click="replay">Repay</div>
@@ -238,7 +251,8 @@ export default {
       try {
         await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-      location.href = this.orderUrl.repaymentUrl;
+
+      this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId });
     },
     applyDefer() {
       this.innerJump('defer-detail', { orderId: this.orderId });
