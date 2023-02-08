@@ -33,7 +33,7 @@
       <button :disabled="!canSubmit" @click="submit">Submit</button>
       <div class="policy" @click="togglePolicy">
         <m-icon class="icon" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
-        I have read and agreed to the &nbsp;<span @click="goPrivacy">loan Agreement</span></span>
+        I have read and agreed to the &nbsp;<span @click="checkAgreement">loan Agreement</span></span>
       </div>
     </div>
   </div>
@@ -54,30 +54,34 @@ export default {
       choosed: true,
       canSubmit: true,
       orderInfo: '',
+      orderId: this.$route.query.orderId
     };
   },
   mounted() {
     this.getOrderInfo();
   },
   methods: {
+    checkAgreement() {
+      location.href = `${this.appGlobal.apiPrefix}/api/h5/contract?orderNo=${this.orderId}`;
+    },
     togglePolicy() {
       this.choosed = !this.choosed;
     },
     async getOrderInfo() {
-      let data = await this.$http.post('/zihai/bmzcxadafkbywtijqa', { orderId: this.$route.query.orderId });
-      let data2 = await this.$http.post('/zihai/bmzcxadafkbywtijqz', { orderId: this.$route.query.orderId });
+      let data = await this.$http.post('/zihai/bmzcxadafkbywtijqa', { orderId: this.orderId });
+      let data2 = await this.$http.post('/zihai/bmzcxadafkbywtijqz', { orderId: this.orderId });
       this.orderInfo = { ...data.data, ...data2.data };
       console.log(this.orderInfo);
     },
     async submit() {
       try {
-        await this.$http.post(`/zihai/bmzcx`, { orderId: this.$route.query.orderId });
+        await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
-        this.innerJump('loan-success', { orderId: this.$route.query.orderId }, true);
+        this.innerJump('loan-success', { orderId: this.orderId }, true);
       } catch (error) {
         this.$toast(error.message);
         setTimeout(() => {
-          this.innerJump('loan-fail', { orderId: this.$route.query.orderId }, true);
+          this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000)
       }
     },

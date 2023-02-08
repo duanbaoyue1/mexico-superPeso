@@ -34,7 +34,7 @@ export default {
 
   computed: {
     classActive() {
-      return (item) => {
+      return item => {
         return (this.curNav == 1 && this.choosedBank == item.id) || (this.curNav == 2 && this.choosedState == item.id) || (this.curNav == 3 && this.choosedCity == item.id) || (this.curNav == 4 && this.choosedBranch == item.id);
       };
     },
@@ -72,7 +72,9 @@ export default {
         this.choosedIfsc = item.ifsc;
       }
       if (this.curNav < 4) {
-        this.curNav++;
+        setTimeout(() => {
+          this.curNav++;
+        }, 500);
       }
     },
     async queryBanks(parentId) {

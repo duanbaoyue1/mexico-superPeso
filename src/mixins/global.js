@@ -129,6 +129,7 @@ export default {
 
     goPrivacy() {
       // TODO
+      location.href = `${this.appGlobal.apiPrefix}/api/h5/privacy`;
     },
     goTerms() {
       // TODO
@@ -181,7 +182,7 @@ export default {
 
     parseQuery(query) {
       const arr1 = query.split('&');
-      const arr = arr1.filter((item) => {
+      const arr = arr1.filter(item => {
         return item.indexOf('=') > -1;
       });
       const allOptions = {};
