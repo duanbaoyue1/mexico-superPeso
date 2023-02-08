@@ -107,7 +107,7 @@
           in this app.
         </div>
         <div class="action">
-          <div class="confirm" @click="replay">Repay</div>
+          <div class="confirm" @click="repay">Repay</div>
           <div class="cancel" @click="goTutorial">
             View tutorial
             <div class="tips">Must view before rep</div>
@@ -246,12 +246,12 @@ export default {
       } catch (error) {}
     },
 
-    async replay() {
+    async repay() {
       // 更新复贷
       try {
         await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-
+      
       this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId });
     },
     applyDefer() {

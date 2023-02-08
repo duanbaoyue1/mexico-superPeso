@@ -142,7 +142,7 @@ export default {
 
   .content {
     border-radius: 24px 24px 0px 0px;
-    padding: 75px 20px 100px;
+    padding: 75px 20px 20px;
     margin-top: -45px;
     background: #fff;
     .module {
