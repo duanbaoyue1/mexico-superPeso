@@ -76,7 +76,7 @@
           <div class="confirm" @click="repay">Repay</div>
           <div class="cancel" @click="goTutorial">
             View tutorial
-            <div class="tips">Must view before rep</div>
+            <div class="tips">Must view before repay</div>
           </div>
         </div>
       </div>
