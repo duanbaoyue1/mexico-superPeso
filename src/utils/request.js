@@ -51,6 +51,7 @@ service.interceptors.request.use(
       console.log('request:', config.data);
       config.data = zip(config.data);
     }
+    console.log('baseURL:', store.getters.appGlobal.apiPrefix);
     console.log('token:', store.getters.appGlobal.token);
     config.headers['token'] = store.getters.appGlobal.token;
     config.headers['channelCode'] = store.getters.appGlobal.channelCode;
