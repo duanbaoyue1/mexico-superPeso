@@ -55,7 +55,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.getUserInfo();
-    }, 1000);
+    }, 200);
 
     [...document.getElementsByClassName('eye')].forEach(t => {
       t.addEventListener('click', handler => {
