@@ -16,9 +16,10 @@
         <div class="label">Lending Company</div>
         <div class="value">{{ loan.companyName }}</div>
         <div class="label">Interest</div>
-        <div class="value">{{ loan.interest }}</div>
+        <div class="value">{{ loan.interest }}%/Day</div>
         <div class="label">Max amount (₹)</div>
-        <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1] }}</div>
+        <!-- <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1] }}</div> -->
+        <div class="value">{{ loan.maxAmount }}</div>
       </div>
     </div>
 
