@@ -64,7 +64,7 @@
           <m-icon class="icon" type="blue-right" :width="8" :height="12" />
         </div>
       </div>
-      <div class="flex-between">
+      <div class="flex-between" v-if="detail.orderStatus < 80 ">
         <span>Received</span>
         <span class="font-bold color-blue">
           ₹
