@@ -70,10 +70,16 @@ export default {
   },
   methods: {
     async getRecommendLoans() {
-      let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
-      let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-      this.loans = data2.data.mergPushProductList || [];
-      this.updateCheckedNum();
+      try {
+        this.$loadingshow();
+        let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
+        let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
+        this.loans = data2.data.mergPushProductList || [];
+        this.updateCheckedNum();
+      } catch (error) {
+      } finally {
+        this.$loadinghide();
+      }
     },
     check() {
       this.toAppMethod('goAllOrders', {});

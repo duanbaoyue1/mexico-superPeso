@@ -17,6 +17,9 @@ Vue.config.productionTip = false;
 
 import toast from '@/components/toast';
 Vue.use(toast);
+import loading from '@/components/loading';
+Vue.use(loading);
+
 
 import MessageBox from '@/components/message-box';
 Vue.component('message-box', MessageBox);
