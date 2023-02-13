@@ -20,7 +20,7 @@ export default new Vuex.Store({
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
       gps: '', // gps坐标
-      appVersionV: '', // 带v1.1.1 这种格式的版本号
+      appVersionV: '1.1.0', // 带1.1.1 这种格式的版本号
     },
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
