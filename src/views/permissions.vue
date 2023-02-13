@@ -17,6 +17,9 @@
         </div>
         <div class="desc" v-html="item.desc"></div>
       </div>
+      <div>Please note that all personal information is collected by us "as is" and we are not responsible for the accuracy of any personal information you provide.</div>
+      <br/>
+      <div>Your information is encrypted and stored confidentially on our server (https://pro.paisago.in) and is completely deleted when the user's service is terminated.</div>
     </div>
   </div>
 </template>
@@ -27,58 +30,51 @@ export default {
     return {
       lists: [
         {
-          iconName: 'permissions/icon1',
-          title: 'Device Information',
-          desc: 'The information we collect from your device includes hardware model, build model, memory, storage; unique device identifiers such as IMEI, serial number, SSAID; SIM information including network operator, roaming status, MNC and MCC codes, WIFI information including MAC address and mobile network information to uniquely identify the device, ensure no unauthorized device is acting on your behalf and prevent fraud.',
-          iconWidth: 18,
-          iconHeight: 18,
-        },
-        {
-          iconName: 'permissions/icon2',
-          title: 'Installed Applications',
-          desc: "We will get a list of installed applications' data information, including application name, package name, installation time, update time, version name and version code of each installed application on the device to evaluate your credit value and enrich your personal data with pre approved custom loan offers.",
+          iconName: 'permissions/icon5',
+          title: 'Contacts',
+          desc: 'PaisaGo may collect your contact information, including the names and phone numbers of your contacts. This collection will only be done with your consent. This information is also necessary for risk analysis to identify credible referrals, to assess your creditworthiness, and to identify fraudulent referrals. It will help you to check your creditworthiness. Yes, PaisaGo will not obtain or use this information from your mobile device without your consent. (This information is uploaded to: https://pro.paisago.in).',
           iconWidth: 18,
           iconHeight: 18,
         },
         {
           iconName: 'permissions/icon3',
           title: 'SMS',
-          desc: 'Collect and monitor only financial transaction SMS which includes name of transacting party, a description of the transaction and transaction amount for the purpose of performing a credit risk assessment. This credit risk assessment enables faster and quicker loan disbursal. No personal SMS are accessed, read or collected.',
+          desc: "PaisaGo stores and uploads your text messages in a legal manner (https://pro.paisago.in). The purpose of this text message access request is to evaluate the user's creditworthiness for loan origination purposes. Otherwise, collecting and evaluating your text messages and contact list is necessary to determine the criteria for genuine users and to prevent bots or temporary users from overloading the server.",
+          iconWidth: 18,
+          iconHeight: 18,
+        },
+        {
+          iconName: 'permissions/icon1',
+          title: 'Device Information',
+          desc: 'We look for information about the devices you use, including brand, monitor, hardware, monitor, hardware system version, monitor and operating system version.',
+          iconWidth: 18,
+          iconHeight: 18,
+        },
+        {
+          iconName: 'permissions/icon7',
+          title: 'Camera Information',
+          desc: 'For smooth lending, we use cameras for recognition and to strictly protect your information.',
+          iconWidth: 18,
+          iconHeight: 18,
+        },
+        {
+          iconName: 'permissions/icon6',
+          title: 'Location Information',
+          desc: 'Location information is only collected while you are using our applications to determine if you are within the scope of our services. If you exit our application, we will no longer collect your location information.',
+          iconWidth: 18,
+          iconHeight: 18,
+        },
+        {
+          iconName: 'permissions/icon8',
+          title: 'Phone status',
+          desc: "To improve fraud detection and risk management, we need user profile data to collect and monitor certain information about your phone, such as your phone's unique device identifier. This information helps us uniquely identify users and detect and prevent unauthorized device activity on your behalf. We upload this information to (https://pro.paisago.in) and will only access or use it with your permission.",
           iconWidth: 18,
           iconHeight: 18,
         },
         {
           iconName: 'permissions/icon4',
           title: 'Storage',
-          desc: 'This permission is required so that users loan account statements can be securely downloaded and saved on users phone, and so that user can upload the right documents for a faster approval and disbursal of the loan. Also, this helps provide a very smooth seamless experience while using the app.',
-          iconWidth: 18,
-          iconHeight: 18,
-        },
-        {
-          iconName: 'permissions/icon5',
-          title: 'Contacts',
-          desc: 'As a part of our loan journey, we require references from the Loan applicant. In this regard, during filing the form on our App, we collect your contact information to detect close contacts to enable you to autofill the data during the loan application process. <br/>Furthermore, we collect contact information from your device for the purposes of risk analysis by enabling us to detect credible references. The more credible the references are, the lower is the risk associated to a User.',
-          iconWidth: 18,
-          iconHeight: 18,
-        },
-        {
-          iconName: 'permissions/icon6',
-          title: 'Location',
-          desc: 'User location helps to locate and verify the address which helps in making better credit risk decisions and fasten the Know Your Customer (KYC) process.',
-          iconWidth: 18,
-          iconHeight: 18,
-        },
-        {
-          iconName: 'permissions/icon7',
-          title: 'Camera',
-          desc: 'Camera access is required so that user can easily scan or capture identity documents, etc. and save time by allowing us to auto-fill the required data and helps in improving the user journey and experience.',
-          iconWidth: 18,
-          iconHeight: 18,
-        },
-        {
-          iconName: 'permissions/icon8',
-          title: 'Phone State',
-          desc: 'Collect and monitor specific information about your phone like your phone’s unique device identifier, user profile information as this information helps us in uniquely identifying a user, so that we can detect and prevent any unauthorized device from acting on your behalf. This enables us to detect fraud and manage risks better.',
+          desc: "This permission is necessary to ensure that a user's credit account statements are downloaded and stored securely on their cell phone. The same goes for the user to download the appropriate files to expedite approval and repayment of the loan. This permission also allows the user to enjoy a very smooth and seamless experience when using the app. We will only access or use this information if it is uploaded to the site (https://pro.paisago.in) and if we have the user's permission to do so.",
           iconWidth: 18,
           iconHeight: 18,
         },
@@ -154,6 +150,7 @@ export default {
 
     .module {
       margin-bottom: 20px;
+      margin-top: 20px;
       .header {
         display: flex;
         align-items: center;

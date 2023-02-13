@@ -61,7 +61,6 @@ export default {
         if (typeof appGlobal === 'string') {
           appGlobal = JSON.parse(appGlobal);
         }
-        // alert('set app token:' + appGlobal.token)
         console.log('set app global', appGlobal);
         that.setAppGlobal(appGlobal);
         clearTimeout(appCheckTimeout);

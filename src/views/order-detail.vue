@@ -64,7 +64,7 @@
           <m-icon class="icon" type="blue-right" :width="8" :height="12" />
         </div>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80 ">
+      <div class="flex-between" v-if="detail.orderStatus >= 80">
         <span>Received</span>
         <span class="font-bold color-blue">
           ₹
@@ -251,7 +251,7 @@ export default {
       try {
         await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-      
+
       this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId });
     },
     applyDefer() {
