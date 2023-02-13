@@ -82,10 +82,10 @@ service.interceptors.response.use(
       // 4006: 强制升级
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
-          if (response.config.url == '/clyb/iuurv') {
-            alert('baseURL:' + response.config.baseURL);
-            alert('token:' + response.config.headers.token);
-          }
+          // if (response.config.url == '/clyb/iuurv') {
+          //   alert('baseURL:' + response.config.baseURL);
+          //   alert('token:' + response.config.headers.token);
+          // }
           let appGlobal = JSON.parse(localStorage.getItem('app-local'));
           wjs[`error40054006_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {
