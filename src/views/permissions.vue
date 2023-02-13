@@ -9,6 +9,7 @@
       <m-icon class="icon" type="permissions/back2" :width="161" :height="161"></m-icon>
     </div>
     <div class="content">
+      <div>PaisaGo is committed to providing a better experience for its users. That is why PaisaGo also requests certain information on the user's device when applying for credit. This information is only used to better assess risk. We do not share users' personal information with third parties without their consent.</div>
       <div class="module" v-for="item in lists" :key="item.iconName">
         <div class="header">
           <m-icon class="icon" :type="item.iconName" :width="item.iconWidth" :height="item.iconHeight"></m-icon>
@@ -145,6 +146,12 @@ export default {
     padding: 75px 20px 10px;
     margin-top: -45px;
     background: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999999;
+    line-height: 16px;
+    word-break: break-word;
+
     .module {
       margin-bottom: 20px;
       .header {
