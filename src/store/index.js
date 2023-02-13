@@ -9,12 +9,9 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      // apiPrefix: 'http://test.paisago.in',
-      apiPrefix: 'https://pro.paisago.in',
+      apiPrefix: 'http://test.paisago.in',
       appName: 'paisaGo',
-      // token: '63ad4768e4b00789dc15b349',
       token: '63e74bf5e4b02a538dfbc419',
-      // token: '63aead1ee4b0b4f694f1a607',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号

@@ -13,7 +13,7 @@
         E-mail :
       </div>
       <div class="item">
-        <input disabled value="okcash@gmail.com" />
+        <input disabled value="PaisaGoCS@outlook.com" />
       </div>
     </div>
 
@@ -35,16 +35,32 @@ export default {
     return {
       questions: [
         {
-          desc: 'Why choose DreamCash?',
-          answer: 'DreamCash is safe, simple and fast personal loan platform in India. Before received your salary, if you want to buy any electronic products or something else in urgent need, you can apply a short-term personal loan from DreamCash.',
+          desc: 'Why was my loan application rejected?',
+          answer: "The results of the review are displayed in the lender's system to allow a full assessment of your eligibility. The review was rejected because your eligibility did not meet the requirements. You can try applying for other loan products to meet your financial needs.",
         },
         {
-          desc: 'Why choose DreamCash?',
-          answer: 'DreamCash is safe, simple and fast personal loan platform in India. Before received your salary, if you want to buy any electronic products or something else in urgent need, you can apply a short-term personal loan from DreamCash.',
+          desc: 'How long does it take to get the result of the review once you have applied for a loan?',
+          answer: 'Once the application has been completed, it is sent to the lender immediately. The review period varies for each product. Please be patient and wait.',
         },
         {
-          desc: 'Why choose DreamCash?',
-          answer: 'DreamCash is safe, simple and fast personal loan platform in India. Before received your salary, if you want to buy any electronic products or something else in urgent need, you can apply a short-term personal loan from DreamCash.',
+          desc: 'How do I repay the loan?',
+          answer: 'You can apply for repayment according to the repayment order.',
+        },
+        {
+          desc: 'How long does it take to get a loan after approval?',
+          answer: 'Please be patient as the bank will transfer the money to your account once the verification process is completed.',
+        },
+        {
+          desc: 'Will my personal information be disclosed?',
+          answer: "To protect all users' personal information and to ensure that it is not disclosed to others, we have included a confidentiality agreement in the app.",
+        },
+        {
+          desc: 'What is the penalty for overpayment if I make a late payment?',
+          answer: 'Each product has a different policy for overdue payments and there is a corresponding penalty rate depending on the product',
+        },
+        {
+          desc: 'What are the penalties for overpayment if I make a late payment?',
+          answer: 'Each product has a different late payment policy and a corresponding penalty rate, depending on the product in question.',
         },
       ],
     };

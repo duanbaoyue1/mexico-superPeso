@@ -2,11 +2,11 @@
   <div class="about">
     <div class="app-info">
       <img src="../assets/img/logo@2x.png" />
-      <div class="name">TankaShip</div>
+      <div class="name">{{ appGlobal.appName }}</div>
       <div id="version">Version: v {{ appGlobal.appVersionV }}</div>
     </div>
 
-    <div class="desc">XXXXXXXXXX is a platform which displays various unsecured loan products.It’s developed by Epoch Gocredit Solutions Private Limited,it provides a platform to loan products and recommend these good products to the public to crate a new innovative mode of loan service. On the basis of artificial intelligence and big data risk management technology,We provide the convenient, fast and secure online financial service . Rupeebox is an platform with the features of easy application,fast reviewing,high loan amount and etc.We can provide customers with reliable loan service according to their personal requirements.</div>
+    <div class="desc">We have developed an application called "{{ appGlobal.appVersionV }}" through which you can apply for a short-term unsecured loan with a quick and easy process and a second payout the same day to help you solve your financial problems.</div>
   </div>
 </template>
 

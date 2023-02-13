@@ -7,7 +7,7 @@
     <div class="loan-info">
       <div class="item">
         <span>Loan Amount</span>
-        <span class="fs-24 font-bold color-000">₹{{ orderInfo.actualAmount }}</span>
+        <span class="fs-24 font-bold color-000">₹{{ orderInfo.approvalAmount }}</span>
       </div>
       <div class="item">
         <span>Application Date</span>
