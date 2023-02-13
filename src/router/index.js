@@ -159,6 +159,22 @@ const routes = [
           title: 'Retrieve Password',
         },
       },
+      {
+        path: 'privacy',
+        name: 'privacy',
+        component: () => import(/* webpackChunkName: "privacy" */ '../views/privacy.vue'),
+        meta: {
+          title: 'Privacy Policy',
+        },
+      },
+      {
+        path: 'terms',
+        name: 'terms',
+        component: () => import(/* webpackChunkName: "terms" */ '../views/terms.vue'),
+        meta: {
+          title: 'Terms of Services',
+        },
+      },
     ],
   },
   {
