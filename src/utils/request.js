@@ -42,7 +42,7 @@ function zip(str) {
 
 // request拦截器 request interceptor
 service.interceptors.request.use(
-  (config) => {
+  config => {
     config.baseURL = store.getters.appGlobal.apiPrefix;
     if (config.data) {
       if (typeof config.data !== 'string') {
@@ -66,7 +66,7 @@ service.interceptors.request.use(
     // config.headers['Accept'] = '*/*';
     return config;
   },
-  (error) => {
+  error => {
     // do something with request error
     console.log(error); // for debug
     return Promise.reject(error);
@@ -75,7 +75,7 @@ service.interceptors.request.use(
 
 // respone拦截器
 service.interceptors.response.use(
-  (response) => {
+  response => {
     const res = JSON.parse(unzip(response.data));
     console.log(response.config.url, ': ', res);
     if (res.returnCode && res.returnCode !== 2000) {
@@ -83,6 +83,10 @@ service.interceptors.response.use(
       // 4006: 强制升级
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
+          if (response.config.url == '/clyb/iuurv') {
+            alert('baseURL:' + response.config.baseURL);
+            alert('token:' + response.config.headers.token);
+          }
           let appGlobal = JSON.parse(localStorage.getItem('app-local'));
           wjs[`error40054006_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {
@@ -95,7 +99,7 @@ service.interceptors.response.use(
       return Promise.resolve(res);
     }
   },
-  (error) => {
+  error => {
     console.log('err' + error); // for debug
     return Promise.reject(error);
   }
