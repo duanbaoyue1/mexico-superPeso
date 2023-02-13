@@ -77,7 +77,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = JSON.parse(unzip(response.data));
-    console.log(response.config.url, ': ', res);
     if (res.returnCode && res.returnCode !== 2000) {
       // 4005: 登录超时,重新登录
       // 4006: 强制升级
