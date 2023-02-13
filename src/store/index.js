@@ -9,8 +9,8 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiPrefix: 'http://test.paisago.in',
-      // apiPrefix: 'https://pro.paisago.in',
+      // apiPrefix: 'http://test.paisago.in',
+      apiPrefix: 'https://pro.paisago.in',
       appName: 'paisaGo',
       // token: '63ad4768e4b00789dc15b349',
       token: '63e74bf5e4b02a538dfbc419',
