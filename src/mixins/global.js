@@ -128,11 +128,10 @@ export default {
     },
 
     goPrivacy() {
-      // TODO
-      location.href = `${this.appGlobal.apiPrefix}/api/h5/privacy`;
+      this.innerJump('privacy')
     },
     goTerms() {
-      // TODO
+      this.innerJump('terms')
     },
     goHelpCenter() {
       this.$router.push({ name: 'help-center' });
