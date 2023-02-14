@@ -34,7 +34,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).filter(t => !!t).length === 2;
+        this.canSubmit = Object.values(this.editData).filter(t => !!t).length === 2 && this.editData.passwd.length >= 6;
       },
       deep: true,
     },

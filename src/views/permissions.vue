@@ -139,7 +139,7 @@ export default {
 
   .content {
     border-radius: 24px 24px 0px 0px;
-    padding: 75px 20px 10px;
+    padding: 65px 20px 10px;
     margin-top: -45px;
     background: #fff;
     font-size: 12px;

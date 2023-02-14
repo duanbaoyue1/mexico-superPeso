@@ -13,7 +13,9 @@ const routes = [
         path: 'permissions',
         name: 'Permissions',
         component: () => import(/* webpackChunkName: "permissions" */ '../views/permissions.vue'),
-        meta: {},
+        meta: {
+          title: 'Permissions',
+        },
       },
       {
         path: 'information',
