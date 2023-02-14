@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       orderId: this.$route.query.orderId,
+      type: this.$route.query.type || 'repay',
       utr: '',
       showError: false,
       canSubmit: false,
@@ -50,7 +51,11 @@ export default {
   },
   methods: {
     recreate() {
-      location.href = this.orderUrl.repaymentUrl;
+      if (this.type == 'repay') {
+        location.href = this.orderUrl.repaymentUrl;
+      } else {
+        location.href = this.orderUrl.extensionUrl;
+      }
     },
     async submit() {
       try {

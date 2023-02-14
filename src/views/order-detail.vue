@@ -252,7 +252,7 @@ export default {
         await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
 
-      this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId });
+      this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId, type: 'repay' });
     },
     applyDefer() {
       this.innerJump('defer-detail', { orderId: this.orderId });
@@ -267,7 +267,7 @@ export default {
       this.innerJump('defer-history', { orderId: this.orderId });
     },
     goFillUtr() {
-      this.innerJump('utr', { orderId: this.orderId });
+      this.innerJump('utr', { orderId: this.orderId, type: 'repay' });
     },
 
     async getDeferTimes() {

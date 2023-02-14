@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     goFillUtr() {
-      this.innerJump('utr', { orderId: this.orderId });
+      this.innerJump('utr', { orderId: this.orderId, type: 'defer' });
     },
     goTutorial() {
       location.href = this.orderUrl.utrVideoUrl;
@@ -111,15 +111,16 @@ export default {
       this.showPaymentTips = true;
     },
     async repay() {
-      this.innerJump('utr', { nextUrl: this.orderUrl.extensionUrl, orderId: this.orderId });
+      this.innerJump('utr', { nextUrl: this.orderUrl.extensionUrl, orderId: this.orderId, type: 'defer' });
     },
     async getDetail() {
+      console.log('this.orderId', this.orderId);
       try {
         let data1 = await this.$http.post('/uzeaulazu/yvelghl', {
           id: this.orderId,
         });
         let data2 = await this.$http.post('/uzeaulazu/yvelgho', {
-          id: this.orderIdd,
+          id: this.orderId,
         });
         this.detail = {
           ...data1.data,

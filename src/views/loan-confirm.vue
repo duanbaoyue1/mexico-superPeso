@@ -18,11 +18,11 @@
         <span>{{ orderInfo.expectedRepaymentTime }}</span>
       </div>
       <div class="item">
-        <span>Wallet Number</span>
+        <span>Disbursal Bank</span>
         <span>{{ orderInfo.bankCardNo }}</span>
       </div>
       <div class="item">
-        <span>Wallet Method</span>
+        <span>Account No.</span>
         <span>{{ orderInfo.bankCardName }}</span>
       </div>
     </div>
