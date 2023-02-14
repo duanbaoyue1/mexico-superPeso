@@ -89,6 +89,7 @@ export default {
   computed: {},
   data() {
     return {
+      orderId: this.$route.query.orderId,
       loadinged: false,
       showPaymentTips: false,
       detail: '',
@@ -97,11 +98,11 @@ export default {
   },
   async mounted() {
     this.getDetail();
-    this.orderUrl = await this.getOrderRelateUrl(this.$route.query.orderId);
+    this.orderUrl = await this.getOrderRelateUrl(this.orderId);
   },
   methods: {
     goFillUtr() {
-      this.innerJump('utr', { orderId: this.$route.query.orderId });
+      this.innerJump('utr', { orderId: this.orderId });
     },
     goTutorial() {
       location.href = this.orderUrl.utrVideoUrl;
@@ -115,10 +116,10 @@ export default {
     async getDetail() {
       try {
         let data1 = await this.$http.post('/uzeaulazu/yvelghl', {
-          id: this.$route.query.orderId,
+          id: this.orderId,
         });
         let data2 = await this.$http.post('/uzeaulazu/yvelgho', {
-          id: this.$route.query.orderId,
+          id: this.orderIdd,
         });
         this.detail = {
           ...data1.data,
