@@ -1,7 +1,7 @@
 <template>
   <div class="h5-content">
     <div class="title">Terms of Service</div>
-    <p>Please read the terms and conditions of the privacy policy before registering on this platform or before receiving the material or information through this platform. We may change or revise the terms of use without notice. It is good to refer to the legend of final renewal. Please confirm the change of the terms of use periodically on your own responsibility. Therefore, when you access or use this platform, please check this agreement. After the change of this agreement, if you are using this platform, you are deemed to have been agreed to the terms of the change</p>
+    <p>Please read the terms and conditions of the privacy policy before registering on this platform or before receiving the material or information through this platform. We may change or revise the terms of use without notice. It is good to refer to the legend of final renewal. Please confirm the change of the terms of use periodically on your own responsibility. Therefore, when you access or use this platform, please check this agreement. After the change of this agreement, if you are using this platform, you are deemed to have been agreed to the terms of the change.</p>
     <br />
     <br />
 
