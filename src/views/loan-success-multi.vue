@@ -30,6 +30,25 @@
       </div>
       <div class="tips color-red">{{ checkedNums }} products selected, high pass rate, when apply together</div>
     </div>
+
+    <div class="control-back" v-if="showBackControl">
+      <div class="content">
+        <div class="head">
+          <img :src="require('@/assets/img/tips@2x.png')" />
+        </div>
+        <div class="content">
+          You are just one step away from a ₹4000 credit limit, are you sure you want to give up your eligibility?
+          <div class="count">
+            Auto Abort after
+            <span>{{ count }}S</span>
+          </div>
+        </div>
+        <div class="action">
+          <button class="btn-default" @click="applyMulti">Apply Immediately</button>
+          <a>Leave</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,14 +56,17 @@
 export default {
   data() {
     return {
+      single: this.$route.query.single || false, // 是否是单推
       loans: [],
+      count: 10,
       checkedNums: 0,
+      showBackControl: false,
     };
   },
   mounted() {
     // TODO 测试
-    this.toAppMethod('needBackControl');
-    
+    this.toAppMethod('needBackControl', {need: true});
+
     this.getRecommendLoans();
 
     // 用户点击回退回调
@@ -87,7 +109,7 @@ export default {
         let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
         this.loans = data2.data.mergPushProductList || [];
         if (this.loans.length) {
-          this.toAppMethod('needBackControl');
+          this.toAppMethod('needBackControl', {need: true});
         }
         this.updateCheckedNum();
       } catch (error) {
@@ -117,6 +139,49 @@ export default {
 <style lang="scss" scoped>
 .loan {
   padding-bottom: 120px;
+
+  .control-back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    > .content {
+      width: 320px;
+      height: 308px;
+      padding: 20px;
+      padding-top: 0;
+      box-sizing: border-box;
+      background: #ffffff;
+      border-radius: 24px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .head {
+        position: relative;
+        height: 54px;
+        img {
+          border: 4px solid #fff;
+          position: absolute;
+          top: -27px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 54px;
+          border-radius: 100%;
+          display: block;
+          margin-bottom: 20px;
+        }
+      }
+      .content {
+        font-size: 17px;
+        font-weight: 400;
+        color: #000601;
+        line-height: 24px;
+      }
+    }
+  }
 
   .bottom-action {
     width: 360px;

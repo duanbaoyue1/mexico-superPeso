@@ -173,7 +173,7 @@ export default {
     // app埋点
     eventTracker(key) {
       this.toAppMethod('eventTrack', {key: key})
-    }
+    },
 
     goHome() {
       // App方法

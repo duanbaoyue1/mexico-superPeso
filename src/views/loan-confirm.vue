@@ -78,7 +78,7 @@ export default {
       try {
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
-        this.innerJump('loan-success', { orderId: this.orderId }, true);
+        this.innerJump('loan-success-multi', { orderId: this.orderId, single: true }, true);
       } catch (error) {
         this.$toast(error.message);
         setTimeout(() => {
