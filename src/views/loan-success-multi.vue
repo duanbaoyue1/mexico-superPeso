@@ -2,7 +2,11 @@
   <div class="loan multi">
     <div class="loan-tips">
       <m-icon class="icon" type="loan/success" :width="122" :height="109" />
-      <div class="title">Application submitted successfully</div>
+      <div class="title">
+        Congratulations
+        <br />
+        Your application is successful
+      </div>
       <div class="apply" @click="check">Check Application</div>
     </div>
 
@@ -18,7 +22,6 @@
         <div class="label">Interest</div>
         <div class="value">{{ loan.interest }}%/Day</div>
         <div class="label">Max amount (₹)</div>
-        <!-- <div class="value">{{ JSON.parse(loan.amountRange).newConfig.split('-')[1] }}</div> -->
         <div class="value">{{ loan.maxAmount }}</div>
       </div>
     </div>
@@ -37,15 +40,15 @@
           <img :src="require('@/assets/img/tips@2x.png')" />
         </div>
         <div class="content">
-          You are just one step away from a ₹4000 credit limit, are you sure you want to give up your eligibility?
+          You are just one step away from a ₹{{ totalAmount }} credit limit, are you sure you want to give up your eligibility?
           <div class="count">
             Auto Abort after
             <span>{{ count }}S</span>
           </div>
         </div>
         <div class="action">
-          <button class="btn-default" @click="applyMulti">Apply Immediately</button>
-          <a>Leave</a>
+          <button class="btn-default" @click="showBackControl = false">Think again</button>
+          <div class="leave" @click="goAppBack">Leave</div>
         </div>
       </div>
     </div>
@@ -59,21 +62,22 @@ export default {
       single: this.$route.query.single || false, // 是否是单推
       loans: [],
       count: 10,
+      totalAmount: 0,
       checkedNums: 0,
       showBackControl: false,
+      backInterval: null, // 回退倒计时
     };
   },
   mounted() {
     // TODO 测试
-    this.toAppMethod('needBackControl', {need: true});
+    this.toAppMethod('needBackControl', { need: true });
 
     this.getRecommendLoans();
 
     // 用户点击回退回调
     window.backBtnHandler = async data => {
-      alert('检测到回调!');
-      alert('准备确认返回!');
-      this.goAppBack();
+      alert('检测到回调');
+      this.showBackModal();
     };
 
     // 银行卡选择后app抓取数据回调
@@ -102,6 +106,18 @@ export default {
     };
   },
   methods: {
+    showBackModal() {
+      this.count = 10;
+      this.backInterval = setInterval(() => {
+        if (this.count == 0) {
+          window.clearInterval(this.backInterval);
+          this.backInterval = null;
+        } else {
+          this.count--;
+        }
+      }, 1000);
+      this.showBackControl = true;
+    },
     async getRecommendLoans() {
       try {
         this.$loadingshow();
@@ -109,7 +125,7 @@ export default {
         let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
         this.loans = data2.data.mergPushProductList || [];
         if (this.loans.length) {
-          this.toAppMethod('needBackControl', {need: true});
+          this.toAppMethod('needBackControl', { need: true });
         }
         this.updateCheckedNum();
       } catch (error) {
@@ -172,6 +188,7 @@ export default {
           border-radius: 100%;
           display: block;
           margin-bottom: 20px;
+          background: #fff;
         }
       }
       .content {
@@ -179,6 +196,34 @@ export default {
         font-weight: 400;
         color: #000601;
         line-height: 24px;
+        .count {
+          font-size: 20px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #000601;
+          line-height: 24px;
+          margin-top: 20px;
+          span {
+            color: #1143a4;
+            line-height: 24px;
+            margin-left: 8px;
+          }
+        }
+      }
+
+      .action {
+        margin-top: 34px;
+        .btn-default {
+          width: 100%;
+          margin-bottom: 16px;
+        }
+        .leave {
+          font-size: 17px;
+          font-weight: 400;
+          color: #999999;
+          line-height: 24px;
+          text-align: center;
+        }
       }
     }
   }
