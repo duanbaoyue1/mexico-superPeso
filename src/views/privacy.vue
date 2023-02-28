@@ -6,7 +6,7 @@
 
     <br />
     <br />
-    By simply accessing the Platform or any part thereof, you agree to this Privacy Policy and consent to the processing of your personal data (personal data, sensitive personal data or information) by PaisaGo ("we" or "our" or "PaisaGo"). This Privacy Policy is incorporated into and governed by the Platform Terms of Use.
+    By simply accessing the Platform or any part thereof, you agree to this Privacy Policy and consent to the processing of your personal data (personal data, sensitive personal data or information) by EasyMoney ("we" or "our" or "EasyMoney"). This Privacy Policy is incorporated into and governed by the Platform Terms of Use.
     <br />
     <br />
     For purposes of this Privacy Policy, a user of the Services may be a customer/consumer/buyer/consumer or any other person using the Services or accessing our Platform ("User" or "you" or "your"). If you do not agree with this Policy or any part of it, please do not use/access/download or install the Platform or any part of it.
@@ -17,16 +17,16 @@
     Personal data.
     <br />
     <br />
-    Any customer personal data that may be sensitive (hereinafter referred to as "personal data") refers to any information/documents/details related to an individual, together with other information owned or possibly owned by Paisago Financial, directly or indirectly identifying that person. We collect your information for the following reasons.
+    Any customer personal data that may be sensitive (hereinafter referred to as "personal data") refers to any information/documents/details related to an individual, together with other information owned or possibly owned by EasyMoney Financial, directly or indirectly identifying that person. We collect your information for the following reasons.
     <br />
     <br />
-    Paisago Financial will collect information from you when you register your account, when you use its products or services, when you visit the page on its website or mobile application, or when you share employee information with the employer organization.
+    EasyMoney Financial will collect information from you when you register your account, when you use its products or services, when you visit the page on its website or mobile application, or when you share employee information with the employer organization.
     <br />
     <br />
-    When you register for Paisago Financial, you must provide some information, which may be your personal information, such as your name, country and city of residence, e-mail address, mobile phone number, date of birth, etc. If you enter your phone number when registering, we can also send SMS and service notifications to your wireless device. Therefore, by registering, you allow Paisago Financial to send you text and email notifications about your login information and any other service requests, including promotional email and SMS. This policy also applies to all current and former users of mobile applications and our mobile website.
+    When you register for EasyMoney Financial, you must provide some information, which may be your personal information, such as your name, country and city of residence, e-mail address, mobile phone number, date of birth, etc. If you enter your phone number when registering, we can also send SMS and service notifications to your wireless device. Therefore, by registering, you allow EasyMoney Financial to send you text and email notifications about your login information and any other service requests, including promotional email and SMS. This policy also applies to all current and former users of mobile applications and our mobile website.
     <br />
     <br />
-    We recommend that you visit this page from time to time to view the latest version of this policy. Paisago Financial reserves the right to modify or otherwise supplement this policy at any time without notice. Your continued use of mobile applications and/or mobile websites means that you agree to modify or supplement the policy. However, if we make major changes to this policy, we will notify you by email (sent to the email address specified in your account) or through mobile application or mobile website before the changes take effect.
+    We recommend that you visit this page from time to time to view the latest version of this policy. EasyMoney Financial reserves the right to modify or otherwise supplement this policy at any time without notice. Your continued use of mobile applications and/or mobile websites means that you agree to modify or supplement the policy. However, if we make major changes to this policy, we will notify you by email (sent to the email address specified in your account) or through mobile application or mobile website before the changes take effect.
     <br />
     <br />
     We use the information you provide us to Answer any of your questions or requests.
@@ -59,19 +59,19 @@
     Explicit consent.
     <br />
     <br />
-    By providing access/details/documentation through the mobile application and/or mobile website, including, but not limited to, the personal data mentioned above, you expressly agree to: that PaisaGo Financial (its affiliates, business partners and non-business partners) will contact you for follow-up calls regarding the services offered through the mobile application and/or mobile website in order to obtain product knowledge, Provide offers on the mobile application and/or mobile website and other offers operated on the mobile application and/or mobile website by its partners.
+    By providing access/details/documentation through the mobile application and/or mobile website, including, but not limited to, the personal data mentioned above, you expressly agree to: that EasyMoney Financial (its affiliates, business partners and non-business partners) will contact you for follow-up calls regarding the services offered through the mobile application and/or mobile website in order to obtain product knowledge, Provide offers on the mobile application and/or mobile website and other offers operated on the mobile application and/or mobile website by its partners.
     <br />
     <br />
     You may be asked to consent to the input/uploading of your personal information so that the mobile application/mobile website can process your request for the financial products you have selected/opted out of in an accessible, faster and paperless manner (where possible).
     <br />
     <br />
-    By using the Mobile Application and/or the Mobile Website, you hereby give your permission and express consent for us to share your personal information, including but not limited to demographic information, with third parties, to conduct a comprehensive credit check and to allow PaisaGo Financial to send you targeted communications and offers. You also agree that PaisaGo Financial may collect credit information and indicative scores from credit reference agencies on your behalf.
+    By using the Mobile Application and/or the Mobile Website, you hereby give your permission and express consent for us to share your personal information, including but not limited to demographic information, with third parties, to conduct a comprehensive credit check and to allow EasyMoney Financial to send you targeted communications and offers. You also agree that EasyMoney Financial may collect credit information and indicative scores from credit reference agencies on your behalf.
     <br />
     <br />
     You expressly waive the Do-Not-Call (DNC)/Do-Not-Disturb (DND) registration on your phone/mobile number in order to be contacted by installing the mobile application and/or using the mobile website. Therefore, the phone number you provide on the mobile website or mobile application is not verified by DNC/DND. We may contact you, among other things, by sending text messages, email notifications and/or phone calls.
     <br />
     <br />
-    PaisaGo Financial reserves the right (and you expressly authorize PaisaGo Financial) to disclose or disclose your personal information if PaisaGo Financial determines in its sole discretion that such disclosure is necessary or appropriate under applicable law.
+    EasyMoney Financial reserves the right (and you expressly authorize EasyMoney Financial) to disclose or disclose your personal information if EasyMoney Financial determines in its sole discretion that such disclosure is necessary or appropriate under applicable law.
     <br />
     <br />
     Disclosure and disclosure of information.
@@ -83,13 +83,13 @@
     When disclosure is required or enforced by law or by a court, government agency or agency to verify identity, prevent, detect, investigate, including cyber incidents, or prosecute and punish criminals. This information is provided in the good faith belief that it is necessary to enforce these Terms and Conditions and to comply with applicable laws and regulations.
     <br />
     <br />
-    In order to process personal data on its behalf, PaisaGo Financial intends to exchange information between its group companies, controllers and employees. We have also stipulated that anyone who receives such information agrees to process it in accordance with our instructions and in accordance with this Privacy Policy and any other applicable confidentiality and security measures.
+    In order to process personal data on its behalf, EasyMoney Financial intends to exchange information between its group companies, controllers and employees. We have also stipulated that anyone who receives such information agrees to process it in accordance with our instructions and in accordance with this Privacy Policy and any other applicable confidentiality and security measures.
     <br />
     <br />
-    PaisaGo Financial may use third-party advertising providers to serve ads when Users visit the Site. These companies may use personal information about users' visits to this and other websites to provide advertisements for goods and services that may be of interest to users.
+    EasyMoney Financial may use third-party advertising providers to serve ads when Users visit the Site. These companies may use personal information about users' visits to this and other websites to provide advertisements for goods and services that may be of interest to users.
     <br />
     <br />
-    If PaisaGo Financial is acquired by or merged with another company, the information about you will be transferred.
+    If EasyMoney Financial is acquired by or merged with another company, the information about you will be transferred.
     <br />
     <br />
     To the extent that we are required to comply with our legal obligations under applicable laws and regulations.
@@ -112,7 +112,7 @@
     Tracking technology.
     <br />
     <br />
-    Paisago financial and its partners use cookies or similar techniques for trend analysis, management of mobile apps / mobile websites, tracking customer trends in mobile apps / mobile websites, and collecting demographic information on the entire client base. You can manage cookies in the settings of the browser, but if you disable cookies, the use of some functions or features in our mobile app / mobile website or service may be restricted.
+    EasyMoney financial and its partners use cookies or similar techniques for trend analysis, management of mobile apps / mobile websites, tracking customer trends in mobile apps / mobile websites, and collecting demographic information on the entire client base. You can manage cookies in the settings of the browser, but if you disable cookies, the use of some functions or features in our mobile app / mobile website or service may be restricted.
     <br />
     <br />
     Action targeting / targeting.
@@ -124,7 +124,7 @@
     Your voice, blog, and other BBS.
     <br />
     <br />
-    The information you entered into the blog or other public forums available to the mobile app and / or mobile website can be read, collected and used, and may be used to send annoying messages to you. Paisago financial is not liable for any personal information disclosed by such a forum.
+    The information you entered into the blog or other public forums available to the mobile app and / or mobile website can be read, collected and used, and may be used to send annoying messages to you. EasyMoney financial is not liable for any personal information disclosed by such a forum.
     <br />
     <br />
     Your information will protect us.
@@ -133,10 +133,10 @@
     We protect your personal information in accordance with the standards that are generally fair and valid in both sending and receiving. We cannot guarantee complete security because the form of Internet and electronic preservation is not completely safe.
     <br />
     <br />
-    To safeguard your online experience and protect paisago financial online accounts and systems from unauthorized access, we use security means combined with firewalls, encryption mechanisms and authentication procedures.
+    To safeguard your online experience and protect EasyMoney financial online accounts and systems from unauthorized access, we use security means combined with firewalls, encryption mechanisms and authentication procedures.
     <br />
     <br />
-    To ensure your privacy and protection, paisago financial may ask you to enter a mobile app and / or enter a password when registering to a mobile site. Information on mobile apps and / or mobile sites, and information such as your account authentication information will be sent securely by paisago financial.
+    To ensure your privacy and protection, EasyMoney financial may ask you to enter a mobile app and / or enter a password when registering to a mobile site. Information on mobile apps and / or mobile sites, and information such as your account authentication information will be sent securely by EasyMoney financial.
     <br />
     <br />
     Our database is physically and logically protected from access to general employees. Your service password is encrypted so that we can not restore to anyone including us. All tapes and drives for backup are encrypted.
@@ -172,7 +172,7 @@
     Compare and Apply for Most Suitable Loans & Balance Transfer Offers.
     <br />
     <br />
-    Use PaisaGofinancial Market App to:
+    Use EasyMoneyfinancial Market App to:
     <br />
     <br />
     FREE Credit Report and Score for Free
@@ -196,10 +196,10 @@
     FREE Credit Report
     <br />
     <br />
-    PaisaGofinancial is partnering with Equifax to offer its user Credit report and score.
+    EasyMoneyfinancial is partnering with Equifax to offer its user Credit report and score.
     <br />
     <br />
-    Checking your CIBIL Score frequently on the PaisaGofinancial Market App won’t impact your Credit Score.
+    Checking your CIBIL Score frequently on the EasyMoneyfinancial Market App won’t impact your Credit Score.
     <br />
     <br />
     Monitor your Repayment Status of outstanding loans.
@@ -217,7 +217,7 @@
     If we change this Policy in the future, we will post the changes on this page and, where applicable, you will be notified when you restart the App or log in to any of the Service Sites. The new Terms will appear on screen and you may be required to read and accept them in order to continue to use the App or the Services. In any event, by continuing to use the App or the Services after any changes, you confirm that you continue to accept this Policy together with those changes and agree to the terms set out herein.
     <br />
     <br />
-    Any questions, comments or requests regarding this Privacy Policy should be directed to PaisaGo@outlook.com.
+    Any questions, comments or requests regarding this Privacy Policy should be directed to EasyMoney@outlook.com.
   </div>
 </template>
 

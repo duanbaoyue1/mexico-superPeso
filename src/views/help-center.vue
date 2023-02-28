@@ -13,7 +13,7 @@
         E-mail :
       </div>
       <div class="item">
-        <input disabled value="PaisaGoCS@outlook.com" />
+        <input disabled value="EasyMoneyCS@outlook.com" />
       </div>
     </div>
 
