@@ -74,6 +74,7 @@ export default {
       console.log(this.orderInfo);
     },
     async submit() {
+      this.eventTracker('confirm_submit');
       try {
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转

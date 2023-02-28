@@ -170,6 +170,11 @@ export default {
       return days;
     },
 
+    // app埋点
+    eventTracker(key) {
+      this.toAppMethod('eventTrack', {key: key})
+    }
+
     goHome() {
       // App方法
       this.toAppMethod('goHome');

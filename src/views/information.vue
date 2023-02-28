@@ -81,6 +81,7 @@ export default {
       this.$set(this.editData, data.attr, data.value);
     },
     async submit() {
+      this.eventTracker('basic_submit');
       let saveData = { ...this.editData };
       if (!this.validateEmail(saveData.email)) {
         this.$toast('Please enter the correct email address.');

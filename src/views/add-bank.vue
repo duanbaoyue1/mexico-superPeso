@@ -62,7 +62,7 @@ export default {
       this.showIfsc = false;
     },
     async submit() {
-      console.log(this.userInfo);
+      this.eventTracker('bank_add_submit');
       if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
         this.$toast('Account number is not consistent');
         return;

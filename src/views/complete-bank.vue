@@ -108,6 +108,7 @@ export default {
 
   methods: {
     goAddCard() {
+      this.eventTracker('bank_add');
       this.innerJump('add-bank', this.$route.query, true);
     },
     async getBanks() {
@@ -120,6 +121,7 @@ export default {
       this.choosedBankId = bank.id;
     },
     async submit() {
+      this.eventTracker('bank_submit');
       try {
         if (this.$route.query.from == 'order') {
           // 从订单进来的, 需要先通知app方法

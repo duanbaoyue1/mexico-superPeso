@@ -116,6 +116,7 @@ export default {
       this.toAppMethod('choosePhone', { type });
     },
     async submit() {
+      this.eventTracker('contact_submit');
       let saveData = { ...this.editData };
       let contacts = [];
       if (saveData.familyRelation) {
