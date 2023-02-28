@@ -42,7 +42,18 @@ export default {
     };
   },
   mounted() {
+    // TODO 测试
+    this.toAppMethod('needBackControl');
+    
     this.getRecommendLoans();
+
+    // 用户点击回退回调
+    window.backBtnHandler = async data => {
+      alert('检测到回调!');
+      alert('准备确认返回!');
+      this.goAppBack();
+    };
+
     // 银行卡选择后app抓取数据回调
     window.synDataCallback = async data => {
       if (typeof data == 'string') {
@@ -75,6 +86,9 @@ export default {
         let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
         let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
         this.loans = data2.data.mergPushProductList || [];
+        if (this.loans.length) {
+          this.toAppMethod('needBackControl');
+        }
         this.updateCheckedNum();
       } catch (error) {
       } finally {
