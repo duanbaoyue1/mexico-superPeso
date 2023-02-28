@@ -145,7 +145,7 @@ export default {
       this.toAppMethod('goAllOrders', {});
     },
     checkLoan(index) {
-      if (this.checkedNums == 1) return;
+      if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
       this.$set(this.loans, index, { ...this.loans[index], unChecked: !this.loans[index].unChecked });
       this.updateCheckedNum();
     },
