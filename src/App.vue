@@ -22,6 +22,7 @@ export default {
   mounted() {},
   watch: {
     $route(to, from) {
+      
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.toAppMethod('needBackControl', {need: false});
