@@ -1,5 +1,5 @@
 <template>
-  <div class="loan multi">
+  <div class="loan" :class="{ multi: this.loans.length > 0 }">
     <div class="loan-tips">
       <m-icon class="icon" type="loan/success" :width="122" :height="109" />
       <div class="title">
@@ -7,14 +7,26 @@
         <br />
         Your application is successful
       </div>
-      <div class="apply" @click="check">Check Application</div>
+      <div v-if="!this.loans.length" class="apply" @click="check">Check Application</div>
+      <div v-else class="apply" @click="applyMulti">Increase ₹{{ totalAmount }} Amount</div>
     </div>
 
     <div class="other-loans" v-if="loans.length > 0">
+      <div class="tips">You are in our special VIP exclusive channel in view of your good qualification.</div>
+      <div class="checked-num">
+        Already Select
+        <span>{{ checkedNums }} products</span>
+      </div>
       <div v-for="(loan, index) in loans" :key="loan.id" class="loan-item" :class="{ active: !loan.unChecked }" @click="checkLoan(index)">
         <img class="icon" :src="loan.icon" />
-        <div class="name">{{ loan.productName }}</div>
-        <div class="reloan-wrapper" v-show="loan.isReloan">
+        <div class="info">
+          <div class="name">{{ loan.productName }}</div>
+          <div class="value">
+            Loan Amout (₹):
+            <span>{{ loan.maxAmount }}</span>
+          </div>
+        </div>
+        <!-- <div class="reloan-wrapper" v-show="loan.isReloan">
           <div class="reloan">Reloan</div>
         </div>
         <div class="label">Lending Company</div>
@@ -22,17 +34,17 @@
         <div class="label">Interest</div>
         <div class="value">{{ loan.interest }}%/Day</div>
         <div class="label">Max amount (₹)</div>
-        <div class="value">{{ loan.maxAmount }}</div>
+        <div class="value">{{ loan.maxAmount }}</div> -->
       </div>
     </div>
 
-    <div class="bottom-action" v-if="loans.length > 0">
+    <!-- <div class="bottom-action" v-if="loans.length > 0">
       <div class="btns">
         <button class="btn-line" @click="goHome">Back Home</button>
         <button class="btn-default" @click="applyMulti">Apply Immediately</button>
       </div>
       <div class="tips color-red">{{ checkedNums }} products selected, high pass rate, when apply together</div>
-    </div>
+    </div> -->
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
@@ -137,12 +149,14 @@ export default {
       this.toAppMethod('goAllOrders', {});
     },
     checkLoan(index) {
+      if (this.checkedNums == 1) return;
       this.$set(this.loans, index, { ...this.loans[index], unChecked: !this.loans[index].unChecked });
       this.updateCheckedNum();
     },
 
     updateCheckedNum() {
       this.checkedNums = this.loans.filter(t => !t.unChecked).length;
+      this.totalAmount = this.sumArr(this.loans.filter(t => !t.unChecked).map(t => t.maxAmount));
     },
 
     async applyMulti() {
@@ -154,8 +168,6 @@ export default {
 
 <style lang="scss" scoped>
 .loan {
-  padding-bottom: 120px;
-
   .control-back {
     position: fixed;
     top: 0;
@@ -259,26 +271,78 @@ export default {
     }
   }
   .other-loans {
-    margin: 40px 20px;
+    border-top: 6px solid #f4f4f4;
+    margin: 30px 0px;
+    padding: 0 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: -20px;
+    padding-top: 30px;
+
+    .tips {
+      width: 320px;
+      height: 76px;
+      background: #d8e4fb;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #333333;
+      line-height: 18px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .checked-num {
+      margin: 20px 0;
+      font-size: 16px;
+      font-weight: 900;
+      color: #333333;
+      line-height: 24px;
+      span {
+        color: #1143a4;
+        margin-left: 2px;
+        text-decoration: underline;
+      }
+    }
 
     .loan-item {
-      width: 150px;
+      width: 320px;
       background: #ffffff;
       border-radius: 14px;
       border: 2px solid #e3eafd;
-      padding: 20px 0;
+      padding: 20px;
       margin-bottom: 20px;
       position: relative;
+      display: flex;
+      align-items: center;
+      .info {
+        .name {
+          font-size: 14px;
+          font-weight: 400;
+          color: #333333;
+          line-height: 20px;
+          margin-bottom: 8px;
+        }
+        .value {
+          font-size: 10px;
+          font-weight: 400;
+          color: #999999;
+          line-height: 12px;
+          span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333333;
+            line-height: 20px;
+          }
+        }
+      }
       .icon {
-        width: 24px;
-        height: 24px;
+        width: 40px;
+        height: 40px;
         display: block;
-        margin: 0 auto;
-        margin-bottom: 4px;
+        margin-right: 10px;
       }
       &::after {
         position: absolute;
@@ -292,55 +356,55 @@ export default {
         background-size: contain;
       }
 
-      .logo {
-        margin: 0 auto;
-      }
-      .name {
-        font-size: 14px;
-        font-weight: 400;
-        color: #333333;
-        line-height: 18px;
-        margin: 4px auto;
-        text-align: center;
-      }
-      .reloan-wrapper {
-        display: flex;
-        box-sizing: border-box;
-        justify-content: center;
-        .reloan {
-          height: 16px;
-          border-radius: 10px;
-          line-height: 1;
-          text-align: center;
-          border: 1px solid #ffbd5c;
-          font-size: 10px;
-          font-weight: 500;
-          color: #ffbd5c;
-          padding: 2px 10px 0px 10px;
-          display: inline-block;
-          margin-bottom: 20px;
-        }
-      }
+      // .logo {
+      //   margin: 0 auto;
+      // }
+      // .name {
+      //   font-size: 14px;
+      //   font-weight: 400;
+      //   color: #333333;
+      //   line-height: 18px;
+      //   margin: 4px auto;
+      //   text-align: center;
+      // }
+      // .reloan-wrapper {
+      //   display: flex;
+      //   box-sizing: border-box;
+      //   justify-content: center;
+      //   .reloan {
+      //     height: 16px;
+      //     border-radius: 10px;
+      //     line-height: 1;
+      //     text-align: center;
+      //     border: 1px solid #ffbd5c;
+      //     font-size: 10px;
+      //     font-weight: 500;
+      //     color: #ffbd5c;
+      //     padding: 2px 10px 0px 10px;
+      //     display: inline-block;
+      //     margin-bottom: 20px;
+      //   }
+      // }
 
-      .label {
-        font-size: 10px;
-        font-weight: 400;
-        color: #999999;
-        line-height: 12px;
-        margin-bottom: 4px;
-        text-align: center;
-      }
-      .value {
-        font-size: 16px;
-        font-weight: bold;
-        color: #333333;
-        line-height: 20px;
-        margin-bottom: 10px;
-        text-align: center;
-        &:nth-last-of-type(1) {
-          margin-bottom: 0;
-        }
-      }
+      // .label {
+      //   font-size: 10px;
+      //   font-weight: 400;
+      //   color: #999999;
+      //   line-height: 12px;
+      //   margin-bottom: 4px;
+      //   text-align: center;
+      // }
+      // .value {
+      //   font-size: 16px;
+      //   font-weight: bold;
+      //   color: #333333;
+      //   line-height: 20px;
+      //   margin-bottom: 10px;
+      //   text-align: center;
+      //   &:nth-last-of-type(1) {
+      //     margin-bottom: 0;
+      //   }
+      // }
 
       &.active {
         border: 2px solid #1143a4;
@@ -386,7 +450,7 @@ export default {
       padding-top: 40px;
     }
     .title {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
   }
 }

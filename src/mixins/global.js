@@ -128,10 +128,10 @@ export default {
     },
 
     goPrivacy() {
-      this.innerJump('privacy')
+      this.innerJump('privacy');
     },
     goTerms() {
-      this.innerJump('terms')
+      this.innerJump('terms');
     },
     goHelpCenter() {
       this.$router.push({ name: 'help-center' });
@@ -172,7 +172,13 @@ export default {
 
     // app埋点
     eventTracker(key) {
-      this.toAppMethod('eventTrack', {key: key})
+      this.toAppMethod('eventTrack', { key: key });
+    },
+
+    sumArr(arr) {
+      return arr.reduce(function (prev, cur) {
+        return parseInt(prev) + parseInt(cur);
+      }, 0);
     },
 
     goHome() {
