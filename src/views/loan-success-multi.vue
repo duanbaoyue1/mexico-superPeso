@@ -81,14 +81,10 @@ export default {
     };
   },
   mounted() {
-    // TODO 测试
-    this.toAppMethod('needBackControl', { need: true });
-
     this.getRecommendLoans();
 
     // 用户点击回退回调
     window.backBtnHandler = async data => {
-      alert('检测到回调');
       this.showBackModal();
     };
 
