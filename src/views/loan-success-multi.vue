@@ -118,6 +118,8 @@ export default {
   methods: {
     showBackModal() {
       this.count = 10;
+      window.clearInterval(this.backInterval);
+      this.backInterval = null;
       this.backInterval = setInterval(() => {
         if (this.count == 0) {
           window.clearInterval(this.backInterval);
@@ -154,7 +156,7 @@ export default {
       }
     },
     check() {
-      this.toAppMethod('goAllOrders', {});
+      this.toAppMethod('goAllOrders', { closeCurPage: true });
     },
     checkLoan(index) {
       if (this.checkedNums == 1 && !this.loans[index].unChecked) return;

@@ -183,7 +183,7 @@ export default {
 
     goHome() {
       // App方法
-      this.toAppMethod('goHome');
+      this.toAppMethod('goHome', { closeCurPage: true });
     },
 
     goAppBack() {
