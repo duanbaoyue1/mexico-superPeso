@@ -12,7 +12,7 @@ export default {
     window.backBtnHandler = async data => {
       console.log('received window.backBtnHandler');
       alert('返回拦截');
-      this.goHome();
+      // this.goHome();
     };
 
     this.toAppMethod('needBackControl', { need: true });
