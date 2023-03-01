@@ -60,7 +60,7 @@
         </div>
         <div class="action">
           <button class="btn-default" @click="showBackControl = false">Think again</button>
-          <div class="leave" @click="goAppBack">Leave</div>
+          <div class="leave" @click="goHome">Leave</div>
         </div>
       </div>
     </div>
@@ -105,7 +105,9 @@ export default {
               orderIdList: data1.data.orderIdList,
             });
             this.$toast('Apply successfully');
-            this.getRecommendLoans();
+            setTimeout(res => {
+              this.getRecommendLoans();
+            }, 1000);
           }
         } catch (error) {
           this.$toast(error.message);
@@ -126,19 +128,29 @@ export default {
       }, 1000);
       this.showBackControl = true;
     },
+
     async getRecommendLoans() {
       try {
-        this.$loadingshow();
-        let data1 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhv`);
-        let data2 = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-        this.loans = data2.data.mergPushProductList || [];
+        this.showLoading();
+        let data;
+        if (this.single) {
+          data = await this.$http.post(`/xiaqpdt/qwwdhvkzypaucoile`);
+          this.loans = data.data.list || [];
+          this.loans = this.loans.map(t => {
+            t.maxAmount = t.minAmount;
+            return t;
+          });
+        } else {
+          data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
+          this.loans = data.data.mergPushProductList || [];
+        }
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
         }
         this.updateCheckedNum();
       } catch (error) {
       } finally {
-        this.$loadinghide();
+        this.hideLoading();
       }
     },
     check() {

@@ -19,9 +19,10 @@
   text-align: justify;
   word-break: break-all;
   word-wrap: break-word;
+  padding: 15px;
   img {
     display: block;
-    width: 60px;
+    width: 25px;
   }
 }
 </style>

@@ -17,6 +17,6 @@ export default Vue => {
   function hideLoading() {
     loadingDom.show = false;
   }
-  Vue.prototype.$loadingshow = showLoading;
-  Vue.prototype.$loadinghide = hideLoading;
+  Vue.prototype.showLoading = showLoading;
+  Vue.prototype.hideLoading = hideLoading;
 };

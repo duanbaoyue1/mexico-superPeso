@@ -26,7 +26,7 @@ export default {
       document.title = to.meta.title || '';
       this.toAppMethod('needBackControl', {need: false});
       try {
-        this.$loadinghide();
+        this.hideLoading();
       } catch (error) {}
       this.checkAndSetAppLocal();
       if (to.query.nextUrl && from && from.name) {
