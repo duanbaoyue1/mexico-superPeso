@@ -7,10 +7,12 @@
 <script>
 export default {
   mounted() {
+    // 用户点击回退回调
     window.backBtnHandler = async data => {
       alert('返回拦截');
       this.goHome();
     };
+
     this.toAppMethod('needBackControl', { need: true });
   },
 
