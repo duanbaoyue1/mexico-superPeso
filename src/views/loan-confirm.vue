@@ -3,6 +3,7 @@
     <div class="head">
       <m-icon class="icon" type="loan/repayment" :width="30" :height="24" />
       Repayment
+      <div class="money">₹{{ orderInfo.estimatedRepaymentAmount }}</div>
     </div>
     <div class="loan-info">
       <div class="item">
@@ -103,8 +104,19 @@ export default {
     color: #000000;
     line-height: 24px;
     background: #fff;
+    position: relative;
     .icon {
       margin-right: 20px;
+    }
+    .money {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1143A4;
+      line-height: 28px;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
   .loan-desc {
