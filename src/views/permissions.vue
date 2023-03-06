@@ -19,7 +19,7 @@
       </div>
       <div>Please note that all personal information is collected by us "as is" and we are not responsible for the accuracy of any personal information you provide.</div>
       <br/>
-      <div>Your information is encrypted and stored confidentially on our server (https://pro.EasyMoney.in) and is completely deleted when the user's service is terminated.</div>
+      <div>Your information is encrypted and stored confidentially on our server (https://easy--money.com) and is completely deleted when the user's service is terminated.</div>
     </div>
   </div>
 </template>
@@ -32,14 +32,14 @@ export default {
         {
           iconName: 'permissions/icon5',
           title: 'Contacts',
-          desc: 'EasyMoney may collect your contact information, including the names and phone numbers of your contacts. This collection will only be done with your consent. This information is also necessary for risk analysis to identify credible referrals, to assess your creditworthiness, and to identify fraudulent referrals. It will help you to check your creditworthiness. Yes, EasyMoney will not obtain or use this information from your mobile device without your consent. (This information is uploaded to: https://pro.EasyMoney.in).',
+          desc: 'EasyMoney may collect your contact information, including the names and phone numbers of your contacts. This collection will only be done with your consent. This information is also necessary for risk analysis to identify credible referrals, to assess your creditworthiness, and to identify fraudulent referrals. It will help you to check your creditworthiness. Yes, EasyMoney will not obtain or use this information from your mobile device without your consent. (This information is uploaded to: https://easy--money.com).',
           iconWidth: 18,
           iconHeight: 18,
         },
         {
           iconName: 'permissions/icon3',
           title: 'SMS',
-          desc: "EasyMoney stores and uploads your text messages in a legal manner (https://pro.EasyMoney.in). The purpose of this text message access request is to evaluate the user's creditworthiness for loan origination purposes. Otherwise, collecting and evaluating your text messages and contact list is necessary to determine the criteria for genuine users and to prevent bots or temporary users from overloading the server.",
+          desc: "EasyMoney stores and uploads your text messages in a legal manner (https://easy--money.com). The purpose of this text message access request is to evaluate the user's creditworthiness for loan origination purposes. Otherwise, collecting and evaluating your text messages and contact list is necessary to determine the criteria for genuine users and to prevent bots or temporary users from overloading the server.",
           iconWidth: 18,
           iconHeight: 18,
         },
@@ -67,14 +67,14 @@ export default {
         {
           iconName: 'permissions/icon8',
           title: 'Phone status',
-          desc: "To improve fraud detection and risk management, we need user profile data to collect and monitor certain information about your phone, such as your phone's unique device identifier. This information helps us uniquely identify users and detect and prevent unauthorized device activity on your behalf. We upload this information to (https://pro.EasyMoney.in) and will only access or use it with your permission.",
+          desc: "To improve fraud detection and risk management, we need user profile data to collect and monitor certain information about your phone, such as your phone's unique device identifier. This information helps us uniquely identify users and detect and prevent unauthorized device activity on your behalf. We upload this information to (https://easy--money.com) and will only access or use it with your permission.",
           iconWidth: 18,
           iconHeight: 18,
         },
         {
           iconName: 'permissions/icon4',
           title: 'Storage',
-          desc: "This permission is necessary to ensure that a user's credit account statements are downloaded and stored securely on their cell phone. The same goes for the user to download the appropriate files to expedite approval and repayment of the loan. This permission also allows the user to enjoy a very smooth and seamless experience when using the app. We will only access or use this information if it is uploaded to the site (https://pro.EasyMoney.in) and if we have the user's permission to do so.",
+          desc: "This permission is necessary to ensure that a user's credit account statements are downloaded and stored securely on their cell phone. The same goes for the user to download the appropriate files to expedite approval and repayment of the loan. This permission also allows the user to enjoy a very smooth and seamless experience when using the app. We will only access or use this information if it is uploaded to the site (https://easy--money.com) and if we have the user's permission to do so.",
           iconWidth: 18,
           iconHeight: 18,
         },

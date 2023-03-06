@@ -6,6 +6,10 @@
 
 <script>
 export default {
+  beforeRouteLeave(to, from, next) {
+    this.toAppMethod('needBackControl', { need: false });
+    next();
+  },
   mounted() {
     // 用户点击回退回调
     console.log('register window.backBtnHandler');
@@ -20,7 +24,8 @@ export default {
 
   methods: {
     goB() {
-      this.innerJump('testb');
+      location.href = 'https://b800627326799999.brpay.in/payin/payment?code=S230303142122752280688625368862';
+      // this.innerJump('testb');
     },
   },
 };

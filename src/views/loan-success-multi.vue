@@ -60,7 +60,7 @@
         </div>
         <div class="action">
           <button class="btn-default" @click="showBackControl = false">Think again</button>
-          <div class="leave" @click="goHome">Leave</div>
+          <div class="leave" @click="leave">Leave</div>
         </div>
       </div>
     </div>
@@ -79,6 +79,10 @@ export default {
       showBackControl: false,
       backInterval: null, // 回退倒计时
     };
+  },
+  beforeRouteLeave(to, from, next) {
+    this.toAppMethod('needBackControl', { need: false });
+    next();
   },
   mounted() {
     this.getRecommendLoans();
@@ -116,6 +120,10 @@ export default {
     };
   },
   methods: {
+    leave() {
+      this.toAppMethod('needBackControl', { need: false });
+      this.goHome();
+    },
     showBackModal() {
       this.count = 10;
       window.clearInterval(this.backInterval);
