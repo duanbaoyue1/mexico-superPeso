@@ -17,10 +17,10 @@ export default {
   },
   methods: {
     check() {
-      if (this.from == 'information') {
-        this.innerJump('order-detail', { orderId: this.$route.query.orderId });
-      } else {
+      if (this.from == 'event') {
         this.toAppMethod('goAllOrders', { closeCurPage: true });
+      } else {
+        this.innerJump('order-detail', { orderId: this.$route.query.orderId });
       }
     },
   },
