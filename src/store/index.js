@@ -9,7 +9,7 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiPrefix: 'http://test.paisago.in',
+      apiPrefix: 'http://test.easy--money.com',
       appName: 'paisaGo',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式

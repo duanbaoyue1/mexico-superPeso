@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-detail" v-show="loadinged">
+  <div class="defer-detail" v-show="loaded">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
       <p>Only pay for ₹{{ detail.amount }} today and you can defer {{ detail.extendedTerm }} days.</p>
@@ -62,22 +62,21 @@
 
     <div class="modal" v-if="showPaymentTips">
       <div class="modal-content payment-success-container">
+        <m-icon class="close" type="close" :width="15" :height="15" @click="showPaymentTips = false" />
         <div class="icon">
           <m-icon type="message/utr" :width="50" :height="50" />
         </div>
         <div class="content">
+          <div class="remember">Remember</div>
           When payment is completed,
           <br />
           remember to
           <a @click="goFillUtr">fill in the UTR</a>
-          in this app.
+          in this app
         </div>
         <div class="action">
+          <div class="cancel" @click="goTutorial">Tutorial</div>
           <div class="confirm" @click="repay">Repay</div>
-          <div class="cancel" @click="goTutorial">
-            View tutorial
-            <div class="tips">Must view before repay</div>
-          </div>
         </div>
       </div>
     </div>
@@ -90,7 +89,7 @@ export default {
   data() {
     return {
       orderId: this.$route.query.orderId,
-      loadinged: false,
+      loaded: false,
       showPaymentTips: false,
       detail: '',
       orderUrl: '',
@@ -128,7 +127,7 @@ export default {
         };
       } catch (error) {
       } finally {
-        this.loadinged = true;
+        this.loaded = true;
       }
     },
   },
@@ -138,14 +137,17 @@ export default {
 <style lang="scss" scoped>
 .payment-success-container {
   width: 320px;
-  padding: 50px 20px 20px;
+  padding: 50px 10px 20px;
   .policy {
     display: flex;
     align-items: flex-start;
-    margin-top: 30px;
     font-size: 12px;
     font-weight: 400;
+    margin: 30px 10px 0;
     color: #000601;
+    .m-icon {
+      margin-top: -2px;
+    }
     span {
       margin-left: 0px;
       transform: scale(0.9);
@@ -163,23 +165,34 @@ export default {
   }
   .close {
     position: absolute;
-    bottom: -54px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    right: 20px;
   }
   .content {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     font-size: 16px;
+    line-height: 30px;
     font-weight: 400;
     color: #000601;
+    text-align: center;
+    .remember {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000601;
+      line-height: 24px;
+      margin-bottom: 10px;
+    }
     a {
       color: #1143a4;
       text-decoration: underline;
     }
   }
   .action {
+    margin: 0 10px;
+    display: flex;
+    justify-content: space-between;
     > div {
-      width: 280px;
+      width: 172px;
       height: 48px;
       background: #1143a4;
       border-radius: 14px;
@@ -194,9 +207,9 @@ export default {
       &.cancel {
         border: 1px solid #1143a4;
         color: #1143a4;
-        margin-top: 20px;
         background: #ffffff;
         position: relative;
+        width: 88px;
         .tips {
           position: absolute;
           top: -10px;

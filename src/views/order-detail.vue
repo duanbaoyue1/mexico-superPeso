@@ -96,26 +96,31 @@
 
     <div class="modal" v-if="showPaymentTips">
       <div class="modal-content payment-success-container">
+        <m-icon class="close" type="close" :width="15" :height="15" @click="showPaymentTips = false" />
         <div class="icon">
           <m-icon type="message/utr" :width="50" :height="50" />
         </div>
         <div class="content">
+          <div class="remember">Remember</div>
           When payment is completed,
           <br />
           remember to
           <a @click="goFillUtr">fill in the UTR</a>
-          in this app.
+          in this app
         </div>
         <div class="action">
+          <div class="cancel" @click="goTutorial">Tutorial</div>
           <div class="confirm" @click="repay">Repay</div>
-          <div class="cancel" @click="goTutorial">
-            View tutorial
-            <div class="tips">Must view before repay</div>
-          </div>
         </div>
-        <div class="policy" @click="choosed = !choosed" v-if="showAuto">
-          <m-icon class="icon-i" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
-          <span>To reduce unnecessary operations, re-loan is automatically initiated after successful repayment, and significantly increased your loan limit.</span>
+
+        <div class="policy" v-if="showAuto">
+          <div class="tips">99% of users opened!</div>
+          <m-icon class="icon-i" :type="choosed ? 'toggle-choosed' : 'toggle-unchoose'" :width="28" :height="14" @click="choosed = !choosed" />
+          <span>
+            VIP privilege, you will get automatic reloan if repay successfully, and loan limit up with
+            <br />
+            100% possible.
+          </span>
         </div>
       </div>
     </div>
@@ -223,7 +228,7 @@ export default {
     return {
       loadinged: false,
       orderId: this.$route.query.orderId,
-      choosed: true, // 是否勾选复贷
+      choosed: false, // 是否勾选复贷
       showAuto: false, // 是否显示复贷
       showPaymentTips: false,
       detail: '',
@@ -241,8 +246,9 @@ export default {
   methods: {
     async queryOrderReloan() {
       try {
-        let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwt`, { orderId: this.orderId });
-        this.showAuto = data.data;
+        let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwtkvv`, { orderId: this.orderId });
+        this.showAuto = data.data.isOpen;
+        this.choosed = data.data.isGive;
       } catch (error) {}
     },
 
@@ -305,14 +311,35 @@ export default {
 <style lang="scss" scoped>
 .payment-success-container {
   width: 320px;
-  padding: 50px 20px 20px;
+  padding: 50px 10px 20px;
   .policy {
     display: flex;
     align-items: flex-start;
-    margin-top: 30px;
     font-size: 12px;
     font-weight: 400;
+    margin: 50px 10px 0;
     color: #000601;
+    position: relative;
+    .tips {
+      position: absolute;
+      top: -30px;
+      left: -8px;
+      width: 130px;
+      height: 20px;
+      background: #ed5949;
+      border-radius: 24px 24px 24px 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 12px;
+      transform: scale(0.9);
+    }
+    .m-icon {
+      margin-top: -2px;
+    }
     span {
       margin-left: 0px;
       transform: scale(0.9);
@@ -330,23 +357,34 @@ export default {
   }
   .close {
     position: absolute;
-    bottom: -54px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    right: 20px;
   }
   .content {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     font-size: 16px;
+    line-height: 30px;
     font-weight: 400;
     color: #000601;
+    text-align: center;
+    .remember {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000601;
+      line-height: 24px;
+      margin-bottom: 10px;
+    }
     a {
       color: #1143a4;
       text-decoration: underline;
     }
   }
   .action {
+    margin: 0 10px;
+    display: flex;
+    justify-content: space-between;
     > div {
-      width: 280px;
+      width: 172px;
       height: 48px;
       background: #1143a4;
       border-radius: 14px;
@@ -361,26 +399,9 @@ export default {
       &.cancel {
         border: 1px solid #1143a4;
         color: #1143a4;
-        margin-top: 20px;
         background: #ffffff;
         position: relative;
-        .tips {
-          position: absolute;
-          top: -10px;
-          right: -8px;
-          width: 140px;
-          height: 20px;
-          background: #ed5949;
-          border-radius: 24px 24px 24px 0px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 10px;
-          font-weight: bold;
-          color: #ffffff;
-          line-height: 12px;
-          transform: scale(0.9);
-        }
+        width: 88px;
       }
     }
   }
