@@ -86,10 +86,7 @@ export default {
             });
           } else {
             // 不需要进确认申请页
-            this.innerJump('loan-success', {
-              orderId: this.$route.query.orderId,
-              from: 'information'
-            });
+            this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
           }
         } catch (error) {
           this.showMessageBox({
