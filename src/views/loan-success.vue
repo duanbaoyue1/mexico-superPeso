@@ -10,9 +10,18 @@
 
 <script>
 export default {
+  data() {
+    return {
+      from: this.$route.query.from || '',
+    };
+  },
   methods: {
     check() {
-      this.innerJump('order-detail', { orderId: this.$route.query.orderId });
+      if (this.from == 'information') {
+        this.innerJump('order-detail', { orderId: this.$route.query.orderId });
+      } else {
+        this.toAppMethod('goAllOrders', { closeCurPage: true });
+      }
     },
   },
 };

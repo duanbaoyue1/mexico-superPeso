@@ -88,6 +88,7 @@ export default {
             // 不需要进确认申请页
             this.innerJump('loan-success', {
               orderId: this.$route.query.orderId,
+              from: 'information'
             });
           }
         } catch (error) {

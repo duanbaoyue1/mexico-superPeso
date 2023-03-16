@@ -11,7 +11,7 @@ export default new Vuex.Store({
     appGlobal: {
       apiPrefix: 'http://test.easy--money.com',
       appName: 'paisaGo',
-      token: '63fdfd55e4b0f6a603fac657',
+      token: '6411b1a8e4b0d6e2b748bf7d',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号
