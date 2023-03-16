@@ -18,6 +18,7 @@ export default {
   methods: {
     check() {
       if (this.from == 'event') {
+        console.log('from event', 'go all orders');
         this.toAppMethod('goAllOrders', { closeCurPage: true });
       } else {
         this.innerJump('order-detail', { orderId: this.$route.query.orderId });

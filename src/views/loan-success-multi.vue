@@ -154,6 +154,8 @@ export default {
           data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
           this.loans = data.data.mergPushProductList || [];
         }
+
+        console.log('loans length', this.loans.length);
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
         }
