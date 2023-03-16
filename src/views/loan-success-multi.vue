@@ -71,7 +71,7 @@
 export default {
   data() {
     return {
-      single: this.$route.query.single || false, // 是否是单推
+      single: JSON.parse(this.$route.query.single || false), // 是否是单推
       loans: [],
       count: 10,
       totalAmount: 0,
@@ -154,8 +154,6 @@ export default {
           data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
           this.loans = data.data.mergPushProductList || [];
         }
-
-        console.log('loans length', this.loans.length);
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
         }

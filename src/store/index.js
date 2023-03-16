@@ -9,18 +9,18 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiPrefix: 'https://test.easy--money.com',
-      appName: 'paisaGo',
-      token: '6411b1a8e4b0d6e2b748bf7d',
+      apiPrefix: 'http://test.easy--money.com',
+      appName: 'easyMoney',
+      token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
-      appVersion: 1000, // app版本号
+      appVersion: 1010, // app版本号
       afId: '', // afid
       gaId: '', // gaid
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
       gps: '', // gps坐标
-      appVersionV: '1.1.0', // 带1.1.1 这种格式的版本号
+      appVersionV: '1.0.0', // 带1.1.1 这种格式的版本号
     },
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
@@ -57,9 +57,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    appGlobal: (state) => state.appGlobal,
-    userInfo: (state) => state.userInfo,
-    isAppChecked: (state) => state.isAppChecked,
+    appGlobal: state => state.appGlobal,
+    userInfo: state => state.userInfo,
+    isAppChecked: state => state.isAppChecked,
   },
   actions: {
     async setAppGlobal({ commit }, data) {
