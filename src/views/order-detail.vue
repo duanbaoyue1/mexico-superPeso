@@ -230,7 +230,7 @@ export default {
       orderId: this.$route.query.orderId,
       choosed: false, // 是否勾选复贷
       showAuto: false, // 是否显示复贷
-      showPaymentTips: false,
+      showPaymentTips: true,
       detail: '',
       deferTimes: 0,
       orderUrl: '',
@@ -246,9 +246,16 @@ export default {
   methods: {
     async queryOrderReloan() {
       try {
+        // 判断全局状态
         let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwtkvv`, { orderId: this.orderId });
         this.showAuto = data.data.isOpen;
         this.choosed = data.data.isGive;
+
+        // 查询当前订单是否开启自动复贷
+        data = await this.$http.post(`/zihai/mvewiclwdwwmveiihaipgdjoamvjd`, { orderId: this.orderId });
+        if (data.data != null && typeof data.data != 'undefined') {
+          this.choosed = data.data;
+        }
       } catch (error) {}
     },
 
