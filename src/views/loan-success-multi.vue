@@ -71,6 +71,7 @@
 export default {
   data() {
     return {
+      systemTime: this.$route.query.systemTime || '',  // 上次订单时间
       single: JSON.parse(this.$route.query.single || false), // 是否是单推
       loans: [],
       count: 10,
@@ -85,6 +86,7 @@ export default {
     next();
   },
   mounted() {
+    console.log('system time', this.systemTime);
     this.getRecommendLoans();
 
     // 用户点击回退回调
