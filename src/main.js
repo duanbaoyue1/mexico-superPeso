@@ -32,10 +32,10 @@ import global from '@/mixins/global';
 Vue.mixin(global);
 import Vconsole from 'vconsole';
 
-// if (process.env.NODE_ENV == 'production') {
-//   let vConsole = new Vconsole();
-//   Vue.use(vConsole);
-// }
+if (process.env.NODE_ENV == 'production') {
+  let vConsole = new Vconsole();
+  Vue.use(vConsole);
+}
 
 new Vue({
   router,
