@@ -103,7 +103,7 @@ export default {
               showClose: false,
             });
           } finally {
-           this.saving = false;
+            this.saving = false;
           }
         }
       }
@@ -131,10 +131,12 @@ export default {
           // 从订单进来的, 需要先通知app方法
           this.toAppMethod('synData', {});
         } else {
+          this.showLoading();
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/wvpwoojady/qjhwfxozwqjwii`, {
             remittanceAccountId: this.choosedBankId,
           });
+          this.hideLoading();
           this.goAppBack();
         }
       } catch (error) {
@@ -148,6 +150,8 @@ export default {
           iconPath: 'message/error',
           showClose: false,
         });
+      } finally {
+        this.hideLoading();
       }
 
       // this.showMessageBox({
