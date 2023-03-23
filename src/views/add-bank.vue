@@ -79,7 +79,7 @@ export default {
         this.$toast('Please enter correct account number');
         return;
       }
-
+      this.showLoading();
       try {
         let data = await this.$http.post(`/wvpwoojady/bchcvyadogfdvghdayuo`, saveData);
         if (data.returnCode == 2000) {
@@ -87,6 +87,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },

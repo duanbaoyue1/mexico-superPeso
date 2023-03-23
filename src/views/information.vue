@@ -90,6 +90,7 @@ export default {
       this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
+        this.hideLoading();
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
           setTimeout(() => {
@@ -98,6 +99,7 @@ export default {
           }, 1000);
         }
       } catch (error) {
+        this.hideLoading();
         this.$toast(error.message);
       } finally {
         this.hideLoading();

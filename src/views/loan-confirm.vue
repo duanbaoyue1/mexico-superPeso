@@ -76,6 +76,7 @@ export default {
     },
     async submit() {
       this.eventTracker('confirm_submit');
+      this.showLoading();
       try {
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
@@ -85,6 +86,8 @@ export default {
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000)
+      } finally {
+        this.hideLoading();
       }
     },
   },

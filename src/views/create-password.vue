@@ -80,7 +80,7 @@ export default {
         this.$toast('The two passwords are inconsistent');
         return;
       }
-
+      this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/hiylovzblwjjii`, { passwd: md5(this.editData.passwd) });
         if (data.returnCode == 2000) {
@@ -89,6 +89,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },
