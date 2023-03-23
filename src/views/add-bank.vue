@@ -48,6 +48,7 @@ export default {
       editData: {
         ifsc: '',
       },
+      saving: false,
     };
   },
   mounted() {
@@ -62,10 +63,12 @@ export default {
       this.showIfsc = false;
     },
     async submit() {
-      this.showLoading();
+      if (this.saving) return;
+      this.saving = true;
       this.eventTracker('bank_add_submit');
       if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
         this.$toast('Account number is not consistent');
+        this.saving = false;
         return;
       }
       let saveData = { ...this.editData };
@@ -74,9 +77,11 @@ export default {
 
       if (saveData.ifsc.length != 11) {
         this.$toast('Please enter correct IFSC');
+        this.saving = false;
         return;
       }
       if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
+        this.saving = false;
         this.$toast('Please enter correct account number');
         return;
       }
@@ -89,7 +94,7 @@ export default {
       } catch (error) {
         this.$toast(error.message);
       } finally {
-        this.hideLoading();
+        this.saving = false;
       }
     },
   },

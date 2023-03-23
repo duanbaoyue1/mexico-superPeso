@@ -63,7 +63,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName);
+        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
       },
       deep: true,
     },
@@ -74,25 +74,25 @@ export default {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
       editData: {},
+      saving: false,
     };
-  },
-  mounted() {
   },
   methods: {
     chooseEditData(data) {
       this.$set(this.editData, data.attr, data.value);
     },
     async submit() {
-      this.showLoading();
+      if (this.saving) return;
+      this.saving = true;
       this.eventTracker('basic_submit');
       let saveData = { ...this.editData };
       if (!this.validateEmail(saveData.email)) {
+        this.saving = false;
         this.$toast('Please enter the correct email address.');
         return;
       }
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
-        this.hideLoading();
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
           setTimeout(() => {
@@ -103,7 +103,7 @@ export default {
       } catch (error) {
         this.$toast(error.message);
       } finally {
-        this.hideLoading();
+        this.saving = false;
       }
     },
   },

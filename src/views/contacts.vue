@@ -105,6 +105,7 @@ export default {
         familyName: '',
         familyPhone: '',
       },
+      saving: false,
     };
   },
 
@@ -116,7 +117,8 @@ export default {
       this.toAppMethod('choosePhone', { type });
     },
     async submit() {
-      this.showLoading();
+      if (this.saving) return;
+      this.saving = true;
       this.eventTracker('contact_submit');
       let saveData = { ...this.editData };
       let contacts = [];
@@ -136,7 +138,6 @@ export default {
 
       try {
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
-        this.hideLoading();
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           setTimeout(() => {
@@ -147,7 +148,7 @@ export default {
       } catch (error) {
         this.$toast(error.message);
       } finally {
-        this.hideLoading();
+        this.saving = false;
       }
     },
   },

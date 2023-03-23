@@ -74,35 +74,37 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.showLoading();
-        try {
-          await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
-            orderId: this.$route.query.orderId,
-            remittanceAccountId: this.choosedBankId,
-          });
-          let appMode = await this.getAppMode();
-          if (appMode.confirmType == 1) {
-            // 需要进确认申请页
-            this.innerJump('loan-confirm', {
+        if (!this.saving) {
+          this.saving = true;
+          try {
+            await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
               orderId: this.$route.query.orderId,
+              remittanceAccountId: this.choosedBankId,
             });
-          } else {
-            // 不需要进确认申请页
-            this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
+            let appMode = await this.getAppMode();
+            if (appMode.confirmType == 1) {
+              // 需要进确认申请页
+              this.innerJump('loan-confirm', {
+                orderId: this.$route.query.orderId,
+              });
+            } else {
+              // 不需要进确认申请页
+              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
+            }
+          } catch (error) {
+            this.showMessageBox({
+              content: error.message,
+              confirmBtnText: 'Ok',
+              confirmCallback: () => {
+                console.log('confirmCallback');
+                this.hideMessageBox();
+              },
+              iconPath: 'message/error',
+              showClose: false,
+            });
+          } finally {
+           this.saving = false;
           }
-        } catch (error) {
-          this.showMessageBox({
-            content: error.message,
-            confirmBtnText: 'Ok',
-            confirmCallback: () => {
-              console.log('confirmCallback');
-              this.hideMessageBox();
-            },
-            iconPath: 'message/error',
-            showClose: false,
-          });
-        } finally {
-          this.hideLoading();
         }
       }
     };

@@ -55,7 +55,8 @@ export default {
       choosed: true,
       canSubmit: true,
       orderInfo: '',
-      orderId: this.$route.query.orderId
+      orderId: this.$route.query.orderId,
+      saving: false
     };
   },
   mounted() {
@@ -75,8 +76,9 @@ export default {
       console.log(this.orderInfo);
     },
     async submit() {
+      if(this.saving) return;
+      this.saving = true;
       this.eventTracker('confirm_submit');
-      this.showLoading();
       try {
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
@@ -87,7 +89,7 @@ export default {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000)
       } finally {
-        this.hideLoading();
+        this.saving = false;
       }
     },
   },
