@@ -55,6 +55,7 @@ export default {
       from: this.$route.query.from,
       // cards: [],
       choosedBankId: '',
+      saving: false,
       editData: {
         friendName: '',
         friendPhone: '',
@@ -73,6 +74,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.showLoading();
         try {
           await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
             orderId: this.$route.query.orderId,
@@ -99,6 +101,8 @@ export default {
             iconPath: 'message/error',
             showClose: false,
           });
+        } finally {
+          this.hideLoading();
         }
       }
     };

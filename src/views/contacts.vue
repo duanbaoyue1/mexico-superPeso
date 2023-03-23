@@ -133,9 +133,9 @@ export default {
       });
       saveData.contacts = contacts;
 
+      this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
-        console.log(data);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           setTimeout(() => {
@@ -145,6 +145,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },

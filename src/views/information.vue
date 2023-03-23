@@ -87,6 +87,7 @@ export default {
         this.$toast('Please enter the correct email address.');
         return;
       }
+      this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
@@ -98,6 +99,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },
