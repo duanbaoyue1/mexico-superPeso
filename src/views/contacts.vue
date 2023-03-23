@@ -73,7 +73,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length > 1;
+        this.canSubmit = Object.values(this.editData).length > 1 && !this.saving;
       },
       deep: true,
     },
