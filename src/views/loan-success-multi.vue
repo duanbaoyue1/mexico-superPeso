@@ -30,7 +30,7 @@
     </div>
 
     <!-- 没有推荐结果时显示 -->
-    <res-loans v-else class="res-loans" :systemTime="systemTime"></res-loans>
+    <res-loans v-else class="res-loans" :systemTime="systemTime" :curNumbers="curNumbers"></res-loans>
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
@@ -61,6 +61,7 @@ export default {
   },
   data() {
     return {
+      curNumbers: this.$route.query.curNumbers || 0, // 当前申请了多少条
       needRecommend: JSON.parse(this.$route.query.needRecommend || true), // 是否需要推荐 从活动过来的不用推荐
       systemTime: this.$route.query.systemTime || '', // 上次订单时间
       single: JSON.parse(this.$route.query.single || false), // 是否是单推
@@ -103,6 +104,7 @@ export default {
               orderIdList: data1.data.orderIdList,
             });
             this.$toast('Apply successfully');
+            this.curNumbers = loanIds.length
             setTimeout(res => {
               this.getRecommendLoans();
             }, 1000);

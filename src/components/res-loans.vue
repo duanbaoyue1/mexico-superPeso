@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  props: ['systemTime'],
+  props: ['systemTime', 'curNumbers'],
 
   data() {
     return {
