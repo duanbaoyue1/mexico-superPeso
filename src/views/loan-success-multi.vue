@@ -1,13 +1,13 @@
 <template>
-  <div class="loan" :class="{ multi: this.loans.length > 0 }">
+  <div class="loan multi">
     <div class="loan-tips">
       <m-icon class="icon" type="loan/success" :width="122" :height="109" />
-      <div class="title">
+      <div class="title" v-if="this.loans.length > 0">
         Congratulations
         <br />
         Your application is successful
       </div>
-      <div v-if="!this.loans.length" class="apply" @click="check">Check Application</div>
+      <div v-if="!this.loans.length" class="apply" @click="check">View all orders</div>
       <div v-else class="apply" @click="applyMulti">Increase ₹{{ totalAmount }} Amount</div>
     </div>
 
@@ -26,25 +26,11 @@
             <span>{{ loan.maxAmount }}</span>
           </div>
         </div>
-        <!-- <div class="reloan-wrapper" v-show="loan.isReloan">
-          <div class="reloan">Reloan</div>
-        </div>
-        <div class="label">Lending Company</div>
-        <div class="value">{{ loan.companyName }}</div>
-        <div class="label">Interest</div>
-        <div class="value">{{ loan.interest }}%/Day</div>
-        <div class="label">Max amount (₹)</div>
-        <div class="value">{{ loan.maxAmount }}</div> -->
       </div>
     </div>
 
-    <!-- <div class="bottom-action" v-if="loans.length > 0">
-      <div class="btns">
-        <button class="btn-line" @click="goHome">Back Home</button>
-        <button class="btn-default" @click="applyMulti">Apply Immediately</button>
-      </div>
-      <div class="tips color-red">{{ checkedNums }} products selected, high pass rate, when apply together</div>
-    </div> -->
+    <!-- 没有推荐结果时显示 -->
+    <res-loans v-else class="res-loans" :systemTime="systemTime"></res-loans>
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
@@ -68,10 +54,15 @@
 </template>
 
 <script>
+import ResLoans from '@/components/res-loans.vue';
 export default {
+  components: {
+    ResLoans,
+  },
   data() {
     return {
-      systemTime: this.$route.query.systemTime || '',  // 上次订单时间
+      needRecommend: JSON.parse(this.$route.query.needRecommend || true), // 是否需要推荐 从活动过来的不用推荐
+      systemTime: this.$route.query.systemTime || '', // 上次订单时间
       single: JSON.parse(this.$route.query.single || false), // 是否是单推
       loans: [],
       count: 10,
@@ -86,8 +77,9 @@ export default {
     next();
   },
   mounted() {
-    console.log('system time', this.systemTime);
-    this.getRecommendLoans();
+    if (this.needRecommend) {
+      this.getRecommendLoans();
+    }
 
     // 用户点击回退回调
     window.backBtnHandler = async data => {
@@ -153,8 +145,9 @@ export default {
             return t;
           });
         } else {
-          data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-          this.loans = data.data.mergPushProductList || [];
+          // TODO
+          // data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
+          // this.loans = data.data.mergPushProductList || [];
         }
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
@@ -447,7 +440,6 @@ export default {
       color: #333333;
       line-height: 20px;
       text-align: center;
-      margin-bottom: 60px;
     }
     .apply {
       width: 320px;
@@ -455,6 +447,7 @@ export default {
       background: #1143a4;
       border-radius: 14px;
       margin: 0 auto;
+      margin-top: 40px;
       display: flex;
       align-items: center;
       justify-content: center;

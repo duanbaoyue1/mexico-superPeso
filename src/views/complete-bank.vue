@@ -89,7 +89,7 @@ export default {
               });
             } else {
               // 不需要进确认申请页
-              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
+              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() });
             }
           } catch (error) {
             this.showMessageBox({
@@ -103,7 +103,7 @@ export default {
               showClose: false,
             });
           } finally {
-           this.saving = false;
+            this.saving = false;
           }
         }
       }
