@@ -76,18 +76,20 @@ export default {
       editData: {},
     };
   },
+  mounted() {
+  },
   methods: {
     chooseEditData(data) {
       this.$set(this.editData, data.attr, data.value);
     },
     async submit() {
+      this.showLoading();
       this.eventTracker('basic_submit');
       let saveData = { ...this.editData };
       if (!this.validateEmail(saveData.email)) {
         this.$toast('Please enter the correct email address.');
         return;
       }
-      this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         this.hideLoading();
@@ -99,7 +101,6 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        this.hideLoading();
         this.$toast(error.message);
       } finally {
         this.hideLoading();

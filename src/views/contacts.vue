@@ -116,6 +116,7 @@ export default {
       this.toAppMethod('choosePhone', { type });
     },
     async submit() {
+      this.showLoading();
       this.eventTracker('contact_submit');
       let saveData = { ...this.editData };
       let contacts = [];
@@ -133,9 +134,9 @@ export default {
       });
       saveData.contacts = contacts;
 
-      this.showLoading();
       try {
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
+        this.hideLoading();
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           setTimeout(() => {

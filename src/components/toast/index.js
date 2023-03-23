@@ -1,7 +1,10 @@
 import toast from './index.vue';
-export default (Vue) => {
+export default Vue => {
   let toastComp = Vue.extend(toast);
   function showToast(msg, duration = 3e3) {
+    try {
+      this.hideLoading();
+    } catch (error) {}
     let toastDom = new toastComp({
       data() {
         return {

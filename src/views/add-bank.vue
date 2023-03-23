@@ -62,6 +62,7 @@ export default {
       this.showIfsc = false;
     },
     async submit() {
+      this.showLoading();
       this.eventTracker('bank_add_submit');
       if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
         this.$toast('Account number is not consistent');
@@ -79,7 +80,7 @@ export default {
         this.$toast('Please enter correct account number');
         return;
       }
-      this.showLoading();
+
       try {
         let data = await this.$http.post(`/wvpwoojady/bchcvyadogfdvghdayuo`, saveData);
         if (data.returnCode == 2000) {
