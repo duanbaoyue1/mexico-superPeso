@@ -92,6 +92,7 @@ export default {
         return;
       }
       try {
+        console.log('开始申请一次', new Date().getTime());
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
