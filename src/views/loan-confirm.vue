@@ -60,6 +60,7 @@ export default {
     };
   },
   mounted() {
+    this.eventTracker('confirm_access');
     this.getOrderInfo();
   },
   methods: {

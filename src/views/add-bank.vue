@@ -52,7 +52,6 @@ export default {
     };
   },
   mounted() {
-    this.eventTracker('bank_add_init');
     setTimeout(() => {
       this.getUserInfo();
     }, 200);
