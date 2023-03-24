@@ -192,16 +192,23 @@ export default {
       background: #f125a8;
       border-radius: 14px;
 
+      &.order_10 {
+        background: #ffbc41;
+      }
       &.order_20,
       &.order_21,
-      &.order_30,
-      &.order_70,
-      &.order_80 {
-        background: #febc1d;
+      &.order_30 {
+        background: #f125a8;
       }
-      &.order_40,
-      &.order_90 {
+      &.order_40 {
         background: #ff1412;
+      }
+      &.order_70 {
+        background: #3e56fe;
+      }
+      &.order_80,
+      &.order_90 {
+        background: #f15a25;
       }
       &.order_100,
       &.order_101 {
