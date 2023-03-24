@@ -73,13 +73,12 @@ export default {
       let data = await this.$http.post('/zihai/bmzcxadafkbywtijqa', { orderId: this.orderId });
       let data2 = await this.$http.post('/zihai/bmzcxadafkbywtijqz', { orderId: this.orderId });
       this.orderInfo = { ...data.data, ...data2.data };
-      console.log(this.orderInfo);
     },
     async submit() {
       if(this.saving) return;
       this.saving = true;
-      this.eventTracker('confirm_submit');
       try {
+        this.eventTracker('confirm_submit');
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
         this.innerJump('loan-success-multi', { orderId: this.orderId, single: true }, true);

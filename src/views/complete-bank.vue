@@ -53,7 +53,6 @@ export default {
       submitSuccess: false,
       cards: [],
       from: this.$route.query.from,
-      // cards: [],
       choosedBankId: '',
       saving: false,
       editData: {
@@ -74,6 +73,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.eventTracker('bank_submit_sync_success');
         if (!this.saving) {
           this.saving = true;
           try {

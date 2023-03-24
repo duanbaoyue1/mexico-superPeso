@@ -84,15 +84,13 @@ export default {
     async submit() {
       if (this.saving) return;
       this.saving = true;
-      this.eventTracker('basic_submit');
-      let saveData = { ...this.editData };
-      if (!this.validateEmail(saveData.email)) {
-        this.saving = false;
-        this.$toast('Please enter the correct email address.');
-        return;
-      }
       try {
-        console.log('开始申请一次', new Date().getTime());
+        this.eventTracker('basic_submit');
+        let saveData = { ...this.editData };
+        if (!this.validateEmail(saveData.email)) {
+          this.$toast('Please enter the correct email address.');
+          return;
+        }
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
