@@ -81,6 +81,7 @@ export default {
               orderId: this.$route.query.orderId,
               remittanceAccountId: this.choosedBankId,
             });
+            this.eventTracker('bank_submit_success');
             let appMode = await this.getAppMode();
             if (appMode.confirmType == 1) {
               // 需要进确认申请页
@@ -92,6 +93,7 @@ export default {
               this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
             }
           } catch (error) {
+            this.eventTracker('bank_submit_error');
             this.showMessageBox({
               content: error.message,
               confirmBtnText: 'Ok',
