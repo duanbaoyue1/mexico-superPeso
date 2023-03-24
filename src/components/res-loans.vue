@@ -21,7 +21,7 @@
           <span>{{ loan.approvalAmount }}</span>
         </div>
 
-        <div class="action" @click="goDetail(loan.orderNo)">Reviewing</div>
+        <div class="action" :class="'order_' + loan.orderStatus" @click="goDetail(loan.orderNo)">{{ loan.orderStatusStr }}</div>
       </div>
     </div>
   </div>
@@ -30,6 +30,35 @@
 <script>
 export default {
   props: ['systemTime', 'curNumbers'],
+
+  computed: {
+    orderStatusText() {
+      return status => {
+        switch (status) {
+          case 20:
+            return 'Reviewing';
+          case 21:
+            return 'Reviewing';
+          case 30:
+            return 'Disbursing';
+          case 40:
+            return 'Rejected';
+          case 70:
+            return 'Disbursing';
+          case 80:
+            return 'Pending Repayment';
+          case 90:
+            return 'Overdue';
+          case 100:
+            return 'Repayment Successful';
+          case 101:
+            return 'Repayment Successful';
+          default:
+            return 'Reviewing';
+        }
+      };
+    },
+  },
 
   data() {
     return {
@@ -156,10 +185,28 @@ export default {
       font-size: 12px;
       font-weight: 900;
       color: #ffffff;
-      width: 80px;
+      min-width: 80px;
+      box-sizing: border-box;
+      padding: 0 10px;
       height: 30px;
       background: #f125a8;
       border-radius: 14px;
+
+      &.order_20,
+      &.order_21,
+      &.order_30,
+      &.order_70,
+      &.order_80 {
+        background: #febc1d;
+      }
+      &.order_40,
+      &.order_90 {
+        background: #ff1412;
+      }
+      &.order_100,
+      &.order_101 {
+        background: #04ca1c;
+      }
     }
   }
 }

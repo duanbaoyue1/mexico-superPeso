@@ -104,7 +104,7 @@ export default {
               orderIdList: data1.data.orderIdList,
             });
             this.$toast('Apply successfully');
-            this.curNumbers = loanIds.length
+            this.curNumbers = loanIds.length;
             setTimeout(res => {
               this.getRecommendLoans();
             }, 1000);
