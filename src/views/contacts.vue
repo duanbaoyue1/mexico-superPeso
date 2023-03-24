@@ -119,24 +119,23 @@ export default {
     async submit() {
       if (this.saving) return;
       this.saving = true;
-      this.eventTracker('contact_submit');
-      let saveData = { ...this.editData };
-      let contacts = [];
-      if (saveData.familyRelation) {
-        contacts.push({
-          name: saveData.familyName,
-          relation: saveData.familyRelation,
-          mobile: saveData.familyPhone,
-        });
-      }
-      contacts.push({
-        name: saveData.friendName,
-        relation: 'Friends',
-        mobile: saveData.friendPhone,
-      });
-      saveData.contacts = contacts;
-
       try {
+        this.eventTracker('contact_submit');
+        let saveData = { ...this.editData };
+        let contacts = [];
+        if (saveData.familyRelation) {
+          contacts.push({
+            name: saveData.familyName,
+            relation: saveData.familyRelation,
+            mobile: saveData.familyPhone,
+          });
+        }
+        contacts.push({
+          name: saveData.friendName,
+          relation: 'Friends',
+          mobile: saveData.friendPhone,
+        });
+        saveData.contacts = contacts;
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;

@@ -52,6 +52,7 @@ export default {
     };
   },
   mounted() {
+    this.eventTracker('bank_add_init');
     setTimeout(() => {
       this.getUserInfo();
     }, 200);
@@ -65,34 +66,32 @@ export default {
     async submit() {
       if (this.saving) return;
       this.saving = true;
-      this.eventTracker('bank_add_submit');
-      if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
-        this.$toast('Account number is not consistent');
-        this.saving = false;
-        return;
-      }
-      let saveData = { ...this.editData };
-      saveData.name = this.userInfo.aadhaarName;
-      delete saveData.accountNumberConfirm;
-
-      if (saveData.ifsc.length != 11) {
-        this.$toast('Please enter correct IFSC');
-        this.saving = false;
-        return;
-      }
-      if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
-        this.saving = false;
-        this.$toast('Please enter correct account number');
-        return;
-      }
-
       try {
+        this.eventTracker('bank_add_submit');
+        if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
+          this.$toast('Account number is not consistent');
+          return;
+        }
+        let saveData = { ...this.editData };
+        saveData.name = this.userInfo.aadhaarName;
+        delete saveData.accountNumberConfirm;
+
+        if (saveData.ifsc.length != 11) {
+          this.$toast('Please enter correct IFSC');
+          return;
+        }
+        if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
+          this.$toast('Please enter correct account number');
+          return;
+        }
         let data = await this.$http.post(`/wvpwoojady/bchcvyadogfdvghdayuo`, saveData);
         if (data.returnCode == 2000) {
           this.innerJump('complete-bank', this.$route.query, true);
         }
+        this.eventTracker('bank_add_submit_success');
       } catch (error) {
         this.$toast(error.message);
+        this.eventTracker('bank_add_submit_error');
       } finally {
         this.saving = false;
       }
