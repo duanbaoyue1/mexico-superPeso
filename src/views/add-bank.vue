@@ -85,7 +85,9 @@ export default {
         if (data.returnCode == 2000) {
           this.innerJump('complete-bank', this.$route.query, true);
         }
+        this.eventTracker('bank_add_submit_success');
       } catch (error) {
+        this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
       }
     },

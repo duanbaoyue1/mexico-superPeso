@@ -88,7 +88,9 @@ export default {
             // 不需要进确认申请页
             this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
           }
+          this.eventTracker('bank_submit_success');
         } catch (error) {
+          this.eventTracker('bank_submit_error');
           this.showMessageBox({
             content: error.message,
             confirmBtnText: 'Ok',
