@@ -73,7 +73,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length > 1;
+        this.canSubmit = Object.values(this.editData).length > 1 && !this.saving;
       },
       deep: true,
     },
@@ -105,6 +105,7 @@ export default {
         familyName: '',
         familyPhone: '',
       },
+      saving: false,
     };
   },
 
@@ -116,26 +117,26 @@ export default {
       this.toAppMethod('choosePhone', { type });
     },
     async submit() {
-      this.eventTracker('contact_submit');
-      let saveData = { ...this.editData };
-      let contacts = [];
-      if (saveData.familyRelation) {
-        contacts.push({
-          name: saveData.familyName,
-          relation: saveData.familyRelation,
-          mobile: saveData.familyPhone,
-        });
-      }
-      contacts.push({
-        name: saveData.friendName,
-        relation: 'Friends',
-        mobile: saveData.friendPhone,
-      });
-      saveData.contacts = contacts;
-
+      if (this.saving) return;
+      this.saving = true;
       try {
+        this.eventTracker('contact_submit');
+        let saveData = { ...this.editData };
+        let contacts = [];
+        if (saveData.familyRelation) {
+          contacts.push({
+            name: saveData.familyName,
+            relation: saveData.familyRelation,
+            mobile: saveData.familyPhone,
+          });
+        }
+        contacts.push({
+          name: saveData.friendName,
+          relation: 'Friends',
+          mobile: saveData.friendPhone,
+        });
+        saveData.contacts = contacts;
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
-        console.log(data);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           setTimeout(() => {
@@ -145,6 +146,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.saving = false;
       }
     },
   },

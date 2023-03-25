@@ -48,6 +48,7 @@ export default {
       editData: {
         ifsc: '',
       },
+      saving: false,
     };
   },
   mounted() {
@@ -62,25 +63,26 @@ export default {
       this.showIfsc = false;
     },
     async submit() {
-      this.eventTracker('bank_add_submit');
-      if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
-        this.$toast('Account number is not consistent');
-        return;
-      }
-      let saveData = { ...this.editData };
-      saveData.name = this.userInfo.aadhaarName;
-      delete saveData.accountNumberConfirm;
-
-      if (saveData.ifsc.length != 11) {
-        this.$toast('Please enter correct IFSC');
-        return;
-      }
-      if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
-        this.$toast('Please enter correct account number');
-        return;
-      }
-
+      if (this.saving) return;
+      this.saving = true;
       try {
+        this.eventTracker('bank_add_submit');
+        if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
+          this.$toast('Account number is not consistent');
+          return;
+        }
+        let saveData = { ...this.editData };
+        saveData.name = this.userInfo.aadhaarName;
+        delete saveData.accountNumberConfirm;
+
+        if (saveData.ifsc.length != 11) {
+          this.$toast('Please enter correct IFSC');
+          return;
+        }
+        if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
+          this.$toast('Please enter correct account number');
+          return;
+        }
         let data = await this.$http.post(`/wvpwoojady/bchcvyadogfdvghdayuo`, saveData);
         if (data.returnCode == 2000) {
           this.innerJump('complete-bank', this.$route.query, true);
@@ -89,6 +91,9 @@ export default {
       } catch (error) {
         this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
+        this.eventTracker('bank_add_submit_error');
+      } finally {
+        this.saving = false;
       }
     },
   },

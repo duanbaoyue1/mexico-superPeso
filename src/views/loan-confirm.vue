@@ -55,7 +55,8 @@ export default {
       choosed: true,
       canSubmit: true,
       orderInfo: '',
-      orderId: this.$route.query.orderId
+      orderId: this.$route.query.orderId,
+      saving: false
     };
   },
   mounted() {
@@ -73,11 +74,12 @@ export default {
       let data = await this.$http.post('/zihai/bmzcxadafkbywtijqa', { orderId: this.orderId });
       let data2 = await this.$http.post('/zihai/bmzcxadafkbywtijqz', { orderId: this.orderId });
       this.orderInfo = { ...data.data, ...data2.data };
-      console.log(this.orderInfo);
     },
     async submit() {
-      this.eventTracker('confirm_submit');
+      if(this.saving) return;
+      this.saving = true;
       try {
+        this.eventTracker('confirm_submit');
         await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
         // 成功或者失败的跳转
         this.innerJump('loan-success-multi', { orderId: this.orderId, single: true }, true);
@@ -86,6 +88,8 @@ export default {
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000)
+      } finally {
+        this.saving = false;
       }
     },
   },

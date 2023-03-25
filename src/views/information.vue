@@ -63,7 +63,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName);
+        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
       },
       deep: true,
     },
@@ -74,6 +74,7 @@ export default {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
       editData: {},
+      saving: false,
     };
   },
   methods: {
@@ -81,13 +82,15 @@ export default {
       this.$set(this.editData, data.attr, data.value);
     },
     async submit() {
-      this.eventTracker('basic_submit');
-      let saveData = { ...this.editData };
-      if (!this.validateEmail(saveData.email)) {
-        this.$toast('Please enter the correct email address.');
-        return;
-      }
+      if (this.saving) return;
+      this.saving = true;
       try {
+        this.eventTracker('basic_submit');
+        let saveData = { ...this.editData };
+        if (!this.validateEmail(saveData.email)) {
+          this.$toast('Please enter the correct email address.');
+          return;
+        }
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
@@ -98,6 +101,8 @@ export default {
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.saving = false;
       }
     },
   },

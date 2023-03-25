@@ -53,8 +53,8 @@ export default {
       submitSuccess: false,
       cards: [],
       from: this.$route.query.from,
-      // cards: [],
       choosedBankId: '',
+      saving: false,
       editData: {
         friendName: '',
         friendPhone: '',
@@ -73,34 +73,41 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        try {
-          await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
-            orderId: this.$route.query.orderId,
-            remittanceAccountId: this.choosedBankId,
-          });
-          let appMode = await this.getAppMode();
-          if (appMode.confirmType == 1) {
-            // 需要进确认申请页
-            this.innerJump('loan-confirm', {
+        this.eventTracker('bank_submit_sync_success');
+        if (!this.saving) {
+          this.saving = true;
+          try {
+            await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
               orderId: this.$route.query.orderId,
+              remittanceAccountId: this.choosedBankId,
             });
-          } else {
-            // 不需要进确认申请页
-            this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
+            this.eventTracker('bank_submit_success');
+            let appMode = await this.getAppMode();
+            if (appMode.confirmType == 1) {
+              // 需要进确认申请页
+              this.innerJump('loan-confirm', {
+                orderId: this.$route.query.orderId,
+              });
+            } else {
+              // 不需要进确认申请页
+              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true });
+            }
+            this.eventTracker('bank_submit_success');
+          } catch (error) {
+            this.eventTracker('bank_submit_error');
+            this.showMessageBox({
+              content: error.message,
+              confirmBtnText: 'Ok',
+              confirmCallback: () => {
+                console.log('confirmCallback');
+                this.hideMessageBox();
+              },
+              iconPath: 'message/error',
+              showClose: false,
+            });
+          } finally {
+            this.saving = false;
           }
-          this.eventTracker('bank_submit_success');
-        } catch (error) {
-          this.eventTracker('bank_submit_error');
-          this.showMessageBox({
-            content: error.message,
-            confirmBtnText: 'Ok',
-            confirmCallback: () => {
-              console.log('confirmCallback');
-              this.hideMessageBox();
-            },
-            iconPath: 'message/error',
-            showClose: false,
-          });
         }
       }
     };
@@ -127,10 +134,12 @@ export default {
           // 从订单进来的, 需要先通知app方法
           this.toAppMethod('synData', {});
         } else {
+          this.showLoading();
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/wvpwoojady/qjhwfxozwqjwii`, {
             remittanceAccountId: this.choosedBankId,
           });
+          this.hideLoading();
           this.goAppBack();
         }
       } catch (error) {
@@ -144,6 +153,8 @@ export default {
           iconPath: 'message/error',
           showClose: false,
         });
+      } finally {
+        this.hideLoading();
       }
 
       // this.showMessageBox({
