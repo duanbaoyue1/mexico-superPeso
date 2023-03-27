@@ -29,7 +29,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.base64ImgData = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.pic}`;
         this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
       }
     };
@@ -39,7 +39,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.base64ImgData = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.pic}`;
       }
     };
 
@@ -48,12 +48,12 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.base64ImgData = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.pic}`;
       }
     };
     return {
       fileName: '点击Vue拍照',
-      base64ImgData: null,
+      base64ImgData: '',
     };
   },
 
@@ -69,6 +69,7 @@ export default {
       this.fileName = this.$refs.photoRef.files[0].name;
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
+      console.log(this.base64ImgData);
     },
 
     /**
