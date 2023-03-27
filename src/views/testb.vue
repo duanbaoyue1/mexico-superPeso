@@ -83,7 +83,7 @@ export default {
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
       console.log(this.base64ImgData);
-
+      
       this.showLoading();
       try {
         const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
