@@ -1,10 +1,19 @@
 <template>
   <div class="home_index">
-    <div class="home">
+    <!-- <div class="home">
       <img alt="Vue logo" src="../assets/logo.png" />
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
-    </div>
+    </div> -->
+    <button @click="getCapture(3)">上传身份证+活体</button>
+    <br />
+    <button @click="getCapture(4)">活体识别</button>
+    <br />
+    <button @click="getCapture(5)">上传本地图片</button>
+    <br />
+    <br />
+
+    <p>上传结果</p>
     <div class="preview">
       <img :src="base64ImgData" alt="" />
     </div>
@@ -15,12 +24,43 @@
 export default {
   name: 'home',
   data() {
+    window.onPhotoSelectCallback_3 = data => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64ImgData = data.pic;
+        this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
+      }
+    };
+
+    window.onPhotoSelectCallback_4 = data => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64ImgData = data.pic;
+      }
+    };
+
+    window.onPhotoSelectCallback_5 = data => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64ImgData = data.pic;
+      }
+    };
     return {
       fileName: '点击Vue拍照',
       base64ImgData: null,
     };
   },
+
   methods: {
+    getCapture(type) {
+      this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
+    },
     /**
      * 获取用户拍照的图片信息
      */
@@ -30,7 +70,7 @@ export default {
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
     },
-    
+
     /**
      * 返回用户拍照图片的base64
      */
