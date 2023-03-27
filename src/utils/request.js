@@ -43,7 +43,7 @@ function zip(str) {
 // request拦截器 request interceptor
 service.interceptors.request.use(
   config => {
-  console.log(config.headers);
+    console.log(config.headers);
     config.baseURL = store.getters.appGlobal.apiPrefix;
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'text/plain';
     if (config.data && config.headers['Content-Type'] != 'multipart/form-data') {
@@ -65,7 +65,7 @@ service.interceptors.request.use(
     config.headers['appName'] = store.getters.appGlobal.appName;
     config.headers['appVersion'] = store.getters.appGlobal.appVersion;
     config.headers['timestamp'] = new Date().getTime();
-    
+
     // config.headers['Accept'] = '*/*';
     return config;
   },
@@ -76,20 +76,21 @@ service.interceptors.request.use(
   }
 );
 
-// respone拦截器
+// response拦截图
 service.interceptors.response.use(
   response => {
-    const res = JSON.parse(unzip(response.data));
+    let res;
+    try {
+      res = JSON.parse(unzip(response.data));
+    } catch (error) {
+      res = response.data;
+    }
     console.log(response.config.url, res);
     if (res.returnCode && res.returnCode !== 2000) {
       // 4005: 登录超时,重新登录
       // 4006: 强制升级
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
-          // if (response.config.url == '/clyb/iuurv') {
-          //   alert('baseURL:' + response.config.baseURL);
-          //   alert('token:' + response.config.headers.token);
-          // }
           let appGlobal = JSON.parse(localStorage.getItem('app-local'));
           wjs[`error40054006_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {

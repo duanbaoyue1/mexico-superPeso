@@ -1,7 +1,6 @@
 <template>
   <div class="home_index">
     <!-- <div class="home">
-      <img alt="Vue logo" src="../assets/logo.png" />
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
     </div> -->
@@ -11,6 +10,9 @@
     <br />
     <button @click="getCapture(5)">上传本地图片</button>
     <br />
+    <button>
+      <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
+    </button>
     <br />
 
     <p>上传结果图片：</p>
@@ -82,17 +84,23 @@ export default {
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
       console.log(this.base64ImgData);
 
-      const file = this.$refs.photoRef.files[0];
-      let formData = new FormData();
-      formData.append('channel', 'Acc');
-      formData.append('panImg', file);
-      formData.append('mark', 3);
-      console.log(formData.get('mark'));
-      let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      console.log(res);
+      this.showLoading();
+      try {
+        const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
+        let formData = new FormData();
+        formData.append('channel', 'Acc');
+        formData.append('panImg', file);
+        formData.append('mark', 3);
+        console.log(formData.get('mark'));
+        let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        console.log(res);
+      } catch (error) {
+        this.$toast(error.message);
+      } finally {
+        this.hideLoading();
+      }
     },
 
     /**
