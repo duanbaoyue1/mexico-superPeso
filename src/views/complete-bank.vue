@@ -98,7 +98,6 @@ export default {
               content: error.message,
               confirmBtnText: 'Ok',
               confirmCallback: () => {
-                console.log('confirmCallback');
                 this.hideMessageBox();
               },
               iconPath: 'message/error',

@@ -109,6 +109,10 @@ export default {
     };
   },
 
+  mounted() {
+    this.eventTracker('contact_access');
+  },
+
   methods: {
     chooseEditData(data) {
       this.$set(this.editData, data.attr, data.value);
@@ -139,12 +143,14 @@ export default {
         let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
+          this.eventTracker('contact_submit_success');
           setTimeout(() => {
             this.submitSuccess = false;
             this.innerJump('complete-bank', { orderId: this.$route.query.orderId, from: 'order' }, true);
           }, 2000);
         }
       } catch (error) {
+         this.eventTracker('contact_submit_error');
         this.$toast(error.message);
       } finally {
         this.saving = false;

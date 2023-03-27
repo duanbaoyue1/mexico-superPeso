@@ -89,6 +89,7 @@ export default {
         }
         this.eventTracker('bank_add_submit_success');
       } catch (error) {
+        this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
         this.eventTracker('bank_add_submit_error');
       } finally {
