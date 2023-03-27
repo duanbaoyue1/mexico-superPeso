@@ -1,10 +1,10 @@
 <template>
   <div class="home_index">
-    <div class="home">
+    <!-- <div class="home">
       <img alt="Vue logo" src="../assets/logo.png" />
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
-    </div>
+    </div> -->
     <button @click="getCapture(3)">上传身份证+活体</button>
     <br />
     <button @click="getCapture(4)">活体识别</button>
@@ -13,9 +13,13 @@
     <br />
     <br />
 
-    <p>上传结果</p>
+    <p>上传结果图片：</p>
     <div class="preview">
       <img :src="base64ImgData" alt="" />
+    </div>
+    <p>上传结果base64：</p>
+    <div>
+      {{ base64 }}
     </div>
   </div>
 </template>
@@ -25,34 +29,41 @@ export default {
   name: 'home',
   data() {
     window.onPhotoSelectCallback_3 = data => {
+      console.log(data);
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.base64 = data.pic;
         this.base64ImgData = `data:image/png;base64,${data.pic}`;
         this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
       }
     };
 
     window.onPhotoSelectCallback_4 = data => {
+      console.log(data);
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.base64 = data.pic;
         this.base64ImgData = `data:image/png;base64,${data.pic}`;
       }
     };
 
     window.onPhotoSelectCallback_5 = data => {
+      console.log(data);
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.base64 = data.pic;
         this.base64ImgData = `data:image/png;base64,${data.pic}`;
       }
     };
     return {
       fileName: '点击Vue拍照',
+      base64: '',
       base64ImgData: '',
     };
   },
@@ -76,10 +87,9 @@ export default {
       formData.append('channel', 'Acc');
       formData.append('panImg', file);
       formData.append('mark', 3);
+      console.log(formData.get('mark'));
       let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       console.log(res);
