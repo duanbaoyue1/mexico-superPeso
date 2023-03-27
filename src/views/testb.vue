@@ -1,10 +1,10 @@
 <template>
   <div class="home_index">
-    <!-- <div class="home">
+    <div class="home">
       <img alt="Vue logo" src="../assets/logo.png" />
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
-    </div> -->
+    </div>
     <button @click="getCapture(3)">上传身份证+活体</button>
     <br />
     <button @click="getCapture(4)">活体识别</button>
@@ -70,6 +70,19 @@ export default {
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
       console.log(this.base64ImgData);
+
+      const file = this.$refs.photoRef.files[0];
+      let formData = new FormData();
+      formData.append('channel', 'Acc');
+      formData.append('panImg', file);
+      formData.append('mark', 3);
+      let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(res);
     },
 
     /**
