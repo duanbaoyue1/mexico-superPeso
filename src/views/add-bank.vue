@@ -10,7 +10,7 @@
       </div>
 
       <div class="line-item">
-        <input v-model="editData.ifsc" placeholder="Please enter" />
+        <input v-model="editData.ifsc" autocomplete="off" maxlength="11" onKeyUp="value=value.replace(/[\W]/g,'')" placeholder="Please enter" />
       </div>
       <div class="line-item">
         <input v-model="editData.accountNumber" placeholder="Please enter your account number" />
