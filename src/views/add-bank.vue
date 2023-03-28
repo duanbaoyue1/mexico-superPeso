@@ -10,7 +10,7 @@
       </div>
 
       <div class="line-item">
-        <input v-model="editData.ifsc" placeholder="Please enter" />
+        <input v-model="editData.ifsc" autocomplete="off" maxlength="11" onKeyUp="value=value.replace(/[\W]/g,'')" placeholder="Please enter" />
       </div>
       <div class="line-item">
         <input v-model="editData.accountNumber" placeholder="Please enter your account number" />
@@ -91,7 +91,6 @@ export default {
       } catch (error) {
         this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
-        this.eventTracker('bank_add_submit_error');
       } finally {
         this.saving = false;
       }
