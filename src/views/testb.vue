@@ -152,5 +152,7 @@ export default {
 }
 .preview img {
   width: 100%;
+  transform: rotate(0deg);
+  transform-origin: center center;
 }
 </style>

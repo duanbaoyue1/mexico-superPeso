@@ -8,7 +8,7 @@
       <div class="head-top">Identity Info</div>
       <div class="pan-img">
         <template v-if="panImg">
-          <img class="back" :src="panImg" />
+          <img class="back user-pic" :src="panImg" />
           <img class="btn" :src="require('@/assets/img/identity/uploaded.png')" />
         </template>
         <template v-else>
@@ -74,7 +74,6 @@ export default {
       if (data.success) {
         this.canSubmit = true;
         this.panImg = `data:image/png;base64,${data.base64}`;
-        this.uploadImg(3, 'panImg', this.panImg);
       }
     };
 
@@ -232,6 +231,12 @@ export default {
       height: 120px;
       margin: 0 auto;
       display: block;
+      &.user-pic {
+        height: 190px;
+        width: 120px;
+        transform: rotate(270deg);
+        transform-origin: center center;
+      }
     }
     .btn {
       position: absolute;
