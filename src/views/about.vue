@@ -13,7 +13,7 @@
 <script>
 export default {
   mounted() {
-    this.innerJump('identity', true);
+    this.innerJump('identity', {}, true);
   },
 };
 </script>
