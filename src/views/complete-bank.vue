@@ -87,10 +87,10 @@ export default {
               // 需要进确认申请页
               this.innerJump('loan-confirm', {
                 orderId: this.$route.query.orderId,
-              });
+              }, true);
             } else {
               // 不需要进确认申请页
-              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() });
+              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
             }
           } catch (error) {
             this.eventTracker('bank_submit_error');
