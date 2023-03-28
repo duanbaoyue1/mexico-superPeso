@@ -107,6 +107,7 @@ export default {
       params = params || {};
       try {
         console.log('start method:', `${name}_${this.appGlobal.appName}`);
+        console.log('params:', JSON.stringify(params));
         wjs[`${name}_${this.appGlobal.appName}`](JSON.stringify(params));
       } catch (error) {
         console.error(error);
