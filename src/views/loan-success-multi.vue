@@ -85,7 +85,7 @@ export default {
       nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
-      showGoogleFeed: true, //TODO
+      showGoogleFeed: false, //TODO
     };
   },
   beforeRouteLeave(to, from, next) {
