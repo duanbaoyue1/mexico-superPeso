@@ -147,9 +147,8 @@ export default {
             return t;
           });
         } else {
-          // TODO
-          // data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
-          // this.loans = data.data.mergPushProductList || [];
+          data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
+          this.loans = data.data.mergPushProductList || [];
         }
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
