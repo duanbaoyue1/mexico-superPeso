@@ -9,6 +9,8 @@
     <button @click="getCapture(4)">活体识别</button>
     <br />
     <button @click="getCapture(5)">上传本地图片</button>
+    <button @click="testGoHome">goHome</button>
+    <button @click="testGoAllOrders">goAllOrders</button>
     <br />
     <button>
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
@@ -71,6 +73,14 @@ export default {
   },
 
   methods: {
+    testGoAllOrders() {
+      this.toAppMethod('goAllOrders', { closeCurPage: true });
+    },
+
+    testGoHome() {
+      this.toAppMethod('goHome', { closeCurPage: true });
+    },
+
     getCapture(type) {
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
@@ -84,7 +94,7 @@ export default {
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
       console.log(this.base64ImgData);
-      
+
       this.showLoading();
       try {
         const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
