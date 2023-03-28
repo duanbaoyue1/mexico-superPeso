@@ -13,7 +13,7 @@
 <script>
 export default {
   mounted() {
-    this.innerJump('loan-success-multi', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime }, true);
+    this.innerJump('identity', true);
   },
 };
 </script>
