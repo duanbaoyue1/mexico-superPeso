@@ -1,1 +1,1 @@
-git add . && git commit -m "build" && git push origin main
+git add . && git commit -m "build" && git push origin dev
