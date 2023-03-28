@@ -152,6 +152,8 @@ export default {
         }
         if (this.loans.length) {
           this.toAppMethod('needBackControl', { need: true });
+        } else {
+          this.toAppMethod('needBackControl', { need: false });
         }
         this.updateCheckedNum();
       } catch (error) {
