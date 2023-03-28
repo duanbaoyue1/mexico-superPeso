@@ -179,12 +179,14 @@ export default {
       }
     },
     check() {
-      if (!this.loans.length) {
-        this.nextStep = 'goAllOrders';
-        this.showGoogleFeed = true;
-      } else {
-        this.toAppMethod('goAllOrders', { closeCurPage: true });
-      }
+      // TODO
+      this.toAppMethod('goAllOrders', { closeCurPage: true });
+      // if (!this.loans.length) {
+      //   this.nextStep = 'goAllOrders';
+      //   this.showGoogleFeed = true;
+      // } else {
+      //   this.toAppMethod('goAllOrders', { closeCurPage: true });
+      // }
     },
     checkLoan(index) {
       if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
