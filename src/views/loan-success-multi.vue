@@ -31,6 +31,7 @@
 
     <!-- 没有推荐结果时显示 -->
     <res-loans v-else class="res-loans" :systemTime="systemTime" :curNumbers="curNumbers"></res-loans>
+    <google-feedback v-show="showGoogleFeed" :show.sync="showGoogleFeed"></google-feedback>
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
@@ -55,9 +56,21 @@
 
 <script>
 import ResLoans from '@/components/res-loans.vue';
+import GoogleFeedback from '@/components/google-feedback.vue';
 export default {
   components: {
     ResLoans,
+    GoogleFeedback,
+  },
+  watch: {
+    showGoogleFeed: {
+      handler() {
+        if (!this.showGoogleFeed && this.nextStep) {
+          this.toAppMethod(this.nextStep);
+        }
+      },
+      deep: true,
+    },
   },
   data() {
     return {
@@ -69,8 +82,10 @@ export default {
       count: 10,
       totalAmount: 0,
       checkedNums: 0,
+      nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
+      showGoogleFeed: true, //TODO
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -78,13 +93,19 @@ export default {
     next();
   },
   mounted() {
+    this.toAppMethod('needBackControl', { need: true });
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
 
     // 用户点击回退回调
     window.backBtnHandler = async data => {
-      this.showBackModal();
+      if (this.loans.length) {
+        this.showBackModal();
+      } else {
+        this.nextStep = 'goBack';
+        this.showGoogleFeed = true;
+      }
     };
 
     // 银行卡选择后app抓取数据回调
@@ -150,9 +171,6 @@ export default {
           data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
           this.loans = data.data.mergPushProductList || [];
         }
-        if (this.loans.length) {
-          this.toAppMethod('needBackControl', { need: true });
-        }
         this.updateCheckedNum();
       } catch (error) {
         console.log(error);
@@ -161,7 +179,12 @@ export default {
       }
     },
     check() {
-      this.toAppMethod('goAllOrders', { closeCurPage: true });
+      if (!this.loans.length) {
+        this.nextStep = 'goAllOrders';
+        this.showGoogleFeed = true;
+      } else {
+        this.toAppMethod('goAllOrders', { closeCurPage: true });
+      }
     },
     checkLoan(index) {
       if (this.checkedNums == 1 && !this.loans[index].unChecked) return;

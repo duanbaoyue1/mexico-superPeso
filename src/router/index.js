@@ -178,6 +178,23 @@ const routes = [
         },
       },
       {
+        path: 'identity',
+        name: 'identity',
+        component: () => import(/* webpackChunkName: "identity" */ '../views/identity.vue'),
+        meta: {
+          title: 'Complete information',
+        },
+      },
+      {
+        path: 'complain-home',
+        name: 'complain-home',
+        component: () => import(/* webpackChunkName: "complain-home" */ '../views/complain-home.vue'),
+        meta: {
+          title: 'Complaints',
+        },
+      },
+      
+      {
         path: 'testa',
         name: 'testa',
         component: () => import(/* webpackChunkName: "testa" */ '../views/testa.vue'),

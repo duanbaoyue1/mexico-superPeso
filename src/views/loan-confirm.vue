@@ -31,7 +31,7 @@
     <div class="loan-desc">The specific amount will be confirmed after reviewing. If your order is approved, we will charge the processing fee, including the service fee (no more than 7%), review fee (8%-15%), and GST(18%) This page is for reference only. The amount will be credited to your account directly after approval.</div>
 
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button :disabled="!canSubmit" @click="submit">One-click to get quota</button>
       <div class="policy" @click="togglePolicy">
         <m-icon class="icon" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
         I have read and agreed to the &nbsp;<span @click="checkAgreement">loan Agreement</span></span>
