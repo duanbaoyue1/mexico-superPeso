@@ -73,7 +73,7 @@ export default {
       }
       if (data.success) {
         this.canSubmit = true;
-        this.panImg = `data:image/png;base64,${data.pic}`;
+        this.panImg = `data:image/png;base64,${data.base64}`;
         this.uploadImg(3, 'panImg', this.panImg);
       }
     };
@@ -83,7 +83,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.livingImg = `data:image/png;base64,${data.pic}`;
+        this.livingImg = `data:image/png;base64,${data.base64}`;
         this.uploadImg(4, 'livingImg', this.livingImg);
       }
     };

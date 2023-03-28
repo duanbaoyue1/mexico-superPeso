@@ -37,7 +37,7 @@ export default {
       }
       if (data.success) {
         this.base64 = data.pic;
-        this.base64ImgData = `data:image/png;base64,${data.pic}`;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
         this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
       }
     };
@@ -49,7 +49,7 @@ export default {
       }
       if (data.success) {
         this.base64 = data.pic;
-        this.base64ImgData = `data:image/png;base64,${data.pic}`;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
       }
     };
 
@@ -60,13 +60,13 @@ export default {
       }
       if (data.success) {
         this.base64 = data.pic;
-        this.base64ImgData = `data:image/png;base64,${data.pic}`;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
       }
     };
     return {
       fileName: '点击Vue拍照',
       base64: '',
-      base64ImgData: '',
+      base64ImgData: null,
     };
   },
 
@@ -78,6 +78,7 @@ export default {
      * 获取用户拍照的图片信息
      */
     async photograph() {
+      console.log('123');
       // 获取用户拍照的图片名字，显示到页面上
       this.fileName = this.$refs.photoRef.files[0].name;
       // 获取图片base64 代码，并存放到 base64ImgData 中
