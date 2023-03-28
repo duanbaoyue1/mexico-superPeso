@@ -8,7 +8,7 @@
         Your application is successful
       </div>
       <div v-if="!this.loans.length" class="apply" @click="check">View all orders</div>
-      <div v-else class="apply" @click="check">Increase ₹{{ totalAmount }} Amount</div>
+      <div v-else class="apply" @click="applyMulti">Increase ₹{{ totalAmount }} Amount</div>
     </div>
 
     <div class="other-loans" v-if="loans.length > 0">
