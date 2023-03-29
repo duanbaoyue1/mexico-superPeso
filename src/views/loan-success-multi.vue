@@ -66,7 +66,7 @@ export default {
     showGoogleFeed: {
       handler() {
         if (!this.showGoogleFeed && this.nextStep) {
-          this.toAppMethod(this.nextStep);
+          this.toAppMethod(this.nextStep, { closeCurPage: true });
         }
       },
       deep: true,
@@ -84,7 +84,8 @@ export default {
       nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
-      showGoogleFeed: false, //TODO
+      showGoogleFeed: false,
+      isSysNeedGoogle: false,
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -93,10 +94,13 @@ export default {
   },
   mounted() {
     this.toAppMethod('needBackControl', { need: true });
+
+    // 从系统读取是否需要弹google窗
+    // TODO
+
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
-
     // 用户点击回退回调
     window.backBtnHandler = async data => {
       if (this.loans.length) {
@@ -393,56 +397,6 @@ export default {
         background-repeat: no-repeat;
         background-size: contain;
       }
-
-      // .logo {
-      //   margin: 0 auto;
-      // }
-      // .name {
-      //   font-size: 14px;
-      //   font-weight: 400;
-      //   color: #333333;
-      //   line-height: 18px;
-      //   margin: 4px auto;
-      //   text-align: center;
-      // }
-      // .reloan-wrapper {
-      //   display: flex;
-      //   box-sizing: border-box;
-      //   justify-content: center;
-      //   .reloan {
-      //     height: 16px;
-      //     border-radius: 10px;
-      //     line-height: 1;
-      //     text-align: center;
-      //     border: 1px solid #ffbd5c;
-      //     font-size: 10px;
-      //     font-weight: 500;
-      //     color: #ffbd5c;
-      //     padding: 2px 10px 0px 10px;
-      //     display: inline-block;
-      //     margin-bottom: 20px;
-      //   }
-      // }
-
-      // .label {
-      //   font-size: 10px;
-      //   font-weight: 400;
-      //   color: #999999;
-      //   line-height: 12px;
-      //   margin-bottom: 4px;
-      //   text-align: center;
-      // }
-      // .value {
-      //   font-size: 16px;
-      //   font-weight: bold;
-      //   color: #333333;
-      //   line-height: 20px;
-      //   margin-bottom: 10px;
-      //   text-align: center;
-      //   &:nth-last-of-type(1) {
-      //     margin-bottom: 0;
-      //   }
-      // }
 
       &.active {
         border: 2px solid #1143a4;

@@ -96,14 +96,24 @@ export default {
       curPercent: 0,
       saving: false,
       curInterval: null,
+      ocrChannel: 'AccV2',
     };
   },
 
   mounted() {
-    // this.startPercent();
+    // this.getOcrChannel();
   },
 
   methods: {
+    // async getOcrChannel() {
+    //   try {
+    //     let res = await this.$http.post(`/zds/htgfuvs`);
+    //     if (res.returnCode == 2000) {
+    //       this.ocrChannel = res.data.channel;
+    //     }
+    //   } catch (error) {}
+    // },
+
     getCapture(type) {
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
@@ -150,19 +160,27 @@ export default {
         this.startPercent();
       }
       try {
-        const file = this.base64ToFile(base64, new Date().getTime());
+        // const file = this.base64ToFile(base64, new Date().getTime());
         let formData = new FormData();
-        formData.append('channel', 'Acc');
-        formData.append(fileName, file);
+        formData.append('channel', this.ocrChannel);
+        formData.append(fileName, base64);
         formData.append('mark', type);
-        let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
+
+        let res = await this.$http.post(`/api/zds/ewcaqwrubmcvlgpo`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        if (type == 3) {
-          // 活体检测
-          this.getCapture(4);
+
+        if (res.returnCode == 2000) {
+          if (type == 3) {
+            // 活体检测
+            this.getCapture(4);
+          } else {
+            this.showUploadSuccess();
+          }
         } else {
-          this.showUploadSuccess();
+          this.$toast(error.message);
+          this.stopPercent();
+          this.submitSuccess = false;
         }
       } catch (error) {
         this.$toast(error.message);

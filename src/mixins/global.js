@@ -16,6 +16,11 @@ export default {
       return item || '';
     },
 
+    phoneHideFilter(item) {
+      if(!item) return '';
+      return `${item.slice(0,3)}****${item.slice(-3)}`
+    },
+
     dateFormate(date, format = 'yyyy/MM/dd') {
       return dateFormat(date, format);
     },

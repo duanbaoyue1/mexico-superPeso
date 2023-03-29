@@ -26,6 +26,10 @@
         <div class="answer" v-show="item.showAnswer">{{ item.answer }}</div>
       </div>
     </div>
+
+    <!-- <div class="actions">
+      <a @click="goComplain">I have a problem to complain</a>
+    </div> -->
   </div>
 </template>
 
@@ -69,13 +73,36 @@ export default {
     showAnswer(index) {
       this.$set(this.questions, index, { ...this.questions[index], showAnswer: !this.questions[index].showAnswer });
     },
+    goComplain() {
+      this.innerJump('complain-home');
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .help-center {
-  background: #f4f4f4;
+  // background: #f4f4f4;
+  padding-bottom: 80px;
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    align-items: center;
+    a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1143a4;
+      line-height: 18px;
+      text-decoration: underline;
+    }
+  }
 
   .questions {
     background: #fff;

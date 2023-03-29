@@ -5,6 +5,7 @@
       <div class="name">{{ appGlobal.appName }}</div>
       <div id="version">Version: {{ appGlobal.appVersionV }}</div>
     </div>
+    
     <div class="desc">We have developed an application called "{{ appGlobal.appName }}" through which you can apply for a short-term unsecured loan with a quick and easy process and a second payout the same day to help you solve your financial problems.</div>
   </div>
 </template>
@@ -12,7 +13,7 @@
 <script>
 export default {
   mounted() {
-    this.innerJump('identity', {}, true);
+    // this.innerJump('loan-success-multi', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime, needRecommend: false, curNumbers: this.$route.query.curNumbers }, true);
   },
 };
 </script>

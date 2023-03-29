@@ -18,6 +18,10 @@
       <div class="line-item">
         <input v-model="editData.email" placeholder="Please enter your Email" />
       </div>
+      <div class="head">Gender</div>
+      <div class="line-item">
+        <select-item :items="ALL_ATTRS.GENDER" itemAttrs="gender" @choose="chooseEditData" />
+      </div>
       <div class="head">Education</div>
       <div class="line-item">
         <select-item :items="ALL_ATTRS.EDUCATION" itemAttrs="education" @choose="chooseEditData" />

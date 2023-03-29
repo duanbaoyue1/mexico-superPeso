@@ -193,7 +193,23 @@ const routes = [
           title: 'Complaints',
         },
       },
-      
+      {
+        path: 'complain-list',
+        name: 'complain-list',
+        component: () => import(/* webpackChunkName: "complain-list" */ '../views/complain-list.vue'),
+        meta: {
+          title: 'Complaint record',
+        },
+      },
+      {
+        path: 'complain-edit',
+        name: 'complain-edit',
+        component: () => import(/* webpackChunkName: "complain-edit" */ '../views/complain-edit.vue'),
+        meta: {
+          title: 'Complaints',
+        },
+      },
+
       {
         path: 'testa',
         name: 'testa',

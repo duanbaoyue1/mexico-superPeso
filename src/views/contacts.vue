@@ -150,7 +150,7 @@ export default {
           }, 2000);
         }
       } catch (error) {
-         this.eventTracker('contact_submit_error');
+        this.eventTracker('contact_submit_error');
         this.$toast(error.message);
       } finally {
         this.saving = false;

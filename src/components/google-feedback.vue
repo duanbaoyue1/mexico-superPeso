@@ -13,7 +13,7 @@
       <div class="input-area">
         <div v-if="curStar >= 4">Five-star reviews can improve the passing rate!</div>
         <div v-else>
-          <textarea v-model="comments" placeholder="Please leave your feedback, we will read and feedback carefully!"></textarea>
+          <textarea maxlength="100" v-model="comments" placeholder="Please leave your feedback, we will read and feedback carefully!"></textarea>
         </div>
       </div>
       <div class="submit">
@@ -43,11 +43,24 @@ export default {
       this.$emit('update:show', false);
     },
     submit() {
-      this.toAppMethod('goGoogleStore');
-      setTimeout(() => {
+      if (this.curStar >= 4) {
+        this.toAppMethod('goGoogleStore');
         this.$emit('update:show', false);
-      }, 1000);
-      // TODO
+      } else {
+        if (!this.comments.length) {
+          this.$toast('Please enter comments or suggestions');
+          return;
+        }
+        try {
+          this.showLoading();
+          // TODO 发送接口数据
+          this.$emit('update:show', false);
+        } catch (error) {
+          this.$toast(error.message);
+        } finally {
+          this.hideLoading();
+        }
+      }
     },
   },
 };
@@ -62,6 +75,7 @@ export default {
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.7);
+
   &-content {
     width: 320px;
     background: #ffffff;

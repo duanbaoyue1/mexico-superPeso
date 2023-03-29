@@ -9,7 +9,7 @@ import md5 from 'js-md5';
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base api url + request url
   // withCredentials: false, // send cookies when cross-domain requests
-  timeout: 10000, // request timeout
+  timeout: 20000, // request timeout
 });
 
 function unzip(b64Data) {
@@ -43,16 +43,15 @@ function zip(str) {
 // request拦截器 request interceptor
 service.interceptors.request.use(
   config => {
-    console.log(config.headers);
     config.baseURL = store.getters.appGlobal.apiPrefix;
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'text/plain';
+    console.log('request data:', config.data);
     if (config.data && config.headers['Content-Type'] != 'multipart/form-data') {
       if (typeof config.data !== 'string') {
         config.data = JSON.stringify(config.data);
       }
       config.data = zip(config.data);
     }
-    console.log('request:', config.data);
     console.log('baseURL:', store.getters.appGlobal.apiPrefix);
     console.log('token:', store.getters.appGlobal.token);
     config.headers['token'] = store.getters.appGlobal.token;
@@ -65,7 +64,6 @@ service.interceptors.request.use(
     config.headers['appName'] = store.getters.appGlobal.appName;
     config.headers['appVersion'] = store.getters.appGlobal.appVersion;
     config.headers['timestamp'] = new Date().getTime();
-
     // config.headers['Accept'] = '*/*';
     return config;
   },

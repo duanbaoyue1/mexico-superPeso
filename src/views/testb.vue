@@ -98,11 +98,11 @@ export default {
       try {
         const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
         let formData = new FormData();
-        formData.append('channel', 'Acc');
+        formData.append('channel', 'AccV2');
         formData.append('panImg', file);
         formData.append('mark', 3);
-        console.log(formData.get('mark'));
-        let res = await this.$http.post(`/zds/ewcahvrche`, formData, {
+
+        let res = await this.$http.post(`/api/zds/ewcaqwrubmcvlgpo`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         console.log(res);
