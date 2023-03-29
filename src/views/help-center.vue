@@ -27,9 +27,9 @@
       </div>
     </div>
 
-    <div class="actions">
+    <!-- <div class="actions">
       <a @click="goComplain">I have a problem to complain</a>
-    </div>
+    </div> -->
   </div>
 </template>
 

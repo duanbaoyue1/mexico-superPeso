@@ -2,18 +2,66 @@
   <div class="complain-home">
     <div class="head">Select a feedback agency</div>
     <div class="select">
-      <button>EasyMoney</button>
-      <button>RBI</button>
-      <button>Online complaint platform</button>
+      <button @click="changeType('EasyMoney')">EasyMoney</button>
+      <button @click="changeType('RBI')">RBI</button>
+      <button @click="changeType('Online complaint platform')">Online complaint platform</button>
     </div>
+    <div class="warm-tips">
+      <div class="head">Warm Tips</div>
+      <div>The system will send the complaint case to the selected complaint agency, and the agency will process it within 7 days, please wait patiently.</div>
+    </div>
+
+    <div class="actions">
+      <a @click="goComplainRecord">Complaint record</a>
+    </div>
+
+    <Transition>
+      <complain-question v-show="showQuestion" :show.sync="showQuestion" @choose="chooseQuestion"></complain-question>
+    </Transition>
   </div>
 </template>
 
 <script>
-export default {};
+import ComplainQuestion from '@/components/complain-question.vue';
+
+export default {
+  components: {
+    ComplainQuestion,
+  },
+  data() {
+    return {
+      showQuestion: false,
+      type: '',
+      question: '',
+    };
+  },
+  methods: {
+    changeType(type) {
+      this.type = type;
+      this.showQuestion = true;
+    },
+    goComplainRecord() {
+      this.innerJump('complain-list');
+    },
+    chooseQuestion(question) {
+      this.question = question;
+      this.innerJump('complain-edit', { type: this.type, question: this.question });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .complain-home {
   padding: 20px;
 
@@ -41,6 +89,43 @@ export default {};
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #fff;
+      margin-top: 20px;
+    }
+  }
+
+  .warm-tips {
+    margin-top: 50px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    line-height: 24px;
+    word-break: break-word;
+    .head {
+      font-size: 14px;
+      font-weight: 400;
+      color: #333333;
+      line-height: 18px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    align-items: center;
+    a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1143a4;
+      line-height: 18px;
+      text-decoration: underline;
     }
   }
 }

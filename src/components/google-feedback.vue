@@ -76,32 +76,6 @@ export default {
   right: 0;
   background: rgba(0, 0, 0, 0.7);
 
-  textarea:focus::-webkit-input-placeholder {
-    color: transparent;
-  }
-  textarea:focus:-moz-placeholder {
-    color: transparent;
-  }
-  textarea:focus::-moz-placeholder {
-    color: transparent;
-  }
-  textarea:focus:-ms-input-placeholder {
-    color: transparent;
-  }
-
-  textarea::-webkit-input-placeholder {
-    color: #999;
-  }
-  textarea::-moz-placeholder {
-    color: #999;
-  }
-  textarea::-moz-placeholder {
-    color: #999;
-  }
-  textarea:-ms-input-placeholder {
-    color: #999;
-  }
-
   &-content {
     width: 320px;
     background: #ffffff;

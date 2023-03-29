@@ -24,7 +24,7 @@ export default {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-      this.toAppMethod('needBackControl', {need: false});
+      this.toAppMethod('needBackControl', { need: false });
       try {
         this.hideLoading();
       } catch (error) {}
