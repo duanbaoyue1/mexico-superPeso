@@ -145,6 +145,7 @@ export default {
         // 创建订单
         let res = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahf`);
         this.submitSuccess = false;
+        console.log('创建订单信息结果:', res);
         // 跳转个人信息页
         this.innerJump('information', { orderId: res.data.orderId }, true);
       } catch (error) {
@@ -160,7 +161,6 @@ export default {
         this.startPercent();
       }
       try {
-        // const file = this.base64ToFile(base64, new Date().getTime());
         let formData = new FormData();
         formData.append('channel', this.ocrChannel);
         formData.append(fileName, base64);
