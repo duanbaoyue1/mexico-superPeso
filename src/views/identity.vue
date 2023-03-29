@@ -113,6 +113,9 @@ export default {
     // },
 
     getCapture(type) {
+      if (type == 3) {
+        this.eventTracker('id_pan_front');
+      }
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
 
@@ -195,6 +198,7 @@ export default {
     },
 
     async submit() {
+      this.eventTracker('id_submit');
       this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
     },
   },
