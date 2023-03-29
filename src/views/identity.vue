@@ -7,8 +7,8 @@
     <div class="edit-area">
       <div class="head-top">Identity Info</div>
       <div class="pan-img">
-        <template v-if="panImg">
-          <img class="back user-pic" :src="panImg" />
+        <template v-if="panFrontBase64Src">
+          <img class="back user-pic" :src="panFrontBase64Src" />
           <img class="btn" :src="require('@/assets/img/identity/uploaded.png')" />
         </template>
         <template v-else>
@@ -73,7 +73,7 @@ export default {
       }
       if (data.success) {
         this.canSubmit = true;
-        this.panImg = `data:image/png;base64,${data.base64}`;
+        this.panFrontBase64Src = `data:image/png;base64,${data.base64}`;
       }
     };
 
@@ -82,16 +82,14 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.livingImg = `data:image/png;base64,${data.base64}`;
-        this.uploadImg(4, 'livingImg', this.livingImg);
+        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64}`);
       }
     };
 
     return {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
-      panImg: '',
-      livingImg: '',
+      panFrontBase64Src: '',
       editData: {},
       curPercent: 0,
       saving: false,
@@ -146,6 +144,7 @@ export default {
         let res = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahf`);
         this.submitSuccess = false;
         // 跳转个人信息页
+        console.log('订单创建结果:', res);
         this.innerJump('information', { orderId: res.data.orderId }, true);
       } catch (error) {
         this.$toast(error.message);
@@ -192,7 +191,7 @@ export default {
     },
 
     async submit() {
-      this.uploadImg(3, 'panImg', this.panImg);
+      this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
     },
   },
 };
