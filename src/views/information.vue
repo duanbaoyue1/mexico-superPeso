@@ -67,7 +67,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
+        this.canSubmit = Object.values(this.editData).length == 10 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
       },
       deep: true,
     },
@@ -79,7 +79,11 @@ export default {
       submitSuccess: false,
       editData: {},
       saving: false,
+      orderId: this.$route.query.orderId,
     };
+  },
+  mounted() {
+    console.log('order id:', this.orderId);
   },
   methods: {
     chooseEditData(data) {
@@ -100,7 +104,7 @@ export default {
           this.submitSuccess = true;
           setTimeout(() => {
             this.submitSuccess = false;
-            this.innerJump('contacts', { orderId: this.$route.query.orderId }, true);
+            this.innerJump('contacts', { orderId: this.orderId }, true);
           }, 1000);
         }
       } catch (error) {
