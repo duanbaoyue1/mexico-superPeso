@@ -89,17 +89,18 @@ export default {
      */
     async photograph() {
       // 获取用户拍照的图片名字，显示到页面上
-      // this.fileName = this.$refs.photoRef.files[0].name;
-      // // 获取图片base64 代码，并存放到 base64ImgData 中
-      // this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
+      this.fileName = this.$refs.photoRef.files[0].name;
+      // 获取图片base64 代码，并存放到 base64ImgData 中
+      this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
       console.log(this.base64ImgData);
 
       this.showLoading();
       try {
-        const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
+        // const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
+
         let formData = new FormData();
         formData.append('channel', 'AccV2');
-        formData.append('panImg', file);
+        formData.append('panFrontBase64Src', this.base64ImgData);
         formData.append('mark', 3);
 
         let res = await this.$http.post(`/api/zds/ewcaqwrubmcvlgpo`, formData, {
