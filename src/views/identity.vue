@@ -165,16 +165,20 @@ export default {
         formData.append(fileName, base64);
         formData.append('mark', type);
 
-        let res = await this.$http.post(`/api/zds/ewcaqwrubmcvlgpo`, formData, {
+        let res = await this.$http.post(`/zds/ewcaqwrubmcvlgpo`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
         if (res.returnCode == 2000) {
-          if (type == 3) {
+          if (type == 3 && res.data.panFrontOcrStatus) {
             // 活体检测
             this.getCapture(4);
-          } else {
+          } else if (type == 4 && res.data.faceComparisonStatus) {
             this.showUploadSuccess();
+          } else {
+            this.$toast('please try again!');
+            this.stopPercent();
+            this.submitSuccess = false;
           }
         } else {
           this.$toast(error.message);
