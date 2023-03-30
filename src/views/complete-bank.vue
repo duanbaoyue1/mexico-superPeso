@@ -47,12 +47,27 @@ export default {
     },
   },
   data() {
+    // 用户点击回退回调
+    window.backBtnHandler = async data => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'Yes',
+        confirmCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'message/question',
+        showClose: true,
+      });
+    };
+
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
       cards: [],
       from: this.$route.query.from,
+      orderId: this.$route.query.orderId,
       choosedBankId: '',
       saving: false,
       editData: {
@@ -67,6 +82,10 @@ export default {
   mounted() {
     this.getBanks();
 
+    if (this.from == 'order') {
+      this.toAppMethod('needBackControl', { need: true });
+    }
+
     // 银行卡选择后app抓取数据回调
     window.synDataCallback = async data => {
       if (typeof data == 'string') {
@@ -78,7 +97,7 @@ export default {
           this.saving = true;
           try {
             await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
-              orderId: this.$route.query.orderId,
+              orderId: this.orderId,
               remittanceAccountId: this.choosedBankId,
             });
             this.eventTracker('bank_submit_success');
@@ -88,7 +107,7 @@ export default {
               this.innerJump(
                 'loan-confirm',
                 {
-                  orderId: this.$route.query.orderId,
+                  orderId: this.orderId,
                 },
                 true
               );

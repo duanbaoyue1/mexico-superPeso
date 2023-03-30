@@ -108,11 +108,12 @@ export default {
       curPercent: 0,
       saving: false,
       curInterval: null,
-      ocrChannel: 'AccV2'
+      ocrChannel: 'AccV2',
     };
   },
 
   mounted() {
+    this.eventTracker('id_access');
     this.toAppMethod('needBackControl', { need: true });
     // this.getOcrChannel();
   },
@@ -155,6 +156,7 @@ export default {
     },
 
     async showUploadSuccess() {
+      this.eventTracker('id_submit_success');
       this.stopPercent();
       this.curPercent = 100;
       try {
@@ -189,27 +191,28 @@ export default {
 
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
+            this.eventTracker('id_submit_success');
             // 活体检测
             this.getCapture(4);
           } else if (type == 4 && res.data.faceComparisonStatus) {
             this.showUploadSuccess();
           } else {
-            this.$toast('please try again!');
-            this.stopPercent();
-            this.submitSuccess = false;
           }
         } else {
-          this.$toast(error.message);
-          this.stopPercent();
-          this.submitSuccess = false;
+          this.logError(type);
         }
       } catch (error) {
-        this.$toast(error.message);
-        this.stopPercent();
-        this.submitSuccess = false;
+        this.logError(type, error.message);
       } finally {
         this.hideLoading();
       }
+    },
+
+    logError(type, message) {
+      this.eventTracker('id_submit_error');
+      this.$toast(message || 'please try again!');
+      this.stopPercent();
+      this.submitSuccess = false;
     },
 
     async submit() {
