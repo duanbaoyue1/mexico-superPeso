@@ -86,6 +86,20 @@ export default {
       }
     };
 
+    // 用户点击回退回调
+    window.backBtnHandler = async data => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'Yes',
+        confirmCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'message/question',
+        showClose: true,
+      });
+    };
+
     return {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
@@ -94,11 +108,12 @@ export default {
       curPercent: 0,
       saving: false,
       curInterval: null,
-      ocrChannel: 'AccV2',
+      ocrChannel: 'AccV2'
     };
   },
 
   mounted() {
+    this.toAppMethod('needBackControl', { need: true });
     // this.getOcrChannel();
   },
 

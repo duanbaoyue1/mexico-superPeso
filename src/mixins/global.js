@@ -17,13 +17,19 @@ export default {
     },
 
     phoneHideFilter(item) {
-      if(!item) return '';
-      return `${item.slice(0,3)}****${item.slice(-3)}`
+      if (!item) return '';
+      return `${item.slice(0, 3)}****${item.slice(-3)}`;
     },
 
     dateFormate(date, format = 'yyyy/MM/dd') {
       return dateFormat(date, format);
     },
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.hideLoading();
+    this.toAppMethod('needBackControl', { need: false });
+    next();
   },
 
   methods: {
