@@ -8,6 +8,7 @@
 import { mapActions, mapState } from 'vuex';
 export default {
   async mounted() {
+
     // 用户点击回退回调
     console.log('register window.backBtnHandler');
     window.backBtnHandler = async data => {
