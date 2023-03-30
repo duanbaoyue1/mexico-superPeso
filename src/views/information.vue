@@ -67,12 +67,26 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 10 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
+        this.canSubmit = Object.values(this.editData).length == 10 || (Object.values(this.editData).length == 9 && !this.editData.middleName && !this.saving);
       },
       deep: true,
     },
   },
   data() {
+    // 用户点击回退回调
+    window.backBtnHandler = async data => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'Yes',
+        confirmCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'message/question',
+        showClose: true,
+      });
+    };
+
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
@@ -83,7 +97,8 @@ export default {
     };
   },
   mounted() {
-    console.log('order id:', this.orderId);
+    this.eventTracker('basic_access');
+    this.toAppMethod('needBackControl', { need: true });
   },
   methods: {
     chooseEditData(data) {
@@ -101,6 +116,7 @@ export default {
         }
         let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
         if (data.returnCode == 2000) {
+          this.eventTracker('basic_submit_success');
           this.submitSuccess = true;
           setTimeout(() => {
             this.submitSuccess = false;
@@ -108,6 +124,7 @@ export default {
           }, 1000);
         }
       } catch (error) {
+        this.eventTracker('basic_submit_error');
         this.$toast(error.message);
       } finally {
         this.saving = false;
