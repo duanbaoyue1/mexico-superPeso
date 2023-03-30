@@ -237,6 +237,9 @@ export default {
     color: #999999;
     line-height: 14px;
     > div {
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
       img {
         width: 70px;
         height: 58px;
@@ -244,8 +247,6 @@ export default {
         margin-bottom: 4px;
         display: block;
       }
-      text-align: center;
-      flex: 1;
     }
   }
 
