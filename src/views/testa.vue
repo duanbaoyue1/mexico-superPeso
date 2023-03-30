@@ -1,6 +1,7 @@
 <template>
   <div class="content">
     <button class="btn-default" @click="goB">跳转页面B</button>
+    <van-button type="primary">主要按钮</van-button>
   </div>
 </template>
 
