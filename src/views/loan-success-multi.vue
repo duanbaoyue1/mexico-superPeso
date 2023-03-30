@@ -88,10 +88,6 @@ export default {
       isSysNeedGoogle: false,
     };
   },
-  beforeRouteLeave(to, from, next) {
-    this.toAppMethod('needBackControl', { need: false });
-    next();
-  },
   mounted() {
     this.toAppMethod('needBackControl', { need: true });
 
