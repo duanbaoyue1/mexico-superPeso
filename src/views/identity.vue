@@ -113,6 +113,9 @@ export default {
     // },
 
     getCapture(type) {
+      if (type == 3) {
+        this.eventTracker('id_pan_front');
+      }
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
 
@@ -195,6 +198,7 @@ export default {
     },
 
     async submit() {
+      this.eventTracker('id_submit');
       this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
     },
   },
@@ -233,6 +237,9 @@ export default {
     color: #999999;
     line-height: 14px;
     > div {
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
       img {
         width: 70px;
         height: 58px;
@@ -240,8 +247,6 @@ export default {
         margin-bottom: 4px;
         display: block;
       }
-      text-align: center;
-      flex: 1;
     }
   }
 
