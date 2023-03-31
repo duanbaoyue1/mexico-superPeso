@@ -76,8 +76,23 @@ export default {
     async submit() {
       try {
         this.showLoading();
-        // TODO 调用接口
-        let res = await this.$http.post(``, {});
+        let saveData = {
+          userId: this.userInfo.id,
+          feedbackMechanism: this.type,
+          problemType: this.question,
+          problemContent: this.content,
+        };
+        if (this.imgs[0]) {
+          saveData.firstImageBase64Src = this.imgs[0];
+        }
+        if (this.imgs[1]) {
+          saveData.secondImageBase64Src = this.imgs[1];
+        }
+        if (this.imgs[2]) {
+          saveData.thirdImageBase64Src = this.imgs[2];
+        }
+
+        let res = await this.$http.post(`/clyb/ewcaajwxhgwuosudabc`, saveData);
         if (res.returnCode == 2000) {
           this.$toast('Submitted successfully, we will handle it as soon as possible');
           this.innerJump('complain-list', {}, true);

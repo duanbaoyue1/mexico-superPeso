@@ -12,7 +12,7 @@
     </div>
 
     <div class="actions">
-      <a @click="goComplainRecord">Complaint record</a>
+      <a @click="goComplainRecord" :class="{ 'show-red': showRedBot }">Complaint record</a>
     </div>
 
     <Transition>
@@ -33,9 +33,21 @@ export default {
       showQuestion: false,
       type: '',
       question: '',
+      showRedBot: false,
     };
   },
+  mounted() {
+    this.checkRedBot();
+  },
   methods: {
+    async checkRedBot() {
+      try {
+        let res = await this.$http.post(`/clyb/hjpthwaaooadjfyjqbvwi`);
+        if (res.returnCode == 2000) {
+          this.showRedBot = res.data;
+        }
+      } catch (error) {}
+    },
     changeType(type) {
       this.type = type;
       this.showQuestion = true;
@@ -126,6 +138,19 @@ export default {
       color: #1143a4;
       line-height: 18px;
       text-decoration: underline;
+      position: relative;
+      &.show-red {
+        &::after {
+          position: absolute;
+          content: ' ';
+          right: -8px;
+          top: 4px;
+          width: 6px;
+          height: 6px;
+          border-radius: 100%;
+          background: red;
+        }
+      }
     }
   }
 }

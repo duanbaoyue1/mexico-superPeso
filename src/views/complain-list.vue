@@ -7,27 +7,27 @@
     <div class="complains" v-else>
       <div class="complains-item" v-for="item in lists" :key="item.id">
         <div class="head">
-          <span>No.1387547894</span>
-          <span>2022/11/10</span>
+          <span>No.{{ item.id }}</span>
+          <span>{{ item.createTime }}</span>
         </div>
         <div class="content">
           <div class="flex-between">
             <span>Feedback agency</span>
-            <span>RBI</span>
+            <span>{{ item.feedbackMechanism }}</span>
           </div>
           <div class="flex-between">
             <span>Type of question</span>
-            <span>Reminder of repayment problems</span>
+            <span>{{ item.problemType }}</span>
           </div>
           <div class="questions">
             <div>Question Details</div>
-            <div class="question">I have some questions to give feedback, please give me the answer as soon as you receive the message.</div>
+            <div class="question">{{ item.problemContent }}</div>
           </div>
           <div class="imgs" v-if="item.imgs">
             <div class="img" v-for="(img, index) in item.imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }"></div>
           </div>
         </div>
-        <div class="status">Your complaint is being sent to RBI, please be patient</div>
+        <div class="status">{{ item.statusMsg }}</div>
       </div>
     </div>
   </div>
@@ -37,13 +37,33 @@
 export default {
   data() {
     return {
-      lists: [
-        {
-          id: 1,
-        },
-        { id: 2 },
-      ],
+      lists: [],
     };
+  },
+
+  mounted() {
+    this.getLists();
+  },
+
+  methods: {
+    async getLists() {
+      try {
+        let res = await this.$http.post(`/clyb/hjpthwaaooadjfy`);
+        this.lists = (res.data.list || []).map(t => {
+          t.imgs = [];
+          if (t.firstImageBase64Src) {
+            t.imgs.push(t.firstImageBase64Src);
+          }
+          if (t.secondImageBase64Src) {
+            t.imgs.push(t.secondImageBase64Src);
+          }
+          if (t.thirdImageBase64Src) {
+            t.imgs.push(t.thirdImageBase64Src);
+          }
+          return t;
+        });
+      } catch (error) {}
+    },
   },
 };
 </script>

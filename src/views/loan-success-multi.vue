@@ -93,7 +93,7 @@ export default {
     this.toAppMethod('needBackControl', { need: true });
 
     // 从系统读取是否需要弹google窗
-    // TODO
+    this.getNeedGoogle();
 
     if (this.needRecommend) {
       this.getRecommendLoans();
@@ -102,9 +102,11 @@ export default {
     window.backBtnHandler = async data => {
       if (this.loans.length) {
         this.showBackModal();
-      } else {
+      } else if (this.isSysNeedGoogle) {
         this.nextStep = 'goBack';
         this.showGoogleFeed = true;
+      } else {
+        this.goAppBack();
       }
     };
 
@@ -156,6 +158,15 @@ export default {
       this.showBackControl = true;
     },
 
+    async getNeedGoogle() {
+      try {
+        let res = await this.$http.post(`/xiaqpdt/jwcrpijnhyjjywuue`);
+        if (res.returnCode == 2000) {
+          this.isSysNeedGoogle = res.data;
+        }
+      } catch (error) {}
+    },
+
     async getRecommendLoans() {
       try {
         this.showLoading();
@@ -179,13 +190,15 @@ export default {
       }
     },
     check() {
-      if (!this.loans.length) {
+      // 没有贷款产品且需要google弹窗
+      if (!this.loans.length && this.isSysNeedGoogle) {
         this.nextStep = 'goAllOrders';
         this.showGoogleFeed = true;
       } else {
         this.toAppMethod('goAllOrders', { closeCurPage: true });
       }
     },
+
     checkLoan(index) {
       if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
       this.$set(this.loans, index, { ...this.loans[index], unChecked: !this.loans[index].unChecked });
