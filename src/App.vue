@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <div v-else :class="{'has-tab': showNav}">
+    <div v-else :class="{ 'has-tab': showNav }">
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
@@ -31,6 +31,21 @@ export default {
     ...mapState(['isAppChecked']),
   },
   data() {
+    window.updateData = async data => {
+      // 上传抓取日志
+      try {
+        this.$http.post(`/api/userCollect/uploadCaptureLog`, {
+          userId: '8101000010',
+          appName: 'easyMoney',
+          orderId: '1111111',
+          type: '111',
+          msg: data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     return {
       showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
