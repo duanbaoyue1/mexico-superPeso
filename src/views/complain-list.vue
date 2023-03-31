@@ -24,7 +24,7 @@
             <div class="question">{{ item.problemContent }}</div>
           </div>
           <div class="imgs" v-if="item.imgs">
-            <div class="img" v-for="(img, index) in item.imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }"></div>
+            <div class="img" v-for="(img, index) in item.imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }" @click="previewImg(item.imgs, index)"></div>
           </div>
         </div>
         <div class="status">{{ item.statusMsg }}</div>

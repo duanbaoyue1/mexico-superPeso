@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import { dateFormat } from '@/utils/mUtils';
+import { ImagePreview } from 'vant';
 
 export default {
   data() {
@@ -40,6 +41,14 @@ export default {
       let userInfo = { ...data1.data, ...data2.data };
       console.log('set user info', userInfo);
       this.$store.commit('setUserInfo', userInfo);
+    },
+
+    previewImg(imgs, startIndex) {
+      if (!imgs || !imgs.length || startIndex < 0) return;
+      ImagePreview({
+        images: imgs,
+        startPosition: startIndex,
+      });
     },
 
     validateEmail(email) {

@@ -19,7 +19,7 @@
       <div class="content-area">
         <textarea class="edit" maxlength="100" v-model="content" placeholder="Please fill in the content of your complaint, no more than 100 words."></textarea>
         <div class="imgs">
-          <div class="img" v-for="(img, index) in imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }">
+          <div class="img" v-for="(img, index) in imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }" @click="previewImg(imgs, index)">
             <m-icon class="close" type="close" :width="15" :height="15" @click="removeImg(index)" />
           </div>
           <div class="add" v-if="imgs.length < 3" @click="addImg">
@@ -192,6 +192,7 @@ export default {
         border: none;
         resize: none;
         outline: none;
+        font-size: 12px;
       }
 
       .imgs {

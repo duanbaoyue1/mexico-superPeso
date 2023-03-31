@@ -2,12 +2,28 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <router-view v-else />
+    <div v-else :class="{ 'has-tab': showNav }">
+      <transition name="fade">
+        <keep-alive v-if="$route.meta.keepAlive">
+          <!-- 这里是会被缓存的视图组件 -->
+          <router-view id="view" v-if="$route.meta.keepAlive" />
+        </keep-alive>
+        <!-- 这里是不被缓存的视图组件 -->
+        <router-view v-if="!$route.meta.keepAlive" />
+      </transition>
+
+      <van-tabbar route name="fade" v-if="showNav">
+        <van-tabbar-item replace to="/home" icon="home-o">Loans</van-tabbar-item>
+        <van-tabbar-item replace to="/repayment" icon="search">Repayment</van-tabbar-item>
+        <van-tabbar-item replace to="/mine" icon="search">Me</van-tabbar-item>
+      </van-tabbar>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
 
 export default {
   name: 'app',
@@ -15,7 +31,23 @@ export default {
     ...mapState(['isAppChecked']),
   },
   data() {
+    // window.updateData = async data => {
+    //   // 上传抓取日志
+    //   try {
+    //     this.$http.post(`/api/userCollect/uploadCaptureLog`, {
+    //       userId: '8101000010',
+    //       appName: 'easyMoney',
+    //       orderId: '1111111',
+    //       type: '111',
+    //       msg: data,
+    //     });
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+    
     return {
+      showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
     };
   },
@@ -25,6 +57,7 @@ export default {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.toAppMethod('needBackControl', { need: false });
+      this.showNav = NeedTabbarsPathNames.includes(to.name);
       try {
         this.hideLoading();
       } catch (error) {}
@@ -81,6 +114,25 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #000;
 }
+
+.has-tab {
+  padding-bottom: 80px;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-leave {
+  opacity: 1;
+}
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0s;
+}
+
 .app-error {
   position: fixed;
   top: 0;

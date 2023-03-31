@@ -1,3 +1,6 @@
+const { VantResolver } = require('unplugin-vue-components/resolvers');
+const ComponentsPlugin = require('unplugin-vue-components/webpack');
+
 module.exports = {
   publicPath: process.env.NODE_ENV != 'production' ? './' : './',
   // 前台不显示sourcemap
@@ -7,7 +10,15 @@ module.exports = {
     proxy: 'http://test.paisago.in',
   },
 
-  chainWebpack: (config) => {
+  configureWebpack: {
+    plugins: [
+      ComponentsPlugin({
+        resolvers: [VantResolver()],
+      }),
+    ],
+  },
+
+  chainWebpack: config => {
     config.plugins.delete('prefetch');
     // 配置
     config.module
