@@ -11,8 +11,7 @@ import mIcon from '@/components/m-icon.vue';
 Vue.component('m-icon', mIcon);
 
 // Vue.prototype.$cookieFun = cookieFun;
-// import '../public/style/common.scss';
-import './plugins/element.js';
+import '@/assets/css/index.scss';
 Vue.config.productionTip = false;
 
 import toast from '@/components/toast';
@@ -32,10 +31,10 @@ import global from '@/mixins/global';
 Vue.mixin(global);
 import Vconsole from 'vconsole';
 
-// if (process.env.NODE_ENV == 'production') {
-//   let vConsole = new Vconsole();
-//   Vue.use(vConsole);
-// }
+if (process.env.NODE_ENV == 'production') {
+  let vConsole = new Vconsole();
+  Vue.use(vConsole);
+}
 
 new Vue({
   router,

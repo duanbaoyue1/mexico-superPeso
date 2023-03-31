@@ -29,6 +29,7 @@
     max-width: 200px;
     padding: 10px;
     background: #333;
+    word-break: break-word;
   }
 }
 </style>

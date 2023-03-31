@@ -31,6 +31,7 @@
 
     <!-- 没有推荐结果时显示 -->
     <res-loans v-else class="res-loans" :systemTime="systemTime" :curNumbers="curNumbers"></res-loans>
+    <google-feedback v-show="showGoogleFeed" :show.sync="showGoogleFeed"></google-feedback>
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
@@ -55,9 +56,21 @@
 
 <script>
 import ResLoans from '@/components/res-loans.vue';
+import GoogleFeedback from '@/components/google-feedback.vue';
 export default {
   components: {
     ResLoans,
+    GoogleFeedback,
+  },
+  watch: {
+    showGoogleFeed: {
+      handler() {
+        if (!this.showGoogleFeed && this.nextStep) {
+          this.toAppMethod(this.nextStep, { closeCurPage: true });
+        }
+      },
+      deep: true,
+    },
   },
   data() {
     return {
@@ -69,22 +82,32 @@ export default {
       count: 10,
       totalAmount: 0,
       checkedNums: 0,
+      nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
+      showGoogleFeed: false,
+      isSysNeedGoogle: false,
     };
   },
-  beforeRouteLeave(to, from, next) {
-    this.toAppMethod('needBackControl', { need: false });
-    next();
-  },
   mounted() {
+    this.toAppMethod('needBackControl', { need: true });
+
+    // 从系统读取是否需要弹google窗
+    this.getNeedGoogle();
+
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
-
     // 用户点击回退回调
     window.backBtnHandler = async data => {
-      this.showBackModal();
+      if (this.loans.length) {
+        this.showBackModal();
+      } else if (this.isSysNeedGoogle) {
+        this.nextStep = 'goBack';
+        this.showGoogleFeed = true;
+      } else {
+        this.goAppBack();
+      }
     };
 
     // 银行卡选择后app抓取数据回调
@@ -135,6 +158,15 @@ export default {
       this.showBackControl = true;
     },
 
+    async getNeedGoogle() {
+      try {
+        let res = await this.$http.post(`/xiaqpdt/jwcrpijnhyjjywuue`);
+        if (res.returnCode == 2000) {
+          this.isSysNeedGoogle = res.data;
+        }
+      } catch (error) {}
+    },
+
     async getRecommendLoans() {
       try {
         this.showLoading();
@@ -150,20 +182,23 @@ export default {
           data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
           this.loans = data.data.mergPushProductList || [];
         }
-        if (this.loans.length) {
-          this.toAppMethod('needBackControl', { need: true });
-        } else {
-          this.toAppMethod('needBackControl', { need: false });
-        }
         this.updateCheckedNum();
       } catch (error) {
+        console.log(error);
       } finally {
         this.hideLoading();
       }
     },
     check() {
-      this.toAppMethod('goAllOrders', { closeCurPage: true });
+      // 没有贷款产品且需要google弹窗
+      if (!this.loans.length && this.isSysNeedGoogle) {
+        this.nextStep = 'goAllOrders';
+        this.showGoogleFeed = true;
+      } else {
+        this.toAppMethod('goAllOrders', { closeCurPage: true });
+      }
     },
+
     checkLoan(index) {
       if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
       this.$set(this.loans, index, { ...this.loans[index], unChecked: !this.loans[index].unChecked });
@@ -371,56 +406,6 @@ export default {
         background-repeat: no-repeat;
         background-size: contain;
       }
-
-      // .logo {
-      //   margin: 0 auto;
-      // }
-      // .name {
-      //   font-size: 14px;
-      //   font-weight: 400;
-      //   color: #333333;
-      //   line-height: 18px;
-      //   margin: 4px auto;
-      //   text-align: center;
-      // }
-      // .reloan-wrapper {
-      //   display: flex;
-      //   box-sizing: border-box;
-      //   justify-content: center;
-      //   .reloan {
-      //     height: 16px;
-      //     border-radius: 10px;
-      //     line-height: 1;
-      //     text-align: center;
-      //     border: 1px solid #ffbd5c;
-      //     font-size: 10px;
-      //     font-weight: 500;
-      //     color: #ffbd5c;
-      //     padding: 2px 10px 0px 10px;
-      //     display: inline-block;
-      //     margin-bottom: 20px;
-      //   }
-      // }
-
-      // .label {
-      //   font-size: 10px;
-      //   font-weight: 400;
-      //   color: #999999;
-      //   line-height: 12px;
-      //   margin-bottom: 4px;
-      //   text-align: center;
-      // }
-      // .value {
-      //   font-size: 16px;
-      //   font-weight: bold;
-      //   color: #333333;
-      //   line-height: 20px;
-      //   margin-bottom: 10px;
-      //   text-align: center;
-      //   &:nth-last-of-type(1) {
-      //     margin-bottom: 0;
-      //   }
-      // }
 
       &.active {
         border: 2px solid #1143a4;

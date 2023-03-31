@@ -1,46 +1,53 @@
 <template>
   <div class="information">
     <div class="step">
-      <m-icon class="icon" type="information/step2" :width="98" :height="28" />
-      <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
+      <complete-step :actionIndex="0"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="head-top">Personal Info</div>
       <div class="line-item">
-        <input v-model="editData.firstName" placeholder="Please enter your name" />
+        <label>Name</label>
+        <input v-model="editData.firstName" placeholder="Please enter" />
       </div>
       <div class="line-item">
-        <input v-model="editData.middleName" placeholder="Please enter your Middle Name" />
+        <label>Middle Name</label>
+        <input v-model="editData.middleName" placeholder="Please enter" />
       </div>
       <div class="line-item">
-        <input v-model="editData.lastName" placeholder="Please enter your Last Name" />
+        <label>Last Name</label>
+        <input v-model="editData.lastName" placeholder="Please enter" />
       </div>
       <div class="line-item">
-        <input v-model="editData.email" placeholder="Please enter your Email" />
+        <label>Email</label>
+        <input v-model="editData.email" placeholder="Please enter" />
       </div>
-      <div class="head">Education</div>
+
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.EDUCATION" itemAttrs="education" @choose="chooseEditData" />
+        <label>Gender</label>
+        <select-item :items="ALL_ATTRS.GENDER" title="Gender" itemAttrs="gender" @choose="chooseEditData" />
       </div>
-      <div class="head">Occupation</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.OCCUPATION" itemAttrs="occupation" @choose="chooseEditData" />
+        <label>Educational Qualification</label>
+        <select-item :items="ALL_ATTRS.EDUCATION" title="Educational Qualification" itemAttrs="education" @choose="chooseEditData" />
       </div>
-      <div class="head">Salary Range</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.SALARY" itemAttrs="monthlyIncome" @choose="chooseEditData" />
+        <label>Occupation</label>
+        <select-item :items="ALL_ATTRS.OCCUPATION" title="Occupation" itemAttrs="occupation" @choose="chooseEditData" />
       </div>
-      <div class="head">Marital Status</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.MARITAL_STATUS" itemAttrs="marital" @choose="chooseEditData" />
+        <label>Salary Range</label>
+        <select-item :items="ALL_ATTRS.SALARY" title="Salary Range" itemAttrs="monthlyIncome" @choose="chooseEditData" />
       </div>
-      <div class="head">Loan Purpose</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" :columns="1" itemAttrs="loanPurpose" @choose="chooseEditData" />
+        <label>Marital Status</label>
+        <select-item :items="ALL_ATTRS.MARITAL_STATUS" title="Marital Status" itemAttrs="marital" @choose="chooseEditData" />
+      </div>
+      <div class="line-item">
+        <label>Loan Purpose</label>
+        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" title="Loan Purpose" itemAttrs="loanPurpose" @choose="chooseEditData" />
       </div>
     </div>
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -55,27 +62,48 @@
 
 <script>
 import selectItem from '@/components/select-item';
+import CompleteStep from '@/components/complete-step.vue';
 import * as ALL_ATTRS from '@/config/typeConfig';
 export default {
   components: {
     selectItem,
+    CompleteStep,
   },
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 9 || (Object.values(this.editData).length == 8 && !this.editData.middleName && !this.saving);
+        this.canSubmit = Object.values(this.editData).length == 10 || (Object.values(this.editData).length == 9 && !this.editData.middleName && !this.saving);
       },
       deep: true,
     },
   },
   data() {
+    // 用户点击回退回调
+    window.backBtnHandler = async data => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'Yes',
+        confirmCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'message/question',
+        showClose: true,
+      });
+    };
+
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
       editData: {},
       saving: false,
+      orderId: this.$route.query.orderId,
     };
+  },
+  mounted() {
+    this.eventTracker('basic_access');
+    this.toAppMethod('needBackControl', { need: true });
   },
   methods: {
     chooseEditData(data) {
@@ -91,15 +119,17 @@ export default {
           this.$toast('Please enter the correct email address.');
           return;
         }
-        let data = await this.$http.post(`/clyb/nwwwddejj/ewca`, saveData);
+        let data = await this.$http.post(`/api/user/basicInfo/save`, saveData);
         if (data.returnCode == 2000) {
+          this.eventTracker('basic_submit_success');
           this.submitSuccess = true;
           setTimeout(() => {
             this.submitSuccess = false;
-            this.innerJump('contacts', { orderId: this.$route.query.orderId }, true);
+            this.innerJump('contacts', { orderId: this.orderId }, true);
           }, 1000);
         }
       } catch (error) {
+        this.eventTracker('basic_submit_error');
         this.$toast(error.message);
       } finally {
         this.saving = false;
@@ -112,7 +142,8 @@ export default {
 .information {
   padding: 20px;
   padding-bottom: 110px;
-
+  background: #f6f6f6;
+  padding-top: 0;
   .submit-success {
     position: fixed;
     z-index: 222;
@@ -148,67 +179,46 @@ export default {
     left: 0;
     right: 0;
     background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
   }
-  .step {
-    margin-top: 25px;
-    margin-bottom: 30px;
-    font-size: 10px;
-    font-weight: 400;
-    color: #87a0d1;
-    line-height: 18px;
-    display: flex;
-    align-items: end;
-    .icon {
-      margin-right: 6px;
-    }
-    span {
-      transform: scale(0.9);
-    }
+   .step {
+    margin-top: 10px;
+    margin-bottom: 32px;
   }
   .edit-area {
-    .head-top {
-      font-size: 18px;
-      font-weight: 500;
-      color: #333333;
-      line-height: 26px;
-      margin-bottom: 20px;
-    }
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 0 16px;
     .head {
       font-size: 14px;
       color: #000;
       line-height: 18px;
       margin-bottom: 10px;
     }
+
     .line-item {
-      margin-bottom: 20px;
       font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e3e3e3;
+      height: 52px;
+      &:last-child {
+        border-bottom: none;
+      }
+      label {
+        font-size: 14px;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+        flex-shrink: 0;
+        margin-right: 10px;
+      }
       input {
         width: 100%;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid #cccccc;
-        padding: 0 20px;
+        height: 100%;
+        border: none;
+        text-align: right;
+        padding: 0 0px;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;

@@ -1,12 +1,27 @@
 <template>
   <div class="home_index">
-    <div class="home">
-      <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <div class="home">
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
-    </div>
+    </div> -->
+    <button @click="getCapture(3)">上传身份证+活体</button>
+    <br />
+    <button @click="getCapture(4)">活体识别</button>
+    <br />
+    <button @click="getCapture(5)">上传本地图片</button>
+    <br />
+    <button>
+      <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
+    </button>
+    <br />
+
+    <p>上传结果图片：</p>
     <div class="preview">
       <img :src="base64ImgData" alt="" />
+    </div>
+    <p>上传结果base64：</p>
+    <div>
+      {{ base64 }}
     </div>
   </div>
 </template>
@@ -15,22 +30,80 @@
 export default {
   name: 'home',
   data() {
+    window.onPhotoSelectCallback_3 = data => {
+      console.log(data);
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64 = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
+        this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
+      }
+    };
+
+    window.onPhotoSelectCallback_4 = data => {
+      console.log(data);
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64 = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
+      }
+    };
+
+    window.onPhotoSelectCallback_5 = data => {
+      console.log(data);
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.base64 = data.pic;
+        this.base64ImgData = `data:image/png;base64,${data.base64}`;
+      }
+    };
     return {
       fileName: '点击Vue拍照',
+      base64: '',
       base64ImgData: null,
     };
   },
+
   methods: {
+    getCapture(type) {
+      this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
+    },
     /**
      * 获取用户拍照的图片信息
      */
     async photograph() {
+      console.log('123');
       // 获取用户拍照的图片名字，显示到页面上
       this.fileName = this.$refs.photoRef.files[0].name;
       // 获取图片base64 代码，并存放到 base64ImgData 中
       this.base64ImgData = await this.FileReader(this.$refs.photoRef.files[0]);
+      console.log(this.base64ImgData);
+
+      this.showLoading();
+      try {
+        // const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
+        let formData = new FormData();
+        formData.append('channel', 'AccV2');
+        formData.append('panImg', this.base64ImgData);
+        formData.append('mark', 3);
+
+        let res = await this.$http.post(`/zds/ewcaqwrubmcvlgpo`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        console.log(res);
+      } catch (error) {
+        this.$toast(error.message);
+      } finally {
+        this.hideLoading();
+      }
     },
-    
+
     /**
      * 返回用户拍照图片的base64
      */
@@ -69,5 +142,7 @@ export default {
 }
 .preview img {
   width: 100%;
+  transform: rotate(0deg);
+  transform-origin: center center;
 }
 </style>

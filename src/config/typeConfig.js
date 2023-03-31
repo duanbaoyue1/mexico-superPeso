@@ -201,6 +201,17 @@ const RELATION_SHIPS = [
   },
 ];
 
+const GENDER = [
+  {
+    label: 'Male',
+    value: 'Male',
+  },
+  {
+    label: 'Female',
+    value: 'Female',
+  },
+];
+
 module.exports = {
   EDUCATION: EDUCATION,
   OCCUPATION: OCCUPATION,
@@ -210,5 +221,6 @@ module.exports = {
   ACCOMMODATION: ACCOMMODATION,
   CHILDREN: CHILDREN,
   PAY_METHOD: PAY_METHOD,
+  GENDER: GENDER,
   RELATION_SHIPS: RELATION_SHIPS,
 };

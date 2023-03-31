@@ -178,6 +178,65 @@ const routes = [
         },
       },
       {
+        path: 'identity',
+        name: 'identity',
+        component: () => import(/* webpackChunkName: "identity" */ '../views/identity.vue'),
+        meta: {
+          title: 'Complete information',
+        },
+      },
+      {
+        path: 'complain-home',
+        name: 'complain-home',
+        component: () => import(/* webpackChunkName: "complain-home" */ '../views/complain-home.vue'),
+        meta: {
+          title: 'Complaints',
+        },
+      },
+      {
+        path: 'complain-list',
+        name: 'complain-list',
+        component: () => import(/* webpackChunkName: "complain-list" */ '../views/complain-list.vue'),
+        meta: {
+          title: 'Complaint record',
+        },
+      },
+      {
+        path: 'complain-edit',
+        name: 'complain-edit',
+        component: () => import(/* webpackChunkName: "complain-edit" */ '../views/complain-edit.vue'),
+        meta: {
+          title: 'Complaints',
+        },
+      },
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/home/home.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
+      {
+        path: 'repayment',
+        name: 'repayment',
+        component: () => import(/* webpackChunkName: "repayment" */ '../views/home/repayment.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
+      {
+        path: 'mine',
+        name: 'mine',
+        component: () => import(/* webpackChunkName: "mine" */ '../views/home/mine.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
+      {
         path: 'testa',
         name: 'testa',
         component: () => import(/* webpackChunkName: "testa" */ '../views/testa.vue'),

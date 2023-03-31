@@ -1,15 +1,11 @@
 import axios from 'axios';
 import store from '@/store';
-import { Toast } from 'vant';
-import { param2Obj } from '@/utils/index';
-import cookieFun from './cookieFun';
-import md5 from 'js-md5';
 
 // create an axios instance
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base api url + request url
   // withCredentials: false, // send cookies when cross-domain requests
-  timeout: 10000, // request timeout
+  timeout: 20000, // request timeout
 });
 
 function unzip(b64Data) {
@@ -44,12 +40,15 @@ function zip(str) {
 service.interceptors.request.use(
   config => {
     config.baseURL = store.getters.appGlobal.apiPrefix;
-    if (config.data) {
+    config.headers['Content-Type'] = config.headers['Content-Type'] || 'text/plain';
+    console.log('request data:', config.data);
+    if (config.data && config.headers['Content-Type'] != 'multipart/form-data') {
       if (typeof config.data !== 'string') {
         config.data = JSON.stringify(config.data);
       }
-      console.log('request:', config.data);
-      config.data = zip(config.data);
+      if (process.env.VUE_APP_NEED_REQUEST_ZIP == 'true') {
+        config.data = zip(config.data);
+      }
     }
     console.log('baseURL:', store.getters.appGlobal.apiPrefix);
     console.log('token:', store.getters.appGlobal.token);
@@ -63,7 +62,6 @@ service.interceptors.request.use(
     config.headers['appName'] = store.getters.appGlobal.appName;
     config.headers['appVersion'] = store.getters.appGlobal.appVersion;
     config.headers['timestamp'] = new Date().getTime();
-    config.headers['Content-Type'] = 'text/plain';
     // config.headers['Accept'] = '*/*';
     return config;
   },
@@ -74,20 +72,21 @@ service.interceptors.request.use(
   }
 );
 
-// respone拦截器
+// response拦截图
 service.interceptors.response.use(
   response => {
-    const res = JSON.parse(unzip(response.data));
+    let res;
+    try {
+      res = JSON.parse(unzip(response.data));
+    } catch (error) {
+      res = response.data;
+    }
     console.log(response.config.url, res);
     if (res.returnCode && res.returnCode !== 2000) {
       // 4005: 登录超时,重新登录
       // 4006: 强制升级
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
-          // if (response.config.url == '/clyb/iuurv') {
-          //   alert('baseURL:' + response.config.baseURL);
-          //   alert('token:' + response.config.headers.token);
-          // }
           let appGlobal = JSON.parse(localStorage.getItem('app-local'));
           wjs[`error40054006_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {
