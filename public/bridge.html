@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="referrer" content="never" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+  </head>
+  <body>
+    <div id="real-path" style="display: none;">https://{host}/dist/#/{app接口path}?{拼接通用参数}&appChecked=true</div>
+    <script>
+
+      /**
+       * 这是一个壳页面，部分的参数都会由后端通过占位符方式进行填充
+       */
+      /*后台填充参数 基本上所有参数都有用*/
+      // 域名 后端下发HTML时填充
+      const hosts = '{{hosts}}';
+
+      // 平台 后端下发HTML时填充
+      const platformValue = "{{platformValue}}";
+
+      // 用户鉴权标识 后端下发HTML时填充
+      const token = "{{token}}";
+
+      // 用户ID 后端下发HTML时填充
+      const userId = "{{userId}}";
+
+      // 手机号 后端下发HTML时填充
+      const mobile = "{{mobile}}";
+
+      // 包名 后端下发HTML时填充
+      const appName = "{{appName}}";
+
+      // 版本 后端下发HTML时填充
+      let appVersion = "{{appVersion}}";
+
+      // 谷歌推广ID 后端下发HTML时填充
+      let gaId = "{{gaId}}";
+
+      // Af用户标识ID 后端下发HTML时填充
+      let afId = "{{afId}}";
+
+      // path路径
+      const path = '{{path}}';
+
+
+      // 这里做真正的跳转
+      location.replace(document.getElementById('real-path').innerHTML);
+    </script>
+  </body>
+</html>
+
+<!-- 1.app接口path： 这里其实就是h5的path,app想调用哪个页面就传什么path -->
+<!-- 2.拼接通用参数： 获取H5需要的客户端通用参数以key=value形式拼接： 例token=1234&gps=xxx&ip=xxx -->
+<!-- 3.替换host为h5代码部署域名 -->

@@ -6,14 +6,14 @@
     </div>
     <div class="edit-area">
       <div class="head-top">Identity Info</div>
-      <div class="pan-img">
+      <div class="pan-img" @click="getCapture(3)">
         <template v-if="panFrontBase64Src">
           <img class="back user-pic" :src="panFrontBase64Src" />
           <img class="btn" :src="require('@/assets/img/identity/uploaded.png')" />
         </template>
         <template v-else>
           <img class="back" :src="require('@/assets/img/identity/pan-front.png')" />
-          <img class="btn" @click="getCapture(3)" :src="require('@/assets/img/identity/photo@2x.png')" />
+          <img class="btn" :src="require('@/assets/img/identity/photo@2x.png')" />
         </template>
       </div>
       <div class="pan-text">
