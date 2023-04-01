@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <div v-else :class="{ 'has-tab': showNav }">
+    <div v-else class="app-inner" :class="{ 'has-tab': showNav }">
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
@@ -125,6 +125,11 @@ export default {
 .fade-leave-active {
   opacity: 0;
   transition: opacity 0s;
+}
+#app {
+  >div {
+    height: 100%;
+  }
 }
 .app-error {
   position: fixed;

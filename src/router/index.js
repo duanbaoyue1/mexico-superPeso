@@ -219,6 +219,14 @@ const routes = [
         },
       },
       {
+        path: 'order-list',
+        name: 'order-list',
+        component: () => import(/* webpackChunkName: "order-list" */ '../views/order-list.vue'),
+        meta: {
+          title: 'All orders',
+        },
+      },
+      {
         path: 'repayment',
         name: 'repayment',
         component: () => import(/* webpackChunkName: "repayment" */ '../views/home/repayment.vue'),

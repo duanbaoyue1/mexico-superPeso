@@ -1,10 +1,6 @@
 <template>
   <div class="ifsc-select">
     <div class="content-wrapper">
-      <div class="head">
-        <m-icon class="close" type="close" @click="$emit('close')" />
-        Select Your IFSC
-      </div>
       <ul class="nav">
         <li :class="{ active: curNav == 1 }" @click="toggleNav(1)">Bank</li>
         <li :class="{ active: curNav == 2 }" @click="toggleNav(2)">State</li>
@@ -17,7 +13,7 @@
         </li>
       </ul>
       <div class="submit">
-        <button :disabled="!choosedBranch" @click="complete">Next</button>
+        <button class="bottom-submit-btn" :disabled="!choosedBranch" @click="complete">Next</button>
       </div>
     </div>
   </div>
@@ -79,7 +75,7 @@ export default {
     },
     async queryBanks(parentId) {
       parentId = parentId || '';
-      let data = await this.$http.post(`/wvpwoojady/wvpwoojadyuwuxjgwh`, { parentId: parentId });
+      let data = await this.$http.post(`/api/remittance/remittanceBankList`, { parentId: parentId });
       // 查询所有的银行
       this.banks = data.data.list;
     },
@@ -107,117 +103,93 @@ export default {
 
 <style lang="scss" scoped>
 .ifsc-select {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  background: rgba(0, 0, 0, 0.7);
   .content-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0%;
-    width: 360px;
     height: 600px;
     background: #ffffff;
-    border-radius: 24px 24px 0px 0px;
-
-    .head {
-      padding: 36px 0 30px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: 500;
-      color: #000000;
-      line-height: 30px;
-      position: relative;
-      .close {
-        position: absolute;
-        right: 20px;
-        top: 20px;
-      }
-    }
+    position: relative;
     .nav {
       font-size: 18px;
       font-weight: 400;
       color: #333333;
       line-height: 24px;
       display: flex;
+      position: fixed;
+      height: 80px;
+      border-bottom: 6px solid #ffeae8;
+      right: 0;
+      left: 0;
+      padding-top: 34px;
+      box-sizing: border-box;
+      justify-content: space-around;
+      background: #fff;
+      z-index: 2;
+
       li {
-        flex: 1;
         text-align: center;
         position: relative;
-        &::after {
-          position: absolute;
-          content: ' ';
-          bottom: -8px;
-          width: 90px;
-          height: 6px;
-          background: transparent;
-          border-radius: 18px;
-          left: 0;
-        }
+        font-size: 18px;
+        font-family: Roboto-Medium, Roboto;
+        font-weight: 500;
+        line-height: 24px;
+        background: transparent;
+        padding: 6px;
+        color: #333333;
         &.active {
-          &::after {
-            background: #fd973f;
-          }
+          background: #fc3122;
+          color: #fff;
         }
       }
     }
 
     .items {
-      padding: 10px 0;
-      padding-top: 10px;
-      margin-top: 10px;
-      height: 370px;
+      position: absolute;
+      top: 80px;
+      bottom: 94px;
+      left: 0;
+      right: 0;
       overflow-y: scroll;
+      overflow-x: hidden;
+      box-sizing: border-box;
       li {
-        width: 359px;
-        height: 40px;
-        border-radius: 20px;
-        font-size: 16px;
-        line-height: 20px;
-        color: #999999;
-        border: 2px solid transparent;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 16px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #333333;
+        line-height: 20px;
+        margin-bottom: 30px;
+        &:first-child {
+          margin-top: 15px;
+        }
         &.active {
-          border: 2px solid #1143a4;
-          color: #1143a4;
-          font-weight: 500;
+          font-weight: bold;
+          span {
+            position: relative;
+            &::after {
+              position: absolute;
+              content: ' ';
+              height: 4px;
+              left: 0;
+              right: 0;
+              bottom: -4px;
+              background: #fc3122;
+              border-radius: 2px;
+            }
+          }
         }
       }
     }
 
     .submit {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: #fff;
       box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.12);
-      button {
-        margin: 20px 20px 20px;
-        height: 48px;
-        width: 320px;
-        border-radius: 14px;
-        font-size: 18px;
-        font-weight: 900;
-        background: #1143a4;
-        color: #fff;
-        line-height: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        box-sizing: border-box;
-        padding: 0;
-        &:disabled {
-          background: #e9e9e9;
-          color: #999999;
-        }
-      }
     }
   }
 }

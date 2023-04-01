@@ -3,7 +3,7 @@
     <div v-show="show" class="message-container">
       <div class="container">
         <div class="icon" v-if="prop.iconPath">
-          <m-icon :type="prop.iconPath" :width="50" :height="50" />
+          <img :src="require('@/assets/img/' + prop.iconPath + '.png')" />
         </div>
         <div class="content" v-html="prop.content"></div>
         <div class="actions">
@@ -13,9 +13,6 @@
           <div class="cancel" v-if="prop.cancelBtnText" @click="prop.cancelCallback">
             {{ prop.cancelBtnText }}
           </div>
-        </div>
-        <div class="close" v-if="prop.showClose" @click="hideMessageBox">
-          <m-icon type="message/close" :width="24" :height="24" />
         </div>
       </div>
     </div>
@@ -28,8 +25,8 @@ export default {
   name: 'Message',
   computed: {
     ...mapState({
-      show: (state) => state.messageBox.show,
-      prop: (state) => state.messageBox.messageInfo,
+      show: state => state.messageBox.show,
+      prop: state => state.messageBox.messageInfo,
     }),
   },
 };
@@ -59,10 +56,10 @@ export default {
   z-index: 9999;
   background: rgba(0, 0, 0, 0.7);
   .container {
-    width: 320px;
-    padding: 50px 20px 20px;
+    width: 295px;
     background: #ffffff;
-    border-radius: 24px;
+    padding: 120px 24px 24px;
+    border-radius: 8px;
     line-height: 24px;
     position: absolute;
     top: 50%;
@@ -73,12 +70,12 @@ export default {
 
     .icon {
       position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border-radius: 100%;
-      padding: 5px;
+      left: 0;
+      right: 0;
+      top: -50px;
+      img {
+        width: 100%;
+      }
     }
     .close {
       position: absolute;
@@ -87,31 +84,36 @@ export default {
       transform: translateX(-50%);
     }
     .content {
-      margin-bottom: 40px;
-      font-size: 18px;
-      font-weight: 400;
+      margin-bottom: 32px;
+      font-size: 16px;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
       color: #333333;
+      line-height: 20px;
     }
     .actions {
-      > div {
-        width: 280px;
-        height: 48px;
-        background: #1143a4;
-        border-radius: 14px;
-        font-size: 18px;
+      .confirm {
+        background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+        box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+        border-radius: 20px;
+        width: 247px;
+        height: 40px;
+        font-size: 16px;
         font-weight: 900;
         color: #ffffff;
         line-height: 24px;
-        border: 1px solid #1143a4;
         display: flex;
         justify-content: center;
         align-items: center;
-        &.cancel {
-          border: 1px solid #1143a4;
-          color: #1143a4;
-          margin-top: 20px;
-          background: #ffffff;
-        }
+      }
+      .cancel {
+        font-size: 16px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #999999;
+        line-height: 20px;
+        margin-top: 16px;
+        text-align: center;
       }
     }
   }

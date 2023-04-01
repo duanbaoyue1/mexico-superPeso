@@ -73,7 +73,7 @@ export default {
   methods: {
     async getRes() {
       try {
-        let res = await this.$http.post(`/zihai/bmzcxhlepohgiiuiuwlo`, {
+        let res = await this.$http.post(`/api/order/applyResultOrderList`, {
           startApplyTime: this.systemTime,
         });
         this.loans = res.data.list || [];
@@ -89,9 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .res-loans-model {
-  border-top: 6px solid #f4f4f4;
   margin-top: 30px;
-  padding: 20px;
   .cc {
     width: 280px;
     margin: 0 auto;
@@ -104,6 +102,7 @@ export default {
     box-sizing: border-box;
     border-radius: 10px;
     padding: 16px 0px;
+    margin: 0 auto;
     text-align: center;
     font-size: 12px;
     font-weight: 900;
@@ -137,10 +136,13 @@ export default {
 
   .loan-item {
     width: 320px;
+    margin: 0 auto;
     background: #ffffff;
     border-radius: 14px;
     border: 2px solid #cccccc;
-    padding: 20px;
+    padding: 16px;
+    height: 72px;
+    box-sizing: border-box;
     box-sizing: border-box;
     margin-top: 20px;
     position: relative;

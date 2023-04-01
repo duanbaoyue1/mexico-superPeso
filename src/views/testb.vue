@@ -93,7 +93,7 @@ export default {
         formData.append('panImg', this.base64ImgData);
         formData.append('mark', 3);
 
-        let res = await this.$http.post(`/zds/ewcaqwrubmcvlgpo`, formData, {
+        let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         console.log(res);

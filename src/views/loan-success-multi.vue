@@ -1,7 +1,7 @@
 <template>
   <div class="loan multi">
     <div class="loan-tips">
-      <m-icon class="icon" type="loan/success" :width="122" :height="109" />
+      <m-icon class="icon" type="handy/成功" :width="130" :height="130" />
       <div class="title" v-if="this.loans.length > 0">
         Congratulations
         <br />
@@ -13,10 +13,7 @@
 
     <div class="other-loans" v-if="loans.length > 0">
       <div class="tips">You are in our special VIP exclusive channel in view of your good qualification.</div>
-      <div class="checked-num">
-        Already Select
-        <span>{{ checkedNums }} products</span>
-      </div>
+      <div class="checked-num">Already Select {{ checkedNums }} products</div>
       <div v-for="(loan, index) in loans" :key="loan.id" class="loan-item" :class="{ active: !loan.unChecked }" @click="checkLoan(index)">
         <img class="icon" :src="loan.icon" />
         <div class="info">
@@ -35,8 +32,9 @@
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
+        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showBackControl = false" />
         <div class="head">
-          <img :src="require('@/assets/img/tips@2x.png')" />
+          <img :src="require('@/assets/img/handy/倒计时10s弹窗.png')" />
         </div>
         <div class="content">
           You are just one step away from a ₹{{ totalAmount }} credit limit, are you sure you want to give up your eligibility?
@@ -46,8 +44,7 @@
           </div>
         </div>
         <div class="action">
-          <button class="btn-default" @click="showBackControl = false">Think again</button>
-          <div class="leave" @click="leave">Leave</div>
+          <button class="btn-default" @click="leave">Leave</button>
         </div>
       </div>
     </div>
@@ -91,7 +88,6 @@ export default {
   },
   mounted() {
     this.toAppMethod('needBackControl', { need: true });
-
     // 从系统读取是否需要弹google窗
     this.getNeedGoogle();
 
@@ -227,9 +223,8 @@ export default {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     > .content {
-      width: 320px;
-      height: 308px;
-      padding: 20px;
+      width: 295px;
+      padding: 24px;
       padding-top: 0;
       box-sizing: border-box;
       background: #ffffff;
@@ -238,54 +233,69 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      position: relative;
       .head {
         position: relative;
         height: 54px;
         img {
-          border: 4px solid #fff;
           position: absolute;
           top: -27px;
           left: 50%;
           transform: translateX(-50%);
-          width: 54px;
-          border-radius: 100%;
+          width: 295px;
           display: block;
           margin-bottom: 20px;
-          background: #fff;
         }
       }
+
+      .close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 2;
+      }
       .content {
-        font-size: 17px;
-        font-weight: 400;
+        font-size: 16px;
+        font-weight: 500;
         color: #000601;
         line-height: 24px;
+        margin-top: 80px;
+
         .count {
           font-size: 20px;
           font-family: Roboto-Bold, Roboto;
           font-weight: bold;
           color: #000601;
           line-height: 24px;
+          text-align: center;
           margin-top: 20px;
           span {
-            color: #1143a4;
+            width: 68px;
+            height: 40px;
+            background: #ffeae8;
+            border-radius: 20px;
+            font-size: 20px;
+            font-family: Roboto-Bold, Roboto;
+            font-weight: bold;
+            color: #fc2214;
             line-height: 24px;
-            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 16px auto 24px;
           }
         }
       }
 
       .action {
-        margin-top: 34px;
         .btn-default {
-          width: 100%;
-          margin-bottom: 16px;
-        }
-        .leave {
-          font-size: 17px;
-          font-weight: 400;
-          color: #999999;
-          line-height: 24px;
-          text-align: center;
+          width: 247px;
+          height: 40px;
+          background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+          box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+          border-radius: 20px;
+          border: none;
+          color: #fff;
         }
       }
     }
@@ -322,52 +332,49 @@ export default {
     }
   }
   .other-loans {
-    border-top: 6px solid #f4f4f4;
-    margin: 30px 0px;
-    padding: 0 20px;
+    margin: 32px 0px;
+    padding: 0 24px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: -20px;
-    padding-top: 30px;
+    padding-bottom: 10px;
 
     .tips {
-      width: 320px;
-      height: 76px;
-      background: #d8e4fb;
-      border-radius: 14px;
-      font-size: 13px;
-      font-weight: 400;
+      width: 327px;
+      background: #ffe48a;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
       color: #333333;
       line-height: 18px;
       display: flex;
       align-items: center;
-      padding: 0 20px;
+      padding: 16px;
     }
 
     .checked-num {
-      margin: 20px 0;
+      margin: 24px 0 16px;
       font-size: 16px;
-      font-weight: 900;
+      font-weight: bold;
       color: #333333;
       line-height: 24px;
-      span {
-        color: #1143a4;
-        margin-left: 2px;
-        text-decoration: underline;
-      }
     }
 
     .loan-item {
-      width: 320px;
+      width: 327px;
+      height: 72px;
       background: #ffffff;
-      border-radius: 14px;
-      border: 2px solid #e3eafd;
-      padding: 20px;
-      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 2px solid #f3f3f3;
+
+      padding: 16px;
+      box-sizing: border-box;
+      margin-bottom: 16px;
       position: relative;
       display: flex;
       align-items: center;
+
       .info {
         .name {
           font-size: 14px;
@@ -398,19 +405,19 @@ export default {
       &::after {
         position: absolute;
         content: ' ';
-        top: -2px;
-        right: -2px;
-        width: 50px;
-        height: 50px;
-        background-image: url(../assets/img/loan/unchoose.png);
+        top: 16px;
+        right: 16px;
+        width: 24px;
+        height: 24px;
+        background-image: url(../assets/img/handy/未选中.png);
         background-repeat: no-repeat;
         background-size: contain;
       }
 
       &.active {
-        border: 2px solid #1143a4;
+        border: 2px solid #fc2214;
         &::after {
-          background-image: url(../assets/img/loan/choose.png);
+          background-image: url(../assets/img/handy/选中.png);
         }
       }
     }
@@ -422,7 +429,7 @@ export default {
       margin: 0 auto;
     }
     .title {
-      margin-top: 30px;
+      margin-top: 40px;
       font-size: 16px;
       font-weight: 400;
       color: #333333;
@@ -430,12 +437,12 @@ export default {
       text-align: center;
     }
     .apply {
-      width: 320px;
+      width: 327px;
       height: 48px;
-      background: #1143a4;
-      border-radius: 14px;
+      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+      border-radius: 24px;
       margin: 0 auto;
-      margin-top: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -448,10 +455,10 @@ export default {
 
   &.multi {
     .loan-tips {
-      padding-top: 40px;
+      padding-top: 32px;
     }
     .title {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
   }
 }

@@ -1,18 +1,18 @@
 <template>
   <div class="loan-confirm">
-    <div class="head">
-      <m-icon class="icon" type="loan/repayment" :width="30" :height="24" />
-      Repayment
-      <div class="money">₹{{ orderInfo.estimatedRepaymentAmount }}</div>
-    </div>
     <div class="loan-info">
       <div class="item">
+        <span>Repayment</span>
+        <span class="fs-24 font-bold color-orange">₹{{ orderInfo.estimatedRepaymentAmount }}</span>
+      </div>
+
+      <div class="item">
         <span>Loan Amount</span>
-        <span class="fs-24 font-bold color-000">₹{{ orderInfo.approvalAmount }}</span>
+        <span class="color-000">₹{{ orderInfo.approvalAmount }}</span>
       </div>
       <div class="item">
         <span>Application Date</span>
-        <span>{{ orderInfo.applyTime  }}</span>
+        <span>{{ orderInfo.applyTime }}</span>
       </div>
       <div class="item">
         <span>Due Date</span>
@@ -31,10 +31,11 @@
     <div class="loan-desc">The specific amount will be confirmed after reviewing. If your order is approved, we will charge the processing fee, including the service fee (no more than 7%), review fee (8%-15%), and GST(18%) This page is for reference only. The amount will be credited to your account directly after approval.</div>
 
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">One-click to get quota</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">One-click to get quota</button>
       <div class="policy" @click="togglePolicy">
-        <m-icon class="icon" :type="choosed ? 'radio-choosed' : 'radio-unchoose'" :width="14" :height="14" />
-        I have read and agreed to the &nbsp;<span @click="checkAgreement">loan Agreement</span></span>
+        <m-icon class="icon" :type="choosed ? 'handy/选中（小）' : 'handy/未选（小）'" :width="14" :height="14" />
+        I have read and agreed to the &nbsp;
+        <span @click="checkAgreement">loan Agreement</span>
       </div>
     </div>
   </div>
@@ -56,7 +57,7 @@ export default {
       canSubmit: true,
       orderInfo: '',
       orderId: this.$route.query.orderId,
-      saving: false
+      saving: false,
     };
   },
   mounted() {
@@ -76,7 +77,7 @@ export default {
       this.orderInfo = { ...data.data, ...data2.data };
     },
     async submit() {
-      if(this.saving) return;
+      if (this.saving) return;
       this.saving = true;
       try {
         this.eventTracker('confirm_submit');
@@ -87,7 +88,7 @@ export default {
         this.$toast(error.message);
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
-        }, 1000)
+        }, 1000);
       } finally {
         this.saving = false;
       }
@@ -98,7 +99,9 @@ export default {
 
 <style lang="scss" scoped>
 .loan-confirm {
-  background: #f4f4f4;
+  background: #f6f6f6;
+  padding: 16px 24px;
+  height: 100%;
   .head {
     padding: 20px;
     margin-bottom: 6px;
@@ -116,7 +119,7 @@ export default {
     .money {
       font-size: 24px;
       font-weight: bold;
-      color: #1143A4;
+      color: #1143a4;
       line-height: 28px;
       position: absolute;
       right: 20px;
@@ -125,22 +128,20 @@ export default {
     }
   }
   .loan-desc {
-    margin-top: 6px;
-    padding: 20px;
-    font-size: 10px;
+    margin-top: 16px;
+    font-size: 12px;
     font-weight: 400;
-    color: #999999;
+    color: #333;
     line-height: 18px;
-    background: #fff;
   }
   .loan-info {
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-top: 32px;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 8px;
     background: #fff;
     .item {
-      padding-top: 10px;
-      padding-bottom: 20px;
+      padding-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -164,28 +165,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    button {
-      margin: 20px 20px 10px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
+    background: transparent;
 
     .policy {
       padding: 0 20px;
@@ -203,7 +183,7 @@ export default {
         margin-right: 10px;
       }
       span {
-        color: #1143a4;
+        color: #fc3122;
       }
     }
   }

@@ -2,27 +2,33 @@
   <div class="add-bank">
     <div class="edit-area">
       <div class="line-item">
+        <div class="label">Name</div>
         <input v-model="userInfo.aadhaarName" placeholder="Please enter your name" />
       </div>
-      <div class="head">
-        <span>IFSC Code</span>
-        <span class="color-red" @click="showIfsc = true">Dont't remember your IFSC?</span>
-      </div>
-
       <div class="line-item">
-        <input v-model="editData.ifsc" autocomplete="off" maxlength="11" onKeyUp="value=value.replace(/[\W]/g,'')" placeholder="Please enter" />
+        <div class="label">
+          <span>IFSC Code</span>
+          <span class="color-red" @click="showIfsc = true">Dont't remember your IFSC?</span>
+        </div>
+        <input v-model="editData.ifsc" autocomplete="off" maxlength="11" onKeyUp="value=value.replace(/[\W]/g,'')" placeholder="Please enter IFSC code" />
       </div>
       <div class="line-item">
+        <div class="label">Account Number</div>
         <input v-model="editData.accountNumber" placeholder="Please enter your account number" />
       </div>
       <div class="line-item">
-        <input v-model="editData.accountNumberConfirm" placeholder="Please confirm account number" />
+        <div class="label">Confirm Account Number</div>
+        <input v-model="editData.accountNumberConfirm" placeholder="Please enter account number again" />
       </div>
     </div>
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
-    <ifsc-select v-if="showIfsc" @complete="completeIfsc" @close="showIfsc = false" />
+    <van-action-sheet v-model="showIfsc" title="Select Your IFSC" close-on-click-action>
+      <div class="pop-content">
+        <ifsc-select @complete="completeIfsc" />
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -83,7 +89,7 @@ export default {
           this.$toast('Please enter correct account number');
           return;
         }
-        let data = await this.$http.post(`/wvpwoojady/bchcvyadogfdvghdayuo`, saveData);
+        let data = await this.$http.post(`/api/remittance/addRemittanceAccount`, saveData);
         if (data.returnCode == 2000) {
           this.innerJump('complete-bank', this.$route.query, true);
         }
@@ -101,7 +107,7 @@ export default {
 
 <style lang="scss" scoped>
 .add-bank {
-  padding: 30px 20px;
+  padding: 10px 20px;
   padding-bottom: 110px;
 
   .submit {
@@ -110,27 +116,6 @@ export default {
     left: 0;
     right: 0;
     background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
   }
 
   .edit-area {
@@ -150,14 +135,27 @@ export default {
       justify-content: space-between;
     }
     .line-item {
-      margin-bottom: 20px;
       font-size: 14px;
+      margin-top: 23px;
+      .label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333333;
+        line-height: 20px;
+        display: flex;
+        justify-content: space-between;
+        .color-red {
+          color: #ff4b3f !important;
+          font-size: 14px;
+        }
+      }
       input {
         width: 100%;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid #cccccc;
-        padding: 0 20px;
+        height: 50px;
+        border: none;
+        border-bottom: 2px solid #e9e9e9;
+        display: flex;
+        align-items: center;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;

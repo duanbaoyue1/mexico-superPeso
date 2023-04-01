@@ -5,13 +5,16 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 html {
   min-height: 100%;
 }
 body {
   margin: 0;
   font-size: 12px;
+}
+.web-layout {
+  height: 100%;
 }
 
 body,
@@ -117,10 +120,6 @@ select {
   border-radius: 8px !important;
 }
 
-input::placeholder {
-  color: #999999;
-}
-
 .color-red {
   color: #ff4b3f;
 }
@@ -147,43 +146,6 @@ input::placeholder {
   color: #1143a4;
   line-height: 24px;
   padding: 0;
-}
-.fs-18 {
-  font-size: 18px !important;
-  line-height: 24px !important;
-}
-.fs-24 {
-  font-size: 24px !important;
-  line-height: 28px !important;
-}
-.fs-16 {
-  font-size: 16px !important;
-  line-height: 20px !important;
-}
-.fs-12 {
-  font-size: 12px !important;
-  line-height: 18px !important;
-}
-.color-000 {
-  color: #000 !important;
-}
-.font-bold {
-  font-weight: bold !important;
-}
-.color-blue {
-  color: #1143a4;
-}
-.color-orange {
-  color: #ff4b3f;
-}
-.align-end {
-  align-items: flex-end !important;
-}
-
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .tips-toast-web {

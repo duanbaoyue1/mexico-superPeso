@@ -1,9 +1,7 @@
 <template>
   <div class="information">
     <div class="step">
-      <div class="step">
-        <complete-step :actionIndex="0"></complete-step>
-      </div>
+      <complete-step :actionIndex="2"></complete-step>
     </div>
 
     <div class="edit-area">
@@ -22,7 +20,7 @@
     </div>
 
     <div class="edit-area">
-       <div class="line-item">
+      <div class="line-item">
         <label>Select Family Member</label>
         <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" itemAttrs="familyRelation" @choose="chooseEditData" />
       </div>
@@ -69,10 +67,12 @@
 <script>
 import selectItem from '@/components/select-item';
 import * as ALL_ATTRS from '@/config/typeConfig';
+import CompleteStep from '@/components/complete-step.vue';
 
 export default {
   components: {
     selectItem,
+    CompleteStep,
   },
   watch: {
     editData: {
@@ -87,13 +87,16 @@ export default {
     window.backBtnHandler = async data => {
       this.showMessageBox({
         content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
         confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
           this.hideMessageBox();
           this.goAppBack();
         },
-        iconPath: 'message/question',
-        showClose: true,
+        iconPath: 'handy/确定退出嘛',
       });
     };
 
@@ -160,6 +163,7 @@ export default {
           mobile: saveData.friendPhone,
         });
         saveData.contacts = contacts;
+        // TODO 这里bug报错 没有联系人信息
         let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
@@ -181,11 +185,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px;
-  padding-bottom: 210px;
+  padding: 20px 24px;
+  padding-bottom: 110px;
   min-height: 100%;
   background: #f6f6f6;
   padding-top: 0;
+  height: 100%;
+  box-sizing: border-box;
   .submit-success {
     position: fixed;
     z-index: 222;
@@ -220,10 +226,10 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: #f6f6f6;
   }
   .step {
-    margin-top: 10px;
+    padding-top: 10px;
     margin-bottom: 32px;
   }
 
@@ -270,15 +276,15 @@ export default {
     }
 
     .phone-select-wrapper {
-      >div {
-      display: flex;
-      align-items: center;
-      input {
-        background: transparent;
-      }
-      img {
-        margin-left: 8px;
-      }
+      > div {
+        display: flex;
+        align-items: center;
+        input {
+          background: transparent;
+        }
+        img {
+          margin-left: 8px;
+        }
       }
     }
   }

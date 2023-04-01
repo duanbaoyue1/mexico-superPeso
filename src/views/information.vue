@@ -1,7 +1,7 @@
 <template>
   <div class="information">
     <div class="step">
-      <complete-step :actionIndex="0"></complete-step>
+      <complete-step :actionIndex="1"></complete-step>
     </div>
     <div class="edit-area">
       <div class="line-item">
@@ -82,13 +82,16 @@ export default {
     window.backBtnHandler = async data => {
       this.showMessageBox({
         content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
         confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
           this.hideMessageBox();
           this.goAppBack();
         },
-        iconPath: 'message/question',
-        showClose: true,
+        iconPath: 'handy/确定退出嘛',
       });
     };
 
@@ -140,7 +143,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px;
+  padding: 20px 24px;
   padding-bottom: 110px;
   background: #f6f6f6;
   padding-top: 0;
@@ -178,10 +181,10 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: #f6f6f6;
   }
-   .step {
-    margin-top: 10px;
+  .step {
+    padding-top: 10px;
     margin-bottom: 32px;
   }
   .edit-area {
