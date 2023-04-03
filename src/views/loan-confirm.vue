@@ -72,16 +72,15 @@ export default {
       this.choosed = !this.choosed;
     },
     async getOrderInfo() {
-      let data = await this.$http.post('/zihai/bmzcxadafkbywtijqa', { orderId: this.orderId });
-      let data2 = await this.$http.post('/zihai/bmzcxadafkbywtijqz', { orderId: this.orderId });
-      this.orderInfo = { ...data.data, ...data2.data };
+      let data = await this.$http.post('/api/order/applyConfirmation', { orderId: this.orderId });
+      this.orderInfo = data.data;
     },
     async submit() {
       if (this.saving) return;
       this.saving = true;
       try {
         this.eventTracker('confirm_submit');
-        await this.$http.post(`/zihai/bmzcx`, { orderId: this.orderId });
+        await this.$http.post(`/api/order/applyResultOrderList`, { orderId: this.orderId });
         // 成功或者失败的跳转
         this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, curNumbers: 1, systemTime: new Date().getTime() }, true);
       } catch (error) {

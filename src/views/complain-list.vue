@@ -48,7 +48,7 @@ export default {
   methods: {
     async getLists() {
       try {
-        let res = await this.$http.post(`/clyb/hjpthwaaooadjfy`);
+        let res = await this.$http.post(`/api/user/complaintRecord`);
         this.lists = (res.data.list || []).map(t => {
           t.imgs = [];
           if (t.firstImageBase64Src) {

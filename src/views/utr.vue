@@ -64,7 +64,7 @@ export default {
     },
     async submit() {
       try {
-        let data = await this.$http.post(`/wvzlxylao/wvzlxjep`, {
+        let data = await this.$http.post(`/api/repayment/repayUTR`, {
           utr: this.utr,
           orderId: this.orderId,
         });

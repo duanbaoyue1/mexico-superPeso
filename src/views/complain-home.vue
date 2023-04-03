@@ -42,7 +42,7 @@ export default {
   methods: {
     async checkRedBot() {
       try {
-        let res = await this.$http.post(`/clyb/hjpthwaaooadjfyjqbvwi`);
+        let res = await this.$http.post(`/api/user/complaintRecordUnread`);
         if (res.returnCode == 2000) {
           this.showRedBot = res.data;
         }

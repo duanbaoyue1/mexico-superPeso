@@ -114,12 +114,12 @@ export default {
       if (data.success) {
         let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
         try {
-          let data1 = await this.$http.post(`/zihai/qvsxvbget/xiyymmst`, {
+          let data1 = await this.$http.post(`/api/order/mergePush/preApply`, {
             orderNo: this.$route.query.orderId,
             productList: loanIds,
           });
           if (data1.returnCode == 2000) {
-            await this.$http.post(`/zihai/qvsxvbget/bmzcx`, {
+            await this.$http.post(`/api/order/mergePush/apply`, {
               orderIdList: data1.data.orderIdList,
             });
             this.$toast('Apply successfully');
@@ -156,7 +156,7 @@ export default {
 
     async getNeedGoogle() {
       try {
-        let res = await this.$http.post(`/xiaqpdt/jwcrpijnhyjjywuue`);
+        let res = await this.$http.post(`/api/product/favourableComment`);
         if (res.returnCode == 2000) {
           this.isSysNeedGoogle = res.data;
         }
@@ -168,14 +168,14 @@ export default {
         this.showLoading();
         let data;
         if (this.single) {
-          data = await this.$http.post(`/xiaqpdt/qwwdhvkzypaucoile`);
+          data = await this.$http.post(`/api/product/maskRecommendList`);
           this.loans = data.data.list || [];
           this.loans = this.loans.map(t => {
             t.maxAmount = t.minAmount;
             return t;
           });
         } else {
-          data = await this.$http.post(`/xiaqpdt/qvsxvbfzcdpo/pgwhf`);
+          data = await this.$http.post(`/api/product/mergeProduct/list`);
           this.loans = data.data.mergPushProductList || [];
         }
         this.updateCheckedNum();

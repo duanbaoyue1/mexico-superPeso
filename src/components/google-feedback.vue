@@ -53,7 +53,7 @@ export default {
         }
         try {
           this.showLoading();
-          let res = await this.$http.post(`/xiaqpdt/ewcaswbzpslehlfjpvvut`, {
+          let res = await this.$http.post(`/api/product/saveFavourableComment`, {
             grade: this.curStar,
             content: this.comments,
           });

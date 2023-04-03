@@ -103,7 +103,7 @@ export default {
         if (!this.saving) {
           this.saving = true;
           try {
-            await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
+            await this.$http.post(`/api/order/bindRemittanceAccount`, {
               orderId: this.orderId,
               remittanceAccountId: this.choosedBankId,
             });
@@ -141,9 +141,8 @@ export default {
       this.innerJump('add-bank', this.$route.query, true);
     },
     async getBanks() {
-      let data1 = await this.$http.post('/wvpwoojady/wvpwoojadyydddcuezgltu');
-      let data2 = await this.$http.post('/wvpwoojady/wvpwoojadyydddcuezgltj');
-      this.cards = this.mergeTwoArray(data1.data.list, data2.data.list);
+      let data = await this.$http.post('/api/remittance/remittanceAccountList');
+      this.cards = data.data.list;
       this.choosedBankId = this.cards[0].id;
     },
     chooseBank(bank) {
@@ -158,7 +157,7 @@ export default {
         } else {
           this.showLoading();
           // 从个人中心进来，则是修改默认卡
-          await this.$http.post(`/wvpwoojady/qjhwfxozwqjwii`, {
+          await this.$http.post(`/api/remittance/modifyLoanCard`, {
             remittanceAccountId: this.choosedBankId,
           });
           this.hideLoading();

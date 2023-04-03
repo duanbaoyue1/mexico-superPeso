@@ -25,7 +25,7 @@ export default {
   methods: {},
   async mounted() {
     try {
-      let data = await this.$http.post(`/clyb/qgqaf`);
+      let data = await this.$http.post(`/api/user/mine`);
       this.hasPassword = data.data.hasPassword;
     } catch (error) {}
   },
@@ -34,8 +34,6 @@ export default {
 
 <style lang="scss" scoped>
 .settings {
-  padding-top: 10px;
-
   .legal-modal {
     background: rgba(0, 0, 0, 0.7);
     position: fixed;
@@ -48,13 +46,13 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 20px;
+      padding: 20px 0;
       font-size: 18px;
       font-weight: 400;
       color: #333333;
       background: #fff;
       line-height: 24px;
-      width: 320px;
+      width: 295px;
       box-sizing: border-box;
       border-radius: 8px;
 
@@ -76,17 +74,13 @@ export default {
     }
   }
   .btn {
-    width: 320px;
-    height: 60px;
     border-radius: 14px;
-    border: 1px solid #cccccc;
-    padding: 0 20px;
     position: relative;
-    margin: 20px;
+    margin: 24px;
     box-sizing: border-box;
     font-size: 14px;
     font-weight: 400;
-    color: #333333;
+    color: #000;
     line-height: 20px;
     display: flex;
     align-items: center;
@@ -97,7 +91,7 @@ export default {
       height: 12px;
       top: 50%;
       transform: translateY(-50%);
-      right: 20px;
+      right: 0px;
       background-image: url(../assets/img/right.png);
       background-size: contain;
       background-repeat: no-repeat;

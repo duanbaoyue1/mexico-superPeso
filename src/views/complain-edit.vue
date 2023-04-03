@@ -92,7 +92,7 @@ export default {
           saveData.thirdImageBase64Src = this.imgs[2];
         }
 
-        let res = await this.$http.post(`/clyb/ewcaajwxhgwuosudabc`, saveData);
+        let res = await this.$http.post(`/api/user/saveComplaintRecord`, saveData);
         if (res.returnCode == 2000) {
           this.$toast('Submitted successfully, we will handle it as soon as possible');
           this.innerJump('complain-list', {}, true);

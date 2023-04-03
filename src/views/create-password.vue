@@ -2,20 +2,23 @@
   <div class="password">
     <div class="edit-area">
       <div class="line-item">
+        <div class="label">Phone Number</div>
         <input v-model="userInfo.mobile" disabled />
       </div>
       <div class="line-item">
+        <div class="label">New Password</div>
         <input v-model="editData.passwd" placeholder="Set new password" :type="passwordType" />
         <m-icon class="eye" :type="passwordType != 'text' ? 'password/eye-hide' : 'password/eye-show'" :width="32" :height="20" @click="togglePassword('passwordType')" />
       </div>
 
       <div class="line-item">
+        <div class="label">Confirm Password</div>
         <input v-model="editData.passwordAgain" placeholder="Set new password again" :type="passwordAgainType" />
         <m-icon class="eye" :type="passwordAgainType != 'text' ? 'password/eye-hide' : 'password/eye-show'" :width="32" :height="20" @click="togglePassword('passwordAgainType')" />
       </div>
     </div>
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -82,7 +85,7 @@ export default {
         return;
       }
       try {
-        let data = await this.$http.post(`/clyb/hiylovzblwjjii`, { passwd: md5(this.editData.passwd) });
+        let data = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
         if (data.returnCode == 2000) {
           this.submitSuccess = true;
           this.toAppMethod('refreshtoken', data.data);
@@ -98,8 +101,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .password {
-  padding: 20px;
-  padding-top: 30px;
+  padding: 24px;
+  padding-top: 8px;
   padding-bottom: 110px;
 
   .submit-success {
@@ -137,43 +140,30 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
   }
   .edit-area {
     .line-item {
       margin-bottom: 20px;
       font-size: 14px;
       position: relative;
+      border-bottom: 2px solid #e9e9e9;
+      .label {
+        font-size: 16px;
+        font-family: Roboto-Medium, Roboto;
+        font-weight: 500;
+        color: #333333;
+        line-height: 20px;
+        margin-top: 23px;
+        margin-bottom: 16px;
+      }
       input {
         width: 100%;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid #cccccc;
-        padding: 0 20px;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;
+        border: none;
+        margin-bottom: 14px;
+        background: transparent;
       }
       .eye {
         position: absolute;

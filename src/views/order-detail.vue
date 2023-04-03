@@ -301,12 +301,13 @@ export default {
 .payment-success-container {
   width: 295px;
   box-sizing: border-box;
+  border-radius: 8px;
   .policy {
     display: flex;
     align-items: flex-start;
     font-size: 12px;
     font-weight: 400;
-    margin: 50px 24px 0;
+    margin: 50px 0px 0;
     color: #000601;
     position: relative;
     .tips {
@@ -380,6 +381,7 @@ export default {
     margin: 0 24px;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 24px;
     > div {
       width: 143px;
       height: 40px;
