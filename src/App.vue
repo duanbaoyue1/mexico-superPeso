@@ -31,20 +31,20 @@ export default {
     ...mapState(['isAppChecked']),
   },
   data() {
-    // window.updateData = async data => {
-    //   // 上传抓取日志
-    //   try {
-    //     this.$http.post(`/api/userCollect/uploadCaptureLog`, {
-    //       userId: '8101000010',
-    //       appName: 'easyMoney',
-    //       orderId: '1111111',
-    //       type: '111',
-    //       msg: data,
-    //     });
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
+    window.updateData = async data => {
+      // 上传抓取日志
+      try {
+        this.$http.post(`/api/userCollect/uploadCaptureLog`, {
+          userId: '8101000010',
+          appName: 'easyMoney',
+          orderId: '1111111',
+          type: '111',
+          msg: data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     return {
       showNav: false, // 是否要显示底部tabbar
@@ -127,7 +127,7 @@ export default {
   transition: opacity 0s;
 }
 #app {
-  >div {
+  > div {
     height: 100%;
   }
 }
