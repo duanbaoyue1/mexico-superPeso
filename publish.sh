@@ -1,1 +1,1 @@
-git add . && git commit -m "build" && git push origin main
+npm run build && vc --cwd dist --name cc-india-handy --scope liming881227 --force --yes
