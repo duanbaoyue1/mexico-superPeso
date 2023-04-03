@@ -75,8 +75,8 @@ export default {
     },
     async queryBanks(parentId) {
       parentId = parentId || '';
-      let data = await this.$http.post(`/api/remittance/remittanceBankList`, { parentId: parentId });
       // 查询所有的银行
+      let data = await this.$http.post(`/api/remittance/remittanceBankList`, { parentId: parentId });
       this.banks = data.data.list;
     },
     toggleNav(index) {
