@@ -1,7 +1,10 @@
 <template>
-  <van-pull-refresh v-model="loading" @refresh="onRefresh">
+  <van-pull-refresh class="home" v-model="loading" @refresh="onRefresh">
     <p>query:</p>
     <div>{{ query }}</div>
+
+    <p>query.token:</p>
+    <div>{{ query.token }}</div>
   </van-pull-refresh>
 </template>
 
@@ -27,3 +30,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.home {
+  height: 100%;
+}
+</style>
