@@ -17,9 +17,9 @@
     </div>
     <div class="content">
       <div class="content-area">
-        <textarea class="edit" maxlength="100" v-model="content" placeholder="Please fill in the content of your complaint, no more than 100 words."></textarea>
+        <textarea class="edit" maxlength="100" @keyup="changeContent" v-model="content" placeholder="Please fill in the content of your complaint, no more than 100 words."></textarea>
         <div class="imgs">
-          <div class="img" v-for="(img, index) in imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }">
+          <div class="img" v-for="(img, index) in imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }" @click="previewImg(imgs, index)">
             <m-icon class="close" type="close" :width="15" :height="15" @click="removeImg(index)" />
           </div>
           <div class="add" v-if="imgs.length < 3" @click="addImg">
@@ -47,8 +47,11 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
+      data.base64 = data.base64.map(t => {
+        return `data:image/png;base64,${t}`;
+      });
       if (data.success) {
-        this.imgs.splice(0, 0, `data:image/png;base64,${data.base64}`);
+        this.imgs.splice(0, 0, ...data.base64);
       }
     };
 
@@ -66,21 +69,43 @@ export default {
   },
 
   methods: {
+    changeContent() {
+      if (this.content.trim() == '') {
+        this.content = '';
+      }
+    },
     removeImg(index) {
       this.imgs.splice(index, 1);
     },
     addImg() {
-      this.toAppMethod('getCapture', { type: 5, callbackMethodName: `onPhotoSelectCallback` });
+      this.toAppMethod('getCapture', { type: 5, multiple: 3 - this.imgs.length, callbackMethodName: `onPhotoSelectCallback` });
     },
 
     async submit() {
       try {
         this.showLoading();
-        // TODO 调用接口
-        let res = await this.$http.post(``, {});
+        let saveData = {
+          userId: this.userInfo.id,
+          feedbackMechanism: this.type,
+          problemType: this.question,
+          problemContent: this.content,
+        };
+        if (this.imgs[0]) {
+          saveData.firstImageBase64Src = this.imgs[0];
+        }
+        if (this.imgs[1]) {
+          saveData.secondImageBase64Src = this.imgs[1];
+        }
+        if (this.imgs[2]) {
+          saveData.thirdImageBase64Src = this.imgs[2];
+        }
+
+        let res = await this.$http.post(`/api/user/saveComplaintRecord`, saveData);
         if (res.returnCode == 2000) {
           this.$toast('Submitted successfully, we will handle it as soon as possible');
-          this.innerJump('complain-list', {}, true);
+          setTimeout(res => {
+            this.innerJump('complain-list', {}, true);
+          }, 1000);
         } else {
           this.$toast(res.message);
         }
@@ -177,6 +202,7 @@ export default {
         border: none;
         resize: none;
         outline: none;
+        font-size: 12px;
       }
 
       .imgs {

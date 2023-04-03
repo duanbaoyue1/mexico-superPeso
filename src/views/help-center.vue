@@ -1,19 +1,13 @@
 <template>
   <div class="help-center">
     <div class="hour-email">
-      <div class="head">
-        <m-icon class="icon" type="help/Working Hours" width="20" height="20" />
-        Working Hours :
+      <div>
+        <div class="head">Working Hours</div>
+        <div class="item">Monday to Friday (9am - 7pm)</div>
       </div>
-      <div class="item">
-        <input disabled value="Monday to Friday (9am - 7pm)" />
-      </div>
-      <div class="head">
-        <m-icon class="icon" type="help/E-mail" width="20" height="20" />
-        E-mail :
-      </div>
-      <div class="item">
-        <input disabled value="EasyMoneyCS01@outlook.com" />
+      <div>
+        <div class="head">E-mail</div>
+        <div class="item">{{ feedEmail }}</div>
       </div>
     </div>
 
@@ -37,6 +31,7 @@
 export default {
   data() {
     return {
+      feedEmail: 'EasyMoneyCS01@outlook.com',
       questions: [
         {
           desc: 'Why was my loan application rejected?',
@@ -69,6 +64,17 @@ export default {
       ],
     };
   },
+  mounted() {
+    setTimeout(async () => {
+      try {
+        let user = await this.getUserInfo();
+        if (parseInt(user.id) % 2 == 1) {
+          this.feedEmail = 'EasyMoneyCS03@outlook.com';
+        }
+      } catch (error) {}
+    }, 200);
+  },
+
   methods: {
     showAnswer(index) {
       this.$set(this.questions, index, { ...this.questions[index], showAnswer: !this.questions[index].showAnswer });
@@ -106,13 +112,11 @@ export default {
 
   .questions {
     background: #fff;
-    padding: 20px;
+    padding: 16px 24px;
     .item {
       width: 320px;
       border-radius: 14px;
-      border: 1px solid #cccccc;
       box-sizing: border-box;
-      padding: 20px;
       font-size: 12px;
       margin-bottom: 20px;
       font-weight: 400;
@@ -121,14 +125,15 @@ export default {
       .desc {
         font-size: 14px;
         font-weight: 400;
-        color: #333333;
         line-height: 20px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+        color: #000000;
 
         .icon {
           transition: all 0.3s;
+          margin-top: 6px;
           &.open {
             transform: rotate(90deg);
           }
@@ -142,35 +147,40 @@ export default {
 
   .hour-email {
     background: #fff;
-    padding: 20px;
-    margin-bottom: 6px;
-    padding-top: 10px;
+    padding: 16px;
+    margin: 24px;
+    border-radius: 8px;
 
-    .head {
+    > div {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      font-size: 14px;
-      font-weight: 400;
-      color: #000000;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      line-height: 18px;
-      .icon {
-        margin-right: 10px;
+      margin-bottom: 24px;
+      &:last-child {
+        margin-bottom: 0;
       }
     }
 
+    .head {
+      font-size: 12px;
+      font-weight: 400;
+      color: #999999;
+      line-height: 20px;
+      flex-shrink: 0;
+    }
+
     .item {
-      input {
-        width: 320px;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid #cccccc;
-        padding: 0 20px;
-        box-sizing: border-box;
-        background: #fff;
-        display: block;
-      }
+      flex-grow: 1;
+      margin-left: 20px;
+      height: 20px;
+      box-sizing: border-box;
+      border: none;
+      font-size: 12px;
+      font-weight: 900;
+      width: 100%;
+      color: #000000;
+      text-align: right;
+      line-height: 20px;
     }
   }
 }

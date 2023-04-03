@@ -1,7 +1,7 @@
 <template>
   <div class="loan">
     <div class="loan-tips">
-      <m-icon class="icon" type="loan/fail" :width="122" :height="109" />
+      <m-icon class="icon" type="handy/失败" :width="130" :height="130" />
       <div class="title">Sorry The application is fail!</div>
       <div class="apply" @click="goHome">Back to Home</div>
     </div>
@@ -11,7 +11,7 @@
 <style lang="scss" scoped>
 .loan {
   .loan-tips {
-    padding-top: 100px;
+    padding-top: 40px;
     .icon {
       margin: 0 auto;
     }
@@ -25,10 +25,11 @@
       margin-bottom: 60px;
     }
     .apply {
-      width: 320px;
+      width: 327px;
       height: 48px;
-      background: #1143a4;
-      border-radius: 14px;
+      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+      border-radius: 24px;
       margin: 0 auto;
       display: flex;
       align-items: center;

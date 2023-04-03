@@ -1,26 +1,28 @@
 <template>
   <div class="information">
     <div class="step">
-      <m-icon class="icon" type="information/step1" :width="98" :height="28" />
-      <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
+      <complete-step :actionIndex="0"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="head-top">Identity Info</div>
-      <div class="pan-img" @click="getCapture(3)">
-        <template v-if="panFrontBase64Src">
-          <img class="back user-pic" :src="panFrontBase64Src" />
-          <img class="btn" :src="require('@/assets/img/identity/uploaded.png')" />
-        </template>
-        <template v-else>
-          <img class="back" :src="require('@/assets/img/identity/pan-front.png')" />
-          <img class="btn" :src="require('@/assets/img/identity/photo@2x.png')" />
-        </template>
+      <div class="head-top">Pan Card</div>
+      <div class="pan-img-wrapper">
+        <div class="pan-img" @click="getCapture(3)">
+          <template v-if="panFrontBase64Src">
+            <img class="back user-pic" :src="panFrontBase64Src" />
+            <img class="btn" :src="require('@/assets/img/handy/完成.png')" />
+          </template>
+          <template v-else>
+            <img class="back" :src="require('@/assets/img/handy/Pan Front.png')" />
+            <img class="btn" :src="require('@/assets/img/handy/相机.png')" />
+          </template>
+        </div>
+        <div class="pan-text">
+          Pan
+          <span>Front</span>
+        </div>
       </div>
-      <div class="pan-text">
-        Pan
-        <span>Front</span>
-      </div>
-      <div class="pan-demo">
+
+      <!-- <div class="pan-demo">
         <div>
           <img class="btn" :src="require('@/assets/img/identity/Standard@2x.png')" />
           <div>Standard</div>
@@ -37,7 +39,7 @@
           <img class="btn" :src="require('@/assets/img/identity/Strong flash@2x.png')" />
           <div>Strong flash</div>
         </div>
-      </div>
+      </div> -->
       <div class="pan-tips">
         1.Ensure that all the documents uploaded are clear and not blurred
         <br />
@@ -45,7 +47,7 @@
       </div>
     </div>
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -65,7 +67,12 @@
 </template>
 
 <script>
+import CompleteStep from '@/components/complete-step.vue';
+
 export default {
+  components: {
+    CompleteStep,
+  },
   data() {
     window.onPhotoSelectCallback_3 = data => {
       if (typeof data == 'string') {
@@ -73,7 +80,7 @@ export default {
       }
       if (data.success) {
         this.canSubmit = true;
-        this.panFrontBase64Src = `data:image/png;base64,${data.base64}`;
+        this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
       }
     };
 
@@ -82,7 +89,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64}`);
+        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64[0]}`);
       }
     };
 
@@ -90,13 +97,16 @@ export default {
     window.backBtnHandler = async data => {
       this.showMessageBox({
         content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
         confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
           this.hideMessageBox();
           this.goAppBack();
         },
-        iconPath: 'message/question',
-        showClose: true,
+        iconPath: 'handy/确定退出嘛',
       });
     };
 
@@ -161,7 +171,7 @@ export default {
       this.curPercent = 100;
       try {
         // 创建订单
-        let res = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahf`);
+        let res = await this.$http.post(`/api/product/appMaskModel`);
         this.submitSuccess = false;
         console.log('创建订单信息结果:', res);
         // 跳转个人信息页
@@ -185,7 +195,7 @@ export default {
         formData.append(fileName, base64);
         formData.append('mark', type);
 
-        let res = await this.$http.post(`/zds/ewcaqwrubmcvlgpo`, formData, {
+        let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
@@ -224,15 +234,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px;
+  padding: 20px 24px;
   padding-bottom: 110px;
+  background: #f6f6f6;
+  height: 100%;
 
   .pan-text {
     font-size: 14px;
     font-weight: 400;
     color: #333333;
     line-height: 18px;
-    margin: 10px auto 30px;
+    margin: 10px auto 0px;
     text-align: center;
     span {
       color: #fd973f;
@@ -268,27 +280,34 @@ export default {
     }
   }
 
-  .pan-img {
-    position: relative;
-    .back {
-      width: 190px;
-      height: 120px;
-      margin: 0 auto;
-      display: block;
-      &.user-pic {
-        height: 190px;
-        width: 120px;
-        transform: rotate(270deg);
-        transform-origin: center center;
+  .pan-img-wrapper {
+    background: #fff;
+    padding: 16px 44px;
+    border-radius: 8px;
+    margin-bottom: 34px;
+    .pan-img {
+      position: relative;
+
+      .back {
+        width: 240px;
+        height: 151px;
+        margin: 0 auto;
+        display: block;
+        &.user-pic {
+          height: 190px;
+          width: 120px;
+          transform: rotate(270deg);
+          transform-origin: center center;
+        }
       }
-    }
-    .btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 48px;
-      height: 48px;
+      .btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 
@@ -325,7 +344,7 @@ export default {
         position: relative;
         .cur-percent {
           height: 10px;
-          background: #1143a4;
+          background: linear-gradient(270deg, #fc2214 0%, #fe816f 100%);
           border-radius: 5px;
           position: absolute;
           top: 0;
@@ -370,43 +389,10 @@ export default {
     left: 0;
     right: 0;
     background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
   }
   .step {
-    margin-top: 25px;
-    margin-bottom: 30px;
-    font-size: 10px;
-    font-weight: 400;
-    color: #87a0d1;
-    line-height: 18px;
-    display: flex;
-    align-items: end;
-    .icon {
-      margin-right: 6px;
-    }
-    span {
-      transform: scale(0.9);
-    }
+    padding-top: 10px;
+    margin-bottom: 32px;
   }
   .edit-area {
     .head-top {

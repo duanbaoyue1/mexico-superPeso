@@ -7,46 +7,60 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
   </head>
   <body>
-    <div id="real-path" style="display: none;">https://{host}/dist/#/{app接口path}?{拼接通用参数}&appChecked=true</div>
     <script>
+      let queryParams = {};
 
+      const h5_deploy_path = 'https://pgo.nicolelee.site/dist';
       /**
        * 这是一个壳页面，部分的参数都会由后端通过占位符方式进行填充
        */
       /*后台填充参数 基本上所有参数都有用*/
       // 域名 后端下发HTML时填充
-      const hosts = '{{hosts}}';
+      queryParams.hosts = '{{hosts}}';
 
       // 平台 后端下发HTML时填充
-      const platformValue = "{{platformValue}}";
+      queryParams.platformValue = '{{platformValue}}';
 
       // 用户鉴权标识 后端下发HTML时填充
-      const token = "{{token}}";
+      queryParams.token = '{{token}}';
 
       // 用户ID 后端下发HTML时填充
-      const userId = "{{userId}}";
+      queryParams.userId = '{{userId}}';
 
       // 手机号 后端下发HTML时填充
-      const mobile = "{{mobile}}";
+      queryParams.mobile = '{{mobile}}';
 
       // 包名 后端下发HTML时填充
-      const appName = "{{appName}}";
+      queryParams.appName = '{{appName}}';
 
       // 版本 后端下发HTML时填充
-      let appVersion = "{{appVersion}}";
+      queryParams.appVersion = '{{appVersion}}';
 
       // 谷歌推广ID 后端下发HTML时填充
-      let gaId = "{{gaId}}";
+      queryParams.gaId = '{{gaId}}';
 
       // Af用户标识ID 后端下发HTML时填充
-      let afId = "{{afId}}";
+      queryParams.afId = '{{afId}}';
 
-      // path路径
-      const path = '{{path}}';
+      // channelCode 后端填充
+      queryParams.channelCode = '{{channelCode}}';
 
+      // mobileType 后端填充
+      queryParams.mobileType = '222';
 
+      // gps 后端填充
+      queryParams.gps = '{{gps}}';
+
+      // gpsAddress 后端填充
+      queryParams.gpsAddress = '{{gpsAddress}}';
+
+      
+      let queryKeyValue = [];
+      Object.keys(queryParams).forEach(item => {
+        queryKeyValue.push(`${item}=${encodeURIComponent(queryParams[item])}`);
+      })
       // 这里做真正的跳转
-      location.replace(document.getElementById('real-path').innerHTML);
+      location.replace(`${h5_deploy_path}/#/home?${queryKeyValue.join('&')}&appChecked=true`);
     </script>
   </body>
 </html>

@@ -1,13 +1,13 @@
 <template>
-    <div class="complain-question">
-      <div class="complain-question-content">
-        <m-icon class="close" type="close" :width="15" :height="15" @click="hide" />
-        <div class="head">Please select the type of question</div>
-        <div class="select">
-          <div v-for="question in questions" :key="question" @click="choose(question)">{{ question }}</div>
-        </div>
+  <div class="complain-question">
+    <div class="complain-question-content">
+      <m-icon class="close" type="close" :width="15" :height="15" @click="hide" />
+      <div class="head">Please select the type of question</div>
+      <div class="select">
+        <div v-for="question in questions" :key="question" @click="choose(question)">{{ question }}</div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,7 +24,7 @@ export default {
     choose(question) {
       this.hide();
       this.$emit('choose', question);
-    }
+    },
   },
 };
 </script>

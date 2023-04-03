@@ -42,7 +42,7 @@ export default {
     hide() {
       this.$emit('update:show', false);
     },
-    submit() {
+    async submit() {
       if (this.curStar >= 4) {
         this.toAppMethod('goGoogleStore');
         this.$emit('update:show', false);
@@ -53,8 +53,16 @@ export default {
         }
         try {
           this.showLoading();
-          // TODO 发送接口数据
-          this.$emit('update:show', false);
+          let res = await this.$http.post(`/api/product/saveFavourableComment`, {
+            grade: this.curStar,
+            content: this.comments,
+          });
+          if (res.returnCode == 2000) {
+            this.$toast('submit success!');
+            setTimeout(res => {
+              this.$emit('update:show', false);
+            }, 1000);
+          }
         } catch (error) {
           this.$toast(error.message);
         } finally {
@@ -124,6 +132,9 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       top: -70px;
+      img {
+        width: 192px;
+      }
     }
     .stars {
       display: flex;

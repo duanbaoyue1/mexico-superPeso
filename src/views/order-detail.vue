@@ -1,36 +1,24 @@
 <template>
-  <div class="order-detail" v-show="loadinged">
-    <div class="step" :class="{ 'show-date': showDate }">
-      <div class="step-item status" :class="'order_' + detail.orderStatus">
-        <div class="step-line"></div>
-        <div class="step-wrapper">{{ orderStatusText }}</div>
+  <div class="order-detail" v-show="loadinged" :class="'order_' + detail.orderStatus">
+    <div class="status-text">{{ orderStatusText }}</div>
+
+    <div class="order-info">
+      <div class="flex-between">
+        <span>Product</span>
+        <span>{{ detail.productName }}</span>
       </div>
-      <div class="step-item">
-        <div class="step-line"></div>
-        <div class="step-wrapper">
-          <div>
-            <div class="head">
-              <span>Application Date</span>
-              <span>{{ detail.applyTime }}</span>
-            </div>
-            <div class="desc">
-              <span>Product</span>
-              <span>{{ detail.productName }}</span>
-            </div>
-            <div class="desc">
-              <span>Lending Company</span>
-              <span>{{ detail.companyName }}</span>
-            </div>
-          </div>
-        </div>
+      <div class="flex-between">
+        <span>Lending Company</span>
+        <span>{{ detail.companyName }}</span>
+      </div>
+      <div class="flex-between">
+        <span>Application Date</span>
+        <span>{{ detail.applyTime }}</span>
       </div>
 
-      <div class="step-item date" v-if="showDate">
-        <div class="step-line"></div>
-        <div class="step-wrapper head">
-          <span>Due Date</span>
-          <span>{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
-        </div>
+      <div class="flex-between" v-if="showDate">
+        <span>Due Date</span>
+        <span>{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
       </div>
     </div>
 
@@ -49,7 +37,7 @@
       </div>
     </div>
 
-    <div class="order-more">
+    <div class="order-info">
       <div class="flex-between">
         <span>Loan Amount</span>
         <span class="font-bold color-000">
@@ -96,17 +84,17 @@
 
     <div class="modal" v-if="showPaymentTips">
       <div class="modal-content payment-success-container">
-        <m-icon class="close" type="close" :width="15" :height="15" @click="showPaymentTips = false" />
-        <div class="icon">
-          <m-icon type="message/utr" :width="50" :height="50" />
-        </div>
+        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showPaymentTips = false" />
+        <m-icon class="icon" type="handy/还款弹窗" />
+
         <div class="content">
           <div class="remember">Remember</div>
           When payment is completed,
-          <br />
-          remember to
-          <a @click="goFillUtr">fill in the UTR</a>
-          in this app
+          <div>
+            remember to
+            <span @click="goFillUtr" class="color-orange fill">fill in the UTR</span>
+            in this app
+          </div>
         </div>
         <div class="action">
           <div class="cancel" @click="goTutorial">Tutorial</div>
@@ -115,12 +103,8 @@
 
         <div class="policy" v-if="showAuto">
           <div class="tips">99% of users opened!</div>
-          <m-icon class="icon-i" :type="choosed ? 'toggle-choosed' : 'toggle-unchoose'" :width="28" :height="14" @click="choosed = !choosed" />
-          <span>
-            VIP privilege, you will get automatic reloan if repay successfully, and loan limit up with
-            <br />
-            100% possible.
-          </span>
+          <m-icon class="icon-i" :type="choosed ? 'handy/开启' : 'handy/未开启'" :width="28" :height="14" @click="choosed = !choosed" />
+          <span>VIP privilege, you will get automatic reloan if repay successfully, and loan limit up with 100% possible.</span>
         </div>
       </div>
     </div>
@@ -247,13 +231,13 @@ export default {
     async queryOrderReloan() {
       try {
         // 判断全局状态
-        let data = await this.$http.post(`/zihai/ilktvuawcybpptzhytvwtkvv`, { orderId: this.orderId });
+        let data = await this.$http.post(`/api/order/isOpenOrderAutoRepeatNew`, { orderId: this.orderId });
         this.showAuto = data.data.isOpen;
         this.choosed = data.data.isGive;
         console.log('update choosed1', data.data.isGive);
 
         // 查询当前订单是否开启自动复贷
-        data = await this.$http.post(`/zihai/mvewiclwdwwmveiihaipgdjoamvjd`, { orderId: this.orderId });
+        data = await this.$http.post(`/api/order/getOrderIsOpenOrderAutoRepeat`, { orderId: this.orderId });
         if (data.data != null && typeof data.data != 'undefined') {
           this.choosed = data.data;
           console.log('update choosed', this.choosed);
@@ -264,7 +248,7 @@ export default {
     async repay() {
       // 更新复贷
       try {
-        await this.$http.post(`/zihai/cmhlovawcybpptzhytvwtqoghpl`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
+        await this.$http.post(`/api/order/updateOrderAutoRepeatStatus`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
 
       this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId, type: 'repay' });
@@ -286,7 +270,7 @@ export default {
     },
 
     async getDeferTimes() {
-      let data = await this.$http.post(`/uzeaulazu/kgwhjiykpp`, {
+      let data = await this.$http.post(`/api/extension/historyNum`, {
         id: this.orderId,
       });
       this.deferTimes = data.data.num;
@@ -294,17 +278,13 @@ export default {
 
     async getDetail() {
       try {
-        let data2 = await this.$http.post(`/zihai/yvelgho`, {
+        let res = await this.$http.post(`/api/order/detail`, {
           orderId: this.orderId,
         });
-        let data1 = await this.$http.post(`/zihai/yvelghl`, {
-          orderId: this.orderId,
-        });
-
-        this.detail = { ...data1.data, ...data2.data };
+        this.detail = res.data;
         console.log('order detail', this.detail);
         console.log('order status', this.detail.orderStatus);
-        console.log('this.orderStatuste', this.orderStatusText);
+        console.log('this.orderStatus', this.orderStatusText);
         if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
           this.orderUrl = await this.getOrderRelateUrl(this.orderId);
         }
@@ -319,14 +299,15 @@ export default {
 
 <style lang="scss" scoped>
 .payment-success-container {
-  width: 320px;
-  padding: 50px 10px 20px;
+  width: 295px;
+  box-sizing: border-box;
+  border-radius: 8px;
   .policy {
     display: flex;
     align-items: flex-start;
     font-size: 12px;
     font-weight: 400;
-    margin: 50px 10px 0;
+    margin: 50px 0px 0;
     color: #000601;
     position: relative;
     .tips {
@@ -335,14 +316,14 @@ export default {
       left: -8px;
       width: 130px;
       height: 20px;
-      background: #ed5949;
+      background: #fbe396;
       border-radius: 24px 24px 24px 0px;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 10px;
       font-weight: bold;
-      color: #ffffff;
+      color: #333333;
       line-height: 12px;
       transform: scale(0.9);
     }
@@ -360,28 +341,36 @@ export default {
     top: -25px;
     left: 50%;
     transform: translateX(-50%);
-    background: #fff;
-    border-radius: 100%;
-    padding: 5px;
+    background: transparent;
+    width: 295px !important;
+    height: 154px !important;
   }
   .close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
   }
   .content {
-    margin-bottom: 30px;
+    padding-top: 140px;
+    margin-bottom: 40px;
     font-size: 16px;
-    line-height: 30px;
-    font-weight: 400;
+    line-height: 20px;
+    font-weight: 500;
     color: #000601;
-    text-align: center;
+    text-align: left;
+    margin-left: 24px;
+    margin-right: 24px;
+    .fill {
+      text-decoration: underline;
+    }
     .remember {
       font-size: 20px;
       font-weight: bold;
       color: #000601;
       line-height: 24px;
       margin-bottom: 10px;
+      text-align: center;
     }
     a {
       color: #1143a4;
@@ -389,28 +378,34 @@ export default {
     }
   }
   .action {
-    margin: 0 10px;
+    margin: 0 24px;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 24px;
     > div {
-      width: 172px;
-      height: 48px;
-      background: #1143a4;
-      border-radius: 14px;
-      font-size: 18px;
+      width: 143px;
+      height: 40px;
+      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+      border-radius: 20px;
+      font-size: 16px;
       font-weight: 900;
       color: #ffffff;
       line-height: 24px;
-      border: 1px solid #1143a4;
       display: flex;
       justify-content: center;
       align-items: center;
+      box-sizing: border-box;
+
       &.cancel {
-        border: 1px solid #1143a4;
-        color: #1143a4;
-        background: #ffffff;
+        border: 1px solid #999999;
+        color: #999;
         position: relative;
         width: 88px;
+        background: transparent;
+        box-shadow: none;
+        margin-right: 16px;
+        flex-grow: 1;
       }
     }
   }
@@ -418,14 +413,39 @@ export default {
 
 .order-detail {
   padding-bottom: 100px;
+  background-image: url(../assets/img/handy/订单等待.png);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 375px 206px;
+  background-color: #f6f6f6;
+  height: 100%;
+  box-sizing: border-box;
+  &.order_40,
+  &.order_90 {
+    background-image: url(../assets/img/handy/订单失败.png);
+  }
+  &.order_100,
+  &.order_101 {
+    background-image: url(../assets/img/handy/订单成功.png);
+  }
 
+  .status-text {
+    padding-top: 24px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 32px;
+    margin-bottom: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
   .actions {
     position: fixed;
     padding-bottom: 20px;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: transparent;
 
     .btns {
       padding-top: 10px;
@@ -434,7 +454,23 @@ export default {
       margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
-      box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.12);
+
+      .btn-default {
+        background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+        box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+        border-radius: 25px;
+        height: 46px;
+        border: none;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .btn-line {
+        border-radius: 25px;
+        border: 1px solid #999999;
+        font-size: 18px;
+        color: #999;
+      }
       button {
         // width: 100%;
         flex: 1;
@@ -446,7 +482,7 @@ export default {
     .help-center {
       font-size: 14px;
       font-weight: 500;
-      color: #1143a4;
+      color: #fc2214;
       line-height: 18px;
       text-align: center;
       text-decoration: underline;
@@ -474,11 +510,16 @@ export default {
     }
   }
   .order-info {
-    background: #fff;
-    border-bottom: 6px solid #f4f4f4;
     padding: 20px;
+    width: 327px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-bottom: 16px;
+
     > div {
-      margin-bottom: 10px;
+      margin-bottom: 16px;
       font-size: 14px;
       font-weight: 400;
       color: #333333;
@@ -486,104 +527,10 @@ export default {
       &:last-child {
         margin-bottom: 0;
       }
-    }
-  }
-  .step {
-    padding: 30px 20px 20px;
-    background: #fff;
-    border-bottom: 6px solid #f4f4f4;
-    &.show-date {
-      .step-line {
-        &::after {
-          height: 143px !important;
+      span {
+        &:last-child {
+          text-align: right;
         }
-      }
-    }
-    &-item {
-      display: flex;
-      .step-wrapper {
-        flex-grow: 1;
-      }
-      .step-line {
-        position: relative;
-        width: 10px;
-        height: 10px;
-        background: #1143a4;
-        margin-right: 7px;
-        border-radius: 100%;
-        margin-top: 6px;
-      }
-      .head {
-        font-size: 18px;
-        font-weight: 500;
-        color: #333333;
-        line-height: 24px;
-        display: flex;
-        justify-content: space-between;
-      }
-      .desc {
-        font-size: 14px;
-        font-weight: 400;
-        color: #333333;
-        line-height: 18px;
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        span {
-          &:first-child {
-            padding-right: 10px;
-            flex-shrink: 0;
-          }
-        }
-      }
-    }
-    .date {
-      margin-top: 20px;
-    }
-    .status {
-      font-size: 20px;
-      font-weight: 900;
-      color: #ff1412;
-      line-height: 24px;
-      margin-bottom: 30px;
-      .step-line {
-        background: #ff1412;
-        &::after {
-          position: absolute;
-          content: ' ';
-          width: 2px;
-          height: 50px;
-          background: #e6ebf5;
-          top: 10px;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-
-      &.order_20,
-      &.order_21,
-      &.order_30,
-      &.order_70,
-      &.order_80 {
-        .step-line {
-          background: #febc1d;
-        }
-        color: #febc1d;
-      }
-      &.order_40,
-      &.order_90 {
-        .step-line {
-          background: #ff1412;
-        }
-        color: #ff1412;
-      }
-      &.order_100,
-      &.order_101 {
-        .step-line {
-          background: #04ca1c;
-        }
-        color: #04ca1c;
       }
     }
   }

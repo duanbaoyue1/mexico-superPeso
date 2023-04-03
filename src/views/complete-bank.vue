@@ -2,42 +2,46 @@
   <div class="complete-bank">
     <template v-if="from == 'order'">
       <div class="step">
-        <m-icon class="icon" type="information/step4" :width="98" :height="28" />
-        <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
+        <complete-step :actionIndex="3"></complete-step>
       </div>
-      <div class="head-top">Payment method</div>
     </template>
 
     <div class="cards">
       <div v-if="cards.length" class="cards-list">
         <div v-for="card in cards" class="cards-item" :key="card.id" @click="chooseBank(card)">
           <div class="card-name">
-            <m-icon class="bank" type="bank/bank" :width="30" :height="30" />
-            <span>{{ card.bank }} ({{ card.accountNumber }})</span>
+            <m-icon class="bank" type="bank/bank" :width="24" :height="24" />
+            <div>
+              <div class="name">{{ card.bank }}</div>
+              <div class="number">{{ card.accountNumber | phoneHideFilter }}</div>
+            </div>
           </div>
-          <m-icon class="choose" :type="choosedBankId == card.id ? 'bank/choosed' : 'bank/not-choosed'" :width="18" :height="18" />
-          <div class="bottom"></div>
+          <m-icon class="choose" :type="choosedBankId == card.id ? 'handy/选中' : 'handy/形状'" :width="18" :height="18" />
         </div>
       </div>
       <div v-else>
-        <m-icon class="none" type="bank/none" :width="78" :height="60" />
+        <m-icon class="none" type="handy/银行卡空状态" :width="140" :height="107" />
       </div>
       <div class="add-card" @click="goAddCard">
-        <m-icon class="icon" type="add" :width="14" :height="14" />
+        <m-icon class="icon" type="handy/添加" :width="14" :height="14" />
         Add New Accounts
       </div>
     </div>
 
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
 import * as ALL_ATTRS from '@/config/typeConfig';
+import CompleteStep from '@/components/complete-step.vue';
 
 export default {
+  components: {
+    CompleteStep,
+  },
   watch: {
     choosedBankId: {
       handler() {
@@ -51,13 +55,16 @@ export default {
     window.backBtnHandler = async data => {
       this.showMessageBox({
         content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
         confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
           this.hideMessageBox();
           this.goAppBack();
         },
-        iconPath: 'message/question',
-        showClose: true,
+        iconPath: 'handy/确定退出嘛',
       });
     };
 
@@ -96,7 +103,7 @@ export default {
         if (!this.saving) {
           this.saving = true;
           try {
-            await this.$http.post(`/zihai/ngqqhvwioeludlcdnrput`, {
+            await this.$http.post(`/api/order/bindRemittanceAccount`, {
               orderId: this.orderId,
               remittanceAccountId: this.choosedBankId,
             });
@@ -117,15 +124,7 @@ export default {
             }
           } catch (error) {
             this.eventTracker('bank_submit_error');
-            this.showMessageBox({
-              content: error.message,
-              confirmBtnText: 'Ok',
-              confirmCallback: () => {
-                this.hideMessageBox();
-              },
-              iconPath: 'message/error',
-              showClose: false,
-            });
+            this.$toast(error.message);
           } finally {
             this.saving = false;
           }
@@ -142,9 +141,8 @@ export default {
       this.innerJump('add-bank', this.$route.query, true);
     },
     async getBanks() {
-      let data1 = await this.$http.post('/wvpwoojady/wvpwoojadyydddcuezgltu');
-      let data2 = await this.$http.post('/wvpwoojady/wvpwoojadyydddcuezgltj');
-      this.cards = this.mergeTwoArray(data1.data.list, data2.data.list);
+      let data = await this.$http.post('/api/remittance/remittanceAccountList');
+      this.cards = data.data.list;
       this.choosedBankId = this.cards[0].id;
     },
     chooseBank(bank) {
@@ -159,27 +157,17 @@ export default {
         } else {
           this.showLoading();
           // 从个人中心进来，则是修改默认卡
-          await this.$http.post(`/wvpwoojady/qjhwfxozwqjwii`, {
+          await this.$http.post(`/api/remittance/modifyLoanCard`, {
             remittanceAccountId: this.choosedBankId,
           });
           this.hideLoading();
           this.goAppBack();
         }
       } catch (error) {
-        this.showMessageBox({
-          content: error.message,
-          confirmBtnText: 'Ok',
-          confirmCallback: () => {
-            console.log('confirmCallback');
-            this.hideMessageBox();
-          },
-          iconPath: 'message/error',
-          showClose: false,
-        });
+        this.$toast(error.message);
       } finally {
         this.hideLoading();
       }
-
       // this.showMessageBox({
       //   content: 'The name of the bank account you submitted is inconsistent with your name, please change it to your own account.',
       //   confirmBtnText: 'Submit',
@@ -231,21 +219,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 .complete-bank {
-  padding: 20px;
+  padding: 20px 24px;
   padding-bottom: 110px;
+  background: #f6f6f6;
+  height: 100%;
+  box-sizing: border-box;
 
   .cards {
+    background: #fff;
+    padding: 16px 16px 24px;
+    border-radius: 8px;
     .none {
-      margin: 80px auto 40px;
+      margin: 44px auto 40px;
     }
     .add-card {
-      width: 240px;
+      width: 210px;
       height: 40px;
-      background: #fd973f;
-      border-radius: 20px;
       font-size: 16px;
       font-weight: 500;
-      color: #333333;
+      color: #ffffff;
       line-height: 22px;
       display: flex;
       align-items: center;
@@ -253,18 +245,22 @@ export default {
       padding: 0 28px;
       justify-content: space-between;
       box-sizing: border-box;
+      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+      border-radius: 20px;
+      white-space: nowrap;
+      img {
+        margin-right: 6px;
+      }
     }
     .cards-list {
-      padding-top: 20px;
       padding-bottom: 40px;
     }
 
     &-item {
-      height: 70px;
+      height: 82px;
       box-sizing: border-box;
-      background: #e3eafd;
       border-radius: 14px 14px 0px 0px;
-      border-bottom: 2px solid #333333;
       display: flex;
       align-items: center;
       padding: 0 20px;
@@ -275,14 +271,42 @@ export default {
       line-height: 18px;
       justify-content: space-between;
       position: relative;
-      width: 300px;
-      margin-left: 10px;
+      background-size: cover;
+
+      &:nth-child(4n + 1) {
+        background-image: url('../assets/img/handy/银行卡1.png');
+      }
+      &:nth-child(4n + 2) {
+        background-image: url('../assets/img/handy/银行卡2.png');
+      }
+      &:nth-child(4n + 3) {
+        background-image: url('../assets/img/handy/银行卡3.png');
+      }
+      &:nth-child(4n + 4) {
+        background-image: url('../assets/img/handy/银行卡4.png');
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
       .bank {
         margin-right: 10px;
       }
       .card-name {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        > div {
+          font-size: 12px;
+          font-weight: 500;
+          color: #ffffff;
+          line-height: 1;
+          .name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 10px;
+          }
+        }
       }
       .bottom {
         position: absolute;
@@ -302,28 +326,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
+    background: #f6f6f6;
   }
   .step {
     margin-top: 25px;

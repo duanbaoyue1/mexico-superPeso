@@ -39,14 +39,10 @@ export default {
 
   methods: {
     async getDeferHistory() {
-      let data1 = await this.$http.post('/uzeaulazu/kgwhjiyu', {
+      let res = await this.$http.post('/api/extension/history', {
         id: this.$route.query.orderId,
       });
-      let data2 = await this.$http.post('/uzeaulazu/kgwhjiyj', {
-        id: this.$route.query.orderId,
-      });
-      this.lists = this.mergeTwoArray(data1.data.list, data2.data.list);
-      console.log(this.lists);
+      this.lists = res.data.list;
     },
   },
 };
@@ -54,18 +50,31 @@ export default {
 
 <style lang="scss" scoped>
 .defer-history {
+  padding-top: 14px;
   .items {
     font-size: 14px;
     font-weight: 400;
     color: #333333;
     line-height: 18px;
-    border-bottom: 6px solid #f4f4f4;
-    padding: 30px 20px 20px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-bottom: 16px;
+
     &:last-child {
       border-bottom: none;
     }
+    .head {
+      font-size: 18px;
+      font-family: Roboto-Black, Roboto;
+      font-weight: 900;
+      color: #333333;
+      line-height: 24px;
+    }
     > div {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       &:last-child {
         margin-bottom: 0;
       }

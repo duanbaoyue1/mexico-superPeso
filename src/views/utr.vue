@@ -1,18 +1,23 @@
 <template>
   <div class="utr">
-    <div class="head flex-between">
-      <span>UTR</span>
-      <span class="color-red" @click="goUTRHelp()">How to check UTR?</span>
+    <div class="utr-input">
+      <div class="head flex-between">
+        <span>UTR</span>
+        <span class="color-red" @click="goUTRHelp()">How to check UTR?</span>
+      </div>
+      <input class="utr-value" v-model="utr" placeholder="Please enter UTR" />
+      <m-icon type="handy/蓝右" class="right-icon" :width="12" :height="14" />
     </div>
-    <input class="utr-value" v-model="utr" placeholder="Please enter UTR" />
-    <div class="error-tips color-red fs-12" :class="{ 'show-error': showError }">Please enter correct UTR.</div>
+
+    <div class="error-tips color-red fs-12" v-if="showError" :class="{ 'show-error': showError }">Please enter correct UTR.</div>
+
     <div class="repay">
       <div class="head">Repay</div>
       <div>
         1.When payment is completed,remember to fill in the UTR here;
         <br />
         2.If you haven't complete the payment, you can click
-        <span class="font-bold color-blue" @click="recreate">here</span>
+        <span class="here" @click="recreate">here</span>
         to repay;
         <br />
         3.If multiple payments are made, multiple UTRs can be submitted repeatedly”
@@ -21,7 +26,7 @@
 
     <div class="actions">
       <div class="btns">
-        <button class="btn-default" :disabled="!canSubmit" @click="submit">Submit</button>
+        <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Confirm UTR</button>
       </div>
       <div class="help-center" @click="goAppBack">I don't get UTR?</div>
     </div>
@@ -59,7 +64,7 @@ export default {
     },
     async submit() {
       try {
-        let data = await this.$http.post(`/wvzlxylao/wvzlxjep`, {
+        let data = await this.$http.post(`/api/repayment/repayUTR`, {
           utr: this.utr,
           orderId: this.orderId,
         });
@@ -83,18 +88,50 @@ export default {
 
 <style lang="scss" scoped>
 .utr {
-  padding-top: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-top: 14px;
+  padding-left: 24px;
+  padding-right: 24px;
 
+  &-input {
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    position: relative;
+    .right-icon {
+      position: absolute;
+      right: 16px;
+      bottom: 18px;
+    }
+
+    .head {
+      font-size: 16px;
+      font-weight: 500;
+      color: #000000;
+      line-height: 18px;
+      margin-bottom: 16px;
+    }
+    .utr-value {
+      width: 220px;
+      height: 18px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #333333;
+      line-height: 18px;
+      box-sizing: border-box;
+      border: none;
+    }
+  }
   .actions {
     position: fixed;
-    box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.12);
-    padding: 10px 20px;
+    padding: 10px 24px;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: transparent;
+    .bottom-submit-btn {
+      margin: 0;
+    }
     .btns {
       margin-bottom: 20px;
       display: flex;
@@ -114,35 +151,15 @@ export default {
     .help-center {
       font-size: 14px;
       font-weight: 500;
-      color: #1143a4;
+      color: #FC2214;
       line-height: 18px;
       text-align: center;
       text-decoration: underline;
     }
   }
 
-  .head {
-    font-size: 14px;
-    font-weight: 400;
-    color: #000000;
-    line-height: 18px;
-    margin-bottom: 10px;
-  }
-  .utr-value {
-    width: 320px;
-    height: 60px;
-    border-radius: 14px;
-    border: 1px solid #cccccc;
-    font-size: 14px;
-    font-weight: 400;
-    color: #333333;
-    line-height: 20px;
-    padding: 0 20px;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-  }
   .error-tips {
-    margin-top: 12px;
+    margin-top: -12px;
     margin-bottom: 20px;
     visibility: hidden;
     &.show-error {
@@ -160,6 +177,10 @@ export default {
       color: #333333;
       line-height: 18px;
       margin-bottom: 10px;
+    }
+    .here {
+      color: #FC2214;
+      text-decoration: underline;
     }
   }
 }

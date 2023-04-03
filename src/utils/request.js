@@ -1,9 +1,5 @@
 import axios from 'axios';
 import store from '@/store';
-import { Toast } from 'vant';
-import { param2Obj } from '@/utils/index';
-import cookieFun from './cookieFun';
-import md5 from 'js-md5';
 
 // create an axios instance
 const service = axios.create({
@@ -50,7 +46,9 @@ service.interceptors.request.use(
       if (typeof config.data !== 'string') {
         config.data = JSON.stringify(config.data);
       }
-      config.data = zip(config.data);
+      if (process.env.VUE_APP_NEED_REQUEST_ZIP == 'true') {
+        config.data = zip(config.data);
+      }
     }
     console.log('baseURL:', store.getters.appGlobal.apiPrefix);
     console.log('token:', store.getters.appGlobal.token);

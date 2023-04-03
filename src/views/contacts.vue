@@ -1,55 +1,57 @@
 <template>
   <div class="information">
-    <div class="padding20 border4">
-      <div class="step">
-        <m-icon class="icon" type="information/step3" :width="98" :height="28" />
-        <span>(&nbsp;A total of 4 steps are required&nbsp;)</span>
+    <div class="step">
+      <complete-step :actionIndex="2"></complete-step>
+    </div>
+
+    <div class="edit-area">
+      <div class="line-item">
+        <label>Type of Accommodation</label>
+        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Contacts Info" itemAttrs="houseType" @choose="chooseEditData" />
       </div>
-      <div class="edit-area">
-        <div class="head-top">Contacts Info</div>
-        <div class="head">Type of Accommodation</div>
-        <div class="line-item">
-          <select-item :items="ALL_ATTRS.ACCOMMODATION" itemAttrs="houseType" @choose="chooseEditData" />
-        </div>
-        <div class="head">Number of Children</div>
-        <div class="line-item">
-          <select-item :items="ALL_ATTRS.CHILDREN" itemAttrs="childNum" @choose="chooseEditData" />
-        </div>
-        <div class="head">Pay Method</div>
-        <div class="line-item">
-          <select-item :items="ALL_ATTRS.PAY_METHOD" itemAttrs="incomeWay" @choose="chooseEditData" />
-        </div>
+      <div class="line-item">
+        <label>Number of Children</label>
+        <select-item :items="ALL_ATTRS.CHILDREN" title="Number of Children" itemAttrs="childNum" @choose="chooseEditData" />
+      </div>
+      <div class="line-item">
+        <label>Pay Method</label>
+        <select-item :items="ALL_ATTRS.PAY_METHOD" title="Pay Method" itemAttrs="incomeWay" @choose="chooseEditData" />
       </div>
     </div>
 
-    <div class="edit-area padding20 border4">
-      <div class="head">Select Family Member</div>
+    <div class="edit-area">
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.RELATION_SHIPS" itemAttrs="familyRelation" @choose="chooseEditData" />
+        <label>Select Family Member</label>
+        <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" itemAttrs="familyRelation" @choose="chooseEditData" />
       </div>
 
-      <div class="head">Phone No.</div>
       <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')">
-        <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
-        <m-icon class="icon" type="right" :width="8" :height="12" />
+        <label>Phone No.</label>
+        <div>
+          <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
+          <m-icon class="icon" type="right" :width="8" :height="12" />
+        </div>
       </div>
       <div class="line-item">
-        <input id="familyName" v-model="editData.familyName" placeholder="Please enter Name1" />
+        <label>His or Her Name</label>
+        <input v-model="editData.familyName" placeholder="Please enter" />
+      </div>
+
+      <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
+        <label>Phone No.</label>
+        <div>
+          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
+          <m-icon class="icon" type="right" :width="8" :height="12" />
+        </div>
+      </div>
+      <div class="line-item">
+        <label>friendName</label>
+        <input v-model="editData.friendName" placeholder="Please enter" />
       </div>
     </div>
 
-    <div class="edit-area padding20">
-      <div class="head">Friends No.</div>
-      <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
-        <input id="friendPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
-        <m-icon class="icon" type="right" :width="8" :height="12" />
-      </div>
-      <div class="line-item">
-        <input id="friendName" v-model="editData.friendName" placeholder="Please enter friend’s name" />
-      </div>
-    </div>
     <div class="submit">
-      <button :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -65,10 +67,12 @@
 <script>
 import selectItem from '@/components/select-item';
 import * as ALL_ATTRS from '@/config/typeConfig';
+import CompleteStep from '@/components/complete-step.vue';
 
 export default {
   components: {
     selectItem,
+    CompleteStep,
   },
   watch: {
     editData: {
@@ -83,13 +87,16 @@ export default {
     window.backBtnHandler = async data => {
       this.showMessageBox({
         content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'Yes',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
         confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
           this.hideMessageBox();
           this.goAppBack();
         },
-        iconPath: 'message/question',
-        showClose: true,
+        iconPath: 'handy/确定退出嘛',
       });
     };
 
@@ -135,6 +142,7 @@ export default {
     choosePhone(type) {
       this.toAppMethod('choosePhone', { type });
     },
+
     async submit() {
       if (this.saving) return;
       this.saving = true;
@@ -155,7 +163,8 @@ export default {
           mobile: saveData.friendPhone,
         });
         saveData.contacts = contacts;
-        let data = await this.$http.post(`/clyb/bchpufd/ewca`, saveData);
+        // TODO 这里bug报错 没有联系人信息
+        let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           this.eventTracker('contact_submit_success');
@@ -176,16 +185,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
+  padding: 20px 24px;
   padding-bottom: 110px;
-
-  .padding20 {
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .border4 {
-    border-bottom: 4px solid #f4f4f4;
-  }
+  min-height: 100%;
+  background: #f6f6f6;
+  padding-top: 0;
+  height: 100%;
+  box-sizing: border-box;
   .submit-success {
     position: fixed;
     z-index: 222;
@@ -220,80 +226,64 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    button {
-      margin: 20px 20px 20px;
-      height: 48px;
-      width: 320px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 900;
-      background: #1143a4;
-      color: #fff;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-sizing: border-box;
-      padding: 0;
-      &:disabled {
-        background: #e9e9e9;
-        color: #999999;
-      }
-    }
+    background: #f6f6f6;
   }
   .step {
-    margin-top: 25px;
-    margin-bottom: 30px;
-    font-size: 10px;
-    font-weight: 400;
-    color: #87a0d1;
-    line-height: 18px;
-    display: flex;
-    align-items: end;
-    .icon {
-      margin-right: 6px;
-    }
-    span {
-      transform: scale(0.9);
-    }
+    padding-top: 10px;
+    margin-bottom: 32px;
   }
+
   .edit-area {
-    .head-top {
-      font-size: 18px;
-      font-weight: 500;
-      color: #333333;
-      line-height: 26px;
-      margin-bottom: 20px;
-    }
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 0 16px;
+    margin-bottom: 16px;
     .head {
       font-size: 14px;
       color: #000;
       line-height: 18px;
       margin-bottom: 10px;
     }
+
     .line-item {
-      margin-bottom: 20px;
       font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e3e3e3;
+      height: 52px;
+      &:last-child {
+        border-bottom: none;
+      }
+      label {
+        font-size: 14px;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+        flex-shrink: 0;
+        margin-right: 10px;
+      }
       input {
         width: 100%;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid #cccccc;
-        padding: 0 20px;
+        height: 100%;
+        border: none;
+        text-align: right;
+        padding: 0 0px;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;
-        background: #fff;
       }
-      &.phone-select-wrapper {
-        position: relative;
-        .icon {
-          position: absolute;
-          right: 20px;
-          top: 50%;
-          transform: translateY(-50%);
+    }
+
+    .phone-select-wrapper {
+      > div {
+        display: flex;
+        align-items: center;
+        input {
+          background: transparent;
+        }
+        img {
+          margin-left: 8px;
         }
       }
     }

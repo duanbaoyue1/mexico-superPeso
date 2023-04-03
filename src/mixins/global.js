@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import { dateFormat } from '@/utils/mUtils';
+import { ImagePreview } from 'vant';
 
 export default {
   data() {
@@ -35,11 +36,19 @@ export default {
   methods: {
     ...mapActions(['showMessageBox', 'hideMessageBox']),
     async getUserInfo() {
-      let data1 = await this.$http.post(`/clyb/iuurv`);
-      let data2 = await this.$http.post(`/clyb/iuurf`);
-      let userInfo = { ...data1.data, ...data2.data };
+      let data = await this.$http.post(`/api/user/info`);
+      let userInfo = data.data;
       console.log('set user info', userInfo);
       this.$store.commit('setUserInfo', userInfo);
+      return userInfo;
+    },
+
+    previewImg(imgs, startIndex) {
+      if (!imgs || !imgs.length || startIndex < 0) return;
+      ImagePreview({
+        images: imgs,
+        startPosition: startIndex,
+      });
     },
 
     validateEmail(email) {
@@ -127,15 +136,14 @@ export default {
     },
 
     async getAppMode() {
-      let data1 = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahv`);
-      let data2 = await this.$http.post(`/xiaqpdt/bmzxwlxmjhahf`);
-      let appMode = { ...data1.data, ...data2.data };
+      let data = await this.$http.post(`/api/product/appMaskModel`);
+      let appMode = data.data;
       return appMode;
     },
 
     async getOrderRelateUrl(orderId) {
       try {
-        let data = await this.$http.post(`/zihai/mvecvmjtyyfojfp`, { orderId: orderId });
+        let data = await this.$http.post(`/api/order/getRepaymentUrl`, { orderId: orderId });
         return data.data;
       } catch (error) {
         console.error(error);

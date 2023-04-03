@@ -209,7 +209,41 @@ const routes = [
           title: 'Complaints',
         },
       },
-
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/home/home.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
+      {
+        path: 'order-list',
+        name: 'order-list',
+        component: () => import(/* webpackChunkName: "order-list" */ '../views/order-list.vue'),
+        meta: {
+          title: 'All orders',
+        },
+      },
+      {
+        path: 'repayment',
+        name: 'repayment',
+        component: () => import(/* webpackChunkName: "repayment" */ '../views/home/repayment.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
+      {
+        path: 'mine',
+        name: 'mine',
+        component: () => import(/* webpackChunkName: "mine" */ '../views/home/mine.vue'),
+        meta: {
+          title: '',
+          keepAlive: true,
+        },
+      },
       {
         path: 'testa',
         name: 'testa',
