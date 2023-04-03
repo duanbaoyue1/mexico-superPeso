@@ -1,31 +1,7 @@
 <template>
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
-    <p>刷新次数: {{ count }}</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    <p>刷新次数</p>
-    
+    <p>query:</p>
+    <div>{{ query }}</div>
   </van-pull-refresh>
 </template>
 
@@ -33,6 +9,7 @@
 export default {
   data() {
     return {
+      query: this.$route.query,
       loading: false,
       count: 1,
     };
