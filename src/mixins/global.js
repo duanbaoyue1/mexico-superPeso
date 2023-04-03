@@ -40,6 +40,7 @@ export default {
       let userInfo = data.data;
       console.log('set user info', userInfo);
       this.$store.commit('setUserInfo', userInfo);
+      return userInfo;
     },
 
     previewImg(imgs, startIndex) {

@@ -132,6 +132,9 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       top: -70px;
+      img {
+        width: 192px;
+      }
     }
     .stars {
       display: flex;

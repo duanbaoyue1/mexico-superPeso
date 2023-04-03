@@ -80,7 +80,7 @@ export default {
       }
       if (data.success) {
         this.canSubmit = true;
-        this.panFrontBase64Src = `data:image/png;base64,${data.base64}`;
+        this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
       }
     };
 
@@ -89,7 +89,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64}`);
+        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64[0]}`);
       }
     };
 

@@ -7,7 +7,7 @@
       </div>
       <div>
         <div class="head">E-mail</div>
-        <div class="item">EasyMoneyCS01@outlook.com</div>
+        <div class="item">{{ feedEmail }}</div>
       </div>
     </div>
 
@@ -31,6 +31,7 @@
 export default {
   data() {
     return {
+      feedEmail: 'EasyMoneyCS01@outlook.com',
       questions: [
         {
           desc: 'Why was my loan application rejected?',
@@ -63,6 +64,17 @@ export default {
       ],
     };
   },
+  mounted() {
+    setTimeout(async () => {
+      try {
+        let user = await this.getUserInfo();
+        if (parseInt(user.id) % 2 == 1) {
+          this.feedEmail = 'EasyMoneyCS03@outlook.com';
+        }
+      } catch (error) {}
+    }, 200);
+  },
+
   methods: {
     showAnswer(index) {
       this.$set(this.questions, index, { ...this.questions[index], showAnswer: !this.questions[index].showAnswer });

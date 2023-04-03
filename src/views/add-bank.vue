@@ -3,7 +3,7 @@
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Name</div>
-        <input v-model="userInfo.aadhaarName" placeholder="Please enter your name" />
+        <input v-model="userInfo.panName" placeholder="Please enter your name" />
       </div>
       <div class="line-item">
         <div class="label">
@@ -78,7 +78,7 @@ export default {
           return;
         }
         let saveData = { ...this.editData };
-        saveData.name = this.userInfo.aadhaarName;
+        saveData.name = this.userInfo.panName;
         delete saveData.accountNumberConfirm;
 
         if (saveData.ifsc.length != 11) {

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="no-data" v-if="!lists.length">
+    <div class="no-data" v-if="!loading && !lists.length">
       <img :src="require('@/assets/img/complain/No Order@2x.png')" />
       No record
     </div>
-    <div class="complains" v-else>
+    <div class="complains" v-else-if="!loading">
       <div class="complains-item" v-for="item in lists" :key="item.id">
         <div class="head">
           <span>No.{{ item.id }}</span>
@@ -27,7 +27,7 @@
             <div class="img" v-for="(img, index) in item.imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }" @click="previewImg(item.imgs, index)"></div>
           </div>
         </div>
-        <div class="status">{{ item.statusMsg }}</div>
+        <div class="status" :class="{ success: item.submitStatus == 1 }">{{ item.submitStatus == 0 ? 'Your complaint is being sent to RBI, please be patient' : 'Your complaint has been received and processed by RBI' }}</div>
       </div>
     </div>
   </div>
@@ -37,6 +37,7 @@
 export default {
   data() {
     return {
+      loading: false,
       lists: [],
     };
   },
@@ -47,6 +48,8 @@ export default {
 
   methods: {
     async getLists() {
+      this.loading = true;
+      this.showLoading();
       try {
         let res = await this.$http.post(`/api/user/complaintRecord`);
         this.lists = (res.data.list || []).map(t => {
@@ -62,7 +65,11 @@ export default {
           }
           return t;
         });
-      } catch (error) {}
+      } catch (error) {
+      } finally {
+        this.hideLoading();
+        this.loading = false;
+      }
     },
   },
 };
@@ -92,7 +99,7 @@ export default {
     border-bottom: 6px solid #f4f4f4;
     &:last-child {
       border-bottom: none;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
     }
 
     .head {
