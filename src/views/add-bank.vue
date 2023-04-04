@@ -3,7 +3,7 @@
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Name</div>
-        <input v-model="userInfo.panName" placeholder="Please enter your name" />
+        <input v-model="userInfo.panName" disabled placeholder="Please enter your name" />
       </div>
       <div class="line-item">
         <div class="label">

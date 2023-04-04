@@ -13,9 +13,26 @@
       </transition>
 
       <van-tabbar route name="fade" v-if="showNav">
-        <van-tabbar-item replace to="/home" icon="home-o">Loans</van-tabbar-item>
-        <van-tabbar-item replace to="/repayment" icon="search">Repayment</van-tabbar-item>
-        <van-tabbar-item replace to="/mine" icon="search">Me</van-tabbar-item>
+        <van-tabbar-item replace to="/home">
+          <span>Loans</span>
+          <template #icon="props">
+            <m-icon :type="props.active ? 'handy/Loans点击@2x' : 'handy/Loans未点击@2x'" class="nav-icon" :width="24" :height="24" />
+          </template>
+        </van-tabbar-item>
+
+        <van-tabbar-item replace to="/repayment" badge="5">
+          <span>Repayment</span>
+          <template #icon="props">
+            <m-icon :type="props.active ? 'handy/Repayment点击@2x' : 'handy/Repayment未点击@2x'" class="nav-icon" :width="22" :height="24" />
+          </template>
+        </van-tabbar-item>
+
+        <van-tabbar-item replace to="/mine">
+          <span>Me</span>
+          <template #icon="props">
+            <m-icon :type="props.active ? 'handy/我的点击@2x' : 'handy/我的未点击@2x'" class="nav-icon" :width="22" :height="24" />
+          </template>
+        </van-tabbar-item>
       </van-tabbar>
     </div>
   </div>
@@ -31,27 +48,17 @@ export default {
     ...mapState(['isAppChecked']),
   },
   data() {
-    window.updateData = async data => {
-      // 上传抓取日志
-      try {
-        this.$http.post(`/api/userCollect/uploadCaptureLog`, {
-          userId: '8101000010',
-          appName: 'easyMoney',
-          orderId: '1111111',
-          type: '111',
-          msg: data,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     return {
       showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
     };
   },
-  mounted() {},
+  mounted() {
+    setTimeout(res => {
+      this.getUserInfo();
+    }, 500);
+    this.toAppMethod('syncAppData', { type: 0, callbackMethodName: `onSyncAppData` });
+  },
   watch: {
     $route(to, from) {
       document.body.style.overflow = '';
@@ -72,8 +79,6 @@ export default {
       }
       if (to.query.appChecked || sessionStorage.getItem('app-checked')) {
         this.setAppChecked(true);
-      } else {
-        this.checkInApp();
       }
     },
   },
@@ -85,25 +90,6 @@ export default {
         this.setAppGlobal(JSON.parse(appLocal));
       }
     },
-
-    checkInApp() {
-      if (process.env.NODE_ENV != 'production') {
-        return;
-      }
-      let appCheckTimeout = setTimeout(() => {
-        this.setAppChecked(false);
-      }, 2000);
-      let that = this;
-      window.appValidate = function (appGlobal) {
-        if (typeof appGlobal === 'string') {
-          appGlobal = JSON.parse(appGlobal);
-        }
-        console.log('set app global', appGlobal);
-        that.setAppGlobal(appGlobal);
-        clearTimeout(appCheckTimeout);
-        that.setAppChecked(true);
-      };
-    },
   },
 };
 </script>
@@ -112,7 +98,6 @@ export default {
 .has-tab {
   padding-bottom: 80px;
 }
-
 .fade-enter {
   opacity: 0;
 }

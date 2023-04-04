@@ -27,7 +27,7 @@
             <div class="img" v-for="(img, index) in item.imgs" :key="img" :style="{ backgroundImage: 'url(' + img + ')' }" @click="previewImg(item.imgs, index)"></div>
           </div>
         </div>
-        <div class="status" :class="{ success: item.submitStatus == 1 }">{{ item.submitStatus == 0 ? 'Your complaint is being sent to RBI, please be patient' : 'Your complaint has been received and processed by RBI' }}</div>
+        <div class="status" :class="{ success: item.submitStatus == 1 }">{{ statusMsg(item) }}</div>
       </div>
     </div>
   </div>
@@ -40,6 +40,14 @@ export default {
       loading: false,
       lists: [],
     };
+  },
+  
+  computed: {
+    statusMsg() {
+      return item => {
+        return item.submitStatus == 0 ? `Your complaint is being sent to ${item.feedbackMechanism}, please be patient` : `Your complaint has been received and processed by ${item.feedbackMechanism}`;
+      };
+    },
   },
 
   mounted() {
@@ -168,6 +176,7 @@ export default {
       line-height: 18px;
       padding: 10px;
       margin-top: 20px;
+      word-break: break-word;
       &.success {
         color: #04ca1c;
         background: #e5fae8;
