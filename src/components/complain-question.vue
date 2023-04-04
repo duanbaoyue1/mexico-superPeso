@@ -1,5 +1,5 @@
 <template>
-  <div class="complain-question">
+  <div class="complain-question" @click="clickArea">
     <div class="complain-question-content">
       <m-icon class="close" type="close" :width="15" :height="15" @click="hide" />
       <div class="head">Please select the type of question</div>
@@ -20,6 +20,11 @@ export default {
   methods: {
     hide() {
       this.$emit('update:show', false);
+    },
+    clickArea(e) {
+      if (!e.target.closest('.complain-question-content')) {
+        this.hide();
+      }
     },
     choose(question) {
       this.hide();
