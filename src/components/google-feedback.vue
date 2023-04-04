@@ -13,11 +13,11 @@
       <div class="input-area">
         <div v-if="curStar >= 4">Five-star reviews can improve the passing rate!</div>
         <div v-else>
-          <textarea maxlength="100" v-model="comments" placeholder="Please leave your feedback, we will read and feedback carefully!"></textarea>
+          <textarea maxlength="100" v-model="comments" @keyup="changeContent" placeholder="Please leave your feedback, we will read and feedback carefully!"></textarea>
         </div>
       </div>
       <div class="submit">
-        <button @click="submit">Submit</button>
+        <button @click="submit">{{ curStar > 3 ? 'TO GP post comments' : 'Submit' }}</button>
       </div>
 
       <m-icon class="close" type="close-round" :width="24" :height="24" @click="hide" />
@@ -41,6 +41,11 @@ export default {
     },
     hide() {
       this.$emit('update:show', false);
+    },
+    changeContent() {
+      if (this.comments.trim() == '') {
+        this.comments = '';
+      }
     },
     async submit() {
       if (this.curStar >= 4) {
