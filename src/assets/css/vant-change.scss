@@ -21,3 +21,22 @@
     line-height: 30px;
   }
 }
+
+.van-tabbar {
+  height: 80px;
+  .van-tabbar-item__icon {
+    margin-bottom: 8px;
+  }
+  .van-tabbar-item__text {
+    font-size: 12px;
+    font-weight: 500;
+    color: #999999;
+    // margin-top: 8px;
+  }
+
+  .van-tabbar-item--active {
+    .van-tabbar-item__text {
+      color: #fc3122;
+    }
+  }
+}
