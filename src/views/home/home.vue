@@ -7,7 +7,10 @@
     <div>{{ query.token }}</div>
 
     <button class="btn-default" @click="goTestb">跳转页面B</button>
+<<<<<<< HEAD
     <button class="btn-default" @click="goDetail">跳转订单详情</button>
+=======
+>>>>>>> f20657bd5237de4e3c0685de318e432da0ed97b4
   </van-pull-refresh>
 </template>
 
