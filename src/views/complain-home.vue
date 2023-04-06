@@ -4,7 +4,7 @@
     <div class="select">
       <button @click="changeType('EasyMoney')">EasyMoney</button>
       <button @click="changeType('RBI')">RBI</button>
-      <button @click="changeType('Online complaint platform')">Online complaint platform</button>
+      <button @click="changeType('National Consumer Helpline')">National Consumer Helpline</button>
     </div>
     <div class="warm-tips">
       <div class="head">Warm Tips</div>

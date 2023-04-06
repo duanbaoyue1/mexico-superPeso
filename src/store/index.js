@@ -21,8 +21,10 @@ export default new Vuex.Store({
       gaId: '', // gaid
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
+      androidId: '',
       gps: '', // gps坐标
       appVersionV: '1.0.0', // 带1.1.1 这种格式的版本号
+      StatusBarHeight: 60, //app Height高度
     },
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中

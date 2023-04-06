@@ -4,16 +4,21 @@
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
     </div> -->
+    <button @click="getCommonParametersKey">获取APP原生公共参数</button>
+    <button @click="openNewPage">打开一个新页面</button>
+    <button @click="openNewPageFinishOld">开启新页面 销毁上一个</button>
+    <button @click="logout">退出</button>
+
     <button @click="getCapture(3)">上传身份证+活体</button>
-    <br />
     <button @click="getCapture(4)">活体识别</button>
-    <br />
     <button @click="getCapture(5)">上传本地图片</button>
-    <br />
-    <button>
+    <button @click="eventTracker">打点</button>
+    <button @click="crawlData">开始抓取数据</button>
+    <button @click="goGoogleStore">跳转google store</button>
+
+    <!-- <button>
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
-    </button>
-    <br />
+    </button> -->
 
     <p>上传结果图片：</p>
     <div class="preview">
@@ -27,6 +32,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 export default {
   name: 'home',
   data() {
@@ -71,6 +78,65 @@ export default {
   },
 
   methods: {
+    ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
+    openNewPage() {
+      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: this.$route.query.type } });
+      this.toAppMethod('openNewPage', { pathUrl: routeInfo });
+    },
+    crawlData() {
+      window.onCrawlAppList = data => {
+        alert('收到onCrawlAppList data:' + data.length);
+      };
+      window.onCrawlImageList = data => {
+        alert('收到onCrawlImageList data:' + data.length);
+      };
+      window.onCrawlContactsList = data => {
+        alert('收到onCrawlContactsList data:' + data.length);
+      };
+      window.onCrawlMsgList = data => {
+        alert('收到onCrawlMsgList data:' + data.length);
+      };
+      window.onCrawlDev = data => {
+        alert('收到onCrawlDev data:' + data.length);
+      };
+      window.onCrawlDevBase = data => {
+        alert('收到onCrawlDevBase data:' + data.length);
+      };
+      this.toAppMethod('crawlData', {
+        appListFunName: onCrawlAppList,
+        imageListFunName: onCrawlImageList,
+        contactsListFunName: onCrawlContactsList,
+        msgListFunName: onCrawlMsgList,
+        devFunName: onCrawlDev,
+        devBaseFunName: onCrawlDevBase,
+      });
+    },
+    goGoogleStore() {
+      this.toAppMethod('goGoogleStore');
+    },
+    openNewPageFinishOld() {
+      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: this.$route.query.type } });
+      this.toAppMethod('openNewPageFinishOld', { pathUrl: routeInfo });
+    },
+    getCommonParametersKey() {
+      window.getCommonParametersKeyCallback = data => {
+        if (typeof data == 'string') {
+          data = JSON.parse(data);
+        }
+        data.apiPrefix = data.apiHost;
+        data.appVersion = data.appVersionCode;
+        data.appVersionV = data.appVersionName;
+        this.setAppGlobal(data);
+        alert('更新App信息:');
+        alert(JSON.stringify(this.appGlobal));
+      };
+      this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
+    },
+
+    eventTracker() {
+      this.eventTracker('init');
+    },
+
     getCapture(type) {
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
@@ -144,5 +210,9 @@ export default {
   width: 100%;
   transform: rotate(0deg);
   transform-origin: center center;
+}
+button {
+  display: block;
+  margin: 10px;
 }
 </style>

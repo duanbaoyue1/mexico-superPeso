@@ -138,7 +138,7 @@ export default {
             white-space: nowrap;
           }
           &:nth-child(2) {
-            margin-left: 30px;
+            margin-left: 20px;
           }
         }
       }

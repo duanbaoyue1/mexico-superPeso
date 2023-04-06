@@ -5,6 +5,9 @@
 
     <p>query.token:</p>
     <div>{{ query.token }}</div>
+
+    <button class="btn-default" @click="goTestb">跳转页面B</button>
+    <button class="btn-default" @click="goDetail">跳转订单详情</button>
   </van-pull-refresh>
 </template>
 
@@ -22,13 +25,32 @@ export default {
   },
   created() {
     this.setGlobalData();
+    this.getCommonParametersKey();
   },
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
+    goTestb() {
+      this.innerJump('testb');
+    },
+    goDetail() {
+      this.innerJump('order-detail');
+    },
 
+    // 调用app方法获取所有参数
+    getCommonParametersKey() {
+      window.getCommonParametersKeyCallback = data => {
+        if (typeof data == 'string') {
+          data = JSON.parse(data);
+        }
+        data.apiPrefix = data.apiHost;
+        data.appVersion = data.appVersionCode;
+        data.appVersionV = data.appVersionName;
+        this.setAppGlobal(data);
+      };
+      this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
+    },
     setGlobalData() {
       if (this.from == 'bridge') {
-        console.log(this.query);
         this.setAppGlobal(this.query);
       }
       this.setAppChecked(true);

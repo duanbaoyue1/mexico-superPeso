@@ -48,31 +48,30 @@ export default {
       }
     },
     async submit() {
-      if (this.curStar >= 4) {
-        this.toAppMethod('goGoogleStore');
-        this.$emit('update:show', false);
-      } else {
-        if (!this.comments.length) {
-          this.$toast('Please enter comments or suggestions');
-          return;
-        }
-        try {
-          this.showLoading();
-          let res = await this.$http.post(`/api/product/saveFavourableComment`, {
-            grade: this.curStar,
-            content: this.comments,
-          });
-          if (res.returnCode == 2000) {
-            this.$toast('submit success!');
-            setTimeout(res => {
-              this.$emit('update:show', false);
-            }, 1000);
+      if (this.curStar <= 3 && !this.comments.length) {
+        this.$toast('Please enter comments or suggestions');
+        return;
+      }
+
+      try {
+        this.showLoading();
+        let res = await this.$http.post(`/api/product/saveFavourableComment`, {
+          grade: this.curStar,
+          content: this.comments,
+        });
+        if (res.returnCode == 2000) {
+          this.$toast('submit success!');
+          if (this.curStar >= 4) {
+            this.toAppMethod('goGoogleStore');
           }
-        } catch (error) {
-          this.$toast(error.message);
-        } finally {
-          this.hideLoading();
+          setTimeout(res => {
+            this.$emit('update:show', false);
+          }, 1000);
         }
+      } catch (error) {
+        this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },
