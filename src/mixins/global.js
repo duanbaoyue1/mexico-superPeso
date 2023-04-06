@@ -57,6 +57,10 @@ export default {
       return reg.test(email);
     },
 
+    logout() {
+      this.toAppMethod('outLogin');
+    },
+
     mergeTwoArray(arr1, arr2) {
       let arr = [];
       arr1.forEach((item, index) => {
@@ -221,7 +225,7 @@ export default {
 
     // app埋点
     eventTracker(key) {
-      this.toAppMethod('eventTrack', { key: key });
+      this.toAppMethod('afLogEvent', { key: key });
     },
 
     sumArr(arr) {
@@ -236,7 +240,7 @@ export default {
     },
 
     goAppBack() {
-      this.toAppMethod('goBack');
+      history.back();
     },
 
     parseQuery(query) {

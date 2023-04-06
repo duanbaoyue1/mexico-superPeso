@@ -16,7 +16,7 @@
        */
       /*后台填充参数 基本上所有参数都有用*/
       // 域名 后端下发HTML时填充
-      queryParams.apiPrefix = '{{hosts}}';
+      queryParams.apiHost = '{{hosts}}';
 
       // 平台 后端下发HTML时填充
       queryParams.platformValue = '{{platformValue}}';
@@ -48,11 +48,8 @@
       // mobileType 后端填充
       queryParams.mobileType = '{{mobileType}}';
 
-      // gps 后端填充
-      queryParams.gps = '{{gps}}';
-
-      // gpsAddress 后端填充
-      queryParams.gpsAddress = '{{gpsAddress}}';
+      // 公共参数高度
+      queryParams.StatusBarHeight = '{{StatusBarHeight}}'
 
       let queryKeyValue = [];
       Object.keys(queryParams).forEach(item => {
