@@ -7,6 +7,7 @@
     <div>{{ query.token }}</div>
 
     <button class="btn-default" @click="goTestb">跳转页面B</button>
+    <button class="btn-default" @click="goDetail">跳转订单详情</button>
   </van-pull-refresh>
 </template>
 
@@ -30,6 +31,9 @@ export default {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
     goTestb() {
       this.innerJump('testb');
+    },
+    goDetail() {
+      this.innerJump('order-detail');
     },
 
     // 调用app方法获取所有参数
