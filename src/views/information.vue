@@ -106,7 +106,7 @@ export default {
   },
   mounted() {
     this.eventTracker('basic_access');
-    this.toAppMethod('needBackControl', { need: true });
+    // this.toAppMethod('needBackControl', { need: true });
   },
   methods: {
     chooseEditData(data) {

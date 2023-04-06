@@ -29,7 +29,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     this.hideLoading();
-    this.toAppMethod('needBackControl', { need: false });
+    // this.toAppMethod('needBackControl', { need: false });
     next();
   },
 

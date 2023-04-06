@@ -51,6 +51,7 @@ export default {
     },
     setGlobalData() {
       if (this.from == 'bridge') {
+        console.log('sfsdf', this.query);
         this.setAppGlobal(this.query);
       }
       this.setAppChecked(true);
