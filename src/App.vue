@@ -57,13 +57,12 @@ export default {
     setTimeout(res => {
       this.getUserInfo();
     }, 500);
-    this.toAppMethod('syncAppData', { type: 0, callbackMethodName: `onSyncAppData` });
   },
   watch: {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-      this.toAppMethod('needBackControl', { need: false });
+      // this.toAppMethod('needBackControl', { need: false });
       this.showNav = NeedTabbarsPathNames.includes(to.name);
       try {
         this.hideLoading();

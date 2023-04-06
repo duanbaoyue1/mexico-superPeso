@@ -90,7 +90,7 @@ export default {
     this.getBanks();
 
     if (this.from == 'order') {
-      this.toAppMethod('needBackControl', { need: true });
+      // this.toAppMethod('needBackControl', { need: true });
     }
 
     // 银行卡选择后app抓取数据回调

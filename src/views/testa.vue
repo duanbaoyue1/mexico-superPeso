@@ -33,7 +33,7 @@ export default {
       }
     };
 
-    this.toAppMethod('needBackControl', { need: true });
+    // this.toAppMethod('needBackControl', { need: true });
 
     let res = await this.$http.post(`/api/user/smsLogin`, {
       loginName: '8101000010',

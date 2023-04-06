@@ -31,7 +31,7 @@
       queryParams.mobile = '{{mobile}}';
 
       // 包名 后端下发HTML时填充
-      queryParams.appName = '{{appName}}';
+      queryParams.appName = 'handyCash';
 
       // 版本 后端下发HTML时填充
       queryParams.appVersion = '{{appVersion}}';
@@ -56,7 +56,7 @@
         queryKeyValue.push(`${item}=${encodeURIComponent(queryParams[item])}`);
       });
       // 这里做真正的跳转
-      location.replace(`${h5_deploy_path}/#/home?${queryKeyValue.join('&')}&appChecked=true`);
+      location.replace(`${h5_deploy_path}/#/home?${queryKeyValue.join('&')}&appChecked=true&from=bridge`);
     </script>
   </body>
 </html>
