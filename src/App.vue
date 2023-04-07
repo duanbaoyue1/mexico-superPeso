@@ -17,7 +17,7 @@
         <van-tabbar-item replace to="/home">
           <span>Loans</span>
           <template #icon="props">
-            <m-icon :type="props.active ? 'handy/Loans点击' : 'handy/loans未点击'" class="nav-icon" :width="24" :height="24" />
+            <m-icon :type="props.active ? 'handy/Loans点击' : 'handy/Loans未点击'" class="nav-icon" :width="24" :height="24" />
           </template>
         </van-tabbar-item>
 

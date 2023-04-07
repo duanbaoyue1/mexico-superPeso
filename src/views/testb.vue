@@ -12,13 +12,13 @@
     <button @click="getCapture(3)">上传身份证+活体</button>
     <button @click="getCapture(4)">活体识别</button>
     <button @click="getCapture(5)">上传本地图片</button>
-    <button @click="eventTracker">打点</button>
+    <button @click="tracker">打点</button>
     <button @click="crawlData">开始抓取数据</button>
     <button @click="goGoogleStore">跳转google store</button>
 
-    <!-- <button>
+    <button>
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
-    </button> -->
+    </button>
 
     <p>上传结果图片：</p>
     <div class="preview">
@@ -104,12 +104,12 @@ export default {
         alert('收到onCrawlDevBase data:' + data.length);
       };
       this.toAppMethod('crawlData', {
-        appListFunName: onCrawlAppList,
-        imageListFunName: onCrawlImageList,
-        contactsListFunName: onCrawlContactsList,
-        msgListFunName: onCrawlMsgList,
-        devFunName: onCrawlDev,
-        devBaseFunName: onCrawlDevBase,
+        appListFunName: 'onCrawlAppList',
+        imageListFunName: 'onCrawlImageList',
+        contactsListFunName: 'onCrawlContactsList',
+        msgListFunName: 'onCrawlMsgList',
+        devFunName: 'onCrawlDev',
+        devBaseFunName: 'onCrawlDevBase',
       });
     },
     goGoogleStore() {
@@ -135,7 +135,7 @@ export default {
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },
 
-    eventTracker() {
+    tracker() {
       this.eventTracker('init');
     },
 
