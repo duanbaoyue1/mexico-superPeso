@@ -16,9 +16,9 @@
     <button @click="crawlData">开始抓取数据</button>
     <button @click="goGoogleStore">跳转google store</button>
 
-    <!-- <button>
+    <button>
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
-    </button> -->
+    </button>
 
     <p>上传结果图片：</p>
     <div class="preview">
@@ -104,12 +104,12 @@ export default {
         alert('收到onCrawlDevBase data:' + data.length);
       };
       this.toAppMethod('crawlData', {
-        appListFunName: onCrawlAppList,
-        imageListFunName: onCrawlImageList,
-        contactsListFunName: onCrawlContactsList,
-        msgListFunName: onCrawlMsgList,
-        devFunName: onCrawlDev,
-        devBaseFunName: onCrawlDevBase,
+        appListFunName: 'onCrawlAppList',
+        imageListFunName: 'onCrawlImageList',
+        contactsListFunName: 'onCrawlContactsList',
+        msgListFunName: 'onCrawlMsgList',
+        devFunName: 'onCrawlDev',
+        devBaseFunName: 'onCrawlDevBase',
       });
     },
     goGoogleStore() {
