@@ -9,7 +9,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['appGlobal', 'userInfo']),
+    ...mapState(['appGlobal', 'userInfo', 'tabBar']),
   },
 
   filters: {
@@ -34,7 +34,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showMessageBox', 'hideMessageBox']),
+    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar']),
     async getUserInfo() {
       let data = await this.$http.post(`/api/user/info`);
       let userInfo = data.data;

@@ -80,8 +80,9 @@ export default {
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
     openNewPage() {
-      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: this.$route.query.type } });
-      this.toAppMethod('openNewPage', { pathUrl: routeInfo });
+      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
+      console.log(`${location.origin}/${routeInfo.href}`);
+      this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
     },
     crawlData() {
       window.onCrawlAppList = data => {
@@ -115,8 +116,9 @@ export default {
       this.toAppMethod('goGoogleStore');
     },
     openNewPageFinishOld() {
-      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: this.$route.query.type } });
-      this.toAppMethod('openNewPageFinishOld', { pathUrl: routeInfo });
+      let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
+      console.log(`${location.origin}/${routeInfo.href}`);
+      this.toAppMethod('openNewPageFinishOld', { pathUrl: `${location.origin}/${routeInfo.href}` });
     },
     getCommonParametersKey() {
       window.getCommonParametersKeyCallback = data => {
@@ -187,7 +189,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style lang="scss" scoped>
 .home {
   width: 200px;
   margin: 0 auto;

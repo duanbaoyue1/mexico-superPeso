@@ -2,7 +2,8 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <div v-else class="app-inner" :class="{ 'has-tab': showNav }">
+    <div v-else class="app-inner" :class="{ 'has-tab': showNav, 'has-nav': tabBar.show }">
+      <nav-bar v-if="tabBar.show" />
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
@@ -16,21 +17,21 @@
         <van-tabbar-item replace to="/home">
           <span>Loans</span>
           <template #icon="props">
-            <m-icon :type="props.active ? 'handy/Loans点击@2x' : 'handy/Loans未点击@2x'" class="nav-icon" :width="24" :height="24" />
+            <m-icon :type="props.active ? 'handy/Loans点击' : 'handy/loans未点击'" class="nav-icon" :width="24" :height="24" />
           </template>
         </van-tabbar-item>
 
         <van-tabbar-item replace to="/repayment" badge="5">
           <span>Repayment</span>
           <template #icon="props">
-            <m-icon :type="props.active ? 'handy/Repayment点击@2x' : 'handy/Repayment未点击@2x'" class="nav-icon" :width="22" :height="24" />
+            <m-icon :type="props.active ? 'handy/Repayment点击' : 'handy/Repayment未点击'" class="nav-icon" :width="22" :height="24" />
           </template>
         </van-tabbar-item>
 
         <van-tabbar-item replace to="/mine">
           <span>Me</span>
           <template #icon="props">
-            <m-icon :type="props.active ? 'handy/我的点击@2x' : 'handy/我的未点击@2x'" class="nav-icon" :width="22" :height="24" />
+            <m-icon :type="props.active ? 'handy/Me点击' : 'handy/Me未点击'" class="nav-icon" :width="22" :height="24" />
           </template>
         </van-tabbar-item>
       </van-tabbar>
@@ -64,6 +65,10 @@ export default {
       document.title = to.meta.title || '';
       // this.toAppMethod('needBackControl', { need: false });
       this.showNav = NeedTabbarsPathNames.includes(to.name);
+      if (this.showNav) {
+        this.setTabBar({ show: false });
+      }
+
       try {
         this.hideLoading();
       } catch (error) {}
@@ -94,9 +99,6 @@ export default {
 </script>
 
 <style lang="scss">
-.has-tab {
-  padding-bottom: 80px;
-}
 .fade-enter {
   opacity: 0;
 }

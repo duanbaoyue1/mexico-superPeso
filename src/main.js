@@ -19,6 +19,8 @@ Vue.use(toast);
 import loading from '@/components/loading';
 Vue.use(loading);
 
+import NavBar from '@/components/nav-bar';
+Vue.component('nav-bar', NavBar);
 
 import MessageBox from '@/components/message-box';
 Vue.component('message-box', MessageBox);

@@ -26,6 +26,13 @@ export default new Vuex.Store({
       appVersionV: '1.0.0', // 带1.1.1 这种格式的版本号
       StatusBarHeight: 60, //app Height高度
     },
+    tabBar: {
+      show: true,
+      title: '',
+      transparent: false,
+      fixed: false,
+      backCallback: null
+    },
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
   },
@@ -60,11 +67,19 @@ export default new Vuex.Store({
       sessionStorage.setItem('app-checked', true);
       state.isAppChecked = data;
     },
+    setTabBar(state, data) {
+      state.tabBar = {
+        ...state.tabBar,
+        ...data,
+      };
+      console.log('setTabBar', data, state.tabBar);
+    },
   },
   getters: {
     appGlobal: state => state.appGlobal,
     userInfo: state => state.userInfo,
     isAppChecked: state => state.isAppChecked,
+    tabBar: state => state.tabBar
   },
   actions: {
     async setAppGlobal({ commit }, data) {
@@ -85,6 +100,9 @@ export default new Vuex.Store({
     async updateToken({ commit }, token) {
       console.log('update token', token);
       commit('setAppGlobal', { token });
+    },
+    async setTabBar({ commit }, tabBar) {
+      commit('setTabBar', tabBar);
     },
   },
   modules: {},

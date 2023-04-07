@@ -1,5 +1,5 @@
 <template>
-  <div class="loan-confirm">
+  <div class="loan-confirm content-area">
     <div class="loan-info">
       <div class="item">
         <span>Repayment</span>
@@ -50,6 +50,14 @@ export default {
       },
       deep: true,
     },
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Loan Applications',
+    });
   },
   data() {
     return {

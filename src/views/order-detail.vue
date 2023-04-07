@@ -1,10 +1,5 @@
 <template>
-  <div class="order-detail" v-show="loadinged" :class="'order_' + detail.orderStatus">
-    <van-nav-bar class="transparent" fixed title="Order Details" left-text="返回" @click-left="goAppBack">
-      <template #left>
-        <m-icon type="handy/返回" :width="16" :height="16"/>
-      </template>
-    </van-nav-bar>
+  <div class="order-detail content-area" v-show="loadinged" :class="'order_' + detail.orderStatus">
     <div class="status-text">{{ orderStatusText }}</div>
 
     <div class="order-info">
@@ -158,6 +153,14 @@ export default {
       }
     },
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: true,
+      fixed: true,
+      title: 'Order Details',
+    });
+  },
   data() {
     // /**
     //  * 创建
@@ -248,6 +251,10 @@ export default {
           console.log('update choosed', this.choosed);
         }
       } catch (error) {}
+    },
+
+    backC() {
+      console.log('backC');
     },
 
     async repay() {
@@ -435,7 +442,6 @@ export default {
   }
 
   .status-text {
-    padding-top: 76px;
     font-size: 20px;
     font-weight: bold;
     color: #ffffff;
