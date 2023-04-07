@@ -12,7 +12,7 @@
     <button @click="getCapture(3)">上传身份证+活体</button>
     <button @click="getCapture(4)">活体识别</button>
     <button @click="getCapture(5)">上传本地图片</button>
-    <button @click="eventTracker">打点</button>
+    <button @click="tracker">打点</button>
     <button @click="crawlData">开始抓取数据</button>
     <button @click="goGoogleStore">跳转google store</button>
 
@@ -135,7 +135,7 @@ export default {
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },
 
-    eventTracker() {
+    tracker() {
       this.eventTracker('init');
     },
 
