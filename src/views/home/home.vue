@@ -1,13 +1,15 @@
 <template>
   <van-pull-refresh class="home" v-model="loading" @refresh="onRefresh">
-    <p>query:</p>
-    <div>{{ query }}</div>
+    <div class="home-content">
+      <p>query:</p>
+      <div>{{ query }}</div>
 
-    <p>query.token:</p>
-    <div>{{ query.token }}</div>
+      <p>query.token:</p>
+      <div>{{ query.token }}</div>
 
-    <button class="btn-default" @click="goTestb">跳转页面B</button>
-    <button class="btn-default" @click="goDetail">跳转订单详情</button>
+      <button class="btn-default" @click="goTestb">跳转页面B</button>
+      <button class="btn-default" @click="goDetail">跳转订单详情</button>
+    </div>
   </van-pull-refresh>
 </template>
 
@@ -71,5 +73,16 @@ export default {
 <style lang="scss" scoped>
 .home {
   height: 100%;
+  &-content {
+    height: 100%;
+    background-image: url(../../assets/img/handy/首页背景带字.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 375px 420px;
+    background-color: #f6f6f6;
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding: 150px 24px 0;
+  }
 }
 </style>

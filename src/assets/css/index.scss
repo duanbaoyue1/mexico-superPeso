@@ -8,7 +8,7 @@ body .app {
   font-family: Arial, Helvetica, 'STHeiti STXihei', 'Microsoft YaHei', Tohoma, sans-serif;
   background-color: $background-color;
   height: 100%;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
 body,
@@ -221,7 +221,7 @@ textarea:-ms-input-placeholder {
   color: #1143a4;
 }
 .color-orange {
-  color: #FC3122 !important;
+  color: #fc3122 !important;
 }
 .align-end {
   align-items: flex-end !important;
@@ -257,5 +257,18 @@ textarea:-ms-input-placeholder {
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
     color: #999999;
     box-shadow: none;
+  }
+}
+
+.has-nav {
+  .content-area {
+    // TODO 这里高度需要配置
+    padding-top: 80px !important;
+  }
+}
+
+.has-tab {
+  .web-layout {
+    height: calc(100% - 80px);
   }
 }

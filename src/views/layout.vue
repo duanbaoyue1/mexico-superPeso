@@ -1,6 +1,6 @@
 <template>
   <div class="web-layout">
-    <router-view />
+    <router-view class="true-" />
     <message-box />
   </div>
 </template>
