@@ -7,10 +7,10 @@
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
-          <router-view id="view" v-if="$route.meta.keepAlive" />
+          <router-view id="view" />
         </keep-alive>
         <!-- 这里是不被缓存的视图组件 -->
-        <router-view v-if="!$route.meta.keepAlive" />
+        <router-view id="view" v-else />
       </transition>
 
       <van-tabbar route name="fade" v-if="showNav">
@@ -21,7 +21,7 @@
           </template>
         </van-tabbar-item>
 
-        <van-tabbar-item replace to="/repayment" badge="5">
+        <van-tabbar-item replace to="/repayment" badge="5" v-if="showRepayment">
           <span>Repayment</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'handy/Repayment点击' : 'handy/Repayment未点击'" class="nav-icon" :width="22" :height="24" />
@@ -46,20 +46,33 @@ const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
 export default {
   name: 'app',
   computed: {
-    ...mapState(['isAppChecked']),
+    ...mapState(['isAppChecked', 'appMode']),
   },
   data() {
     return {
+      showRepayment: !!localStorage.getItem('app-is-multi'),
       showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
     };
   },
-  mounted() {
+  async mounted() {
     setTimeout(res => {
       this.getUserInfo();
-    }, 500);
+    }, 200);
   },
   watch: {
+    'appMode.maskModel': {
+      handler(newVal, oldVal) {
+        if (this.appMode && typeof this.appMode.maskModel != 'undefined') {
+          if (this.appMode.maskModel == 1) {
+            this.showRepayment = true;
+          }
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
@@ -68,7 +81,6 @@ export default {
       if (this.showNav) {
         this.setTabBar({ show: false });
       }
-
       try {
         this.hideLoading();
       } catch (error) {}

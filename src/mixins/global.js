@@ -9,7 +9,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['appGlobal', 'userInfo', 'tabBar']),
+    ...mapState(['appGlobal', 'userInfo', 'tabBar', 'appMode']),
   },
 
   filters: {
@@ -34,7 +34,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar']),
+    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar', 'setAppMode']),
     async getUserInfo() {
       let data = await this.$http.post(`/api/user/info`);
       let userInfo = data.data;
@@ -58,6 +58,7 @@ export default {
     },
 
     logout() {
+      console.log('logout');
       this.toAppMethod('outLogin');
     },
 

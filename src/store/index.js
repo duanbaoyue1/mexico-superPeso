@@ -31,7 +31,10 @@ export default new Vuex.Store({
       title: '',
       transparent: false,
       fixed: false,
-      backCallback: null
+      backCallback: null,
+    },
+    appMode: {
+      
     },
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
@@ -74,12 +77,16 @@ export default new Vuex.Store({
       };
       console.log('setTabBar', data, state.tabBar);
     },
+    setAppMode(state, data) {
+      state.appMode = data;
+    },
   },
   getters: {
     appGlobal: state => state.appGlobal,
     userInfo: state => state.userInfo,
     isAppChecked: state => state.isAppChecked,
-    tabBar: state => state.tabBar
+    tabBar: state => state.tabBar,
+    appMode: state => state.appMode,
   },
   actions: {
     async setAppGlobal({ commit }, data) {
@@ -103,6 +110,9 @@ export default new Vuex.Store({
     },
     async setTabBar({ commit }, tabBar) {
       commit('setTabBar', tabBar);
+    },
+    async setAppMode({ commit }, appMode) {
+      commit('setAppMode', appMode);
     },
   },
   modules: {},

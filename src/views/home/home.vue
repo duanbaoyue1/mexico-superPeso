@@ -4,24 +4,24 @@
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
           <div class="available-text">Available Amount (₹)</div>
-          <div class="number">6,000</div>
+          <div class="number">{{ appMode.availableCredit || 10000 }}</div>
           <div class="total-used">
             <div>
               <div class="label">Total Credit (₹)</div>
-              <div class="number">6,000</div>
+              <div class="number">{{ appMode.totalCredit }}</div>
             </div>
             <div>
               <div class="label">Used Credit (₹)</div>
-              <div class="number">0</div>
+              <div class="number">{{ appMode.usedCredit }}</div>
             </div>
           </div>
-          <div class="action-btn">
-            <div class="status-tips">Please repay first and unlock a higher loan amount</div>
+          <div class="action-btn" @click="clickApply">
+            <div class="status-tips" v-if="btnTips">{{ btnTips }}</div>
             {{ actionText }}
           </div>
         </div>
 
-        <div class="multi-select" v-if="isMultiple">
+        <div class="multi-select" v-if="isMultiple" @click="showRecommend = true">
           <span>Customized Solutions</span>
           <div>
             <span :class="{ 'has-num': selectProductsNum > 0 }">{{ selectProductsNum }} products</span>
@@ -30,32 +30,71 @@
         </div>
       </div>
     </div>
+
+    <van-action-sheet v-model="showRecommend" close-on-click-action>
+      <div class="pop-content">
+        <m-icon class="close" type="handy/关闭弹窗" :width="20" :height="20" @click="showRecommend = false" />
+        <multi-recommend @update="updateMultiSelect"></multi-recommend>
+      </div>
+    </van-action-sheet>
   </van-pull-refresh>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import MultiRecommend from '@/components/multi-recommend.vue';
 
 export default {
+  components: {
+    MultiRecommend,
+  },
   data() {
     return {
       query: this.$route.query,
       from: this.$route.query.from,
       loading: false,
-      selectProductsNum: 6,
-      count: 1,
+      selectProductsNum: 0,
+      selectItem: [],  // 多推选中的产品
       isMultiple: true, // 是否多推首页
+      showRecommend: false,
+      actionText: 'Apply',
+      btnTips: '',
     };
   },
-  computed: {
-    actionText() {
-      return 'Apply';
+  computed: {},
+
+  watch: {
+    'appMode.maskModel': {
+      handler(newVal, oldVal) {
+        if (this.appMode && typeof this.appMode.maskModel != 'undefined') {
+          if (this.appMode.maskModel == 1) {
+            // 多推
+            localStorage.setItem('app-is-multi', true);
+            this.getMultiRecommendItems();
+          } else {
+            // 现金贷
+          }
+        }
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  created() {
+  async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
+    try {
+      this.showLoading();
+      let appMode = await this.getAppMode();
+      this.setAppMode(appMode);
+    } catch (error) {
+    } finally {
+      this.hideLoading();
+    }
   },
+
+  mounted() {},
+
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
 
@@ -72,28 +111,76 @@ export default {
       };
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },
+
     setGlobalData() {
       if (this.from == 'bridge') {
-        console.log('sfsdf', this.query);
         this.setAppGlobal(this.query);
       }
       this.setAppChecked(true);
     },
-    onRefresh() {
-      console.log('onRefresh');
-      setTimeout(() => {
+
+    async getMultiRecommendItems() {
+      try {
+        let res = await this.$http.post(`/api/product/mergeProduct/list`);
+        this.selectProductsNum = (res.data.mergPushProductList || []).length;
+      } catch (error) {}
+    },
+
+    async onRefresh() {
+      try {
+        let appMode = await this.getAppMode();
+        this.setAppMode(appMode);
+      } catch (error) {
+      } finally {
         this.$toast('刷新成功');
         this.loading = false;
-        this.count++;
-      }, 1000);
+      }
+    },
+
+    updateMultiSelect(selectItem) {
+      console.log(selectItem);
+      this.selectItem = selectItem;
+      this.selectProductsNum = selectItem.length;
+      // TODO 这里需要确认
+      this.appMode.availableCredit = selectItem.reduce((prev, cur, index, arr) => {
+        return prev + parseInt(cur.maxAmount);
+      }, 0);
+    },
+
+    async clickApply() {
+      if (this.appMode.maskModel == 1) {
+        // 多推
+        if (this.selectProductsNum > 0) {
+          // 直接申请多推
+          try {
+            let res = await this.$http.post(`/api/order/mergePush/apply`, {
+              orderIdList: this.selectItem.map(t => t.id),
+            });
+            if (res.returnCode == 2000) {
+              this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
+            }
+          } catch (error) {
+            this.$toast(error.message);
+          }
+        }
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.pop-content {
+  position: relative;
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+  }
+}
 .home {
   height: 100%;
+
   &-content {
     height: 100%;
     background-image: url(../../assets/img/handy/首页背景带字.png);
@@ -119,7 +206,7 @@ export default {
 
       &.multiple_true {
         background-color: #fff;
-        border-radius: 0px 0px 16px 16px;
+        border-radius: 16px;
 
         .multi-select {
           margin-top: 30px;
@@ -152,7 +239,7 @@ export default {
               border-radius: 20px;
               margin-right: 10px;
               &.has-num {
-                background: #FF4B3F;
+                background: #ff4b3f;
                 color: #fff;
               }
             }
@@ -168,6 +255,7 @@ export default {
         border-radius: 16px;
         padding: 24px 24px 20px;
         box-sizing: border-box;
+        position: relative;
 
         .available-text {
           font-size: 18px;
@@ -200,7 +288,10 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
+          position: absolute;
+          bottom: 14px;
+          left: 24px;
+
           .status-tips {
             position: absolute;
             background: #fbe396;
