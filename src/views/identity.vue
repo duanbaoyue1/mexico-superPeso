@@ -80,6 +80,7 @@ export default {
       }
       if (data.success) {
         this.canSubmit = true;
+        this.eventTracker('id_pan_front_success');
         this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
       }
     };
@@ -166,7 +167,7 @@ export default {
     },
 
     async showUploadSuccess() {
-      this.eventTracker('id_submit_success');
+      this.eventTracker('id_liveness_success');
       this.stopPercent();
       this.curPercent = 100;
       try {
@@ -175,6 +176,7 @@ export default {
         this.submitSuccess = false;
         // 跳转个人信息页
         console.log('订单创建结果:', res);
+        this.eventTracker('id_submit_create_order_success');
         this.innerJump('information', { orderId: res.data.orderId }, true);
       } catch (error) {
         this.$toast(error.message);
