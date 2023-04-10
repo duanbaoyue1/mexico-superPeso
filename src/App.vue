@@ -66,6 +66,9 @@ export default {
         if (this.appMode && typeof this.appMode.maskModel != 'undefined') {
           if (this.appMode.maskModel == 1) {
             this.showRepayment = true;
+          } else {
+            this.showRepayment = false;
+            localStorage.removeItem('app-is-multi')
           }
         }
       },

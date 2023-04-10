@@ -5,8 +5,16 @@
       <span class="name">{{ userInfo.panName }}</span>
     </div>
 
-    <div class="menu" @click="innerJump('order-list')">
-      <div>
+    <div class="menu">
+      <div @click="innerJump('order-list')">
+        <div>
+          <m-icon class="icon" type="handy/Receipt Account" :width="30" :height="30" />
+          All orders
+        </div>
+        <m-icon type="handy/进入" :width="8" :height="12" />
+      </div>
+
+      <div @click="innerJump('complete-bank')">
         <div>
           <m-icon class="icon" type="handy/Receipt Account" :width="30" :height="30" />
           Receipt Account

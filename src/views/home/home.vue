@@ -54,7 +54,7 @@ export default {
       from: this.$route.query.from,
       loading: false,
       selectProductsNum: 0,
-      selectItem: [],  // 多推选中的产品
+      selectItem: [], // 多推选中的产品
       isMultiple: true, // 是否多推首页
       showRecommend: false,
       actionText: 'Apply',
@@ -73,6 +73,7 @@ export default {
             this.getMultiRecommendItems();
           } else {
             // 现金贷
+            localStorage.removeItem('app-is-multi');
           }
         }
       },

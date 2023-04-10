@@ -12,11 +12,11 @@ export default new Vuex.Store({
       // https://pro.easy--money.com
       // apiPrefix: 'http://test.easy--money.com',
       apiPrefix: 'http://test.fin-handycash.com',
-      appName: 'easyMoney',
+      appName: 'handyCash',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
-      appVersion: 1010, // app版本号
+      appVersion: 1000, // app版本号
       afId: '', // afid
       gaId: '', // gaid
       gpsAddress: '', // gps地址
