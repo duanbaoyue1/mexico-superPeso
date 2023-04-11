@@ -181,6 +181,7 @@ export default {
         // 创建订单
         let res = await this.$http.post(`/api/product/appMaskModel`);
         this.submitSuccess = false;
+        console.log('创建订单信息结果:', res);
         // 跳转个人信息页
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');

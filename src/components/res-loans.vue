@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  props: ['systemTime', 'curNumbers'],
+  props: ['systemTime'],
 
   computed: {
     orderStatusText() {
