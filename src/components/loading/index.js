@@ -19,8 +19,10 @@ export default Vue => {
 
   function hideLoading() {
     try {
-      loadingDom.show = false;
       this.toAppMethod('dismissAppLoading');
+    } catch (error) {}
+    try {
+      loadingDom.show = false;
     } catch (error) {}
   }
   Vue.prototype.showLoading = showLoading;
