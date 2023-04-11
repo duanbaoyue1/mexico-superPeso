@@ -432,6 +432,7 @@ export default {
   background-color: #f6f6f6;
   height: 100%;
   box-sizing: border-box;
+  background-attachment: local;
   &.order_40,
   &.order_90 {
     background-image: url(../assets/img/handy/订单失败.png);

@@ -284,11 +284,12 @@ export default {
 }
 .home {
   height: 100%;
-  padding-bottom: 100px;
+  box-sizing: border-box;
 
   &-content {
     height: 100%;
     background-image: url(../../assets/img/handy/首页背景带字.png);
+    background-attachment: local;
     background-position: top;
     background-repeat: no-repeat;
     background-size: 375px 420px;
@@ -296,6 +297,7 @@ export default {
     box-sizing: border-box;
     overflow-y: auto;
     padding: 160px 0 0;
+    padding-bottom: 24px;
 
     .loan-wrapper {
       width: 343px;
