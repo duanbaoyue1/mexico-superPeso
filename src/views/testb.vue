@@ -142,7 +142,7 @@ export default {
         alert('更新App信息:');
         alert(JSON.stringify(this.appGlobal));
       };
-      this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
+      this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersKeyCallback' });
     },
 
     tracker() {

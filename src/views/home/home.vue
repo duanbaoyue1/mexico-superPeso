@@ -98,7 +98,7 @@ export default {
 
     // 调用app方法获取所有参数
     getCommonParametersKey() {
-      window.getCommonParametersKeyCallback = async data => {
+      window.getCommonParametersCallback = async data => {
         console.log('app 回调 getCommonParametersKeyCallback', data);
         if (typeof data == 'string') {
           data = JSON.parse(data);
@@ -116,7 +116,7 @@ export default {
           this.hideLoading();
         }
       };
-      this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
+      this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersCallback' });
     },
 
     updateTextAndAction() {
