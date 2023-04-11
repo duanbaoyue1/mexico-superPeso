@@ -114,6 +114,7 @@ export default {
         data.appVersion = data.appVersionCode;
         data.appVersionV = data.appVersionName;
         this.setAppGlobal(data);
+        console.log('app 回调 getCommonParametersKeyCallback', data);
       };
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },

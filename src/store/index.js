@@ -44,7 +44,6 @@ export default new Vuex.Store({
         ...state.appGlobal,
         ...data,
       };
-      console.log(state.appGlobal);
       localStorage.setItem('app-local', JSON.stringify(state.appGlobal));
     },
     showMessageBox(state, data) {
