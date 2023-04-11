@@ -1,5 +1,5 @@
 <template>
-  <div class="information">
+  <div class="information content-area">
     <div class="step">
       <complete-step :actionIndex="0"></complete-step>
     </div>
@@ -73,6 +73,30 @@ export default {
   components: {
     CompleteStep,
   },
+
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Complete information',
+      backCallback: () => {
+        this.showMessageBox({
+          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+          confirmBtnText: 'No',
+          cancelBtnText: 'Leave',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          cancelCallback: () => {
+            this.hideMessageBox();
+            this.goAppBack();
+          },
+          iconPath: 'handy/确定退出嘛',
+        });
+      },
+    });
+  },
   data() {
     window.onPhotoSelectCallback_3 = data => {
       if (typeof data == 'string') {
@@ -95,21 +119,7 @@ export default {
     };
 
     // 用户点击回退回调
-    window.backBtnHandler = async data => {
-      this.showMessageBox({
-        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'No',
-        cancelBtnText: 'Leave',
-        confirmCallback: () => {
-          this.hideMessageBox();
-        },
-        cancelCallback: () => {
-          this.hideMessageBox();
-          this.goAppBack();
-        },
-        iconPath: 'handy/确定退出嘛',
-      });
-    };
+    window.backBtnHandler = async data => {};
 
     return {
       canSubmit: false, // 是否可以提交
