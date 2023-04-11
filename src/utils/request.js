@@ -53,9 +53,12 @@ service.interceptors.request.use(
     console.log('baseURL:', store.getters.appGlobal.apiHost);
     console.log('token:', store.getters.appGlobal.token);
     config.headers['token'] = store.getters.appGlobal.token;
+    // TODO
     config.headers['channelCode'] = 'google';
     config.headers['mobileType'] = '2';
-    config.headers['gps'] = store.getters.appGlobal.gps;
+    // TODO
+    // config.headers['gps'] = store.getters.appGlobal.gps;
+    config.headers['gps'] = '104.033677,30.545549';
     config.headers['gpsAddress'] = store.getters.appGlobal.gpsAddress;
     config.headers['afId'] = store.getters.appGlobal.afId;
     config.headers['gaId'] = store.getters.appGlobal.gaId;
