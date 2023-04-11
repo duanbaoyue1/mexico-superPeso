@@ -10,8 +10,8 @@ export default new Vuex.Store({
     },
     appGlobal: {
       // https://pro.easy--money.com
-      // apiPrefix: 'http://test.easy--money.com',
-      apiPrefix: 'http://test.fin-handycash.com',
+      // apiHost: 'http://test.easy--money.com',
+      apiHost: 'http://test.fin-handycash.com',
       appName: 'handyCash',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式

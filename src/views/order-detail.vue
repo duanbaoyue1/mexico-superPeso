@@ -269,7 +269,7 @@ export default {
       this.innerJump('defer-detail', { orderId: this.orderId });
     },
     checkAgreement() {
-      location.href = `${this.appGlobal.apiPrefix}/api/h5/contract?orderNo=${this.orderId}`;
+      location.href = `${this.appGlobal.apiHost}/api/h5/contract?orderNo=${this.orderId}`;
     },
     goTutorial() {
       location.href = this.orderUrl.utrVideoUrl;

@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     checkAgreement() {
-      location.href = `${this.appGlobal.apiPrefix}/api/h5/contract?orderNo=${this.orderId}`;
+      location.href = `${this.appGlobal.apiHost}/api/h5/contract?orderNo=${this.orderId}`;
     },
     togglePolicy() {
       this.choosed = !this.choosed;

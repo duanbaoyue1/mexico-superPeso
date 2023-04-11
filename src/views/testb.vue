@@ -135,7 +135,7 @@ export default {
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
-        data.apiPrefix = data.apiHost;
+        delete api.apiHost;
         data.appVersion = data.appVersionCode;
         data.appVersionV = data.appVersionName;
         this.setAppGlobal(data);
