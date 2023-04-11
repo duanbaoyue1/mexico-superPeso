@@ -1,5 +1,5 @@
 <template>
-  <div class="information">
+  <div class="information content-area">
     <div class="step">
       <complete-step :actionIndex="2"></complete-step>
     </div>
@@ -74,6 +74,29 @@ export default {
     selectItem,
     CompleteStep,
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Complete information',
+      backCallback: () => {
+        this.showMessageBox({
+          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+          confirmBtnText: 'No',
+          cancelBtnText: 'Leave',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          cancelCallback: () => {
+            this.hideMessageBox();
+            this.goAppBack();
+          },
+          iconPath: 'handy/确定退出嘛',
+        });
+      },
+    });
+  },
   watch: {
     editData: {
       handler() {
@@ -83,23 +106,6 @@ export default {
     },
   },
   data() {
-    // 用户点击回退回调
-    window.backBtnHandler = async data => {
-      this.showMessageBox({
-        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'No',
-        cancelBtnText: 'Leave',
-        confirmCallback: () => {
-          this.hideMessageBox();
-        },
-        cancelCallback: () => {
-          this.hideMessageBox();
-          this.goAppBack();
-        },
-        iconPath: 'handy/确定退出嘛',
-      });
-    };
-
     window.choosePhoneCallback = data => {
       if (typeof data == 'string') {
         data = JSON.parse(data);

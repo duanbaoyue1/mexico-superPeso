@@ -1,5 +1,5 @@
 <template>
-  <div class="complete-bank">
+  <div class="complete-bank content-area">
     <template v-if="from == 'order'">
       <div class="step">
         <complete-step :actionIndex="3"></complete-step>
@@ -50,24 +50,34 @@ export default {
       deep: true,
     },
   },
-  data() {
-    // 用户点击回退回调
-    window.backBtnHandler = async data => {
-      this.showMessageBox({
-        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-        confirmBtnText: 'No',
-        cancelBtnText: 'Leave',
-        confirmCallback: () => {
-          this.hideMessageBox();
-        },
-        cancelCallback: () => {
-          this.hideMessageBox();
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Complete information',
+      backCallback: () => {
+        if (this.from == 'order') {
+          this.showMessageBox({
+            content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+            confirmBtnText: 'No',
+            cancelBtnText: 'Leave',
+            confirmCallback: () => {
+              this.hideMessageBox();
+            },
+            cancelCallback: () => {
+              this.hideMessageBox();
+              this.goAppBack();
+            },
+            iconPath: 'handy/确定退出嘛',
+          });
+        } else {
           this.goAppBack();
-        },
-        iconPath: 'handy/确定退出嘛',
-      });
-    };
-
+        }
+      },
+    });
+  },
+  data() {
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
@@ -88,10 +98,6 @@ export default {
 
   mounted() {
     this.getBanks();
-
-    if (this.from == 'order') {
-      // this.toAppMethod('needBackControl', { need: true });
-    }
 
     // 银行卡选择后app抓取数据回调
     window.synDataCallback = async data => {

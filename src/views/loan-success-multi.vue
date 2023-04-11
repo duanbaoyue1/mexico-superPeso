@@ -1,5 +1,5 @@
 <template>
-  <div class="loan multi">
+  <div class="loan multi content-area">
     <div class="loan-tips">
       <m-icon class="icon" type="handy/成功" :width="130" :height="130" />
       <div class="title" v-if="this.loans.length > 0">
@@ -69,6 +69,24 @@ export default {
       deep: true,
     },
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Loan Applications',
+      backCallback: () => {
+        if (this.loans.length) {
+          this.showBackModal();
+        } else if (this.isSysNeedGoogle) {
+          this.nextStep = 'goBack';
+          this.showGoogleFeed = true;
+        } else {
+          this.goAppBack();
+        }
+      },
+    });
+  },
   data() {
     return {
       curNumbers: this.$route.query.curNumbers || 0, // 当前申请了多少条
@@ -94,17 +112,6 @@ export default {
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
-    // 用户点击回退回调
-    window.backBtnHandler = async data => {
-      if (this.loans.length) {
-        this.showBackModal();
-      } else if (this.isSysNeedGoogle) {
-        this.nextStep = 'goBack';
-        this.showGoogleFeed = true;
-      } else {
-        this.goAppBack();
-      }
-    };
 
     // 银行卡选择后app抓取数据回调
     window.synDataCallback = async data => {
@@ -450,6 +457,7 @@ export default {
       font-weight: 900;
       color: #ffffff;
       line-height: 24px;
+      margin-top: 40px;
     }
   }
 
