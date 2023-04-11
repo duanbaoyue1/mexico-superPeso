@@ -1,7 +1,7 @@
 <template>
   <div class="order-list content-area">
     <div class="has-order" v-if="orders.length">
-      <order-item class="order-item" v-for="item in orders" :order="item"></order-item>
+      <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
     </div>
     <div class="no-order" v-else-if="!loading">
       <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />

@@ -56,9 +56,9 @@ export default {
     };
   },
   async mounted() {
-    setTimeout(res => {
-      this.getUserInfo();
-    }, 200);
+    // setTimeout(res => {
+    //   this.getUserInfo();
+    // }, 200);
   },
   watch: {
     'appMode.maskModel': {
