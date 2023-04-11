@@ -2,7 +2,7 @@
   <div id="mine">
     <div class="user">
       <img :src="require('@/assets/img/handy/默认头像.png')" />
-      <span class="name">{{ userInfo.panName }}</span>
+      <span class="name">{{ userInfo.mobile | phoneHideFilter }}</span>
     </div>
 
     <div class="menu">
@@ -50,6 +50,22 @@
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           Log Out
+        </div>
+        <m-icon type="handy/进入" :width="8" :height="12" />
+      </div>
+
+      <div @click="innerJump('testb')">
+        <div>
+          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
+          testb
+        </div>
+        <m-icon type="handy/进入" :width="8" :height="12" />
+      </div>
+
+       <div @click="innerJump('order-detail')">
+        <div>
+          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
+          Order Detail
         </div>
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
