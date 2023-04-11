@@ -66,3 +66,13 @@
   top: 20px;
   background: transparent;
 }
+
+.van-pull-refresh__head {
+  position: fixed !important;
+  top: 60px;
+}
+
+.van-loading__spinner {
+  width: 30px !important;
+  height: 30px !important;
+}

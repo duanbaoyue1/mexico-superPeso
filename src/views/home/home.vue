@@ -1,5 +1,5 @@
 <template>
-  <van-pull-refresh class="home" v-model="loading" @refresh="onRefresh">
+  <van-pull-refresh class="home" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="onRefresh">
     <div class="home-content">
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
@@ -249,7 +249,7 @@ export default {
         await this.getAppMode();
       } catch (error) {
       } finally {
-        this.$toast('刷新成功');
+        // this.$toast('刷新成功');
         this.loading = false;
       }
     },
