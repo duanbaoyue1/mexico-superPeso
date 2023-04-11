@@ -99,13 +99,13 @@ export default {
     // 调用app方法获取所有参数
     getCommonParametersKey() {
       window.getCommonParametersKeyCallback = async data => {
+        console.log('app 回调 getCommonParametersKeyCallback', data);
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
         data.apiPrefix = data.apiHost;
         data.appVersion = data.appVersionCode;
         data.appVersionV = data.appVersionName;
-        console.log('app 回调 getCommonParametersKeyCallback', data);
         this.setAppGlobal(data);
         try {
           this.showLoading();
