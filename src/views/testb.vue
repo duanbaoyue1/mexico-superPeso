@@ -84,33 +84,43 @@ export default {
       console.log(`${location.origin}/${routeInfo.href}`);
       this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
     },
-    crawlData() {
-      window.onCrawlAppList = data => {
-        alert('收到onCrawlAppList data:' + data.length);
-      };
-      window.onCrawlImageList = data => {
-        alert('收到onCrawlImageList data:' + data.length);
-      };
-      window.onCrawlContactsList = data => {
-        alert('收到onCrawlContactsList data:' + data.length);
-      };
-      window.onCrawlMsgList = data => {
-        alert('收到onCrawlMsgList data:' + data.length);
-      };
-      window.onCrawlDev = data => {
-        alert('收到onCrawlDev data:' + data.length);
-      };
-      window.onCrawlDevBase = data => {
-        alert('收到onCrawlDevBase data:' + data.length);
-      };
-      this.toAppMethod('crawlData', {
-        appListFunName: 'onCrawlAppList',
-        imageListFunName: 'onCrawlImageList',
-        contactsListFunName: 'onCrawlContactsList',
-        msgListFunName: 'onCrawlMsgList',
-        devFunName: 'onCrawlDev',
-        devBaseFunName: 'onCrawlDevBase',
-      });
+    async crawlData() {
+      this.showLoading();
+      try {
+        let res = await this.startSyncData(true);
+        console.log('sync success', res);
+      } catch (error) {
+        console.log('sync error', error)
+      } finally {
+        this.hideLoading();
+      }
+
+      // window.onCrawlAppList = data => {
+      //   alert('收到onCrawlAppList data:' + data.length);
+      // };
+      // window.onCrawlImageList = data => {
+      //   alert('收到onCrawlImageList data:' + data.length);
+      // };
+      // window.onCrawlContactsList = data => {
+      //   alert('收到onCrawlContactsList data:' + data.length);
+      // };
+      // window.onCrawlMsgList = data => {
+      //   alert('收到onCrawlMsgList data:' + data.length);
+      // };
+      // window.onCrawlDev = data => {
+      //   alert('收到onCrawlDev data:' + data.length);
+      // };
+      // window.onCrawlDevBase = data => {
+      //   alert('收到onCrawlDevBase data:' + data.length);
+      // };
+      // this.toAppMethod('crawlData', {
+      //   appListFunName: 'onCrawlAppList',
+      //   imageListFunName: 'onCrawlImageList',
+      //   contactsListFunName: 'onCrawlContactsList',
+      //   msgListFunName: 'onCrawlMsgList',
+      //   devFunName: 'onCrawlDev',
+      //   devBaseFunName: 'onCrawlDevBase',
+      // });
     },
     goGoogleStore() {
       this.toAppMethod('goGoogleStore');

@@ -58,7 +58,6 @@ export default {
     },
 
     logout() {
-      console.log('logout');
       this.toAppMethod('outLogin');
     },
 
@@ -180,7 +179,6 @@ export default {
         console.log('no such callback method', `${name}_${this.appGlobal.appName}`);
       }
     },
-
     goPrivacy() {
       this.innerJump('privacy');
     },
@@ -188,7 +186,7 @@ export default {
       this.innerJump('terms');
     },
     goHelpCenter() {
-      this.$router.push({ name: 'help-center' });
+      this.innerJump('help-center');
     },
     todayHour() {
       var d = new Date();
@@ -211,7 +209,6 @@ export default {
       var cval = this.getCookie(name);
       if (cval != null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
     },
-
     // 获取两个两个日期转换成天
     daysDistance(date1, date2) {
       //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
@@ -223,27 +220,21 @@ export default {
       var days = Math.floor(ms / (24 * 3600 * 1000));
       return days;
     },
-
     // app埋点
     eventTracker(key) {
       this.toAppMethod('afLogEvent', { key: key });
     },
-
     sumArr(arr) {
       return arr.reduce(function (prev, cur) {
         return parseInt(prev) + parseInt(cur);
       }, 0);
     },
-
     goHome() {
-      // App方法
-      this.toAppMethod('goHome', { closeCurPage: true });
+      this.innerJump('home', {}, true);
     },
-
     goAppBack() {
       history.back();
     },
-
     parseQuery(query) {
       const arr1 = query.split('&');
       const arr = arr1.filter(item => {

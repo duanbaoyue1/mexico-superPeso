@@ -9,7 +9,6 @@
 import { mapActions, mapState } from 'vuex';
 export default {
   async mounted() {
-
     // 用户点击回退回调
     console.log('register window.backBtnHandler');
     window.backBtnHandler = async data => {
@@ -44,7 +43,7 @@ export default {
       androidId: '1111',
       imei: '2222',
     });
-    this.updateToken(res.data.token);
+    this.updateToken({ token: res.data.token, userId: res.data.userId });
   },
 
   methods: {

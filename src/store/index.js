@@ -17,6 +17,7 @@ export default new Vuex.Store({
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号
+      userId: '75755981f9241f8e181921d7d4347c94', // 用户id
       afId: '', // afid
       gaId: '', // gaid
       gpsAddress: '', // gps地址
@@ -33,9 +34,7 @@ export default new Vuex.Store({
       fixed: false,
       backCallback: null,
     },
-    appMode: {
-      
-    },
+    appMode: {},
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
   },
@@ -104,9 +103,9 @@ export default new Vuex.Store({
     async setAppChecked({ commit }, data) {
       commit('setAppChecked', data);
     },
-    async updateToken({ commit }, token) {
-      console.log('update token', token);
-      commit('setAppGlobal', { token });
+    async updateToken({ commit }, data) {
+      console.log('update token', data);
+      commit('setAppGlobal', data);
     },
     async setTabBar({ commit }, tabBar) {
       commit('setTabBar', tabBar);

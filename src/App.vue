@@ -94,7 +94,7 @@ export default {
         location.href = to.query.nextUrl;
       }
       if (to.query.token) {
-        this.updateToken(to.query.token);
+        this.updateToken({token: to.query.token});
       }
       if (to.query.appChecked || sessionStorage.getItem('app-checked')) {
         this.setAppChecked(true);

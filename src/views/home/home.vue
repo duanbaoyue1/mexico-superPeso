@@ -59,22 +59,27 @@ export default {
       showRecommend: false,
       actionText: 'Apply',
       btnTips: '',
+      actionCallback: null, // 按纽回调
     };
   },
   computed: {},
 
   watch: {
     'appMode.maskModel': {
-      handler(newVal, oldVal) {
+      async handler(newVal, oldVal) {
         if (this.appMode && typeof this.appMode.maskModel != 'undefined') {
           if (this.appMode.maskModel == 1) {
             // 多推
             localStorage.setItem('app-is-multi', true);
-            this.getMultiRecommendItems();
+            this.isMultiple = true;
+            await this.getMultiRecommendItems();
           } else {
             // 现金贷
+            this.isMultiple = false;
             localStorage.removeItem('app-is-multi');
           }
+          this.updateTextAndAction();
+          this.startSyncData();
         }
       },
       deep: true,
@@ -113,6 +118,116 @@ export default {
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },
 
+    updateTextAndAction() {
+      // 清除数据
+      this.btnTips = '';
+      this.actionText = 'Apply';
+      this.actionCallback = () => {
+        this.$toast('please try later!');
+      };
+
+      if (this.appMode.maskModel == 1) {
+        this.actionText = this.appMode.button;
+        if (this.appMode.button == 'Apply') {
+          // 有可借
+          this.actionCallback = async () => {
+            // 多推
+            if (this.selectProductsNum > 0) {
+              // 直接申请多推
+              try {
+                let res = await this.$http.post(`/api/order/mergePush/apply`, {
+                  orderIdList: this.selectItem.map(t => t.id),
+                });
+                if (res.returnCode == 2000) {
+                  this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
+                }
+              } catch (error) {
+                this.$toast(error.message);
+              }
+            }
+          };
+        } else if (this.appMode.button == 'Repay') {
+          // 有待还款或逾期，无可借
+          this.actionCallback = () => {
+            this.innerJump('repayment');
+          };
+        } else if (this.appMode.button == 'Reviewing' || this.appMode.button == 'Disbursing') {
+          // 无可借，订单全部放款中或者审核中
+          this.actionCallback = () => {
+            this.innerJump('order-list');
+          };
+        } else if (this.appMode.button == 'Rejected') {
+          // 无可借，订单全被拒绝
+          this.actionCallback = () => {
+            this.$toast('The order was rejected. Please try again after 0:00');
+          };
+        }
+      } else if (this.appMode.maskModel == 3) {
+        this.actionText = 'Apply';
+        //未认证跳转
+        if (this.appMode.identityAuth == 0) {
+          this.btnTips = '95%';
+          this.actionCallback = () => {
+            this.innerJump('identity');
+          };
+        } else if (this.appMode.basicInfoAuth == 0) {
+          this.btnTips = '96%';
+          this.actionCallback = () => {
+            this.innerJump('information');
+          };
+        } else if (this.appMode.addInfoAuth == 0) {
+          this.btnTips = '97%';
+          this.actionCallback = () => {
+            this.innerJump('contacts');
+          };
+        } else if (this.appMode.remittanceAccountAuth == 0) {
+          this.btnTips = '98%';
+          this.actionCallback = () => {
+            this.innerJump('complete-bank', { orderId: this.appMode.orderId });
+          };
+        } else {
+          this.btnTips = '99%';
+          this.actionCallback = () => {
+            this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
+          };
+        }
+      } else if (this.appMode.maskModel == 0) {
+        // 现金贷 已经存在订单
+        if (this.appMode.orderId && typeof this.appMode.orderStatus != 'undefined') {
+          // 默认都跳订单详情页
+          this.actionCallback = () => {
+            this.innerJump('order-detail', { orderId: this.appMode.orderId });
+          };
+
+          if (this.appMode.orderStatus == 20 || this.appMode.orderStatus == 21) {
+            // 订单审核中
+            this.actionText = 'Reviewing';
+          } else if (this.appMode.orderStatus == 80 || this.appMode.orderStatus == 90) {
+            // 待还款 | 逾期
+            this.actionText = 'Repay';
+          } else if (this.appMode.orderStatus == 40) {
+            // 拒绝
+            this.actionText = 'Rejected';
+            this.actionCallback = () => {
+              this.$toast('The order was rejected. Please try again after 0:00!');
+            };
+          } else if (this.appMode.orderStatus == 30 || this.appMode.orderStatus == 70) {
+            // 放款中
+            this.actionText = 'Disbursing';
+          } else {
+            // TODO 其它状态是不是跳申请页
+          }
+        } else {
+          // TODO 其它状态
+        }
+      } else if (this.appMode.maskModel == 2) {
+        this.actionText = 'Rejected';
+        this.actionCallback = () => {
+          this.$toast('The order was rejected. Please try again after 0:00!');
+        };
+      }
+    },
+
     setGlobalData() {
       if (this.from == 'bridge') {
         this.setAppGlobal(this.query);
@@ -149,21 +264,8 @@ export default {
     },
 
     async clickApply() {
-      if (this.appMode.maskModel == 1) {
-        // 多推
-        if (this.selectProductsNum > 0) {
-          // 直接申请多推
-          try {
-            let res = await this.$http.post(`/api/order/mergePush/apply`, {
-              orderIdList: this.selectItem.map(t => t.id),
-            });
-            if (res.returnCode == 2000) {
-              this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
-            }
-          } catch (error) {
-            this.$toast(error.message);
-          }
-        }
+      if (this.actionCallback) {
+        this.actionCallback();
       }
     },
   },
@@ -290,7 +392,7 @@ export default {
           align-items: center;
           justify-content: center;
           position: absolute;
-          bottom: 14px;
+          bottom: 20px;
           left: 24px;
 
           .status-tips {
