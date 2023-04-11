@@ -13,7 +13,7 @@ export default {
   data() {
     if (!window.isInitSyncData) {
       window.onappListFunName = async data => {
-        alert('收到onappListFunName data:' + JSON.stringify(data));
+        console('收到onappListFunName data:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
@@ -27,7 +27,7 @@ export default {
         }
       };
       window.onimageListFunName = async data => {
-        alert('收到onimageListFunName data:' + JSON.stringify(data));
+        console('收到onimageListFunName data:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
@@ -39,7 +39,7 @@ export default {
         }
       };
       window.oncontactsListFunName = async data => {
-        alert('收到oncontactsListFunName data:' + JSON.stringify(data));
+        console('收到oncontactsListFunName data:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
@@ -51,7 +51,7 @@ export default {
         }
       };
       window.msgListFunName = async data => {
-        alert('收到onmsgListFunName data:' + JSON.stringify(data));
+        console('收到onmsgListFunName data:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
@@ -60,7 +60,7 @@ export default {
         } catch (error) {}
       };
       window.ondevFunName = async data => {
-        alert('收到ondevFunName data:' + JSON.stringify(data));
+        console('收到ondevFunName data:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
@@ -72,7 +72,7 @@ export default {
         }
       };
       window.ondevBaseFunName = async data => {
-        alert('收到ondevBaseFunName:' + JSON.stringify(data));
+        console('收到ondevBaseFunName:' + JSON.stringify(data));
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
