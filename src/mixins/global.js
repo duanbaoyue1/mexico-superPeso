@@ -140,9 +140,14 @@ export default {
     },
 
     async getAppMode() {
-      let data = await this.$http.post(`/api/product/appMaskModel`);
-      let appMode = data.data;
-      return appMode;
+      try {
+        let data = await this.$http.post(`/api/product/appMaskModel`);
+        let appMode = data.data;
+        this.setAppMode(appMode);
+        return appMode;
+      } catch (error) {
+        return {};
+      }
     },
 
     async getOrderRelateUrl(orderId) {

@@ -89,14 +89,6 @@ export default {
   async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
-    try {
-      this.showLoading();
-      let appMode = await this.getAppMode();
-      this.setAppMode(appMode);
-    } catch (error) {
-    } finally {
-      this.hideLoading();
-    }
   },
 
   mounted() {},
@@ -106,15 +98,23 @@ export default {
 
     // 调用app方法获取所有参数
     getCommonParametersKey() {
-      window.getCommonParametersKeyCallback = data => {
+      window.getCommonParametersKeyCallback = async data => {
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
         data.apiPrefix = data.apiHost;
         data.appVersion = data.appVersionCode;
         data.appVersionV = data.appVersionName;
-        this.setAppGlobal(data);
         console.log('app 回调 getCommonParametersKeyCallback', data);
+        this.setAppGlobal(data);
+        try {
+          this.showLoading();
+          await this.getUserInfo();
+          await this.getAppMode();
+        } catch (error) {
+        } finally {
+          this.hideLoading();
+        }
       };
       this.toAppMethod('getCommonParametersKey', { fuName: 'getCommonParametersKeyCallback' });
     },
@@ -245,8 +245,7 @@ export default {
 
     async onRefresh() {
       try {
-        let appMode = await this.getAppMode();
-        this.setAppMode(appMode);
+        await this.getAppMode();
       } catch (error) {
       } finally {
         this.$toast('刷新成功');
