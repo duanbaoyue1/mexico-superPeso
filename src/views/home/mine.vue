@@ -1,5 +1,5 @@
 <template>
-  <div id="mine">
+  <div id="mine" class="content-area">
     <div class="user">
       <img :src="require('@/assets/img/handy/默认头像.png')" />
       <span class="name">{{ userInfo.mobile | phoneHideFilter }}</span>
@@ -114,6 +114,7 @@ export default {
 <style lang="scss" scoped>
 #mine {
   padding: 74px 24px 0;
+  padding-bottom: 100px;
 
   .logout {
     width: 295px;

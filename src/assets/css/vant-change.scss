@@ -61,3 +61,8 @@
 .van-overlay {
   z-index: 22 !important;
 }
+
+.van-nav-bar--fixed {
+  top: 20px;
+  background: transparent;
+}

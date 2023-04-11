@@ -284,6 +284,7 @@ export default {
 }
 .home {
   height: 100%;
+  padding-bottom: 100px;
 
   &-content {
     height: 100%;

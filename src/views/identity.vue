@@ -118,9 +118,6 @@ export default {
       }
     };
 
-    // 用户点击回退回调
-    window.backBtnHandler = async data => {};
-
     return {
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
@@ -201,15 +198,19 @@ export default {
         this.startPercent();
       }
       try {
-        // const file = this.base64ToFile(base64, new Date().getTime());
-        let formData = new FormData();
-        formData.append('channel', this.ocrChannel);
-        formData.append(fileName, base64);
-        formData.append('mark', type);
-
-        let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        // let formData = new FormData();
+        // formData.append('channel', this.ocrChannel);
+        // formData.append(fileName, base64);
+        // formData.append('mark', type);
+        // let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
+        //   headers: { 'Content-Type': 'multipart/form-data' },
+        // });
+        let saveData = {
+          channel: this.ocrChannel,
+          mark: type,
+        };
+        saveData[fileName] = base64;
+        let res = await this.$http.post(`/api/ocr/saveBase64Result`, saveData);
 
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
