@@ -166,9 +166,11 @@ export default {
         console.log('start method:', `${name}_${this.appGlobal.appName}`);
         console.log('params:', JSON.stringify(params));
         wjs[`${name}_${this.appGlobal.appName}`](JSON.stringify(params));
+        return true;
       } catch (error) {
         console.error(error);
         console.log('no such method:', `${name}_${this.appGlobal.appName}`);
+        return false;
       }
     },
 
