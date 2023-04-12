@@ -424,13 +424,12 @@ export default {
 }
 
 .order-detail {
-  padding-bottom: 130px;
+  padding-bottom: 100px;
   background-image: url(../assets/img/handy/订单等待.png);
   background-position: top;
   background-repeat: no-repeat;
   background-size: 375px 206px;
   background-color: #f6f6f6;
-  height: 100%;
   box-sizing: border-box;
   background-attachment: local;
   &.order_40,

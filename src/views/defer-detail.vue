@@ -245,7 +245,6 @@ export default {
   background-repeat: no-repeat;
   background-size: 375px 206px;
   background-color: #f6f6f6;
-  height: 100%;
   box-sizing: border-box;
 
   .defer-head {
