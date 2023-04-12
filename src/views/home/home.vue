@@ -185,7 +185,7 @@ export default {
         } else if (this.appMode.remittanceAccountAuth == 0) {
           this.btnTips = '98%';
           this.actionCallback = () => {
-            this.innerJump('complete-bank', { orderId: this.appMode.orderId });
+            this.innerJump('complete-bank', { orderId: this.appMode.orderId, from: 'order' });
           };
         } else if (this.appMode.orderId && typeof this.appMode.orderStatus != 'undefined') {
           // 默认都跳订单详情页
