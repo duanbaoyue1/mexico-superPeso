@@ -457,7 +457,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: transparent;
+    background-color: #f6f6f6;
 
     .btns {
       padding-top: 10px;

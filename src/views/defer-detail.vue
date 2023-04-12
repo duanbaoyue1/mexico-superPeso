@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-detail" v-show="loaded">
+  <div class="defer-detail content-area" v-show="loaded">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
       <p>Only pay for ₹{{ detail.amount }} today and you can defer {{ detail.extendedTerm }} days.</p>
@@ -83,6 +83,14 @@ export default {
       detail: '',
       orderUrl: '',
     };
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: true,
+      fixed: true,
+      title: 'Order Details',
+    });
   },
   async mounted() {
     this.getDetail();
