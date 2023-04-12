@@ -535,6 +535,10 @@ export default {
       font-weight: 400;
       color: #333333;
       line-height: 18px;
+      div {
+        display: flex;
+        align-items: center;
+      }
       &:last-child {
         margin-bottom: 0;
       }

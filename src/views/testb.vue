@@ -1,5 +1,5 @@
 <template>
-  <div class="home_index">
+  <div class="home_index content-area">
     <!-- <div class="home">
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
@@ -36,6 +36,31 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'home',
+  created() {
+    window.btnCallBack = () => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
+        confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'handy/确定退出嘛',
+      });
+    };
+
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Test',
+      backCallback: window.btnCallBack,
+    });
+  },
   data() {
     window.onPhotoSelectCallback_3 = data => {
       console.log(data);
@@ -76,6 +101,9 @@ export default {
       base64ImgData: null,
     };
   },
+  mounted() {
+    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'btnCallBack' });
+  },
 
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
@@ -90,7 +118,7 @@ export default {
         let res = await this.startSyncData(true);
         console.log('sync success', res);
       } catch (error) {
-        console.log('sync error', error)
+        console.log('sync error', error);
       } finally {
         this.hideLoading();
       }
