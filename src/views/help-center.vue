@@ -96,9 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 .help-center {
-  // background: #f4f4f4;
-  padding-bottom: 80px;
-
+  padding-bottom: 24px;
 
   .actions {
     position: fixed;
