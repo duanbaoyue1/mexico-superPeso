@@ -12,8 +12,8 @@
       </div>
       <div class="step-item">
         <img :src="require('@/assets/img/handy/进度条未点亮.png')" />
-        <div class="text">Application Date</div>
-        <div class="date">{{ detail.startTime }}</div>
+        <div class="text">Due Date</div>
+        <div class="date">{{ detail.updatedDueDate }}</div>
       </div>
     </div>
 
