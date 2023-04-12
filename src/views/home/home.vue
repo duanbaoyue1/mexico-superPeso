@@ -1,5 +1,5 @@
 <template>
-  <van-pull-refresh class="home" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="onRefresh">
+  <van-pull-refresh class="home" :disabled="disabledPullRefresh" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="onRefresh">
     <div class="home-content">
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
@@ -50,13 +50,14 @@ export default {
   },
   data() {
     return {
+      disabledPullRefresh: false,
       query: this.$route.query,
       from: this.$route.query.from,
       loading: false,
       selectProductsNum: 0,
       selectItem: [], // 多推选中的产品
       isMultiple: true, // 是否多推首页
-      showRecommend: false,
+      showRecommend: true,
       actionText: 'Apply',
       btnTips: '',
       actionCallback: null, // 按纽回调
@@ -91,6 +92,13 @@ export default {
           this.updateTextAndAction();
           this.startSyncData();
         }
+      },
+      deep: true,
+      immediate: true,
+    },
+    showRecommend: {
+      async handler(newVal, oldVal) {
+        this.disabledPullRefresh = !!this.showRecommend;
       },
       deep: true,
       immediate: true,
