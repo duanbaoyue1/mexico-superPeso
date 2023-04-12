@@ -4,4 +4,4 @@ http://localhost:8080/#/home?apiPrefix=http%3A%2F%2Ftest.fin-handycash.com&platf
 todo:
 1. 物理返回键拦截
 2. 部分页面是白色的
-3. 
+3. http://test.fin-handycash.com/api/product/mergeProduct/list  首页下拉请求了多次

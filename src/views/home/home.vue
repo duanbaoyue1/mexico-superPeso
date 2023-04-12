@@ -140,8 +140,8 @@ export default {
       };
 
       if (this.appMode.maskModel == 1) {
-        this.actionText = this.appMode.button;
-        if (this.appMode.button == 'Apply') {
+        this.actionText = this.appMode.button || 'Apply';
+        if (this.actionText == 'Apply') {
           // 有可借
           this.actionCallback = async () => {
             // 多推
@@ -159,17 +159,17 @@ export default {
               }
             }
           };
-        } else if (this.appMode.button == 'Repay') {
+        } else if (this.actionText == 'Repay') {
           // 有待还款或逾期，无可借
           this.actionCallback = () => {
             this.innerJump('repayment');
           };
-        } else if (this.appMode.button == 'Reviewing' || this.appMode.button == 'Disbursing') {
+        } else if (this.actionText == 'Reviewing' || this.actionText == 'Disbursing') {
           // 无可借，订单全部放款中或者审核中
           this.actionCallback = () => {
             this.innerJump('order-list');
           };
-        } else if (this.appMode.button == 'Rejected') {
+        } else if (this.actionText == 'Rejected') {
           // 无可借，订单全被拒绝
           this.actionCallback = () => {
             this.$toast('The order was rejected. Please try again after 0:00');
@@ -245,6 +245,7 @@ export default {
       try {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
         this.selectProductsNum = (res.data.mergPushProductList || []).length;
+        this.selectItem = res.data.mergPushProductList || [];
       } catch (error) {}
     },
 
@@ -271,7 +272,6 @@ export default {
     },
 
     updateMultiSelect(selectItem) {
-      console.log(selectItem);
       this.selectItem = selectItem;
       this.selectProductsNum = selectItem.length;
       // TODO 这里需要确认
