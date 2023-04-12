@@ -164,7 +164,7 @@ export default {
             this.$toast('The order was rejected. Please try again after 0:00');
           };
         }
-      } else if (this.appMode.maskModel == 3) {
+      } else if (this.appMode.maskModel == 3 || this.appMode.maskModel == 0) {
         this.actionText = 'Apply';
         //未认证跳转
         if (this.appMode.identityAuth == 0) {
@@ -187,15 +187,7 @@ export default {
           this.actionCallback = () => {
             this.innerJump('complete-bank', { orderId: this.appMode.orderId });
           };
-        } else {
-          this.btnTips = '99%';
-          this.actionCallback = () => {
-            this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
-          };
-        }
-      } else if (this.appMode.maskModel == 0) {
-        // 现金贷 已经存在订单
-        if (this.appMode.orderId && typeof this.appMode.orderStatus != 'undefined') {
+        } else if (this.appMode.orderId && typeof this.appMode.orderStatus != 'undefined') {
           // 默认都跳订单详情页
           this.actionCallback = () => {
             this.innerJump('order-detail', { orderId: this.appMode.orderId });
@@ -217,10 +209,11 @@ export default {
             // 放款中
             this.actionText = 'Disbursing';
           } else {
-            // TODO 其它状态是不是跳申请页
+            this.btnTips = '99%';
+            this.actionCallback = () => {
+              this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
+            };
           }
-        } else {
-          // TODO 其它状态
         }
       } else if (this.appMode.maskModel == 2) {
         this.actionText = 'Rejected';

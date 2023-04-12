@@ -114,6 +114,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.eventTracker('id_liveness_photo_submit');
         this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64[0]}`);
       }
     };
