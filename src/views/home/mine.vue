@@ -46,7 +46,7 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-      <div @click="showLogOut = true">
+      <div @click="logout">
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           Log Out
@@ -62,7 +62,7 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-       <div @click="innerJump('order-detail')">
+      <div @click="innerJump('order-detail')">
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           Order Detail
@@ -80,8 +80,6 @@
         </div>
       </div>
     </van-overlay>
-    <!-- <button class="btn-default" @click="goTestb">跳转页面B</button> -->
-    <!-- <button class="btn-default" @click="goDetail">跳转订单详情</button> -->
   </div>
 </template>
 <script>
