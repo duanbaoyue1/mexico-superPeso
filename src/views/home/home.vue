@@ -4,7 +4,7 @@
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
           <div class="available-text">Available Amount (₹)</div>
-          <div class="number">{{ appMode.availableCredit || appMode.amount }}</div>
+          <div class="number">{{ curAvailableAmount }}</div>
           <div class="total-used">
             <div>
               <div class="label">Total Credit (₹)</div>
@@ -62,7 +62,17 @@ export default {
       actionCallback: null, // 按纽回调
     };
   },
-  computed: {},
+  computed: {
+    curAvailableAmount() {
+      if (typeof this.appMode.availableCredit != 'undefined') {
+        return this.appMode.availableCredit;
+      } else if (typeof this.appMode.amount != 'undefined') {
+        return this.appMode.amount;
+      } else {
+        return 10000;
+      }
+    },
+  },
 
   watch: {
     'appMode.maskModel': {
