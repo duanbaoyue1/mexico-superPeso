@@ -4,7 +4,7 @@
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
           <div class="available-text">Available Amount (₹)</div>
-          <div class="number">{{ appMode.availableCredit || 10000 }}</div>
+          <div class="number">{{ appMode.availableCredit || appMode.amount }}</div>
           <div class="total-used">
             <div>
               <div class="label">Total Credit (₹)</div>
