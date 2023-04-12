@@ -192,11 +192,10 @@ export default {
 <style lang="scss" scoped>
 .information {
   padding: 20px 24px;
-  padding-bottom: 110px;
-  min-height: 100%;
+  padding-bottom: 94px;
+  overflow-y: auto;
   background: #f6f6f6;
   padding-top: 0;
-  height: 100%;
   box-sizing: border-box;
   .submit-success {
     position: fixed;
@@ -244,6 +243,7 @@ export default {
     border-radius: 8px;
     padding: 0 16px;
     margin-bottom: 16px;
+
     .head {
       font-size: 14px;
       color: #000;
