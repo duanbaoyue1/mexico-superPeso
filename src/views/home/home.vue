@@ -99,7 +99,6 @@ export default {
   async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
-    this.updateRepaymentNum();
   },
 
   mounted() {},
@@ -123,6 +122,7 @@ export default {
           this.showLoading();
           await this.getUserInfo();
           await this.getAppMode();
+          await this.updateRepaymentNum();
         } catch (error) {
         } finally {
           this.hideLoading();
