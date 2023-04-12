@@ -1,5 +1,5 @@
 <template>
-  <div class="complain-edit">
+  <div class="complain-edit content-area">
     <div class="head">Feedback agency</div>
     <div class="content">
       <input v-model="type" disabled />

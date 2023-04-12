@@ -1,5 +1,5 @@
 <template>
-  <div class="complain-home">
+  <div class="complain-home content-area">
     <div class="head">Select a feedback agency</div>
     <div class="select">
       <button @click="changeType('EasyMoney')">EasyMoney</button>

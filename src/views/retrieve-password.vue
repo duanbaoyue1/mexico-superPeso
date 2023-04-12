@@ -45,6 +45,14 @@ export default {
       deep: true,
     },
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Retrieve password',
+    });
+  },
   data() {
     return {
       canSubmit: false, // 是否可以提交

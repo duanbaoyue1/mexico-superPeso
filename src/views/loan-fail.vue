@@ -8,6 +8,19 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Loan Applications',
+    });
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .loan {
   .loan-tips {

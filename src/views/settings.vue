@@ -16,6 +16,14 @@
 
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Set up',
+    });
+  },
   data() {
     return {
       hasPassword: 0,

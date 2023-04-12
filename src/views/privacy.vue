@@ -1,5 +1,5 @@
 <template>
-  <div class="h5-content">
+  <div class="h5-content content-area">
     <div class="head">Privacy Policy</div>
 
     This Privacy Policy ("Policy") is written in accordance with the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011.
@@ -97,6 +97,14 @@
 
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Privacy',
+    });
+  },
   mounted() {},
 };
 </script>

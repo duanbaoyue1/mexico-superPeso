@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-area">
     <div class="no-data" v-if="!loading && !lists.length">
       <img :src="require('@/assets/img/complain/No Order@2x.png')" />
       No record
