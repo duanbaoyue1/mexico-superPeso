@@ -100,14 +100,65 @@ export default {
     this.getBanks();
 
     // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async data => {
-      if (typeof data == 'string') {
-        data = JSON.parse(data);
-      }
-      if (data.success) {
-        this.eventTracker('bank_submit_sync_success');
-        if (!this.saving) {
-          this.saving = true;
+    // window.synDataCallback = async data => {
+    //   if (typeof data == 'string') {
+    //     data = JSON.parse(data);
+    //   }
+    //   if (data.success) {
+    //     this.eventTracker('bank_submit_sync_success');
+    //     if (!this.saving) {
+    //       this.saving = true;
+    //       try {
+    //         await this.$http.post(`/api/order/bindRemittanceAccount`, {
+    //           orderId: this.orderId,
+    //           remittanceAccountId: this.choosedBankId,
+    //         });
+    //         this.eventTracker('bank_submit_success');
+    //         let appMode = await this.getAppMode();
+    //         if (appMode.confirmType == 1) {
+    //           // 需要进确认申请页
+    //           this.innerJump(
+    //             'loan-confirm',
+    //             {
+    //               orderId: this.orderId,
+    //             },
+    //             true
+    //           );
+    //         } else {
+    //           // 不需要进确认申请页
+    //           this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+    //         }
+    //       } catch (error) {
+    //         this.eventTracker('bank_submit_error');
+    //         this.$toast(error.message);
+    //       } finally {
+    //         this.saving = false;
+    //       }
+    //     } else {
+    //       this.eventTracker('bank_submit_waiting');
+    //     }
+    //   }
+    // };
+  },
+
+  methods: {
+    goAddCard() {
+      this.eventTracker('bank_add');
+      this.innerJump('add-bank', this.$route.query, true);
+    },
+    async getBanks() {
+      let data = await this.$http.post('/api/remittance/remittanceAccountList');
+      this.cards = data.data.list;
+      this.choosedBankId = this.cards[0].id;
+    },
+    chooseBank(bank) {
+      this.choosedBankId = bank.id;
+    },
+    async submit() {
+      this.showLoading();
+      try {
+        if (this.$route.query.from == 'order') {
+          this.eventTracker('bank_submit');
           try {
             await this.$http.post(`/api/order/bindRemittanceAccount`, {
               orderId: this.orderId,
@@ -131,37 +182,8 @@ export default {
           } catch (error) {
             this.eventTracker('bank_submit_error');
             this.$toast(error.message);
-          } finally {
-            this.saving = false;
           }
         } else {
-          this.eventTracker('bank_submit_waiting');
-        }
-      }
-    };
-  },
-
-  methods: {
-    goAddCard() {
-      this.eventTracker('bank_add');
-      this.innerJump('add-bank', this.$route.query, true);
-    },
-    async getBanks() {
-      let data = await this.$http.post('/api/remittance/remittanceAccountList');
-      this.cards = data.data.list;
-      this.choosedBankId = this.cards[0].id;
-    },
-    chooseBank(bank) {
-      this.choosedBankId = bank.id;
-    },
-    async submit() {
-      this.eventTracker('bank_submit');
-      try {
-        if (this.$route.query.from == 'order') {
-          // 从订单进来的, 需要先通知app方法
-          this.toAppMethod('synData', {});
-        } else {
-          this.showLoading();
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/api/remittance/modifyLoanCard`, {
             remittanceAccountId: this.choosedBankId,
