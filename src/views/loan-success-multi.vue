@@ -78,6 +78,7 @@ export default {
       backCallback: window.loanBtnCallback,
     });
   },
+
   data() {
     window.loanBtnCallback = () => {
       if (this.loans.length) {
@@ -228,7 +229,7 @@ export default {
       padding-top: 0;
       box-sizing: border-box;
       background: #ffffff;
-      border-radius: 24px;
+      border-radius: 8px;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -296,6 +297,11 @@ export default {
           border-radius: 20px;
           border: none;
           color: #fff;
+          font-size: 16px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #ffffff;
+          line-height: 20px;
         }
       }
     }
