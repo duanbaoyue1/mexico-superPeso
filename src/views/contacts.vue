@@ -25,10 +25,11 @@
         <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" itemAttrs="familyRelation" @choose="chooseEditData" />
       </div>
 
-      <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')">
+      <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')"> -->
+      <div class="line-item phone-select-wrapper">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
+          <input id="familyPhone" v-model="editData.familyPhone" type="number" placeholder="Please enter" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
@@ -37,10 +38,11 @@
         <input v-model="editData.familyName" placeholder="Please enter" />
       </div>
 
-      <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
+      <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')"> -->
+      <div class="line-item phone-select-wrapper">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
+          <input id="familyPhone" v-model="editData.friendPhone" type="number" placeholder="Please enter" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
