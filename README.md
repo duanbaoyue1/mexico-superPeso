@@ -5,3 +5,4 @@ todo:
 1. 物理返回键拦截
 2. 部分页面是白色的
 3. http://test.fin-handycash.com/api/product/mergeProduct/list  首页下拉请求了多次
+4. 单推多推切换需要优化

@@ -27,7 +27,7 @@
     </div>
 
     <!-- 没有推荐结果时显示 -->
-    <res-loans v-else class="res-loans" :systemTime="systemTime" :curNumbers="curNumbers"></res-loans>
+    <res-loans v-else class="res-loans" :systemTime="systemTime"></res-loans>
     <google-feedback v-show="showGoogleFeed" :show.sync="showGoogleFeed"></google-feedback>
 
     <div class="control-back" v-if="showBackControl">
@@ -90,7 +90,6 @@ export default {
       }
     };
     return {
-      curNumbers: this.$route.query.curNumbers || 0, // 当前申请了多少条
       needRecommend: JSON.parse(this.$route.query.needRecommend || true), // 是否需要推荐 从活动过来的不用推荐
       systemTime: this.$route.query.systemTime || '', // 上次订单时间
       single: JSON.parse(this.$route.query.single || false), // 是否是单推
@@ -107,41 +106,13 @@ export default {
   },
   mounted() {
     this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'loanBtnCallback' });
-    
+
     // 从系统读取是否需要弹google窗
     this.getNeedGoogle();
 
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
-
-    // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async data => {
-      if (typeof data == 'string') {
-        data = JSON.parse(data);
-      }
-      if (data.success) {
-        let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
-        try {
-          let data1 = await this.$http.post(`/api/order/mergePush/preApply`, {
-            orderNo: this.$route.query.orderId,
-            productList: loanIds,
-          });
-          if (data1.returnCode == 2000) {
-            await this.$http.post(`/api/order/mergePush/apply`, {
-              orderIdList: data1.data.orderIdList,
-            });
-            this.$toast('Apply successfully');
-            this.curNumbers = loanIds.length;
-            setTimeout(res => {
-              this.getRecommendLoans();
-            }, 1000);
-          }
-        } catch (error) {
-          this.$toast(error.message);
-        }
-      }
-    };
   },
   methods: {
     leave() {
@@ -216,7 +187,27 @@ export default {
     },
 
     async applyMulti() {
-      this.toAppMethod('synData', {});
+      let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
+      this.showLoading();
+      try {
+        let res = await this.$http.post(`/api/order/mergePush/preApply`, {
+          orderNo: this.$route.query.orderId,
+          productList: loanIds,
+        });
+        if (res.returnCode == 2000) {
+          await this.$http.post(`/api/order/mergePush/apply`, {
+            orderIdList: res.data.orderIdList,
+          });
+          this.$toast('Apply successfully');
+          setTimeout(res => {
+            this.getRecommendLoans();
+          }, 1000);
+        }
+      } catch (error) {
+        this.$toast(error.message);
+      } finally {
+        this.hideLoading();
+      }
     },
   },
 };

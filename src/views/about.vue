@@ -12,7 +12,7 @@
 <script>
 export default {
   mounted() {
-    // this.innerJump('identity', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime, needRecommend: false, curNumbers: this.$route.query.curNumbers }, true);
+    // this.innerJump('identity', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime, needRecommend: false }, true);
   },
 };
 </script>
