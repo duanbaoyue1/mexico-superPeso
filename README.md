@@ -6,3 +6,4 @@ todo:
 2. 部分页面是白色的
 3. http://test.fin-handycash.com/api/product/mergeProduct/list  首页下拉请求了多次
 4. 单推多推切换需要优化
+5. 多推首页推荐弹窗滚动有问题，

@@ -68,7 +68,7 @@ export default {
 .no-order {
   margin: 0 auto;
   .icon {
-    margin: 100px auto 40px;
+    margin: 80px auto 40px;
   }
   button {
     width: 327px;

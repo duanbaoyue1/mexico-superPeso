@@ -79,11 +79,15 @@ export default {
 <style lang="scss" scoped>
 .multi-recommend {
   width: 375px;
-  height: 732px;
-  overflow: hidden;
   background: #f6f6f6;
-  padding: 52px 0px 0px;
   box-sizing: border-box;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 180px;
+
   .select-all {
     width: 375px;
     height: 88px;
@@ -120,7 +124,7 @@ export default {
     .order-item {
       position: relative;
       padding: 16px;
-      margin: 0 24px 16px;
+      margin: 16px 24px;
       background: #fff;
 
       .action {
