@@ -40,6 +40,7 @@ export default {
       try {
         let res = await this.$http.post(`/api/order/unRepaymentOrderList`);
         this.orders = res.data.list || [];
+        this.setRepaymentNum(this.orders.length);
       } catch (error) {
       } finally {
         this.hideLoading();

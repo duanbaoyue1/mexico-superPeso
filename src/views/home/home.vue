@@ -99,6 +99,7 @@ export default {
   async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
+    this.updateRepaymentNum();
   },
 
   mounted() {},
@@ -244,7 +245,6 @@ export default {
       try {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
         this.selectProductsNum = (res.data.mergPushProductList || []).length;
-        this.setRepaymentNum((res.data.mergPushProductList || []).length);
       } catch (error) {}
     },
 
@@ -252,10 +252,21 @@ export default {
       try {
         await this.getAppMode();
         await this.getMultiRecommendItems();
+        await this.updateRepaymentNum();
       } catch (error) {
       } finally {
         // this.$toast('刷新成功');
         this.loading = false;
+      }
+    },
+
+    async updateRepaymentNum() {
+      try {
+        let res = await this.$http.post(`/api/order/unRepaymentOrderList`);
+        this.setRepaymentNum((res.data.list || []).length);
+      } catch (error) {
+        this.setRepaymentNum(0);
+      } finally {
       }
     },
 
