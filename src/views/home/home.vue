@@ -56,8 +56,8 @@ export default {
       loading: false,
       selectProductsNum: 0,
       selectItem: [], // 多推选中的产品
-      isMultiple: true, // 是否多推首页
-      showRecommend: true,
+      isMultiple: false, // 是否多推首页
+      showRecommend: false,
       actionText: 'Apply',
       btnTips: '',
       actionCallback: null, // 按纽回调
