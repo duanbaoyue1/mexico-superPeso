@@ -34,7 +34,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar', 'setAppMode']),
+    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar', 'setAppMode', 'setRepaymentNum']),
     async getUserInfo() {
       let data = await this.$http.post(`/api/user/info`);
       let userInfo = data.data;

@@ -21,7 +21,7 @@
           </template>
         </van-tabbar-item>
 
-        <van-tabbar-item replace to="/repayment" badge="5" v-if="showRepayment">
+        <van-tabbar-item replace to="/repayment" :badge="repaymentNum > 0? repaymentNum: ''" v-if="showRepayment">
           <span>Repayment</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'handy/Repayment点击' : 'handy/Repayment未点击'" class="nav-icon" :width="22" :height="24" />
@@ -46,7 +46,7 @@ const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
 export default {
   name: 'app',
   computed: {
-    ...mapState(['isAppChecked', 'appMode']),
+    ...mapState(['isAppChecked', 'appMode', 'repaymentNum']),
   },
   data() {
     return {

@@ -244,12 +244,14 @@ export default {
       try {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
         this.selectProductsNum = (res.data.mergPushProductList || []).length;
+        this.setRepaymentNum((res.data.mergPushProductList || []).length);
       } catch (error) {}
     },
 
     async onRefresh() {
       try {
         await this.getAppMode();
+        await this.getMultiRecommendItems();
       } catch (error) {
       } finally {
         // this.$toast('刷新成功');

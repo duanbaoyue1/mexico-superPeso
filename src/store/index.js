@@ -34,6 +34,7 @@ export default new Vuex.Store({
       fixed: false,
       backCallback: null,
     },
+    repaymentNum: 0,
     appMode: {},
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
@@ -78,6 +79,9 @@ export default new Vuex.Store({
     setAppMode(state, data) {
       state.appMode = data;
     },
+    setRepaymentNum(state, data) {
+      state.repaymentNum = data;
+    },
   },
   getters: {
     appGlobal: state => state.appGlobal,
@@ -85,6 +89,7 @@ export default new Vuex.Store({
     isAppChecked: state => state.isAppChecked,
     tabBar: state => state.tabBar,
     appMode: state => state.appMode,
+    repaymentNum: state => state.repaymentNum,
   },
   actions: {
     async setAppGlobal({ commit }, data) {
@@ -111,6 +116,9 @@ export default new Vuex.Store({
     },
     async setAppMode({ commit }, appMode) {
       commit('setAppMode', appMode);
+    },
+    async setRepaymentNum({ commit }, repaymentNum) {
+      commit('setRepaymentNum', repaymentNum);
     },
   },
   modules: {},
