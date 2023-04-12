@@ -43,6 +43,28 @@ export default {
       return userInfo;
     },
 
+    initInfoBackControl() {
+      window.infoBtnCallBack = () => {
+        this.showMessageBox({
+          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+          confirmBtnText: 'No',
+          cancelBtnText: 'Leave',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          cancelCallback: () => {
+            this.hideMessageBox();
+            this.goAppBack();
+          },
+          iconPath: 'handy/确定退出嘛',
+        });
+      };
+      this.setTabBar({
+        backCallback: window.infoBtnCallBack,
+      });
+      this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'infoBtnCallBack' });
+    },
+
     previewImg(imgs, startIndex) {
       if (!imgs || !imgs.length || startIndex < 0) return;
       ImagePreview({

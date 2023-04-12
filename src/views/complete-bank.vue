@@ -56,25 +56,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        if (this.from == 'order') {
-          this.showMessageBox({
-            content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-            confirmBtnText: 'No',
-            cancelBtnText: 'Leave',
-            confirmCallback: () => {
-              this.hideMessageBox();
-            },
-            cancelCallback: () => {
-              this.hideMessageBox();
-              this.goAppBack();
-            },
-            iconPath: 'handy/确定退出嘛',
-          });
-        } else {
-          this.goAppBack();
-        }
-      },
+      backCallback: null,
     });
   },
   data() {
@@ -98,6 +80,7 @@ export default {
 
   mounted() {
     this.getBanks();
+    this.initInfoBackControl();
 
     // 银行卡选择后app抓取数据回调
     // window.synDataCallback = async data => {

@@ -82,21 +82,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
-          confirmCallback: () => {
-            this.hideMessageBox();
-          },
-          cancelCallback: () => {
-            this.hideMessageBox();
-            this.goAppBack();
-          },
-          iconPath: 'handy/确定退出嘛',
-        });
-      },
+      backCallback: null,
     });
   },
   watch: {
@@ -140,6 +126,7 @@ export default {
 
   mounted() {
     this.eventTracker('contact_access');
+    this.initInfoBackControl();
   },
 
   methods: {

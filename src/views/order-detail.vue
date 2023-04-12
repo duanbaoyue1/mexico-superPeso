@@ -1,5 +1,5 @@
 <template>
-  <div class="order-detail content-area" v-show="loadinged" :class="'order_' + detail.orderStatus">
+  <div class="order-detail content-area" :class="'order_' + detail.orderStatus">
     <div class="status-text">{{ orderStatusText }}</div>
 
     <div class="order-info">
@@ -218,7 +218,6 @@ export default {
     // public final static int ABANDONED = 110;
 
     return {
-      loadinged: false,
       orderId: this.$route.query.orderId,
       choosed: false, // 是否勾选复贷
       showAuto: false, // 是否显示复贷
@@ -289,6 +288,7 @@ export default {
     },
 
     async getDetail() {
+      this.showLoading();
       try {
         let res = await this.$http.post(`/api/order/detail`, {
           orderId: this.orderId,
@@ -302,7 +302,7 @@ export default {
         }
       } catch (error) {
       } finally {
-        this.loadinged = true;
+        this.hideLoading();
       }
     },
   },

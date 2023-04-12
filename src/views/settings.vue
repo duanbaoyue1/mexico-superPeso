@@ -1,5 +1,5 @@
 <template>
-  <div class="settings">
+  <div class="settings content-area">
     <div v-if="!hasPassword" class="btn" @click="$router.push({ name: 'create-password' })">Create password</div>
     <div v-else class="btn" @click="$router.push({ name: 'retrieve-password' })">Change Login Password</div>
     <div class="btn" @click="showLegal = true">Legal</div>

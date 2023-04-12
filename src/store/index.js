@@ -74,7 +74,6 @@ export default new Vuex.Store({
         ...state.tabBar,
         ...data,
       };
-      console.log('setTabBar', data, state.tabBar);
     },
     setAppMode(state, data) {
       state.appMode = data;

@@ -5,7 +5,7 @@
     </div>
     <div class="no-order" v-else-if="!loading">
       <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-      <button>Apply Now</button>
+      <button @click="goHome">Apply Now</button>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="password">
+  <div class="password content-area">
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Phone Number</div>

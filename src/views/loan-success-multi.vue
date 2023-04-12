@@ -75,19 +75,20 @@ export default {
       fixed: true,
       transparent: false,
       title: 'Loan Applications',
-      backCallback: () => {
-        if (this.loans.length) {
-          this.showBackModal();
-        } else if (this.isSysNeedGoogle) {
-          this.nextStep = 'goBack';
-          this.showGoogleFeed = true;
-        } else {
-          this.goAppBack();
-        }
-      },
+      backCallback: window.loanBtnCallback,
     });
   },
   data() {
+    window.loanBtnCallback = () => {
+      if (this.loans.length) {
+        this.showBackModal();
+      } else if (this.isSysNeedGoogle) {
+        this.nextStep = 'goBack';
+        this.showGoogleFeed = true;
+      } else {
+        this.goAppBack();
+      }
+    };
     return {
       curNumbers: this.$route.query.curNumbers || 0, // 当前申请了多少条
       needRecommend: JSON.parse(this.$route.query.needRecommend || true), // 是否需要推荐 从活动过来的不用推荐
@@ -105,6 +106,8 @@ export default {
     };
   },
   mounted() {
+    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'loanBtnCallback' });
+    
     // 从系统读取是否需要弹google窗
     this.getNeedGoogle();
 
