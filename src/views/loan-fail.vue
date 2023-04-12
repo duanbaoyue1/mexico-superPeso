@@ -1,5 +1,5 @@
 <template>
-  <div class="loan">
+  <div class="loan content-area">
     <div class="loan-tips">
       <m-icon class="icon" type="handy/失败" :width="130" :height="130" />
       <div class="title">Sorry The application is fail!</div>

@@ -170,17 +170,17 @@ export default {
         if (this.appMode.identityAuth == 0) {
           this.btnTips = '95%';
           this.actionCallback = () => {
-            this.innerJump('identity');
+            this.innerJump('identity', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.basicInfoAuth == 0) {
           this.btnTips = '96%';
           this.actionCallback = () => {
-            this.innerJump('information');
+            this.innerJump('information', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.addInfoAuth == 0) {
           this.btnTips = '97%';
           this.actionCallback = () => {
-            this.innerJump('contacts');
+            this.innerJump('contacts', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.remittanceAccountAuth == 0) {
           this.btnTips = '98%';

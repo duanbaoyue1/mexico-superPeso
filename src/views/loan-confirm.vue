@@ -108,7 +108,7 @@ export default {
 .loan-confirm {
   background: #f6f6f6;
   padding: 16px 24px;
-  height: 100%;
+  padding-bottom: 90px;
   .head {
     padding: 20px;
     margin-bottom: 6px;
