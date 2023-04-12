@@ -80,15 +80,22 @@ export default {
       this.choosed = !this.choosed;
     },
     async getOrderInfo() {
-      let data = await this.$http.post('/api/order/applyConfirmation', { orderId: this.orderId });
-      this.orderInfo = data.data;
+      try {
+        this.showLoading();
+        let data = await this.$http.post('/api/order/applyConfirmation', { orderId: this.orderId });
+        this.orderInfo = data.data;
+      } catch (error) {
+      } finally {
+        this.hideLoading();
+      }
     },
+
     async submit() {
       if (this.saving) return;
       this.saving = true;
       try {
         this.eventTracker('confirm_submit');
-        await this.$http.post(`/api/order/applyResultOrderList`, { orderId: this.orderId });
+        await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
         // 成功或者失败的跳转
         this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
       } catch (error) {
