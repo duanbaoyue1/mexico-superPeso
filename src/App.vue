@@ -21,7 +21,7 @@
           </template>
         </van-tabbar-item>
 
-        <van-tabbar-item replace to="/repayment" :badge="repaymentNum > 0? repaymentNum: ''" v-if="showRepayment">
+        <van-tabbar-item replace to="/repayment" :badge="repaymentNum > 0 ? repaymentNum : ''" v-if="showRepayment">
           <span>Repayment</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'handy/Repayment点击' : 'handy/Repayment未点击'" class="nav-icon" :width="22" :height="24" />
@@ -68,7 +68,7 @@ export default {
             this.showRepayment = true;
           } else {
             this.showRepayment = false;
-            localStorage.removeItem('app-is-multi')
+            localStorage.removeItem('app-is-multi');
           }
         }
       },
@@ -79,7 +79,7 @@ export default {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-      // this.toAppMethod('needBackControl', { need: false });
+      this.toAppMethod('isInterceptionReturn', { isInterception: false });
       this.showNav = NeedTabbarsPathNames.includes(to.name);
       if (this.showNav) {
         this.setTabBar({ show: false });
@@ -94,7 +94,7 @@ export default {
         location.href = to.query.nextUrl;
       }
       if (to.query.token) {
-        this.updateToken({token: to.query.token});
+        this.updateToken({ token: to.query.token });
       }
       if (to.query.appChecked || sessionStorage.getItem('app-checked')) {
         this.setAppChecked(true);

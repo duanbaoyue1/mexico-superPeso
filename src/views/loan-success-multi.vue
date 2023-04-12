@@ -105,7 +105,6 @@ export default {
     };
   },
   mounted() {
-    // this.toAppMethod('needBackControl', { need: true });
     // 从系统读取是否需要弹google窗
     this.getNeedGoogle();
 
@@ -143,7 +142,7 @@ export default {
   },
   methods: {
     leave() {
-      // this.toAppMethod('needBackControl', { need: false });
+      this.toAppMethod('isInterceptionReturn', { isInterception: false });
       this.goHome();
     },
     showBackModal() {

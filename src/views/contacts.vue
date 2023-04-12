@@ -139,7 +139,6 @@ export default {
   },
 
   mounted() {
-    // this.toAppMethod('needBackControl', { need: true });
     this.eventTracker('contact_access');
   },
 

@@ -424,7 +424,7 @@ export default {
 }
 
 .order-detail {
-  padding-bottom: 100px;
+  padding-bottom: 120px;
   background-image: url(../assets/img/handy/订单等待.png);
   background-position: top;
   background-repeat: no-repeat;

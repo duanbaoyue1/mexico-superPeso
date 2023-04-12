@@ -133,7 +133,6 @@ export default {
 
   mounted() {
     this.eventTracker('id_access');
-    // this.toAppMethod('needBackControl', { need: true });
     // this.getOcrChannel();
   },
 
