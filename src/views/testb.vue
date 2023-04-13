@@ -113,14 +113,14 @@ export default {
       this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
     },
     async crawlData() {
-      this.showLoading();
+      // this.showLoading();
       try {
         let res = await this.startSyncData();
         this.$toast('sync success');
       } catch (error) {
         this.$toast('sync error');
       } finally {
-        this.hideLoading();
+        // this.hideLoading();
       }
 
       // window.onCrawlAppList = data => {

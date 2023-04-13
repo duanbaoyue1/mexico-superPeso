@@ -170,6 +170,7 @@ export default {
           let res = await this.$http.post(`/api/userCollect/isUploadData`, {
             userId: this.appGlobal.userId,
           });
+          // TODO
           // if (!res.data) {
           //   // 已经上传
           //   resolve({ success: true });
