@@ -115,10 +115,10 @@ export default {
     async crawlData() {
       this.showLoading();
       try {
-        let res = await this.startSyncData(true);
-        console.log('sync success', res);
+        let res = await this.startSyncData();
+        this.$toast('sync success');
       } catch (error) {
-        console.log('sync error', error);
+        this.$toast('sync error');
       } finally {
         this.hideLoading();
       }
