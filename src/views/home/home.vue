@@ -154,20 +154,31 @@ export default {
           this.actionCallback = async () => {
             // 多推
             if (this.selectProductsNum > 0) {
-              // 直接申请多推
+              this.showLoading();
+              let syncRes;
               try {
-                this.showLoading();
-                let res = await this.$http.post(`/api/order/mergePush/preApply`, {
-                  productList: this.selectItem.map(t => t.id),
-                });
-                if (res.returnCode == 2000) {
-                  await this.$http.post(`/api/order/mergePush/apply`, {
-                    orderIdList: res.data.orderIdList,
+                // 1. 先同步数据
+                try {
+                  syncRes = await this.startSyncData();
+                } catch (error) {
+                  this.hideLoading();
+                  this.$toast('Your message verification failed, please wait a minute and try again');
+                  return;
+                }
+                // 2. 真正提交
+                if (syncRes.success) {
+                  let res = await this.$http.post(`/api/order/mergePush/preApply`, {
+                    productList: this.selectItem.map(t => t.id),
                   });
-                  this.$toast('Apply successfully');
-                  setTimeout(res => {
-                    this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
-                  }, 1000);
+                  if (res.returnCode == 2000) {
+                    await this.$http.post(`/api/order/mergePush/apply`, {
+                      orderIdList: res.data.orderIdList,
+                    });
+                    this.$toast('Apply successfully');
+                    setTimeout(res => {
+                      this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
+                    }, 1000);
+                  }
                 }
               } catch (error) {
                 this.$toast(error.message);

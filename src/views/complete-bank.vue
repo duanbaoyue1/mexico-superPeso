@@ -151,13 +151,7 @@ export default {
             let appMode = await this.getAppMode();
             if (appMode.confirmType == 1) {
               // 需要进确认申请页
-              this.innerJump(
-                'loan-confirm',
-                {
-                  orderId: this.orderId,
-                },
-                true
-              );
+              this.innerJump('loan-confirm', { orderId: this.orderId }, true);
             } else {
               // 不需要进确认申请页
               this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);

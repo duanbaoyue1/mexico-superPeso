@@ -170,11 +170,10 @@ export default {
           let res = await this.$http.post(`/api/userCollect/isUploadData`, {
             userId: this.appGlobal.userId,
           });
-          // TODO
-          // if (!res.data) {
-          //   // 已经上传
-          //   resolve({ success: true });
-          // } else {
+          if (!res.data) {
+            // 已经上传
+            resolve({ success: true });
+          } else {
             // 如果没有上传，则发通知给app抓取，10s以后再试一下
             let types = {};
             NEED_SYNC_TYPE.forEach(t => {
@@ -200,7 +199,7 @@ export default {
                 reject({ success: false });
               }
             }, 10000);
-          // }
+          }
         } catch (error) {
           reject({ success: false });
         }

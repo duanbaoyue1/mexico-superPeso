@@ -190,19 +190,32 @@ export default {
     async applyMulti() {
       let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
       this.showLoading();
+
+      let syncRes;
       try {
-        let res = await this.$http.post(`/api/order/mergePush/preApply`, {
-          orderNo: this.$route.query.orderId,
-          productList: loanIds,
-        });
-        if (res.returnCode == 2000) {
-          await this.$http.post(`/api/order/mergePush/apply`, {
-            orderIdList: res.data.orderIdList,
+        // 1. 先同步数据
+        try {
+          syncRes = await this.startSyncData();
+        } catch (error) {
+          this.hideLoading();
+          this.$toast('Your message verification failed, please wait a minute and try again');
+          return;
+        }
+        if (syncRes.success) {
+          // 2. 真正提交
+          let res = await this.$http.post(`/api/order/mergePush/preApply`, {
+            orderNo: this.$route.query.orderId,
+            productList: loanIds,
           });
-          this.$toast('Apply successfully');
-          setTimeout(res => {
-            this.getRecommendLoans();
-          }, 1000);
+          if (res.returnCode == 2000) {
+            await this.$http.post(`/api/order/mergePush/apply`, {
+              orderIdList: res.data.orderIdList,
+            });
+            this.$toast('Apply successfully');
+            setTimeout(res => {
+              this.getRecommendLoans();
+            }, 1000);
+          }
         }
       } catch (error) {
         this.$toast(error.message);

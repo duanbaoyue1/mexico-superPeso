@@ -91,20 +91,31 @@ export default {
     },
 
     async submit() {
-      if (this.saving) return;
-      this.saving = true;
+      this.eventTracker('confirm_submit');
+      this.showLoading();
+      let syncRes;
       try {
-        this.eventTracker('confirm_submit');
-        await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
-        // 成功或者失败的跳转
-        this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+        // 1. 先同步数据
+        try {
+          syncRes = await this.startSyncData();
+        } catch (error) {
+          this.hideLoading();
+          this.$toast('Your message verification failed, please wait a minute and try again');
+          return;
+        }
+        if (syncRes.success) {
+          // 2. 真正的提交动作
+          await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
+          // 成功或者失败的跳转
+          this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+        }
       } catch (error) {
         this.$toast(error.message);
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000);
       } finally {
-        this.saving = false;
+        this.hideLoading();
       }
     },
   },
