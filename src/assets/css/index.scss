@@ -181,6 +181,7 @@ textarea:-ms-input-placeholder {
   right: 0;
   z-index: 9999;
   background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
   &-content {
     background: #ffffff;
     border-radius: 24px;

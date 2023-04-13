@@ -320,6 +320,8 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    
     &-content {
       width: 320px;
       height: 144px;

@@ -236,6 +236,8 @@ export default {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+
     > .content {
       width: 295px;
       padding: 24px;
