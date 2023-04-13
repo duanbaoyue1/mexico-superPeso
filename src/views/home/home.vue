@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <van-action-sheet v-model="showRecommend" :safe-area-inset-bottom="false" close-on-click-action overlay-class="home-recommend">
+    <van-action-sheet v-model="showRecommend" :safe-area-inset-bottom="false" close-on-click-action class="home-recommend">
       <div class="pop-content">
         <m-icon class="close" type="handy/关闭弹窗" :width="20" :height="20" @click="showRecommend = false" />
         <multi-recommend @update="updateMultiSelect"></multi-recommend>
@@ -328,16 +328,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pop-content {
-  position: relative;
-  height: 632px;
-  overflow: hidden;
-  .close {
-    position: absolute;
-    top: 16px;
-    right: 24px;
+.home-recommend {
+  height: 80%;
+  .pop-content {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 24px;
+    }
   }
 }
+
 .home {
   height: 100%;
   box-sizing: border-box;
