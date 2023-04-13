@@ -110,7 +110,7 @@ export default {
   },
 
   mounted() {
-    alert(this.checkInApp());
+    console.log('this.checkInApp()', this.checkInApp());
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }
