@@ -111,7 +111,6 @@ export default {
   },
 
   mounted() {
-    console.log('dom mounted');
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }

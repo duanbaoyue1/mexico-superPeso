@@ -3,7 +3,7 @@
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
     <div v-else class="app-inner" :class="{ 'has-tab': $route.meta.showTab, 'has-nav': tabBar.show, 'background-fff': $route.meta.backgroundFFF }">
-      <nav-bar v-if="!$route.meta.showTab" />
+      <nav-bar v-show="mounted && !$route.meta.showTab" />
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
@@ -57,13 +57,15 @@ export default {
     return {
       showRepayment: !!localStorage.getItem('app-is-multi'),
       showRedirect: false,
+      mounted: false,
     };
   },
   async mounted() {
-    // setTimeout(res => {
-    //   this.getUserInfo();
-    // }, 200);
+    setTimeout(res => {
+      this.mounted = true;
+    }, 100);
   },
+
   watch: {
     'appMode.maskModel': {
       handler(newVal, oldVal) {
@@ -81,6 +83,7 @@ export default {
     },
 
     $route(to, from) {
+      console.log('route change', from, to, this.$route.meta.showTab);
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.toAppMethod('isInterceptionReturn', { isInterception: false });
