@@ -107,13 +107,14 @@ export default {
   async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
+  },
+
+  mounted() {
     alert(this.checkInApp());
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }
   },
-
-  mounted() {},
 
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
