@@ -19,7 +19,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectApp`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
           this.updateLocalSyncStatus('appListFunName', true);
@@ -34,7 +34,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectImage`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
           this.updateLocalSyncStatus('imageListFunName', true);
@@ -49,7 +49,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectContacts`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
           this.updateLocalSyncStatus('contactsListFunName', true);
@@ -64,7 +64,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectMsg`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
         } catch (error) {}
@@ -76,7 +76,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectDevice`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
           this.updateLocalSyncStatus('devFunName', true);
@@ -91,7 +91,7 @@ export default {
         }
         try {
           await this.$http.post(`/api/userCollect/collectDeviceBase`, {
-            userId: this.userInfo.id,
+            userId: this.userInfo.id || this.appGlobal.userId,
             data: this.zip(data),
           });
           this.updateLocalSyncStatus('devBaseFunName', true);

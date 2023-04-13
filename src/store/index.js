@@ -17,7 +17,7 @@ export default new Vuex.Store({
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号
-      userId: '75755981f9241f8e181921d7d4347c94', // 用户id
+      userId: '', // 用户id
       afId: '', // afid
       gaId: '', // gaid
       gpsAddress: '', // gps地址

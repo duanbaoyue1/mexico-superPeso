@@ -86,7 +86,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  padding-bottom: 180px;
+  margin-bottom: 88px;
 
   .select-all {
     width: 375px;
@@ -119,7 +119,7 @@ export default {
   }
 
   .order-items {
-    height: 592px;
+    height: 100%;
     overflow-y: scroll;
     .order-item {
       position: relative;
