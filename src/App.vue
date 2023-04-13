@@ -91,7 +91,9 @@ export default {
       }
       try {
         this.hideLoading();
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
       this.checkAndSetAppLocal();
       if (to.query.nextUrl && from && from.name) {
         // 为了解决进到还款页面以后退出到utr页面的问题
