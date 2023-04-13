@@ -16,7 +16,7 @@
        */
       /*后台填充参数 基本上所有参数都有用*/
       // 域名 后端下发HTML时填充
-      queryParams.apiHost = 'http://test.fin-handycash.com';
+      queryParams.apiHost = '{{apiHost}}';
 
       // 平台 后端下发HTML时填充
       queryParams.platformValue = '{{platformValue}}';
@@ -28,10 +28,10 @@
       queryParams.userId = '{{userId}}';
 
       // 手机号 后端下发HTML时填充
-      queryParams.mobile = '2';
+      queryParams.mobile = '{{mobile}}';
 
       // 包名 后端下发HTML时填充
-      queryParams.appName = 'handyCash';
+      queryParams.appName = '{{appName}}';
 
       // 版本 后端下发HTML时填充
       queryParams.appVersion = '{{appVersion}}';
@@ -43,13 +43,13 @@
       queryParams.afId = '{{afId}}';
 
       // channelCode 后端填充
-      queryParams.channelCode = 'google';
+      queryParams.channelCode = '{{channelCode}}';
 
       // mobileType 后端填充
       queryParams.mobileType = '{{mobileType}}';
 
       // 公共参数高度
-      queryParams.StatusBarHeight = '{{StatusBarHeight}}'
+      queryParams.StatusBarHeight = '{{StatusBarHeight}}';
 
       let queryKeyValue = [];
       Object.keys(queryParams).forEach(item => {
