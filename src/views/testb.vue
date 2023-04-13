@@ -109,8 +109,8 @@ export default {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
     openNewPage() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
-      console.log(`${location.origin}/${routeInfo.href}`);
-      // this.toAppMethod('openNewPage', { isShowLoading:true, pathUrl: `${location.origin}/${routeInfo.href}` });
+      console.log(`${location.origin}${location.pathname}${routeInfo.href}`);
+      this.toAppMethod('openNewPageFinishOld', { isShowLoading: true, pathUrl: `${location.origin}${location.pathname}${routeInfo.href}` });
     },
     async crawlData() {
       this.showLoading();
@@ -128,8 +128,7 @@ export default {
     },
     openNewPageFinishOld() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
-      console.log(`${location.origin}/${routeInfo.href}`);
-      this.toAppMethod('openNewPageFinishOld', { isShowLoading: true, pathUrl: `${location.origin}/${routeInfo.href}` });
+      this.toAppMethod('openNewPageFinishOld', { isShowLoading: true, pathUrl: `${location.origin}${location.pathname}${routeInfo.href}` });
     },
     getCommonParametersKey() {
       window.getCommonParametersKeyCallback = data => {
