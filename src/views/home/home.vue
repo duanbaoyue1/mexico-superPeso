@@ -56,7 +56,7 @@ export default {
       loading: false,
       selectProductsNum: 0,
       selectItem: [], // 多推选中的产品
-      isMultiple: false, // 是否多推首页
+      isMultiple: !!localStorage.getItem('app-is-multi'), // 是否多推首页
       showRecommend: false,
       actionText: 'Apply',
       btnTips: '',
