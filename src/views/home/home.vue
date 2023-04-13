@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       disabledPullRefresh: false,
+      created: false,
       query: this.$route.query,
       from: this.$route.query.from,
       loading: false,
@@ -116,6 +117,9 @@ export default {
     }
   },
   activated() {
+    if(!this.created) {
+      return;
+    }
     this.updateData();
   },
   methods: {
@@ -138,6 +142,7 @@ export default {
         }
         this.setAppGlobal(data);
         this.updateData();
+        this.created = true;
       };
       this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersCallback' });
     },
