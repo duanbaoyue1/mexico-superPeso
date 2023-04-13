@@ -110,7 +110,7 @@ export default {
     openNewPage() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
       console.log(`${location.origin}/${routeInfo.href}`);
-      this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
+      // this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
     },
     async crawlData() {
       this.showLoading();
