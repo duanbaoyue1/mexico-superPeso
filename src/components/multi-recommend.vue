@@ -1,9 +1,9 @@
 <template>
   <div class="multi-recommend">
     <div class="order-items">
-      <div class="order-item" v-for="(order, index) in list">
+      <div class="order-item" v-for="(order, index) in list" :key="order.id" @click="checkLoan(index)">
         <div class="reloan" v-if="!order.isReloan">reloan</div>
-        <div class="status" @click="checkLoan(index)">
+        <div class="status">
           <m-icon class="icon" :type="order.unChecked ? 'handy/未选中' : 'handy/选中'" :width="24" :height="24" />
           {{ order.productName }}
         </div>
@@ -38,16 +38,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      list: [],
-    };
-  },
-
-  created() {
-    this.getList();
-  },
-
+  props: ['list'],
   methods: {
     checkLoan(index) {
       // if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
@@ -63,14 +54,10 @@ export default {
     },
 
     updateHome() {
-      this.$emit('update', this.list.filter((t => !t.unChecked)));
-    },
-
-    async getList() {
-      try {
-        let res = await this.$http.post(`/api/product/mergeProduct/list`);
-        this.list = res.data.mergPushProductList || [];
-      } catch (error) {}
+      this.$emit(
+        'update',
+        this.list.filter(t => !t.unChecked)
+      );
     },
   },
 };

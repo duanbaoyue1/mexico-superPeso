@@ -263,7 +263,7 @@ textarea:-ms-input-placeholder {
 
 .has-nav {
   .content-area {
-    // TODO 这里高度需要配置  
+    // TODO 这里高度需要配置
     // 高度为标题栏高度+StatusBarHeight
     padding-top: 80px !important;
   }
@@ -272,5 +272,15 @@ textarea:-ms-input-placeholder {
 .has-tab {
   .web-layout {
     height: calc(100% - 80px);
+  }
+}
+
+.background-fff {
+  background: #fff;
+  .web-layout {
+    background: #fff;
+  }
+  .van-nav-bar--fixed {
+    background: #fff;
   }
 }

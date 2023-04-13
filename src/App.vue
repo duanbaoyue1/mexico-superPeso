@@ -2,8 +2,8 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <div v-else class="app-inner" :class="{ 'has-tab': showNav, 'has-nav': tabBar.show }">
-      <nav-bar v-if="tabBar.show" />
+    <div v-else class="app-inner" :class="{ 'has-tab': $route.meta.showTab, 'has-nav': tabBar.show, 'background-fff': $route.meta.backgroundFFF }">
+      <nav-bar v-if="!$route.meta.showTab" />
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
@@ -13,7 +13,7 @@
         <router-view id="view" v-else />
       </transition>
 
-      <van-tabbar route name="fade" v-if="showNav">
+      <van-tabbar route name="fade" v-if="$route.meta.showTab">
         <van-tabbar-item replace to="/home">
           <span>Loans</span>
           <template #icon="props">
@@ -56,7 +56,6 @@ export default {
   data() {
     return {
       showRepayment: !!localStorage.getItem('app-is-multi'),
-      showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
     };
   },
@@ -85,10 +84,6 @@ export default {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.toAppMethod('isInterceptionReturn', { isInterception: false });
-      this.showNav = NeedTabbarsPathNames.includes(to.name);
-      if (this.showNav) {
-        this.setTabBar({ show: false });
-      }
       try {
         this.hideLoading();
       } catch (error) {

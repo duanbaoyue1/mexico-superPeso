@@ -56,6 +56,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "loan-success" */ '../views/loan-success.vue'),
         meta: {
           title: 'Loan Application',
+          backgroundFFF: true, // 页面白色
         },
       },
       {
@@ -64,6 +65,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "loan-success-multi" */ '../views/loan-success-multi.vue'),
         meta: {
           title: 'Loan Application',
+          backgroundFFF: true, // 页面白色
         },
       },
       {
@@ -72,6 +74,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "loan-fail" */ '../views/loan-fail.vue'),
         meta: {
           title: 'Loan Application',
+          backgroundFFF: true, // 页面白色
         },
       },
       {
@@ -217,6 +220,7 @@ const routes = [
         meta: {
           title: '',
           keepAlive: true,
+          showTab: true, // 显示底部tabbar
         },
       },
       {
@@ -226,6 +230,7 @@ const routes = [
         meta: {
           title: '',
           keepAlive: true,
+          showTab: true, // 显示底部tabbar
         },
       },
       {
@@ -235,6 +240,7 @@ const routes = [
         meta: {
           title: '',
           keepAlive: true,
+          showTab: true, // 显示底部tabbar
         },
       },
       {

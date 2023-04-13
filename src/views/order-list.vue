@@ -1,13 +1,15 @@
 <template>
-  <div class="order-list content-area">
-    <div class="has-order" v-if="orders.length">
-      <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+  <van-pull-refresh class="order-list content-area" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="getAllOrders">
+    <div>
+      <div class="has-order" v-if="orders.length">
+        <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+      </div>
+      <div class="no-order" v-else-if="!loading">
+        <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
+        <button @click="goHome">Apply Now</button>
+      </div>
     </div>
-    <div class="no-order" v-else-if="!loading">
-      <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-      <button @click="goHome">Apply Now</button>
-    </div>
-  </div>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -19,7 +21,7 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       orders: [],
     };
   },
@@ -37,6 +39,7 @@ export default {
   methods: {
     async getAllOrders() {
       this.showLoading();
+      this.loading = true;
       try {
         let res = await this.$http.post(`/api/order/listAll`);
         this.orders = res.data.list || [];

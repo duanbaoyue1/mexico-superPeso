@@ -24,7 +24,7 @@
         <div class="multi-select" v-if="isMultiple" @click="showRecommend = true">
           <span>Customized Solutions</span>
           <div>
-            <span :class="{ 'has-num': selectProductsNum > 0 }">{{ selectProductsNum }} products</span>
+            <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
             <m-icon type="handy/蓝右" :width="12" :height="14" />
           </div>
         </div>
@@ -34,7 +34,7 @@
     <van-action-sheet v-model="showRecommend" :safe-area-inset-bottom="false" close-on-click-action class="home-recommend">
       <div class="pop-content">
         <m-icon class="close" type="handy/关闭弹窗" :width="20" :height="20" @click="showRecommend = false" />
-        <multi-recommend @update="updateMultiSelect"></multi-recommend>
+        <multi-recommend @update="updateMultiSelect" :list="multiRecommendList"></multi-recommend>
       </div>
     </van-action-sheet>
   </van-pull-refresh>
@@ -55,8 +55,8 @@ export default {
       query: this.$route.query,
       from: this.$route.query.from,
       loading: false,
-      selectProductsNum: 0,
-      selectItem: [], // 多推选中的产品
+      selectItems: [], // 多推选中的产品
+      multiRecommendList: [], // 多推的产品
       isMultiple: !!localStorage.getItem('app-is-multi'), // 是否多推首页
       showRecommend: false,
       actionText: 'Apply',
@@ -79,7 +79,7 @@ export default {
   watch: {
     'appMode.maskModel': {
       async handler(newVal, oldVal) {
-        if (this.appMode && typeof this.appMode.maskModel != 'undefined') {
+        if (newVal != oldVal && this.appMode && typeof this.appMode.maskModel != 'undefined') {
           if (this.appMode.maskModel == 1) {
             // 多推
             localStorage.setItem('app-is-multi', true);
@@ -117,7 +117,6 @@ export default {
     }
   },
   activated() {
-    console.log('111111111111111111111');
     if (this.checkInApp() && !this.created) {
       return;
     }
@@ -175,7 +174,7 @@ export default {
           // 有可借
           this.actionCallback = async () => {
             // 多推
-            if (this.selectProductsNum > 0) {
+            if (this.selectItems.length > 0) {
               this.showLoading();
               let syncRes;
               try {
@@ -190,7 +189,7 @@ export default {
                 // 2. 真正提交
                 if (syncRes.success) {
                   let res = await this.$http.post(`/api/order/mergePush/preApply`, {
-                    productList: this.selectItem.map(t => t.id),
+                    productList: this.selectItems.map(t => t.id),
                   });
                   if (res.returnCode == 2000) {
                     await this.$http.post(`/api/order/mergePush/apply`, {
@@ -294,8 +293,8 @@ export default {
     async getMultiRecommendItems() {
       try {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
-        this.selectProductsNum = (res.data.mergPushProductList || []).length;
-        this.selectItem = res.data.mergPushProductList || [];
+        this.selectItems = res.data.mergPushProductList || [];
+        this.multiRecommendList = res.data.mergPushProductList || [];
       } catch (error) {}
     },
 
@@ -321,13 +320,12 @@ export default {
       }
     },
 
-    updateMultiSelect(selectItem) {
-      this.selectItem = selectItem;
-      this.selectProductsNum = selectItem.length;
-      // TODO 这里需要确认
-      this.appMode.availableCredit = selectItem.reduce((prev, cur, index, arr) => {
+    updateMultiSelect(selectItems) {
+      this.selectItems = selectItems;
+      let totalValue = selectItems.reduce((prev, cur, index, arr) => {
         return prev + parseInt(cur.maxAmount);
       }, 0);
+      this.$set(this.appMode, 'availableCredit', totalValue);
     },
 
     async clickApply() {
