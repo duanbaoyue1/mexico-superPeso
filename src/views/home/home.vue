@@ -156,6 +156,7 @@ export default {
             if (this.selectProductsNum > 0) {
               // 直接申请多推
               try {
+                this.showLoading();
                 let res = await this.$http.post(`/api/order/mergePush/preApply`, {
                   productList: this.selectItem.map(t => t.id),
                 });
@@ -170,6 +171,8 @@ export default {
                 }
               } catch (error) {
                 this.$toast(error.message);
+              } finally {
+                this.hideLoading();
               }
             }
           };

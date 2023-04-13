@@ -254,5 +254,21 @@ export default {
 button {
   display: block;
   margin: 10px;
+  height: 40px;
+  padding: 0 20px;
+  background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+  box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: Roboto-Bold, Roboto;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: none;
+  margin-top: 30px;
 }
 </style>
