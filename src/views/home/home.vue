@@ -108,6 +108,9 @@ export default {
     this.setGlobalData();
     this.getCommonParametersKey();
     alert(this.checkInApp());
+    if (!this.checkInApp()) {
+      window.getCommonParametersCallback();
+    }
   },
 
   mounted() {},
@@ -122,12 +125,14 @@ export default {
         if (typeof data == 'string') {
           data = JSON.parse(data);
         }
-
+        data = data || {};
         delete data.apiHost;
         if (data.appVersionCode) {
           data.appVersion = data.appVersionCode;
         }
-        data.appVersionV = data.appVersionName;
+        if (data.appVersionName) {
+          data.appVersionV = data.appVersionName;
+        }
         this.setAppGlobal(data);
         try {
           this.showLoading();
@@ -135,6 +140,7 @@ export default {
           await this.getAppMode();
           await this.updateRepaymentNum();
         } catch (error) {
+          console.log(error);
         } finally {
           this.hideLoading();
         }
