@@ -231,7 +231,7 @@ export default {
       background: #ffffff;
       border-radius: 8px;
       position: absolute;
-      top: 50%;
+      top: 55%;
       left: 50%;
       transform: translate(-50%, -50%);
       position: relative;
@@ -269,7 +269,7 @@ export default {
           color: #000601;
           line-height: 24px;
           text-align: center;
-          margin-top: 20px;
+          margin-top: 16px;
           span {
             width: 68px;
             height: 40px;
@@ -283,7 +283,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 16px auto 24px;
+            margin: 8px auto 16px;
           }
         }
       }
