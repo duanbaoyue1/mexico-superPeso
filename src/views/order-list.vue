@@ -53,8 +53,12 @@ export default {
 <style lang="scss" scoped>
 .order-list {
   padding: 0 24px;
+  padding-bottom: 24px;
   .order-item {
-    margin-bottom: 16px;
+    margin: 16px auto;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

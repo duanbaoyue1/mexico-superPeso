@@ -41,7 +41,6 @@ service.interceptors.request.use(
   config => {
     config.baseURL = store.getters.appGlobal.apiHost;
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'text/plain';
-    console.log('request data:', config.data);
     if (config.data && config.headers['Content-Type'] != 'multipart/form-data') {
       if (typeof config.data !== 'string') {
         config.data = JSON.stringify(config.data);
@@ -50,8 +49,8 @@ service.interceptors.request.use(
         config.data = zip(config.data);
       }
     }
-    console.log('baseURL:', store.getters.appGlobal.apiHost);
-    console.log('token:', store.getters.appGlobal.token);
+    // console.log('baseURL:', store.getters.appGlobal.apiHost);
+    // console.log('token:', store.getters.appGlobal.token);
     config.headers['token'] = store.getters.appGlobal.token;
     // TODO
     config.headers['channelCode'] = 'google';

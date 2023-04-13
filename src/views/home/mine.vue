@@ -89,16 +89,21 @@ export default {
       showLogOut: false,
     };
   },
-  async mounted() {
-    this.showLoading();
-    try {
-      await this.getUserInfo();
-    } catch (error) {
-    } finally {
-      this.hideLoading();
-    }
+  async mounted() {},
+  activated() {
+    this.updateData();
   },
   methods: {
+    async updateData() {
+      this.showLoading();
+      try {
+        await this.getUserInfo();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.hideLoading();
+      }
+    },
     goTestb() {
       this.innerJump('testb');
     },

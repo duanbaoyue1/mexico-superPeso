@@ -31,7 +31,7 @@ export default {
       title: '',
     });
   },
-  mounted() {
+  activated() {
     this.getAllOrders();
   },
   methods: {
@@ -56,7 +56,7 @@ export default {
   padding: 0 24px;
   padding-bottom: 100px;
   padding-top: 75px;
-  
+
   .order-item {
     margin-bottom: 16px;
     &:last-child {

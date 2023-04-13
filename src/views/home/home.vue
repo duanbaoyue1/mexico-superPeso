@@ -110,12 +110,14 @@ export default {
   },
 
   mounted() {
-    console.log('this.checkInApp()', this.checkInApp());
+    console.log('dom mounted');
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }
   },
-
+  activated() {
+    this.updateData();
+  },
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
 
@@ -135,18 +137,22 @@ export default {
           data.appVersionV = data.appVersionName;
         }
         this.setAppGlobal(data);
-        try {
-          this.showLoading();
-          await this.getUserInfo();
-          await this.getAppMode();
-          await this.updateRepaymentNum();
-        } catch (error) {
-          console.log(error);
-        } finally {
-          this.hideLoading();
-        }
+        this.updateData();
       };
       this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersCallback' });
+    },
+
+    async updateData() {
+      try {
+        this.showLoading();
+        await this.getUserInfo();
+        await this.getAppMode();
+        await this.updateRepaymentNum();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.hideLoading();
+      }
     },
 
     updateTextAndAction() {
@@ -290,9 +296,9 @@ export default {
     async onRefresh() {
       try {
         await this.getAppMode();
-        await this.getMultiRecommendItems();
         await this.updateRepaymentNum();
       } catch (error) {
+        console.log(error);
       } finally {
         // this.$toast('刷新成功');
         this.loading = false;

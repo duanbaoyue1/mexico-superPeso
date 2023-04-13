@@ -5,6 +5,9 @@ export default Vue => {
   function showLoading(msg, duration = 3e3) {
     if (!this.toAppMethod('showAppLoading')) {
       // 调用app loading 不成功
+      try {
+        hideLoading();
+      } catch (error) {}
       loadingDom = new loadingComp({
         data() {
           return {
