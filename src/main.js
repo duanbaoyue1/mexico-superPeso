@@ -25,9 +25,6 @@ Vue.component('nav-bar', NavBar);
 import MessageBox from '@/components/message-box';
 Vue.component('message-box', MessageBox);
 
-import fullPageVideo from '@/components/vue-full-video';
-Vue.use(fullPageVideo);
-
 // 注册全局mixins
 import global from '@/mixins/global';
 import syncData from '@/mixins/sync-data';
