@@ -63,7 +63,7 @@ export default {
   async mounted() {
     setTimeout(res => {
       this.mounted = true;
-    }, 100);
+    }, 500);
   },
 
   watch: {
