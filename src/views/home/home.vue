@@ -156,11 +156,17 @@ export default {
             if (this.selectProductsNum > 0) {
               // 直接申请多推
               try {
-                let res = await this.$http.post(`/api/order/mergePush/apply`, {
-                  orderIdList: this.selectItem.map(t => t.id),
+                let res = await this.$http.post(`/api/order/mergePush/preApply`, {
+                  productList: this.selectItem.map(t => t.id),
                 });
                 if (res.returnCode == 2000) {
-                  this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
+                  await this.$http.post(`/api/order/mergePush/apply`, {
+                    orderIdList: res.data.orderIdList,
+                  });
+                  this.$toast('Apply successfully');
+                  setTimeout(res => {
+                    this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
+                  }, 1000);
                 }
               } catch (error) {
                 this.$toast(error.message);
