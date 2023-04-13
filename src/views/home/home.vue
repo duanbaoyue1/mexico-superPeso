@@ -118,7 +118,7 @@ export default {
   },
   activated() {
     console.log('111111111111111111111');
-    if(this.checkInApp() && !this.created) {
+    if (this.checkInApp() && !this.created) {
       return;
     }
     this.updateData();
@@ -357,15 +357,14 @@ export default {
 .home {
   height: 100%;
   box-sizing: border-box;
+  background-image: url(../../assets/img/handy/首页背景带字.png);
+  background-attachment: local;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 375px 420px;
 
   &-content {
     height: 100%;
-    background-image: url(../../assets/img/handy/首页背景带字.png);
-    background-attachment: local;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 375px 420px;
-    background-color: #f6f6f6;
     box-sizing: border-box;
     overflow-y: auto;
     padding: 160px 0 0;
