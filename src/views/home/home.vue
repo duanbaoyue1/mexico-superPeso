@@ -117,7 +117,8 @@ export default {
     }
   },
   activated() {
-    if(!this.created) {
+    console.log('111111111111111111111');
+    if(this.checkInApp() && !this.created) {
       return;
     }
     this.updateData();
