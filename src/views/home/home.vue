@@ -107,6 +107,7 @@ export default {
   async created() {
     this.setGlobalData();
     this.getCommonParametersKey();
+    alert(this.checkInApp());
   },
 
   mounted() {},
@@ -123,7 +124,9 @@ export default {
         }
 
         delete data.apiHost;
-        data.appVersion = data.appVersionCode;
+        if (data.appVersionCode) {
+          data.appVersion = data.appVersionCode;
+        }
         data.appVersionV = data.appVersionName;
         this.setAppGlobal(data);
         try {

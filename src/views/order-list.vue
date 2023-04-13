@@ -55,9 +55,6 @@ export default {
   padding: 0 24px;
   .order-item {
     margin-bottom: 16px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 

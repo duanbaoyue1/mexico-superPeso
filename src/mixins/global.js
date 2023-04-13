@@ -43,6 +43,10 @@ export default {
       return userInfo;
     },
 
+    checkInApp() {
+      return typeof wjs != 'undefined';
+    },
+
     initInfoBackControl() {
       window.infoBtnCallBack = () => {
         this.showMessageBox({
