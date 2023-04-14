@@ -82,6 +82,7 @@ export default {
     this.getBanks();
     if (this.from != 'mine') {
       this.initInfoBackControl();
+      this.eventTracker('bank_access');
     }
   },
 
@@ -101,7 +102,7 @@ export default {
     async submit() {
       this.showLoading();
       try {
-        if (this.$route.query.from != 'mine') {
+        if (this.from != 'mine') {
           this.eventTracker('bank_submit');
           try {
             await this.$http.post(`/api/order/bindRemittanceAccount`, {

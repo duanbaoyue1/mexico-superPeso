@@ -89,9 +89,9 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.canSubmit = true;
         this.eventTracker('id_pan_front_success');
         this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
+        this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
       }
     };
 
@@ -161,7 +161,6 @@ export default {
     },
 
     async showUploadSuccess() {
-      this.eventTracker('id_liveness_success');
       this.stopPercent();
       this.curPercent = 100;
       try {
@@ -203,9 +202,10 @@ export default {
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
             this.eventTracker('id_submit_success');
+            this.canSubmit = true;
             // 活体检测
-            this.getCapture(4);
           } else if (type == 4 && res.data.faceComparisonStatus) {
+            this.eventTracker('id_liveness_success');
             this.showUploadSuccess();
           } else {
           }
@@ -228,7 +228,7 @@ export default {
 
     async submit() {
       this.eventTracker('id_submit');
-      this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
+      this.getCapture(4);
     },
   },
 };
@@ -321,7 +321,7 @@ export default {
     right: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: 2;
-    
+
     &-content {
       width: 320px;
       height: 144px;

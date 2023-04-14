@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="action-btn" @click="clickApply">
-            <div class="status-tips" v-if="btnTips">{{ btnTips }}</div>
+            <div class="status-tips" v-if="btnTips" v-html="btnTips"></div>
             {{ actionText }}
           </div>
         </div>
@@ -208,6 +208,7 @@ export default {
             }
           };
         } else if (this.actionText == 'Repay') {
+          this.btnTips = 'Too many loans now. Please repay<br/> first and unlock a higher loan amount.';
           // 有待还款或逾期，无可借
           this.actionCallback = () => {
             this.innerJump('repayment');
@@ -258,6 +259,7 @@ export default {
           } else if (this.appMode.orderStatus == 80 || this.appMode.orderStatus == 90) {
             // 待还款 | 逾期
             this.actionText = 'Repay';
+            this.btnTips = 'Please repay first and unlock a higher loan amount';
           } else if (this.appMode.orderStatus == 40) {
             // 拒绝
             this.actionText = 'Rejected';
