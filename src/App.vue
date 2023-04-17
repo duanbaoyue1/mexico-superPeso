@@ -7,10 +7,10 @@
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
-          <router-view id="view" />
+          <router-view />
         </keep-alive>
         <!-- 这里是不被缓存的视图组件 -->
-        <router-view id="view" v-else />
+        <router-view v-else />
       </transition>
 
       <van-tabbar route name="fade" v-if="$route.meta.showTab">

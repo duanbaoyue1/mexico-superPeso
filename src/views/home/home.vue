@@ -306,7 +306,6 @@ export default {
       } catch (error) {
         console.log(error);
       } finally {
-        // this.$toast('刷新成功');
         this.loading = false;
       }
     },
@@ -317,7 +316,6 @@ export default {
         this.setRepaymentNum((res.data.list || []).length);
       } catch (error) {
         this.setRepaymentNum(0);
-      } finally {
       }
     },
 

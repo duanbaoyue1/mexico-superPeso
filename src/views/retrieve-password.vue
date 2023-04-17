@@ -85,13 +85,15 @@ export default {
       }
 
       try {
-        let data = await this.$http.post(`/api/user/modifyPassword`, {
+        let res = await this.$http.post(`/api/user/modifyPassword`, {
           phoneNumber: this.userInfo.mobile,
           oldPassword: md5(this.editData.oldPassword),
           newPassword: md5(this.editData.newPassword),
           enterPassword: md5(this.editData.enterPassword),
         });
-        this.toAppMethod('refreshtoken', data.data);
+        this.updateToken({ token: res.data.token });
+        this.toAppMethod('updateUser', res.data);
+        this.goHome();
       } catch (error) {
         this.$toast(error.message);
       }
@@ -146,7 +148,7 @@ export default {
       margin-bottom: 20px;
       font-size: 14px;
       position: relative;
-      border-bottom: 2px solid #E9E9E9;
+      border-bottom: 2px solid #e9e9e9;
       .label {
         font-size: 16px;
         font-family: Roboto-Medium, Roboto;

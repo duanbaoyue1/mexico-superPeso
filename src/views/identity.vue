@@ -158,16 +158,13 @@ export default {
 
     stopPercent() {
       window.clearInterval(this.curInterval);
+      this.submitSuccess = false;
     },
 
     async showUploadSuccess() {
-      this.stopPercent();
-      this.curPercent = 100;
       try {
         // 创建订单
         let res = await this.$http.post(`/api/product/appMaskModel`);
-        this.submitSuccess = false;
-        console.log('创建订单信息结果:', res);
         // 跳转个人信息页
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
@@ -178,20 +175,9 @@ export default {
     },
 
     async uploadImg(type, fileName, base64) {
-      if (type == 3) {
-        this.showLoading();
-      } else {
-        // 上传活动后显示进度条
-        this.startPercent();
-      }
+      // 上传活动后显示进度条
+      this.startPercent();
       try {
-        // let formData = new FormData();
-        // formData.append('channel', this.ocrChannel);
-        // formData.append(fileName, base64);
-        // formData.append('mark', type);
-        // let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
-        //   headers: { 'Content-Type': 'multipart/form-data' },
-        // });
         let saveData = {
           channel: this.ocrChannel,
           mark: type,
@@ -201,10 +187,14 @@ export default {
 
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
+            this.curPercent = 100;
+            this.stopPercent();
             this.eventTracker('id_submit_success');
             this.canSubmit = true;
             // 活体检测
           } else if (type == 4 && res.data.faceComparisonStatus) {
+            this.curPercent = 100;
+            this.stopPercent();
             this.eventTracker('id_liveness_success');
             this.showUploadSuccess();
           } else {
@@ -215,7 +205,7 @@ export default {
       } catch (error) {
         this.logError(type, error.message);
       } finally {
-        this.hideLoading();
+        this.stopPercent();
       }
     },
 

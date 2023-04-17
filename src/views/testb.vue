@@ -28,6 +28,8 @@
     <div>
       {{ base64 }}
     </div>
+
+    <input placeholder="测试输入框软键盘"/>
   </div>
 </template>
 
@@ -242,5 +244,9 @@ button {
   margin: 0 auto;
   border: none;
   margin-top: 30px;
+}
+input {
+  margin: 20px auto;
+  display: block;
 }
 </style>

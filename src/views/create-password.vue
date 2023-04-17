@@ -93,10 +93,14 @@ export default {
         return;
       }
       try {
-        let data = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
-        if (data.returnCode == 2000) {
+        let res = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
+        if (res.returnCode == 2000) {
           this.submitSuccess = true;
-          this.toAppMethod('refreshtoken', data.data);
+          this.updateToken({ token: res.data.token });
+          this.toAppMethod('updateUser', res.data);
+          setTimeout(() => {
+            this.goHome();
+          }, 1000);
         }
       } catch (error) {
         this.$toast(error.message);

@@ -35,13 +35,13 @@ export default {
     // this.toAppMethod('needBackControl', { need: true });
 
     let res = await this.$http.post(`/api/user/smsLogin`, {
-      loginName: '8010000010',
+      loginName: '8010000099',
       smsCode: '0000',
       platform: 'android',
-      afId: '11',
-      gaId: '11',
-      androidId: '1111',
-      imei: '2222',
+      afId: '1221',
+      gaId: '12221',
+      androidId: '111123233',
+      imei: '222222322',
     });
     this.updateToken({ token: res.data.token, userId: res.data.userId });
   },
