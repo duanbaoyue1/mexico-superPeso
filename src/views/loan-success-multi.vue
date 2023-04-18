@@ -63,7 +63,11 @@ export default {
     showGoogleFeed: {
       handler() {
         if (!this.showGoogleFeed && this.nextStep) {
-          this.toAppMethod(this.nextStep, { closeCurPage: true });
+          if (this.nextStep == 'goBack') {
+            this.goAppBack();
+          } else if (this.nextStep == 'goAllOrders') {
+            this.innerJump('order-list', {}, true);
+          }
         }
       },
       deep: true,
@@ -172,7 +176,7 @@ export default {
         this.nextStep = 'goAllOrders';
         this.showGoogleFeed = true;
       } else {
-        this.toAppMethod('goAllOrders', { closeCurPage: true });
+        this.innerJump('order-list', {}, true);
       }
     },
 
