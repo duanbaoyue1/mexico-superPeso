@@ -104,7 +104,7 @@ export default {
 <style lang="scss" scoped>
 .ifsc-select {
   .content-wrapper {
-    height: 600px;
+    height: 500px;
     background: #ffffff;
     position: relative;
     .nav {
@@ -144,7 +144,7 @@ export default {
     .items {
       position: absolute;
       top: 80px;
-      bottom: 94px;
+      bottom: 88px;
       left: 0;
       right: 0;
       overflow-y: scroll;

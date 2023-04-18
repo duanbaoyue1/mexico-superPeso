@@ -148,7 +148,7 @@ export default {
         this.curInterval = null;
       }
       this.curInterval = setInterval(() => {
-        if (this.curPercent != 99) {
+        if (this.curPercent <= 99) {
           this.curPercent += 1;
         } else {
           this.stopPercent();
@@ -157,11 +157,11 @@ export default {
     },
 
     stopPercent() {
-      window.clearInterval(this.curInterval);
       this.submitSuccess = false;
+      window.clearInterval(this.curInterval);
     },
 
-    async showUploadSuccess() {
+    async createNewOrder() {
       try {
         // 创建订单
         let res = await this.$http.post(`/api/product/appMaskModel`);
@@ -188,24 +188,29 @@ export default {
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
             this.curPercent = 100;
-            this.stopPercent();
+            setTimeout(() => {
+              this.stopPercent();
+              this.submitSuccess = false;
+              // 活体检测
+              this.canSubmit = true;
+            }, 1000);
             this.eventTracker('id_submit_success');
-            this.canSubmit = true;
-            // 活体检测
           } else if (type == 4 && res.data.faceComparisonStatus) {
             this.curPercent = 100;
-            this.stopPercent();
+            setTimeout(() => {
+              this.stopPercent();
+              this.submitSuccess = false;
+            }, 1000);
             this.eventTracker('id_liveness_success');
-            this.showUploadSuccess();
+            this.createNewOrder();
           } else {
+            this.logError(type);
           }
         } else {
           this.logError(type);
         }
       } catch (error) {
         this.logError(type, error.message);
-      } finally {
-        this.stopPercent();
       }
     },
 
