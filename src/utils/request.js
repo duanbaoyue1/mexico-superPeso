@@ -50,10 +50,8 @@ service.interceptors.request.use(
       }
     }
     config.headers['token'] = store.getters.appGlobal.token;
-    // TODO
-    config.headers['channelCode'] = 'google';
-    config.headers['mobileType'] = '2';
-    // TODO
+    config.headers['channelCode'] = store.getters.appGlobal.channelCode || 'google';
+    config.headers['mobileType'] = store.getters.appGlobal.mobileType || '2';
     config.headers['gps'] = store.getters.appGlobal.gps;
     config.headers['gpsAddress'] = encodeURIComponent(store.getters.appGlobal.gpsAddress);
     config.headers['afId'] = store.getters.appGlobal.afId;
