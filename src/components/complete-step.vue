@@ -91,6 +91,7 @@ export default {
     }
     .text {
       color: #999999;
+      transform: scale(.9);
     }
     &.active {
       .text {

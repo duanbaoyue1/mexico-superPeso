@@ -26,11 +26,11 @@
       </div>
 
       <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')"> -->
-      <div class="line-item phone-select-wrapper">
+      <div class="line-item">
         <label>Phone No.</label>
         <div>
           <input id="familyPhone" v-model="editData.familyPhone" type="number" placeholder="Please enter" />
-          <m-icon class="icon" type="right" :width="8" :height="12" />
+          <!-- <m-icon class="icon" type="right" :width="8" :height="12" /> -->
         </div>
       </div>
       <div class="line-item">
@@ -39,11 +39,11 @@
       </div>
 
       <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')"> -->
-      <div class="line-item phone-select-wrapper">
+      <div class="line-item">
         <label>Phone No.</label>
         <div>
           <input id="familyPhone" v-model="editData.friendPhone" type="number" placeholder="Please enter" />
-          <m-icon class="icon" type="right" :width="8" :height="12" />
+          <!-- <m-icon class="icon" type="right" :width="8" :height="12" /> -->
         </div>
       </div>
       <div class="line-item">
