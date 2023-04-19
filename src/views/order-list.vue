@@ -57,6 +57,7 @@ export default {
 .order-list {
   padding: 0 24px;
   padding-bottom: 24px;
+  min-height: 100%;
   .order-item {
     margin: 16px auto;
     &:last-child {

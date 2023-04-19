@@ -98,6 +98,7 @@ export default {
           this.submitSuccess = true;
           this.updateToken({ token: res.data.token });
           this.toAppMethod('updateUser', res.data);
+          this.$toast('success');
           setTimeout(() => {
             this.goHome();
           }, 1000);

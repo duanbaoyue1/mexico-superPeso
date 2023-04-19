@@ -93,7 +93,10 @@ export default {
         });
         this.updateToken({ token: res.data.token });
         this.toAppMethod('updateUser', res.data);
-        this.goHome();
+        this.$toast('success');
+        setTimeout(() => {
+          this.goHome();
+        }, 1000);
       } catch (error) {
         this.$toast(error.message);
       }
