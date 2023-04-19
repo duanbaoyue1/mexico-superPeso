@@ -32,7 +32,6 @@ Vue.mixin(global);
 Vue.mixin(syncData);
 
 import Vconsole from 'vconsole';
-
 if (process.env.NODE_ENV == 'production') {
   let vConsole = new Vconsole();
   Vue.use(vConsole);

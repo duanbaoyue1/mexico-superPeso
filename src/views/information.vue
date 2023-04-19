@@ -139,6 +139,7 @@ export default {
   padding-bottom: 110px;
   background: #f6f6f6;
   padding-top: 0;
+  
   .submit-success {
     position: fixed;
     z-index: 222;

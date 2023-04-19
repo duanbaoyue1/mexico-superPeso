@@ -233,7 +233,6 @@ export default {
   padding: 20px 24px;
   padding-bottom: 110px;
   background: #f6f6f6;
-  height: 100%;
 
   .pan-text {
     font-size: 14px;

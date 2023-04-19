@@ -9,7 +9,7 @@
     "dev": "vue-cli-service serve --mode=development",
     "testserver": "vue-cli-service build --mode=test",
     "serve": "vue-cli-service serve --mode=development --open",
-    "build": "vue-cli-service build --mode=production",
+    "build": "vue-cli-service build --mode=production --report",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "dotenv": "^16.0.3",
     "element-ui": "^2.4.5",
     "enc": "^0.4.0",
+    "image-webpack-loader": "^8.1.0",
     "jquery": "^3.6.1",
     "js-md5": "^0.7.3",
     "pako": "^2.1.0",
