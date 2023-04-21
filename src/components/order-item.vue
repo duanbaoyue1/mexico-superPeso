@@ -62,7 +62,11 @@ export default {
 
   methods: {
     goDetail() {
-      this.innerJump('order-detail', { orderId: this.order.orderNo });
+      if (this.order.orderStatus == 10) {
+        this.goHome();
+      } else {
+        this.innerJump('order-detail', { orderId: this.order.orderNo });
+      }
     },
   },
 };
