@@ -32,7 +32,7 @@
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
-        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showBackControl = false" />
+        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="leave" />
         <div class="head">
           <img :src="require('@/assets/img/handy/倒计时10s弹窗.png')" />
         </div>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="action">
-          <button class="btn-default" @click="leave">Leave</button>
+          <button class="btn-default" @click="showBackControl = false">Think again</button>
         </div>
       </div>
     </div>

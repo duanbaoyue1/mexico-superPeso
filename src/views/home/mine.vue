@@ -8,7 +8,7 @@
     <div class="menu">
       <div @click="innerJump('order-list')">
         <div>
-          <m-icon class="icon" type="handy/Receipt Account" :width="30" :height="30" />
+          <m-icon class="icon" type="handy/All orders" :width="30" :height="30" />
           All orders
         </div>
         <m-icon type="handy/进入" :width="8" :height="12" />
@@ -54,7 +54,7 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-      <div @click="innerJump('testb')">
+      <!-- <div @click="innerJump('testb')">
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           testb
@@ -68,7 +68,7 @@
           Order Detail
         </div>
         <m-icon type="handy/进入" :width="8" :height="12" />
-      </div>
+      </div> -->
     </div>
 
     <van-overlay :show="showLogOut" @click="showLogOut = false">

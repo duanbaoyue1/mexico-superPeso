@@ -73,7 +73,7 @@
           <span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span>
         </span>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80" @click="goDeferHis">
+      <div class="flex-between" v-if="detail.orderStatus >= 80 && detail.showExtension == 1" @click="goDeferHis">
         <span>History of deferment</span>
         <div class="color-blue">
           {{ deferTimes }} times
@@ -126,7 +126,7 @@
 export default {
   computed: {
     showDate() {
-      return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 30 || this.detail.orderStatus == 70 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
+      return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
     },
     orderStatusText() {
       switch (this.detail.orderStatus) {

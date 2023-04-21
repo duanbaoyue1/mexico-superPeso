@@ -20,11 +20,11 @@
       </div>
       <div class="item">
         <span>Disbursal Bank</span>
-        <span>{{ orderInfo.bankCardNo }}</span>
+        <span>{{ orderInfo.bankCardName }}</span>
       </div>
       <div class="item">
         <span>Account No.</span>
-        <span>{{ orderInfo.bankCardName }}</span>
+        <span>{{ orderInfo.bankCardNo }}</span>
       </div>
     </div>
 
@@ -56,7 +56,7 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Loan Applications',
+      title: 'Loan Application',
     });
   },
   data() {

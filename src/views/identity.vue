@@ -157,7 +157,6 @@ export default {
     },
 
     stopPercent() {
-      this.submitSuccess = false;
       window.clearInterval(this.curInterval);
     },
 
@@ -168,8 +167,10 @@ export default {
         // 跳转个人信息页
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
+        this.submitSuccess = false;
         this.innerJump('information', { orderId: res.data.orderId }, true);
       } catch (error) {
+        this.submitSuccess = false;
         this.$toast(error.message);
       }
     },
@@ -197,10 +198,7 @@ export default {
             this.eventTracker('id_submit_success');
           } else if (type == 4 && res.data.faceComparisonStatus) {
             this.curPercent = 100;
-            setTimeout(() => {
-              this.stopPercent();
-              this.submitSuccess = false;
-            }, 1000);
+
             this.eventTracker('id_liveness_success');
             this.createNewOrder();
           } else {
@@ -215,10 +213,10 @@ export default {
     },
 
     logError(type, message) {
-      this.eventTracker('id_submit_error');
-      this.$toast(message || 'please try again!');
       this.stopPercent();
       this.submitSuccess = false;
+      this.eventTracker('id_submit_error');
+      this.$toast(message || 'please try again!');
     },
 
     async submit() {

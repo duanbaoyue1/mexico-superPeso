@@ -60,7 +60,7 @@
       <span>
         Congratulations!
         <br />
-        Your personal information has been verified
+        Your personal contacts has been verified
       </span>
     </div>
   </div>

@@ -119,6 +119,7 @@ export default {
     if (this.checkInApp() && !this.created) {
       return;
     }
+    console.log('home activated and refresh data!');
     this.updateData();
   },
   methods: {
@@ -228,7 +229,7 @@ export default {
         this.actionText = 'Apply';
         //未认证跳转
         if (this.appMode.identityAuth == 0) {
-          this.btnTips = '95%';
+          this.btnTips = 'Almost:95%';
           this.actionCallback = () => {
             this.innerJump('identity', { orderId: this.appMode.orderId });
           };
@@ -471,7 +472,7 @@ export default {
             position: absolute;
             background: #fbe396;
             padding: 8px;
-            border-radius: 4px 4px 4px 0;
+            border-radius: 10px 10px 10px 0;
             font-size: 10px;
             font-family: Roboto-Regular, Roboto;
             font-weight: 400;
