@@ -113,7 +113,7 @@
       <div class="btns" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40 || detail.orderStatus == 80 || detail.orderStatus == 90">
         <button class="btn-default" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40" @click="goHome">More Loan Products</button>
         <template v-else-if="detail.orderStatus == 80 || detail.orderStatus == 90">
-          <button class="btn-line" v-if="detail.showExtension == 1"  @click="applyDefer">Apply deferment</button>
+          <button class="btn-line" v-if="detail.showExtension == 1" @click="applyDefer">Apply deferment</button>
           <button class="btn-default" @click="showPaymentTips = true">Repay Now</button>
         </template>
       </div>
@@ -159,6 +159,9 @@ export default {
       transparent: true,
       fixed: true,
       title: 'Order Details',
+      backCallback: () => {
+        this.goAppBack();
+      },
     });
   },
   data() {
