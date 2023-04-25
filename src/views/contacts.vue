@@ -25,12 +25,11 @@
         <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" itemAttrs="familyRelation" @choose="chooseEditData" />
       </div>
 
-      <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')"> -->
-      <div class="line-item">
+      <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.familyPhone" type="number" placeholder="Please enter" />
-          <!-- <m-icon class="icon" type="right" :width="8" :height="12" /> -->
+          <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
+          <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
       <div class="line-item">
@@ -38,12 +37,11 @@
         <input v-model="editData.familyName" placeholder="Please enter" />
       </div>
 
-      <!-- <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')"> -->
-      <div class="line-item">
+      <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.friendPhone" type="number" placeholder="Please enter" />
-          <!-- <m-icon class="icon" type="right" :width="8" :height="12" /> -->
+          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
+          <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
       <div class="line-item">
@@ -98,21 +96,21 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      let { type, phone, name } = data;
-      if (type) {
-        this.$set(this.editData, type, phone);
-        if (type == 'familyPhone' && name) {
-          this.$set(this.editData, 'familyName', name);
-        }
-        if (type == 'friendPhone' && name) {
-          this.$set(this.editData, 'friendName', name);
-        }
+      let type = this.curSelectPhoneType;
+      let { mobile, name } = data;
+      this.$set(this.editData, type, mobile);
+      if (type == 'familyPhone' && name) {
+        this.$set(this.editData, 'familyName', name);
+      }
+      if (type == 'friendPhone' && name) {
+        this.$set(this.editData, 'friendName', name);
       }
     };
 
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
+      curSelectPhoneType: null,
       submitSuccess: false,
       editData: {
         friendName: '',
@@ -134,7 +132,9 @@ export default {
       this.$set(this.editData, data.attr, data.value);
     },
     choosePhone(type) {
-      this.toAppMethod('choosePhone', { type });
+      this.curSelectPhoneType = type;
+      console.log(this.curSelectPhoneType);
+      this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
     },
 
     async submit() {
