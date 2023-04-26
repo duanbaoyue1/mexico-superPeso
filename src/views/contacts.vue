@@ -86,7 +86,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length > 1 && !this.saving;
+        this.canSubmit = Object.values(this.editData).filter(t => !!t).length >= 8;
       },
       deep: true,
     },
@@ -138,8 +138,7 @@ export default {
     },
 
     async submit() {
-      if (this.saving) return;
-      this.saving = true;
+      this.showLoading();
       try {
         this.eventTracker('contact_submit');
         let saveData = { ...this.editData };
@@ -171,7 +170,7 @@ export default {
         this.eventTracker('contact_submit_error');
         this.$toast(error.message);
       } finally {
-        this.saving = false;
+        this.hideLoading();
       }
     },
   },

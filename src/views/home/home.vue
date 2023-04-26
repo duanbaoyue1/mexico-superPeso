@@ -234,17 +234,17 @@ export default {
             this.innerJump('identity', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.basicInfoAuth == 0) {
-          this.btnTips = '96%';
+          this.btnTips = 'Almost:96%';
           this.actionCallback = () => {
             this.innerJump('information', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.addInfoAuth == 0) {
-          this.btnTips = '97%';
+          this.btnTips = 'Almost:97%';
           this.actionCallback = () => {
             this.innerJump('contacts', { orderId: this.appMode.orderId });
           };
         } else if (this.appMode.remittanceAccountAuth == 0) {
-          this.btnTips = '98%';
+          this.btnTips = 'Almost:98%';
           this.actionCallback = () => {
             this.innerJump('complete-bank', { orderId: this.appMode.orderId, from: 'order' });
           };
@@ -271,7 +271,7 @@ export default {
             // 放款中
             this.actionText = 'Disbursing';
           } else {
-            this.btnTips = '99%';
+            this.btnTips = 'Almost:99%';
             this.actionCallback = () => {
               this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
             };

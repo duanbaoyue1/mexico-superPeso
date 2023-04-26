@@ -14,7 +14,7 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-      <div @click="innerJump('complete-bank', { from: 'mine' })">
+      <div @click="innerJump('complete-bank', { from: 'mine' })" v-if="userInfo.remittanceAccountAuth">
         <div>
           <m-icon class="icon" type="handy/Receipt Account" :width="30" :height="30" />
           Receipt Account
