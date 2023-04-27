@@ -36,6 +36,8 @@ export default {
     },
     statusText() {
       switch (this.order.orderStatus) {
+        case 10:
+          return 'Pending to apply';
         case 20:
           return 'Reviewing';
         case 21:
