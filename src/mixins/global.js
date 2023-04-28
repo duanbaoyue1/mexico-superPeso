@@ -271,6 +271,7 @@ export default {
       // 如果500ms没有跳转成功则去首页
       setTimeout(function () {
         if (window.location.href == prevPage) {
+          console.log('on goAppBack not go prev');
           this.goHome();
         }
       }, 500);
