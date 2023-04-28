@@ -396,9 +396,6 @@ export default {
       justify-content: center;
       align-items: center;
       flex: 1;
-      &:first-child {
-        margin-right: 60px;
-      }
       img {
         width: 10px;
         height: 10px;

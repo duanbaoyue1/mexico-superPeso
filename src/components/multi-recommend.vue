@@ -2,7 +2,7 @@
   <div class="multi-recommend">
     <div class="order-items">
       <div class="order-item" v-for="(order, index) in list" :key="order.id" @click="checkLoan(index)">
-        <div class="reloan" v-if="!order.isReloan">reloan</div>
+        <div class="reloan" v-if="order.isReloan">reloan</div>
         <div class="status">
           <m-icon class="icon" :type="order.unChecked ? 'handy/未选中' : 'handy/选中'" :width="24" :height="24" />
           {{ order.productName }}

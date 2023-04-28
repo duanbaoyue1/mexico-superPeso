@@ -6,14 +6,14 @@
       <div class="name">
         <div>{{ order.productName }}</div>
         <div class="date">
-          <span>{{ dateText }}</span>
-          <span>{{ order.applyTime }}</span>
+          <span>Due Date</span>
+          <span>{{ order.repaymentTime }}</span>
         </div>
       </div>
     </div>
     <div class="action">
       <div>
-        <span class="label">{{ amountText }}</span>
+        <span class="label">Application Amount</span>
         <span class="label2">₹</span>
         <span class="number">{{ order.approvalAmount }}</span>
       </div>
@@ -27,20 +27,6 @@ export default {
   props: ['order'],
 
   computed: {
-    amountText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
-        return `Repayable Amount`;
-      } else {
-        return `Application Amount`;
-      }
-    },
-    dateText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
-        return `Due Date`;
-      } else {
-        return `Apply Date`;
-      }
-    },
     statusText() {
       switch (this.order.orderStatus) {
         case 10:

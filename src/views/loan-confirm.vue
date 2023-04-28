@@ -175,11 +175,17 @@ export default {
         font-weight: 400;
         color: #333333;
         line-height: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
         &:first-child {
           font-size: 14px;
           font-weight: 400;
           color: #000000;
           line-height: 18px;
+          flex-shrink: 0;
+          margin-right: 20px;
         }
       }
     }

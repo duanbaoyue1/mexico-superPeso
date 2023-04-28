@@ -546,8 +546,12 @@ export default {
         margin-bottom: 0;
       }
       span {
+        white-space: nowrap;
         &:last-child {
           text-align: right;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-left: 20px;
         }
       }
     }

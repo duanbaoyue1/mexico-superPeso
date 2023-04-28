@@ -153,6 +153,9 @@ export default {
         await this.getUserInfo();
         await this.getAppMode();
         await this.updateRepaymentNum();
+        if (this.appMode.maskModel == 1) {
+          await this.getMultiRecommendItems();
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -171,6 +174,7 @@ export default {
       if (this.appMode.maskModel == 1) {
         this.actionText = this.appMode.button || 'Apply';
         if (this.actionText == 'Apply') {
+          this.actionText = 'Apply immediately';
           // 有可借
           this.actionCallback = async () => {
             // 多推
@@ -295,7 +299,7 @@ export default {
     async getMultiRecommendItems() {
       try {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
-        this.selectItems = res.data.mergPushProductList || [];
+        this.updateMultiSelect(res.data.mergPushProductList || []);
         this.multiRecommendList = res.data.mergPushProductList || [];
       } catch (error) {}
     },

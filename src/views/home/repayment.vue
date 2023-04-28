@@ -1,7 +1,7 @@
 <template>
   <div class="order-list content-area">
     <div class="has-order" v-if="orders.length">
-      <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+      <order-item-repayment class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item-repayment>
     </div>
     <div class="no-order" v-else-if="!loading">
       <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import OrderItem from '@/components/order-item.vue';
+import OrderItemRepayment from '@/components/order-item-repayment.vue';
 
 export default {
   components: {
-    OrderItem,
+    OrderItemRepayment,
   },
   data() {
     return {

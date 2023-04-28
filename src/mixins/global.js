@@ -266,7 +266,14 @@ export default {
       this.innerJump('home', {}, true);
     },
     goAppBack() {
-      history.back();
+      let prevPage = window.location.href;
+      window.history.go(-1);
+      // 如果500ms没有跳转成功则去首页
+      setTimeout(function () {
+        if (window.location.href == prevPage) {
+          this.goHome();
+        }
+      }, 500);
     },
     parseQuery(query) {
       const arr1 = query.split('&');
