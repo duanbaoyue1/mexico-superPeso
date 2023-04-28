@@ -24,7 +24,7 @@
           <span class="label">Max amout</span>
           <span class="number">
             <span class="fs-12">₹</span>
-            {{ order.maxAmount }}
+            {{ order.minAmount }}
           </span>
         </div>
       </div>

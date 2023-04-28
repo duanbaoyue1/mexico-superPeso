@@ -4,20 +4,20 @@
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
           <div class="available-text">Available Amount (₹)</div>
-          <div class="number">{{ curAvailableAmount }}</div>
+          <div class="number">{{ isMultiple ? multipleCredit.remaining : curAvailableAmount }}</div>
           <div class="total-used">
             <div>
               <div class="label">Total Credit (₹)</div>
-              <div class="number">{{ appMode.totalCredit }}</div>
+              <div class="number">{{ isMultiple ? multipleCredit.sumQuota : appMode.totalCredit }}</div>
             </div>
             <div>
               <div class="label">Used Credit (₹)</div>
-              <div class="number">{{ appMode.usedCredit }}</div>
+              <div class="number">{{ isMultiple ? multipleCredit.usedQuota : appMode.usedCredit }}</div>
             </div>
           </div>
           <div class="action-btn" @click="clickApply">
             <div class="status-tips" v-if="btnTips" v-html="btnTips"></div>
-            {{ actionText }}
+            {{ isMultiple ? multipleCredit.button : actionText }}
           </div>
         </div>
 
@@ -62,6 +62,8 @@ export default {
       actionText: 'Apply',
       btnTips: '',
       actionCallback: null, // 按纽回调
+      multipleCredit: {
+      },
     };
   },
   computed: {
@@ -152,10 +154,10 @@ export default {
         this.showLoading();
         await this.getUserInfo();
         await this.getAppMode();
-        await this.updateRepaymentNum();
         if (this.appMode.maskModel == 1) {
           await this.getMultiRecommendItems();
         }
+        this.updateTextAndAction();
       } catch (error) {
         console.log(error);
       } finally {
@@ -172,9 +174,8 @@ export default {
       };
 
       if (this.appMode.maskModel == 1) {
-        this.actionText = this.appMode.button || 'Apply';
-        if (this.actionText == 'Apply') {
-          this.actionText = 'Apply immediately';
+        this.actionText = this.multipleCredit.button || 'Apply';
+        if (this.actionText == 'Apply immediately') {
           // 有可借
           this.actionCallback = async () => {
             // 多推
@@ -301,13 +302,21 @@ export default {
         let res = await this.$http.post(`/api/product/mergeProduct/list`);
         this.updateMultiSelect(res.data.mergPushProductList || []);
         this.multiRecommendList = res.data.mergPushProductList || [];
+        this.setRepaymentNum(res.data.repaymentNum);
+        this.multipleCredit = {
+          usedQuota: res.data.usedQuota,
+          sumQuota: res.data.sumQuota,
+          remaining: res.data.remaining,
+          repaymentNum: res.data.repaymentNum,
+          button: res.data.button,
+        };
       } catch (error) {}
     },
 
     async onRefresh() {
       try {
         await this.getAppMode();
-        await this.updateRepaymentNum();
+        this.updateTextAndAction();
       } catch (error) {
         console.log(error);
       } finally {
@@ -315,21 +324,12 @@ export default {
       }
     },
 
-    async updateRepaymentNum() {
-      try {
-        let res = await this.$http.post(`/api/order/unRepaymentOrderList`);
-        this.setRepaymentNum((res.data.list || []).length);
-      } catch (error) {
-        this.setRepaymentNum(0);
-      }
-    },
-
     updateMultiSelect(selectItems) {
       this.selectItems = selectItems;
       let totalValue = selectItems.reduce((prev, cur, index, arr) => {
-        return prev + parseInt(cur.maxAmount);
+        return prev + parseInt(cur.minAmount);
       }, 0);
-      this.$set(this.appMode, 'availableCredit', totalValue);
+      this.$set(this.multipleCredit, 'remaining', totalValue);
     },
 
     async clickApply() {
@@ -452,6 +452,7 @@ export default {
           color: #333333;
           line-height: 54px;
           text-align: center;
+          height: 54px;
         }
 
         .action-btn {

@@ -20,7 +20,7 @@
           <div class="name">{{ loan.productName }}</div>
           <div class="value">
             Loan Amount (₹):
-            <span>{{ loan.maxAmount }}</span>
+            <span>{{ loan.minAmount }}</span>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@ export default {
 
     updateCheckedNum() {
       this.checkedNums = this.loans.filter(t => !t.unChecked).length;
-      this.totalAmount = this.sumArr(this.loans.filter(t => !t.unChecked).map(t => t.maxAmount));
+      this.totalAmount = this.sumArr(this.loans.filter(t => !t.unChecked).map(t => t.minAmount));
     },
 
     async applyMulti() {

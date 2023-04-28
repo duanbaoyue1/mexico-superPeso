@@ -70,6 +70,9 @@ export default new Vuex.Store({
       state.isAppChecked = data;
     },
     setTabBar(state, data) {
+      if(!data.backCallback) {
+        data.backCallback = null;
+      }
       state.tabBar = {
         ...state.tabBar,
         ...data,
