@@ -489,7 +489,7 @@ export default {
             color: #333333;
             line-height: 12px;
             right: -14px;
-            top: -18px;
+            top: -26px;
             transform: scale(0.9);
           }
         }

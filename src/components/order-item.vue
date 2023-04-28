@@ -71,7 +71,7 @@ export default {
 
   methods: {
     goDetail() {
-      if (this.order.orderStatus == 10) {
+      if (this.order.orderStatus == 10 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
         this.goHome();
       } else {
         this.innerJump('order-detail', { orderId: this.order.orderNo });

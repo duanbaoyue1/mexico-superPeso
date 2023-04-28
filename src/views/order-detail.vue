@@ -545,7 +545,7 @@ export default {
       &:last-child {
         margin-bottom: 0;
       }
-      span {
+      > span {
         white-space: nowrap;
         &:last-child {
           text-align: right;
