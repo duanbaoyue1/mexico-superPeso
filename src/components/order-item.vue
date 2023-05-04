@@ -7,7 +7,8 @@
         <div>{{ order.productName }}</div>
         <div class="date">
           <span>{{ dateText }}</span>
-          <span>{{ order.applyTime }}</span>
+          <span>{{ dateValue }}</span>
+          <span class="repaid" v-if="order.orderStatus == 80 || order.orderStatus == 90" @click="goFillUtr">Repaid?</span>
         </div>
       </div>
     </div>
@@ -27,15 +28,23 @@ export default {
   props: ['order'],
 
   computed: {
+    dateValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
+        return this.order.repaymentTime;
+      } else {
+        return this.order.applyTime;
+      }
+    },
+
     amountText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
         return `Repayable Amount`;
       } else {
         return `Application Amount`;
       }
     },
     dateText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
         return `Due Date`;
       } else {
         return `Apply Date`;
@@ -70,6 +79,9 @@ export default {
   },
 
   methods: {
+    goFillUtr() {
+      this.innerJump('utr', { orderId: this.order.id, type: 'repay' });
+    },
     goDetail() {
       if (this.order.orderStatus == 10 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
         this.goHome();
@@ -182,12 +194,14 @@ export default {
       font-size: 14px;
       color: #333333;
       line-height: 18px;
+      width: 100%;
       > div {
         &:first-child {
           margin-bottom: 18px;
         }
       }
       .date {
+        position: relative;
         span {
           &:first-child {
             font-size: 10px;
@@ -197,6 +211,17 @@ export default {
             line-height: 12px;
             margin-right: 8px;
           }
+        }
+        .repaid {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          font-size: 10px;
+          font-weight: 500;
+          color: #ff4b3f;
+          line-height: 12px;
+          transform: scale(0.9) translateY(-50%);
+          text-decoration: underline;
         }
       }
     }

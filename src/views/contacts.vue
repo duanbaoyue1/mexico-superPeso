@@ -40,7 +40,7 @@
       <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="friendPhone" v-model="editData.friendPhone" disabled placeholder="Please select" />
+          <input id="friendPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
@@ -58,7 +58,7 @@
       <span>
         Congratulations!
         <br />
-        Your personal contacts has been verified
+        Your contacts information has been verified
       </span>
     </div>
   </div>

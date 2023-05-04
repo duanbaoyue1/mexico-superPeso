@@ -13,7 +13,7 @@
     </div>
     <div class="action">
       <div>
-        <span class="label">Application Amount</span>
+        <span class="label">Repayable Amount</span>
         <span class="label2">₹</span>
         <span class="number">{{ order.approvalAmount }}</span>
       </div>
