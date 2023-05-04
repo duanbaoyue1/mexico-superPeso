@@ -322,7 +322,7 @@ export default {
     align-items: flex-start;
     font-size: 12px;
     font-weight: 400;
-    margin: 50px 0px 0;
+    margin: 16px 24px 0;
     color: #000601;
     position: relative;
     .tips {
@@ -332,7 +332,7 @@ export default {
       width: 130px;
       height: 20px;
       background: #fbe396;
-      border-radius: 24px 24px 24px 0px;
+      border-radius: 24px 24px 24px 24px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -341,6 +341,17 @@ export default {
       color: #333333;
       line-height: 12px;
       transform: scale(0.9);
+      &::after {
+        position: absolute;
+        content: ' ';
+        width: 1px;
+        height: 1px;
+        border-width: 6px 6px;
+        border-style: solid;
+        border-color: #fbe396 transparent transparent transparent;
+        bottom: -10px;
+        left: 11px;
+      }
     }
     .m-icon {
       margin-top: -2px;
