@@ -73,7 +73,7 @@
           <span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span>
         </span>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80 && detail.showExtension == 1" @click="goDeferHis">
+      <div class="flex-between" v-if="deferTimes > 0 || (detail.orderStatus >= 80 && detail.showExtension == 1)" @click="goDeferHis">
         <span>History of deferment</span>
         <div class="color-blue">
           {{ deferTimes }} times
