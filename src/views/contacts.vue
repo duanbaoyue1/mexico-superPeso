@@ -98,14 +98,16 @@ export default {
       }
       let type = this.curSelectPhoneType;
       let { mobile, name } = data;
-      this.$set(this.editData, type, mobile);
-
-      console.log(type, mobile, name);
+      console.log( 'type:',type);
+      console.log( 'mobile:',mobile);
+      console.log( 'name:',name);
       if (type == 'familyPhone' && name) {
         this.$set(this.editData, 'familyName', name);
+        this.$set(this.editData, 'familyPhone', mobile);
       }
       if (type == 'friendPhone' && name) {
         this.$set(this.editData, 'friendName', name);
+        this.$set(this.editData, 'friendPhone', mobile);
       }
     };
 
