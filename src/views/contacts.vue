@@ -40,12 +40,12 @@
       <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
+          <input id="friendPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
       <div class="line-item">
-        <label>friendName</label>
+        <label>Friend's Name</label>
         <input v-model="editData.friendName" placeholder="Please enter" />
       </div>
     </div>
@@ -99,6 +99,8 @@ export default {
       let type = this.curSelectPhoneType;
       let { mobile, name } = data;
       this.$set(this.editData, type, mobile);
+
+      console.log(type, mobile, name);
       if (type == 'familyPhone' && name) {
         this.$set(this.editData, 'familyName', name);
       }
