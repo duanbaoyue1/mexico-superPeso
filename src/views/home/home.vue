@@ -62,8 +62,7 @@ export default {
       actionText: 'Apply',
       btnTips: '',
       actionCallback: null, // 按纽回调
-      multipleCredit: {
-      },
+      multipleCredit: {},
     };
   },
   computed: {
@@ -108,6 +107,9 @@ export default {
     },
   },
   async created() {
+    if (this.from == 'bridge' && !this.query.reload) {
+      location.replace(location.href + '&reload=true');
+    }
     this.setGlobalData();
     this.getCommonParametersKey();
   },
