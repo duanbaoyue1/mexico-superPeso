@@ -1,15 +1,17 @@
 <template>
-  <van-pull-refresh class="order-list content-area" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="getAllOrders">
-    <div>
-      <div class="has-order" v-if="orders.length">
-        <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+  <div class="scroll-area content-area order-list">
+    <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders">
+      <div>
+        <div class="has-order" v-if="orders.length">
+          <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+        </div>
+        <div class="no-order" v-else-if="!loading">
+          <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
+          <button @click="goHome">Apply Now</button>
+        </div>
       </div>
-      <div class="no-order" v-else-if="!loading">
-        <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-        <button @click="goHome">Apply Now</button>
-      </div>
-    </div>
-  </van-pull-refresh>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
@@ -54,15 +56,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order-list {
+.scroll-area {
+  height: calc(100vh - 80px);
+  overflow: auto !important;
   padding: 0 24px;
-  padding-bottom: 24px;
-  min-height: 100%;
+}
+.order-list {
   .order-item {
     margin: 16px auto;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 
