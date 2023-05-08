@@ -90,6 +90,20 @@ export default {
         data = JSON.parse(data);
       }
       let { mobile, name } = data;
+      mobile = mobile.replace(/ /g, '');
+      if (mobile.length < 10 || mobile.length > 15) {
+        this.showMessageBox({
+          content: 'The format of cell phone number is not correct, please choose again',
+          confirmBtnText: 'Ok',
+          confirmCallback: () => {
+            console.log('confirmCallback');
+            this.hideMessageBox();
+          },
+          iconPath: 'handy/银行账户验证失败@2x',
+          showClose: false,
+        });
+        return;
+      }
       if (this.lastPhoneType) {
         if (this.lastPhoneType == 'familyPhone') {
           this.familyContacts[this.lastPhoneIndex].mobile = mobile;
