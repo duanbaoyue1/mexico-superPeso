@@ -40,6 +40,9 @@ export default new Vuex.Store({
   },
   mutations: {
     setAppGlobal(state, data) {
+      if(data && data.apiHost) {
+        data.apiHost = data.apiHost.replace('/api', '')
+      }
       state.appGlobal = {
         ...state.appGlobal,
         ...data,
