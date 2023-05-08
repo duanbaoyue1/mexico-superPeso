@@ -17,7 +17,7 @@
           <span>{{ item.desc }}</span>
           <m-icon class="icon" :class="{ open: item.showAnswer }" type="right" :width="8" :height="12" />
         </div>
-        <div class="answer" v-show="item.showAnswer">{{ item.answer }}</div>
+        <div class="answer" v-show="item.showAnswer" v-html="item.answer"></div>
       </div>
     </div>
 
@@ -31,35 +31,31 @@
 export default {
   data() {
     return {
-      feedEmail: 'EasyMoneyCS01@outlook.com',
+      feedEmail: 'handycash01@outlook.com',
       questions: [
         {
+          desc: 'How do I apply for a loan?',
+          answer: "You can download HandyCash from the GooglePlay, register with your mobile number and sign in to apply for a loan.",
+        },
+        {
+          desc: 'How can I improve my application approval rate?',
+          answer: '1. Ensure that the information you submit is true and accurate 2. Complete the authorization item authentication according to the prompts 3. Repay the loan on time and without overdue',
+        },
+        {
           desc: 'Why was my loan application rejected?',
-          answer: "The results of the review are displayed in the lender's system to allow a full assessment of your eligibility. The review was rejected because your eligibility did not meet the requirements. You can try applying for other loan products to meet your financial needs.",
+          answer: 'We are very sorry, it means that your credit score is not enough and you have not met our vetting requirements for the time being. If necessary, we suggest you try to apply again at an interval of about 7 days.',
         },
         {
-          desc: 'How long does it take to get the result of the review once you have applied for a loan?',
-          answer: 'Once the application has been completed, it is sent to the lender immediately. The review period varies for each product. Please be patient and wait.',
+          desc: 'How long will it take for me to receive a release of funds after my application is successful?',
+          answer: 'Usually you will receive the money within 1 hour, however, sometimes, banks have problems with delayed arrival of funds, but usually you will receive the money within 24 hours. If it takes longer than 24 hours, please contact customer service by email, providing your borrowing information and bank documents.',
         },
         {
-          desc: 'How do I repay the loan?',
-          answer: 'You can apply for repayment according to the repayment order.',
+          desc: 'Can I cancel my loan?',
+          answer: "Loan cancellation is not supported if the loan application has entered the review process. If you have already received your loan, please make your repayments on time to avoid incurring late penalties.",
         },
         {
-          desc: 'How long does it take to get a loan after approval?',
-          answer: 'Please be patient as the bank will transfer the money to your account once the verification process is completed.',
-        },
-        {
-          desc: 'Will my personal information be disclosed?',
-          answer: "To protect all users' personal information and to ensure that it is not disclosed to others, we have included a confidentiality agreement in the app.",
-        },
-        {
-          desc: 'What is the penalty for overpayment if I make a late payment?',
-          answer: 'Each product has a different policy for overdue payments and there is a corresponding penalty rate depending on the product',
-        },
-        {
-          desc: 'What are the penalties for overpayment if I make a late payment?',
-          answer: 'Each product has a different late payment policy and a corresponding penalty rate, depending on the product in question.',
+          desc: 'Why is my order not updated even though I have made repayments?',
+          answer: 'This situation is caused by a number of reasons, which may be as follows:<br/>1. You have not filled in the utr number back after repayment or you have filled in the wrong utr number, please go to the app and submit the correct utr number<br/>2. You have submitted the correct utr number, but as you have just paid the repayment, the bank needs processing time, you can wait for 30 minutes and try to submit the utr again.<br/>3. Each time you make a repayment, please click the repayment button to get the latest repayment upi address and pay to that address. Please do not save the upi address for the next repayment as there is a possibility that the upi address has been frozen and so the order cannot be updated.<br/><br/>If the correct utr number has been submitted and it has been more than 12 hours and the order has still not been updated, please contact customer service by email with your borrowing details and a screenshot of your utr payment voucher.',
         },
       ],
     };
@@ -77,7 +73,7 @@ export default {
       try {
         let user = await this.getUserInfo();
         if (parseInt(user.id) % 2 == 1) {
-          this.feedEmail = 'EasyMoneyCS03@outlook.com';
+          this.feedEmail = 'handycash03@outlook.com';
         }
       } catch (error) {}
     }, 200);

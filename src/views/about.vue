@@ -4,7 +4,7 @@
       <img src="../assets/img/logo@2x.png" />
       <div class="name">{{ appGlobal.appName }}</div>
       <div id="version">Version: {{ appGlobal.appVersionV }}</div>
-      <div class="desc">We have developed an application called "{{ appGlobal.appName }}" through which you can apply for a short-term unsecured loan with a quick and easy process and a second payout the same day to help you solve your financial problems.</div>
+      <div class="desc">Hello, we are the {{ appGlobal.appName }} development team and thank you for using our product. HandyCash is an online loan platform in India that provides diverse loan services to Indian mobile internet users. Customers can apply for loans anytime, anywhere through a smart online loan process. The computer review process saves the user from worrying about the loan application.</div>
     </div>
   </div>
 </template>
