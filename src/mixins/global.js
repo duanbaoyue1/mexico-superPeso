@@ -176,6 +176,10 @@ export default {
       }
     },
 
+    openWebview(url, type = 0) {
+      this.toAppMethod('openWebView', { path: url, type: type });
+    },
+
     async getOrderRelateUrl(orderId) {
       try {
         let data = await this.$http.post(`/api/order/getRepaymentUrl`, { orderId: orderId });

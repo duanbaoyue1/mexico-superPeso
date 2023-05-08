@@ -61,12 +61,9 @@ export default {
     };
   },
   async mounted() {
-<<<<<<< HEAD
-=======
     setTimeout(res => {
       this.mounted = true;
     }, 500);
->>>>>>> master
   },
 
   watch: {
@@ -98,8 +95,9 @@ export default {
       this.checkAndSetAppLocal();
       if (to.query.nextUrl && from && from.name) {
         // 为了解决进到还款页面以后退出到utr页面的问题
-        this.showRedirect = true;
-        location.href = to.query.nextUrl;
+        // this.showRedirect = true;
+        this.openWebview(to.query.nextUrl);
+        // location.href = to.query.nextUrl;
       }
       if (to.query.token) {
         this.updateToken({ token: to.query.token });

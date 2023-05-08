@@ -46,6 +46,14 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
+      <div @click="showDeleteConfirm" v-if="userInfo.isTestAccount">
+        <div>
+          <m-icon class="icon" type="handy/Delete Account" :width="30" :height="30" />
+          Delete Account
+        </div>
+        <m-icon type="handy/进入" :width="8" :height="12" />
+      </div>
+
       <div @click="logout">
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
@@ -94,6 +102,20 @@ export default {
     this.updateData();
   },
   methods: {
+    showDeleteConfirm() {
+      this.showMessageBox({
+        content: 'After deleting the account, all information of the account will be erased, confirm to delete?',
+        confirmBtnText: 'Let me think again',
+        cancelBtnText: 'Confirm deletion',
+        confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
+          this.logout();
+        },
+        iconPath: 'handy/编组 11',
+      });
+    },
     async updateData() {
       this.showLoading();
       try {

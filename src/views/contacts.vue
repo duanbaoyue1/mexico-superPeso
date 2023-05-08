@@ -16,7 +16,7 @@
           <label>Contact {{ index + 1 }} Phone No.</label>
           <div>
             <input id="familyPhone" v-model="item.mobile" disabled placeholder="Please select" />
-            <m-icon class="icon" type="right" :width="8" :height="12" />
+            <m-icon class="icon" type="handy/phone" :width="16" :height="16" />
           </div>
         </div>
         <div class="line-item">
@@ -33,7 +33,7 @@
           <label>Contact {{ index + 1 + familyContacts.length }} Phone No.</label>
           <div>
             <input id="fiendPhone" v-model="item.mobile" disabled placeholder="Please select" />
-            <m-icon class="icon" type="right" :width="8" :height="12" />
+            <m-icon class="icon" type="handy/phone" :width="16" :height="16" />
           </div>
         </div>
         <div class="line-item">
@@ -109,8 +109,7 @@ export default {
       familyContacts: [],
       lastPhoneType: '',
       lastPhoneIndex: 0,
-      editData: {
-      },
+      editData: {},
       saving: false,
     };
   },
