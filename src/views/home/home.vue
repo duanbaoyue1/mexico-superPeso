@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="multi-select" v-if="isMultiple" @click="showRecommend = true">
+        <div class="multi-select" v-if="isMultiple" @click="clickShowRecommend">
           <span>Customized Solutions</span>
           <div>
             <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
@@ -149,6 +149,13 @@ export default {
         this.created = true;
       };
       this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersCallback' });
+    },
+
+    clickShowRecommend() {
+      if (!this.selectItems || this.selectItems.length == 0) {
+        return;
+      }
+      this.showRecommend = true;
     },
 
     async updateData() {
