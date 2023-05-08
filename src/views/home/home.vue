@@ -58,6 +58,7 @@ export default {
         screenWidth: window.screen.width,
         availWidth: window.screen.availWidth,
         deviceXDPI: window.screen.deviceXDPI,
+        devicePixelRatio: window.devicePixelRatio
       });
     };
 
