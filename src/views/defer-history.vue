@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-history">
+  <div class="defer-history content-area">
     <div class="items" v-for="(item, index) in lists" :key="index">
       <div class="head fs-18">Deferment {{ index + 1 }}</div>
       <div class="flex-between">
@@ -27,6 +27,15 @@
 
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Deferment',
+    });
+  },
+  
   data() {
     return {
       lists: [],

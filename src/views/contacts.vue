@@ -28,7 +28,7 @@
       <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
+          <input id="familyPhone" v-model="editData.familyPhone" disabled placeholder="Please select" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
@@ -40,12 +40,12 @@
       <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
         <label>Phone No.</label>
         <div>
-          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
+          <input id="friendPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
           <m-icon class="icon" type="right" :width="8" :height="12" />
         </div>
       </div>
       <div class="line-item">
-        <label>friendName</label>
+        <label>Friend's Name</label>
         <input v-model="editData.friendName" placeholder="Please enter" />
       </div>
     </div>
@@ -58,7 +58,7 @@
       <span>
         Congratulations!
         <br />
-        Your personal information has been verified
+        Your contacts information has been verified
       </span>
     </div>
   </div>
@@ -80,27 +80,13 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
-          confirmCallback: () => {
-            this.hideMessageBox();
-          },
-          cancelCallback: () => {
-            this.hideMessageBox();
-            this.goAppBack();
-          },
-          iconPath: 'handy/确定退出嘛',
-        });
-      },
+      backCallback: null,
     });
   },
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length > 1 && !this.saving;
+        this.canSubmit = Object.values(this.editData).filter(t => !!t).length >= 8;
       },
       deep: true,
     },
@@ -110,21 +96,25 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      let { type, phone, name } = data;
-      if (type) {
-        this.$set(this.editData, type, phone);
-        if (type == 'familyPhone' && name) {
-          this.$set(this.editData, 'familyName', name);
-        }
-        if (type == 'friendPhone' && name) {
-          this.$set(this.editData, 'friendName', name);
-        }
+      let type = this.curSelectPhoneType;
+      let { mobile, name } = data;
+      console.log( 'type:',type);
+      console.log( 'mobile:',mobile);
+      console.log( 'name:',name);
+      if (type == 'familyPhone' && name) {
+        this.$set(this.editData, 'familyName', name);
+        this.$set(this.editData, 'familyPhone', mobile);
+      }
+      if (type == 'friendPhone' && name) {
+        this.$set(this.editData, 'friendName', name);
+        this.$set(this.editData, 'friendPhone', mobile);
       }
     };
 
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
+      curSelectPhoneType: null,
       submitSuccess: false,
       editData: {
         friendName: '',
@@ -137,8 +127,8 @@ export default {
   },
 
   mounted() {
-    // this.toAppMethod('needBackControl', { need: true });
     this.eventTracker('contact_access');
+    this.initInfoBackControl();
   },
 
   methods: {
@@ -146,12 +136,13 @@ export default {
       this.$set(this.editData, data.attr, data.value);
     },
     choosePhone(type) {
-      this.toAppMethod('choosePhone', { type });
+      this.curSelectPhoneType = type;
+      console.log(this.curSelectPhoneType);
+      this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
     },
 
     async submit() {
-      if (this.saving) return;
-      this.saving = true;
+      this.showLoading();
       try {
         this.eventTracker('contact_submit');
         let saveData = { ...this.editData };
@@ -183,7 +174,7 @@ export default {
         this.eventTracker('contact_submit_error');
         this.$toast(error.message);
       } finally {
-        this.saving = false;
+        this.hideLoading();
       }
     },
   },
@@ -192,11 +183,10 @@ export default {
 <style lang="scss" scoped>
 .information {
   padding: 20px 24px;
-  padding-bottom: 110px;
-  min-height: 100%;
+  padding-bottom: 94px;
+  overflow-y: auto;
   background: #f6f6f6;
   padding-top: 0;
-  height: 100%;
   box-sizing: border-box;
   .submit-success {
     position: fixed;
@@ -206,6 +196,7 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
     span {
       position: absolute;
       top: 50%;
@@ -244,6 +235,7 @@ export default {
     border-radius: 8px;
     padding: 0 16px;
     margin-bottom: 16px;
+
     .head {
       font-size: 14px;
       color: #000;

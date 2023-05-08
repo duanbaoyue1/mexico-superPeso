@@ -20,19 +20,19 @@
           <div class="name">{{ loan.productName }}</div>
           <div class="value">
             Loan Amount (₹):
-            <span>{{ loan.maxAmount }}</span>
+            <span>{{ loan.minAmount }}</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 没有推荐结果时显示 -->
-    <res-loans v-else class="res-loans" :systemTime="systemTime" :curNumbers="curNumbers"></res-loans>
+    <res-loans v-else class="res-loans" :systemTime="systemTime"></res-loans>
     <google-feedback v-show="showGoogleFeed" :show.sync="showGoogleFeed"></google-feedback>
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
-        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showBackControl = false" />
+        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="leave" />
         <div class="head">
           <img :src="require('@/assets/img/handy/倒计时10s弹窗.png')" />
         </div>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="action">
-          <button class="btn-default" @click="leave">Leave</button>
+          <button class="btn-default" @click="showBackControl = false">Think again</button>
         </div>
       </div>
     </div>
@@ -63,7 +63,11 @@ export default {
     showGoogleFeed: {
       handler() {
         if (!this.showGoogleFeed && this.nextStep) {
-          this.toAppMethod(this.nextStep, { closeCurPage: true });
+          if (this.nextStep == 'goBack') {
+            this.goAppBack();
+          } else if (this.nextStep == 'goAllOrders') {
+            this.innerJump('order-list', {}, true);
+          }
         }
       },
       deep: true,
@@ -75,21 +79,22 @@ export default {
       fixed: true,
       transparent: false,
       title: 'Loan Applications',
-      backCallback: () => {
-        if (this.loans.length) {
-          this.showBackModal();
-        } else if (this.isSysNeedGoogle) {
-          this.nextStep = 'goBack';
-          this.showGoogleFeed = true;
-        } else {
-          this.goAppBack();
-        }
-      },
+      backCallback: window.loanBtnCallback,
     });
   },
+
   data() {
+    window.loanBtnCallback = () => {
+      if (this.loans.length) {
+        this.showBackModal();
+      } else if (this.isSysNeedGoogle) {
+        this.nextStep = 'goBack';
+        this.showGoogleFeed = true;
+      } else {
+        this.goAppBack();
+      }
+    };
     return {
-      curNumbers: this.$route.query.curNumbers || 0, // 当前申请了多少条
       needRecommend: JSON.parse(this.$route.query.needRecommend || true), // 是否需要推荐 从活动过来的不用推荐
       systemTime: this.$route.query.systemTime || '', // 上次订单时间
       single: JSON.parse(this.$route.query.single || false), // 是否是单推
@@ -105,45 +110,18 @@ export default {
     };
   },
   mounted() {
-    // this.toAppMethod('needBackControl', { need: true });
+    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'loanBtnCallback' });
+
     // 从系统读取是否需要弹google窗
     this.getNeedGoogle();
 
     if (this.needRecommend) {
       this.getRecommendLoans();
     }
-
-    // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async data => {
-      if (typeof data == 'string') {
-        data = JSON.parse(data);
-      }
-      if (data.success) {
-        let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
-        try {
-          let data1 = await this.$http.post(`/api/order/mergePush/preApply`, {
-            orderNo: this.$route.query.orderId,
-            productList: loanIds,
-          });
-          if (data1.returnCode == 2000) {
-            await this.$http.post(`/api/order/mergePush/apply`, {
-              orderIdList: data1.data.orderIdList,
-            });
-            this.$toast('Apply successfully');
-            this.curNumbers = loanIds.length;
-            setTimeout(res => {
-              this.getRecommendLoans();
-            }, 1000);
-          }
-        } catch (error) {
-          this.$toast(error.message);
-        }
-      }
-    };
   },
   methods: {
     leave() {
-      // this.toAppMethod('needBackControl', { need: false });
+      this.toAppMethod('isInterceptionReturn', { isInterception: false });
       this.goHome();
     },
     showBackModal() {
@@ -198,7 +176,7 @@ export default {
         this.nextStep = 'goAllOrders';
         this.showGoogleFeed = true;
       } else {
-        this.toAppMethod('goAllOrders', { closeCurPage: true });
+        this.innerJump('order-list', {}, true);
       }
     },
 
@@ -210,11 +188,44 @@ export default {
 
     updateCheckedNum() {
       this.checkedNums = this.loans.filter(t => !t.unChecked).length;
-      this.totalAmount = this.sumArr(this.loans.filter(t => !t.unChecked).map(t => t.maxAmount));
+      this.totalAmount = this.sumArr(this.loans.filter(t => !t.unChecked).map(t => t.minAmount));
     },
 
     async applyMulti() {
-      this.toAppMethod('synData', {});
+      let loanIds = this.loans.filter(t => !t.unChecked).map(t => t.id);
+      this.showLoading();
+
+      let syncRes;
+      try {
+        // 1. 先同步数据
+        try {
+          syncRes = await this.startSyncData();
+        } catch (error) {
+          this.hideLoading();
+          this.$toast('Your message verification failed, please wait a minute and try again');
+          return;
+        }
+        if (syncRes.success) {
+          // 2. 真正提交
+          let res = await this.$http.post(`/api/order/mergePush/preApply`, {
+            orderNo: this.$route.query.orderId,
+            productList: loanIds,
+          });
+          if (res.returnCode == 2000) {
+            await this.$http.post(`/api/order/mergePush/apply`, {
+              orderIdList: res.data.orderIdList,
+            });
+            this.$toast('Apply successfully');
+            setTimeout(res => {
+              this.getRecommendLoans();
+            }, 1000);
+          }
+        }
+      } catch (error) {
+        this.$toast(error.message);
+      } finally {
+        this.hideLoading();
+      }
     },
   },
 };
@@ -229,15 +240,17 @@ export default {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 222;
+
     > .content {
       width: 295px;
       padding: 24px;
       padding-top: 0;
       box-sizing: border-box;
       background: #ffffff;
-      border-radius: 24px;
+      border-radius: 8px;
       position: absolute;
-      top: 50%;
+      top: 55%;
       left: 50%;
       transform: translate(-50%, -50%);
       position: relative;
@@ -275,7 +288,7 @@ export default {
           color: #000601;
           line-height: 24px;
           text-align: center;
-          margin-top: 20px;
+          margin-top: 16px;
           span {
             width: 68px;
             height: 40px;
@@ -289,7 +302,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 16px auto 24px;
+            margin: 8px auto 16px;
           }
         }
       }
@@ -303,6 +316,11 @@ export default {
           border-radius: 20px;
           border: none;
           color: #fff;
+          font-size: 16px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #ffffff;
+          line-height: 20px;
         }
       }
     }

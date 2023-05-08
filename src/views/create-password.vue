@@ -1,5 +1,5 @@
 <template>
-  <div class="password">
+  <div class="password content-area">
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Phone Number</div>
@@ -41,6 +41,14 @@ export default {
       },
       deep: true,
     },
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Create password',
+    });
   },
   data() {
     return {
@@ -85,10 +93,15 @@ export default {
         return;
       }
       try {
-        let data = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
-        if (data.returnCode == 2000) {
+        let res = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
+        if (res.returnCode == 2000) {
           this.submitSuccess = true;
-          this.toAppMethod('refreshtoken', data.data);
+          this.updateToken({ token: res.data.token });
+          this.toAppMethod('updateUser', res.data);
+          this.$toast('success');
+          setTimeout(() => {
+            this.goHome();
+          }, 1000);
         }
       } catch (error) {
         this.$toast(error.message);
@@ -114,6 +127,7 @@ export default {
     right: 0;
     background: rgba(0, 0, 0, 0.7);
     display: none;
+    z-index: 2;
     span {
       position: absolute;
       top: 50%;

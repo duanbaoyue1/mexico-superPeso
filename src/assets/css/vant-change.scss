@@ -63,6 +63,20 @@
 }
 
 .van-nav-bar--fixed {
-  top: 20px;
-  background: transparent;
+  padding-top: 25px;
+  background: #f6f6f6;
+}
+
+.van-pull-refresh__head {
+  position: fixed !important;
+  top: 60px;
+}
+
+.van-loading__spinner {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.van-action-sheet__content {
+  overflow-y: initial !important;
 }

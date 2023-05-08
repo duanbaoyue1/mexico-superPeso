@@ -1,12 +1,16 @@
 <template>
-  <div class="order-list content-area">
-    <div class="has-order" v-if="orders.length">
-      <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
-    </div>
-    <div class="no-order" v-else-if="!loading">
-      <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-      <button>Apply Now</button>
-    </div>
+  <div class="scroll-area content-area order-list">
+    <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders">
+      <div>
+        <div class="has-order" v-if="orders.length">
+          <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+        </div>
+        <div class="no-order" v-else-if="!loading">
+          <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
+          <button @click="goHome">Apply Now</button>
+        </div>
+      </div>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -19,7 +23,7 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       orders: [],
     };
   },
@@ -37,6 +41,7 @@ export default {
   methods: {
     async getAllOrders() {
       this.showLoading();
+      this.loading = true;
       try {
         let res = await this.$http.post(`/api/order/listAll`);
         this.orders = res.data.list || [];
@@ -51,13 +56,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order-list {
+.scroll-area {
+  height: calc(100vh - 80px);
+  overflow: auto !important;
   padding: 0 24px;
+}
+.order-list {
   .order-item {
-    margin-bottom: 16px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+    margin: 16px auto;
   }
 }
 

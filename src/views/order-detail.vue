@@ -1,5 +1,5 @@
 <template>
-  <div class="order-detail content-area" v-show="loadinged" :class="'order_' + detail.orderStatus">
+  <div class="order-detail content-area" :class="'order_' + detail.orderStatus">
     <div class="status-text">{{ orderStatusText }}</div>
 
     <div class="order-info">
@@ -73,7 +73,7 @@
           <span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span>
         </span>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80" @click="goDeferHis">
+      <div class="flex-between" v-if="deferTimes > 0 || (detail.orderStatus >= 80 && detail.showExtension == 1)" @click="goDeferHis">
         <span>History of deferment</span>
         <div class="color-blue">
           {{ deferTimes }} times
@@ -113,7 +113,7 @@
       <div class="btns" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40 || detail.orderStatus == 80 || detail.orderStatus == 90">
         <button class="btn-default" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40" @click="goHome">More Loan Products</button>
         <template v-else-if="detail.orderStatus == 80 || detail.orderStatus == 90">
-          <button class="btn-line" @click="applyDefer">Apply deferment</button>
+          <button class="btn-line" v-if="detail.showExtension == 1" @click="applyDefer">Apply deferment</button>
           <button class="btn-default" @click="showPaymentTips = true">Repay Now</button>
         </template>
       </div>
@@ -126,7 +126,7 @@
 export default {
   computed: {
     showDate() {
-      return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 30 || this.detail.orderStatus == 70 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
+      return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
     },
     orderStatusText() {
       switch (this.detail.orderStatus) {
@@ -159,6 +159,9 @@ export default {
       transparent: true,
       fixed: true,
       title: 'Order Details',
+      backCallback: () => {
+        this.goAppBack();
+      },
     });
   },
   data() {
@@ -218,7 +221,6 @@ export default {
     // public final static int ABANDONED = 110;
 
     return {
-      loadinged: false,
       orderId: this.$route.query.orderId,
       choosed: false, // 是否勾选复贷
       showAuto: false, // 是否显示复贷
@@ -289,6 +291,7 @@ export default {
     },
 
     async getDetail() {
+      this.showLoading();
       try {
         let res = await this.$http.post(`/api/order/detail`, {
           orderId: this.orderId,
@@ -302,7 +305,7 @@ export default {
         }
       } catch (error) {
       } finally {
-        this.loadinged = true;
+        this.hideLoading();
       }
     },
   },
@@ -319,7 +322,7 @@ export default {
     align-items: flex-start;
     font-size: 12px;
     font-weight: 400;
-    margin: 50px 0px 0;
+    margin: 16px 24px 0;
     color: #000601;
     position: relative;
     .tips {
@@ -329,7 +332,7 @@ export default {
       width: 130px;
       height: 20px;
       background: #fbe396;
-      border-radius: 24px 24px 24px 0px;
+      border-radius: 24px 24px 24px 24px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -338,6 +341,17 @@ export default {
       color: #333333;
       line-height: 12px;
       transform: scale(0.9);
+      &::after {
+        position: absolute;
+        content: ' ';
+        width: 1px;
+        height: 1px;
+        border-width: 6px 6px;
+        border-style: solid;
+        border-color: #fbe396 transparent transparent transparent;
+        bottom: -10px;
+        left: 11px;
+      }
     }
     .m-icon {
       margin-top: -2px;
@@ -424,14 +438,14 @@ export default {
 }
 
 .order-detail {
-  padding-bottom: 100px;
+  padding-bottom: 120px;
   background-image: url(../assets/img/handy/订单等待.png);
   background-position: top;
   background-repeat: no-repeat;
   background-size: 375px 206px;
   background-color: #f6f6f6;
-  height: 100%;
   box-sizing: border-box;
+  background-attachment: local;
   &.order_40,
   &.order_90 {
     background-image: url(../assets/img/handy/订单失败.png);
@@ -456,7 +470,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: transparent;
+    background-color: #f6f6f6;
 
     .btns {
       padding-top: 10px;
@@ -535,12 +549,20 @@ export default {
       font-weight: 400;
       color: #333333;
       line-height: 18px;
+      div {
+        display: flex;
+        align-items: center;
+      }
       &:last-child {
         margin-bottom: 0;
       }
-      span {
+      > span {
+        white-space: nowrap;
         &:last-child {
           text-align: right;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-left: 20px;
         }
       }
     }

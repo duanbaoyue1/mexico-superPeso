@@ -1,5 +1,5 @@
 <template>
-  <div class="h5-content">
+  <div class="h5-content content-area">
     <div class="title">Terms of Service</div>
     Please read the terms and conditions of the privacy policy before registering on this platform or before receiving the material or information through this platform. We may change or revise the terms of use without notice. It is good to refer to the legend of final renewal. Please confirm the change of the terms of use periodically on your own responsibility. Therefore, when you access or use this platform, please check this agreement. After the change of this agreement, if you are using this platform, you are deemed to have been agreed to the terms of the change.
     <br />
@@ -194,6 +194,19 @@
     The use of this Application and the terms and conditions set forth in this Agreement shall be governed by the laws of India. In the event of any dispute arising out of the use of the Application or any part thereof, the courts of Gurugram shall have exclusive jurisdiction.
   </div>
 </template>
+
+<script>
+export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Terms',
+    });
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .title {

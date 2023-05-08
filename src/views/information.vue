@@ -83,21 +83,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
-          confirmCallback: () => {
-            this.hideMessageBox();
-          },
-          cancelCallback: () => {
-            this.hideMessageBox();
-            this.goAppBack();
-          },
-          iconPath: 'handy/确定退出嘛',
-        });
-      },
+      backCallback: null,
     });
   },
   data() {
@@ -112,7 +98,7 @@ export default {
   },
   mounted() {
     this.eventTracker('basic_access');
-    // this.toAppMethod('needBackControl', { need: true });
+    this.initInfoBackControl();
   },
   methods: {
     chooseEditData(data) {
@@ -153,6 +139,7 @@ export default {
   padding-bottom: 110px;
   background: #f6f6f6;
   padding-top: 0;
+  
   .submit-success {
     position: fixed;
     z-index: 222;

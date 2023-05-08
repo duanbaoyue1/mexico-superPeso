@@ -2,18 +2,18 @@
   <div id="app">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
-    <div v-else class="app-inner" :class="{ 'has-tab': showNav, 'has-nav': tabBar.show }">
-      <nav-bar v-if="tabBar.show" />
+    <div v-else class="app-inner" :class="{ 'has-tab': $route.meta.showTab, 'has-nav': tabBar.show, 'background-fff': $route.meta.backgroundFFF }">
+      <nav-bar v-show="mounted && !$route.meta.showTab" />
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->
-          <router-view id="view" />
+          <router-view />
         </keep-alive>
         <!-- 这里是不被缓存的视图组件 -->
-        <router-view id="view" v-else />
+        <router-view v-else />
       </transition>
 
-      <van-tabbar route name="fade" v-if="showNav">
+      <van-tabbar route name="fade" v-if="$route.meta.showTab">
         <van-tabbar-item replace to="/home">
           <span>Loans</span>
           <template #icon="props">
@@ -21,7 +21,7 @@
           </template>
         </van-tabbar-item>
 
-        <van-tabbar-item replace to="/repayment" badge="5" v-if="showRepayment">
+        <van-tabbar-item replace to="/repayment" :badge="repaymentNum > 0 ? repaymentNum : ''" v-if="showRepayment">
           <span>Repayment</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'handy/Repayment点击' : 'handy/Repayment未点击'" class="nav-icon" :width="22" :height="24" />
@@ -46,20 +46,26 @@ const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
 export default {
   name: 'app',
   computed: {
-    ...mapState(['isAppChecked', 'appMode']),
+    ...mapState(['isAppChecked', 'appMode', 'repaymentNum']),
+  },
+  created() {
+    this.setTabBar({
+      show: false,
+    });
   },
   data() {
     return {
       showRepayment: !!localStorage.getItem('app-is-multi'),
-      showNav: false, // 是否要显示底部tabbar
       showRedirect: false,
+      mounted: false,
     };
   },
   async mounted() {
-    // setTimeout(res => {
-    //   this.getUserInfo();
-    // }, 200);
+    setTimeout(res => {
+      this.mounted = true;
+    }, 500);
   },
+
   watch: {
     'appMode.maskModel': {
       handler(newVal, oldVal) {
@@ -68,7 +74,7 @@ export default {
             this.showRepayment = true;
           } else {
             this.showRepayment = false;
-            localStorage.removeItem('app-is-multi')
+            localStorage.removeItem('app-is-multi');
           }
         }
       },
@@ -77,16 +83,15 @@ export default {
     },
 
     $route(to, from) {
+      console.log('route change', from, to, this.$route.meta.showTab);
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-      // this.toAppMethod('needBackControl', { need: false });
-      this.showNav = NeedTabbarsPathNames.includes(to.name);
-      if (this.showNav) {
-        this.setTabBar({ show: false });
-      }
+      this.toAppMethod('isInterceptionReturn', { isInterception: false });
       try {
         this.hideLoading();
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
       this.checkAndSetAppLocal();
       if (to.query.nextUrl && from && from.name) {
         // 为了解决进到还款页面以后退出到utr页面的问题
@@ -94,7 +99,7 @@ export default {
         location.href = to.query.nextUrl;
       }
       if (to.query.token) {
-        this.updateToken({token: to.query.token});
+        this.updateToken({ token: to.query.token });
       }
       if (to.query.appChecked || sessionStorage.getItem('app-checked')) {
         this.setAppChecked(true);

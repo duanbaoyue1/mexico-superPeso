@@ -11,10 +11,13 @@ export default {
   mounted() {},
   methods: {
     onBack() {
+      console.log('onclick back');
       if (this.tabBar.backCallback) {
+        console.log('on tabBar.backCallback');
         this.tabBar.backCallback();
         return;
       } else {
+        console.log('on goAppBack');
         this.goAppBack();
       }
     },

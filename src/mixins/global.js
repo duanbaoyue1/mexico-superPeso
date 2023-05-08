@@ -29,18 +29,44 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     this.hideLoading();
-    // this.toAppMethod('needBackControl', { need: false });
+    this.toAppMethod('isInterceptionReturn', { isInterception: false });
     next();
   },
 
   methods: {
-    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar', 'setAppMode']),
+    ...mapActions(['showMessageBox', 'hideMessageBox', 'setTabBar', 'setAppMode', 'setRepaymentNum', 'updateToken']),
     async getUserInfo() {
       let data = await this.$http.post(`/api/user/info`);
       let userInfo = data.data;
       console.log('set user info', userInfo);
       this.$store.commit('setUserInfo', userInfo);
       return userInfo;
+    },
+
+    checkInApp() {
+      return typeof wjs != 'undefined';
+    },
+
+    initInfoBackControl() {
+      window.infoBtnCallBack = () => {
+        this.showMessageBox({
+          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+          confirmBtnText: 'No',
+          cancelBtnText: 'Leave',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          cancelCallback: () => {
+            this.hideMessageBox();
+            this.goAppBack();
+          },
+          iconPath: 'handy/确定退出嘛',
+        });
+      };
+      this.setTabBar({
+        backCallback: window.infoBtnCallBack,
+      });
+      this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'infoBtnCallBack' });
     },
 
     previewImg(imgs, startIndex) {
@@ -162,13 +188,15 @@ export default {
 
     toAppMethod(name, params) {
       params = params || {};
+      if (!this.checkInApp()) return;
       try {
         console.log('start method:', `${name}_${this.appGlobal.appName}`);
         console.log('params:', JSON.stringify(params));
         wjs[`${name}_${this.appGlobal.appName}`](JSON.stringify(params));
+        return true;
       } catch (error) {
-        console.error(error);
         console.log('no such method:', `${name}_${this.appGlobal.appName}`);
+        return false;
       }
     },
 
@@ -238,7 +266,15 @@ export default {
       this.innerJump('home', {}, true);
     },
     goAppBack() {
-      history.back();
+      let prevPage = window.location.href;
+      window.history.go(-1);
+      // 如果500ms没有跳转成功则去首页
+      setTimeout(function () {
+        if (window.location.href == prevPage) {
+          console.log('on goAppBack not go prev');
+          this.goHome();
+        }
+      }, 500);
     },
     parseQuery(query) {
       const arr1 = query.split('&');

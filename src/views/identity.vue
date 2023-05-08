@@ -80,21 +80,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
-          confirmCallback: () => {
-            this.hideMessageBox();
-          },
-          cancelCallback: () => {
-            this.hideMessageBox();
-            this.goAppBack();
-          },
-          iconPath: 'handy/确定退出嘛',
-        });
-      },
+      backCallback: null,
     });
   },
   data() {
@@ -103,9 +89,9 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.canSubmit = true;
         this.eventTracker('id_pan_front_success');
         this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
+        this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
       }
     };
 
@@ -114,6 +100,7 @@ export default {
         data = JSON.parse(data);
       }
       if (data.success) {
+        this.eventTracker('id_liveness_photo_submit');
         this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64[0]}`);
       }
     };
@@ -132,7 +119,7 @@ export default {
 
   mounted() {
     this.eventTracker('id_access');
-    // this.toAppMethod('needBackControl', { need: true });
+    this.initInfoBackControl();
     // this.getOcrChannel();
   },
 
@@ -161,7 +148,7 @@ export default {
         this.curInterval = null;
       }
       this.curInterval = setInterval(() => {
-        if (this.curPercent != 99) {
+        if (this.curPercent <= 99) {
           this.curPercent += 1;
         } else {
           this.stopPercent();
@@ -173,39 +160,25 @@ export default {
       window.clearInterval(this.curInterval);
     },
 
-    async showUploadSuccess() {
-      this.eventTracker('id_liveness_success');
-      this.stopPercent();
-      this.curPercent = 100;
+    async createNewOrder() {
       try {
         // 创建订单
         let res = await this.$http.post(`/api/product/appMaskModel`);
-        this.submitSuccess = false;
-        console.log('创建订单信息结果:', res);
         // 跳转个人信息页
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
+        this.submitSuccess = false;
         this.innerJump('information', { orderId: res.data.orderId }, true);
       } catch (error) {
+        this.submitSuccess = false;
         this.$toast(error.message);
       }
     },
 
     async uploadImg(type, fileName, base64) {
-      if (type == 3) {
-        this.showLoading();
-      } else {
-        // 上传活动后显示进度条
-        this.startPercent();
-      }
+      // 上传活动后显示进度条
+      this.startPercent();
       try {
-        // let formData = new FormData();
-        // formData.append('channel', this.ocrChannel);
-        // formData.append(fileName, base64);
-        // formData.append('mark', type);
-        // let res = await this.$http.post(`/api/ocr/saveBase64Result`, formData, {
-        //   headers: { 'Content-Type': 'multipart/form-data' },
-        // });
         let saveData = {
           channel: this.ocrChannel,
           mark: type,
@@ -215,33 +188,40 @@ export default {
 
         if (res.returnCode == 2000) {
           if (type == 3 && res.data.panFrontOcrStatus) {
+            this.curPercent = 100;
+            setTimeout(() => {
+              this.stopPercent();
+              this.submitSuccess = false;
+              // 活体检测
+              this.canSubmit = true;
+            }, 1000);
             this.eventTracker('id_submit_success');
-            // 活体检测
-            this.getCapture(4);
           } else if (type == 4 && res.data.faceComparisonStatus) {
-            this.showUploadSuccess();
+            this.curPercent = 100;
+
+            this.eventTracker('id_liveness_success');
+            this.createNewOrder();
           } else {
+            this.logError(type);
           }
         } else {
           this.logError(type);
         }
       } catch (error) {
         this.logError(type, error.message);
-      } finally {
-        this.hideLoading();
       }
     },
 
     logError(type, message) {
-      this.eventTracker('id_submit_error');
-      this.$toast(message || 'please try again!');
       this.stopPercent();
       this.submitSuccess = false;
+      this.eventTracker('id_submit_error');
+      this.$toast(message || 'please try again!');
     },
 
     async submit() {
       this.eventTracker('id_submit');
-      this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
+      this.getCapture(4);
     },
   },
 };
@@ -251,7 +231,6 @@ export default {
   padding: 20px 24px;
   padding-bottom: 110px;
   background: #f6f6f6;
-  height: 100%;
 
   .pan-text {
     font-size: 14px;
@@ -333,6 +312,8 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+
     &-content {
       width: 320px;
       height: 144px;

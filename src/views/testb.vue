@@ -1,5 +1,5 @@
 <template>
-  <div class="home_index">
+  <div class="home_index content-area">
     <!-- <div class="home">
       <input ref="photoRef" type="file" accept="image/*" @change="photograph()" capture="camera" />
       <p>{{ fileName }}</p>
@@ -28,6 +28,8 @@
     <div>
       {{ base64 }}
     </div>
+
+    <input placeholder="测试输入框软键盘"/>
   </div>
 </template>
 
@@ -36,6 +38,31 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'home',
+  created() {
+    window.btnCallBack = () => {
+      this.showMessageBox({
+        content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
+        confirmBtnText: 'No',
+        cancelBtnText: 'Leave',
+        confirmCallback: () => {
+          this.hideMessageBox();
+        },
+        cancelCallback: () => {
+          this.hideMessageBox();
+          this.goAppBack();
+        },
+        iconPath: 'handy/确定退出嘛',
+      });
+    };
+
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Test',
+      backCallback: window.btnCallBack,
+    });
+  },
   data() {
     window.onPhotoSelectCallback_3 = data => {
       console.log(data);
@@ -76,59 +103,34 @@ export default {
       base64ImgData: null,
     };
   },
+  mounted() {
+    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'btnCallBack' });
+  },
 
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
     openNewPage() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
-      console.log(`${location.origin}/${routeInfo.href}`);
-      this.toAppMethod('openNewPage', { pathUrl: `${location.origin}/${routeInfo.href}` });
+      console.log(`${location.origin}${location.pathname}${routeInfo.href}`);
+      this.toAppMethod('openNewPageFinishOld', { isShowLoading: true, pathUrl: `${location.origin}${location.pathname}${routeInfo.href}` });
     },
     async crawlData() {
       this.showLoading();
       try {
-        let res = await this.startSyncData(true);
-        console.log('sync success', res);
+        let res = await this.startSyncData();
+        this.$toast('sync success');
       } catch (error) {
-        console.log('sync error', error)
+        this.$toast('sync error');
       } finally {
         this.hideLoading();
       }
-
-      // window.onCrawlAppList = data => {
-      //   alert('收到onCrawlAppList data:' + data.length);
-      // };
-      // window.onCrawlImageList = data => {
-      //   alert('收到onCrawlImageList data:' + data.length);
-      // };
-      // window.onCrawlContactsList = data => {
-      //   alert('收到onCrawlContactsList data:' + data.length);
-      // };
-      // window.onCrawlMsgList = data => {
-      //   alert('收到onCrawlMsgList data:' + data.length);
-      // };
-      // window.onCrawlDev = data => {
-      //   alert('收到onCrawlDev data:' + data.length);
-      // };
-      // window.onCrawlDevBase = data => {
-      //   alert('收到onCrawlDevBase data:' + data.length);
-      // };
-      // this.toAppMethod('crawlData', {
-      //   appListFunName: 'onCrawlAppList',
-      //   imageListFunName: 'onCrawlImageList',
-      //   contactsListFunName: 'onCrawlContactsList',
-      //   msgListFunName: 'onCrawlMsgList',
-      //   devFunName: 'onCrawlDev',
-      //   devBaseFunName: 'onCrawlDevBase',
-      // });
     },
     goGoogleStore() {
       this.toAppMethod('goGoogleStore');
     },
     openNewPageFinishOld() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
-      console.log(`${location.origin}/${routeInfo.href}`);
-      this.toAppMethod('openNewPageFinishOld', { pathUrl: `${location.origin}/${routeInfo.href}` });
+      this.toAppMethod('openNewPageFinishOld', { isShowLoading: true, pathUrl: `${location.origin}${location.pathname}${routeInfo.href}` });
     },
     getCommonParametersKey() {
       window.getCommonParametersKeyCallback = data => {
@@ -226,5 +228,25 @@ export default {
 button {
   display: block;
   margin: 10px;
+  height: 40px;
+  padding: 0 20px;
+  background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
+  box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: Roboto-Bold, Roboto;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: none;
+  margin-top: 30px;
+}
+input {
+  margin: 20px auto;
+  display: block;
 }
 </style>

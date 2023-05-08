@@ -1,5 +1,5 @@
 <template>
-  <div class="password">
+  <div class="password content-area">
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Phone Number</div>
@@ -45,6 +45,14 @@ export default {
       deep: true,
     },
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Retrieve password',
+    });
+  },
   data() {
     return {
       canSubmit: false, // 是否可以提交
@@ -77,13 +85,18 @@ export default {
       }
 
       try {
-        let data = await this.$http.post(`/api/user/modifyPassword`, {
+        let res = await this.$http.post(`/api/user/modifyPassword`, {
           phoneNumber: this.userInfo.mobile,
           oldPassword: md5(this.editData.oldPassword),
           newPassword: md5(this.editData.newPassword),
           enterPassword: md5(this.editData.enterPassword),
         });
-        this.toAppMethod('refreshtoken', data.data);
+        this.updateToken({ token: res.data.token });
+        this.toAppMethod('updateUser', res.data);
+        this.$toast('success');
+        setTimeout(() => {
+          this.goHome();
+        }, 1000);
       } catch (error) {
         this.$toast(error.message);
       }
@@ -138,7 +151,7 @@ export default {
       margin-bottom: 20px;
       font-size: 14px;
       position: relative;
-      border-bottom: 2px solid #E9E9E9;
+      border-bottom: 2px solid #e9e9e9;
       .label {
         font-size: 16px;
         font-family: Roboto-Medium, Roboto;

@@ -20,11 +20,11 @@
       </div>
       <div class="item">
         <span>Disbursal Bank</span>
-        <span>{{ orderInfo.bankCardNo }}</span>
+        <span>{{ orderInfo.bankCardName }}</span>
       </div>
       <div class="item">
         <span>Account No.</span>
-        <span>{{ orderInfo.bankCardName }}</span>
+        <span>{{ orderInfo.bankCardNo }}</span>
       </div>
     </div>
 
@@ -56,7 +56,7 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Loan Applications',
+      title: 'Loan Application',
     });
   },
   data() {
@@ -80,24 +80,42 @@ export default {
       this.choosed = !this.choosed;
     },
     async getOrderInfo() {
-      let data = await this.$http.post('/api/order/applyConfirmation', { orderId: this.orderId });
-      this.orderInfo = data.data;
-    },
-    async submit() {
-      if (this.saving) return;
-      this.saving = true;
       try {
-        this.eventTracker('confirm_submit');
-        await this.$http.post(`/api/order/applyResultOrderList`, { orderId: this.orderId });
-        // 成功或者失败的跳转
-        this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+        this.showLoading();
+        let data = await this.$http.post('/api/order/applyConfirmation', { orderId: this.orderId });
+        this.orderInfo = data.data;
+      } catch (error) {
+      } finally {
+        this.hideLoading();
+      }
+    },
+
+    async submit() {
+      this.eventTracker('confirm_submit');
+      this.showLoading();
+      let syncRes;
+      try {
+        // 1. 先同步数据
+        try {
+          syncRes = await this.startSyncData();
+        } catch (error) {
+          this.hideLoading();
+          this.$toast('Your message verification failed, please wait a minute and try again');
+          return;
+        }
+        if (syncRes.success) {
+          // 2. 真正的提交动作
+          await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
+          // 成功或者失败的跳转
+          this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+        }
       } catch (error) {
         this.$toast(error.message);
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000);
       } finally {
-        this.saving = false;
+        this.hideLoading();
       }
     },
   },
@@ -108,7 +126,7 @@ export default {
 .loan-confirm {
   background: #f6f6f6;
   padding: 16px 24px;
-  height: 100%;
+  padding-bottom: 90px;
   .head {
     padding: 20px;
     margin-bottom: 6px;
@@ -157,11 +175,17 @@ export default {
         font-weight: 400;
         color: #333333;
         line-height: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
         &:first-child {
           font-size: 14px;
           font-weight: 400;
           color: #000000;
           line-height: 18px;
+          flex-shrink: 0;
+          margin-right: 20px;
         }
       }
     }

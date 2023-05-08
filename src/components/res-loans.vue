@@ -17,7 +17,7 @@
       <div class="info">
         <div class="name">{{ loan.productName }}</div>
         <div class="value">
-          Loan Amout (₹):
+          Loan Amount (₹):
           <span>{{ loan.approvalAmount }}</span>
         </div>
 

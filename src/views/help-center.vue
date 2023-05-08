@@ -1,5 +1,5 @@
 <template>
-  <div class="help-center">
+  <div class="help-center content-area">
     <div class="hour-email">
       <div>
         <div class="head">Working Hours</div>
@@ -64,6 +64,14 @@ export default {
       ],
     };
   },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Help Center',
+    });
+  },
   mounted() {
     setTimeout(async () => {
       try {
@@ -88,8 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 .help-center {
-  // background: #f4f4f4;
-  padding-bottom: 80px;
+  padding-bottom: 24px;
 
   .actions {
     position: fixed;

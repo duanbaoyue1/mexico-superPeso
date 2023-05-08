@@ -1,5 +1,5 @@
 <template>
-  <div class="add-bank">
+  <div class="add-bank content-area">
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Name</div>
@@ -45,6 +45,14 @@ export default {
       },
       deep: true,
     },
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Select Bank Account',
+    });
   },
   data() {
     return {
@@ -115,7 +123,6 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
   }
 
   .edit-area {
@@ -159,6 +166,7 @@ export default {
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;
+        background: transparent;
       }
     }
   }

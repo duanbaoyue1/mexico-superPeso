@@ -17,7 +17,7 @@ export default new Vuex.Store({
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号
-      userId: '75755981f9241f8e181921d7d4347c94', // 用户id
+      userId: '', // 用户id
       afId: '', // afid
       gaId: '', // gaid
       gpsAddress: '', // gps地址
@@ -34,6 +34,7 @@ export default new Vuex.Store({
       fixed: false,
       backCallback: null,
     },
+    repaymentNum: 0,
     appMode: {},
     userInfo: {},
     isAppChecked: true, // 是否已经较验在app中
@@ -72,14 +73,19 @@ export default new Vuex.Store({
       state.isAppChecked = data;
     },
     setTabBar(state, data) {
+      if(!data.backCallback) {
+        data.backCallback = null;
+      }
       state.tabBar = {
         ...state.tabBar,
         ...data,
       };
-      console.log('setTabBar', data, state.tabBar);
     },
     setAppMode(state, data) {
       state.appMode = data;
+    },
+    setRepaymentNum(state, data) {
+      state.repaymentNum = data;
     },
   },
   getters: {
@@ -88,6 +94,7 @@ export default new Vuex.Store({
     isAppChecked: state => state.isAppChecked,
     tabBar: state => state.tabBar,
     appMode: state => state.appMode,
+    repaymentNum: state => state.repaymentNum,
   },
   actions: {
     async setAppGlobal({ commit }, data) {
@@ -114,6 +121,9 @@ export default new Vuex.Store({
     },
     async setAppMode({ commit }, appMode) {
       commit('setAppMode', appMode);
+    },
+    async setRepaymentNum({ commit }, repaymentNum) {
+      commit('setRepaymentNum', repaymentNum);
     },
   },
   modules: {},
