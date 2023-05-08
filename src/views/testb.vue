@@ -14,6 +14,8 @@
     <button @click="getCapture(5)">上传本地图片</button>
     <button @click="tracker">打点</button>
     <button @click="crawlData">开始抓取数据</button>
+    <button @click="toLoginPage">到登陆页</button>
+    <button @click="testWebViewMethod">测试Webview打开页面</button>
     <button @click="goGoogleStore">跳转google store</button>
 
     <button>
@@ -29,7 +31,7 @@
       {{ base64 }}
     </div>
 
-    <input placeholder="测试输入框软键盘"/>
+    <input placeholder="测试输入框软键盘" />
   </div>
 </template>
 
@@ -109,6 +111,12 @@ export default {
 
   methods: {
     ...mapActions(['setAppGlobal', 'setAppChecked', 'updateToken']),
+    testWebViewMethod() {
+      this.openWebview('https://www.baidu.com');
+    },
+    toLoginPage() {
+      this.toAppMethod('toLoginPage');
+    },
     openNewPage() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
       console.log(`${location.origin}${location.pathname}${routeInfo.href}`);
