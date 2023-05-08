@@ -49,6 +49,10 @@ export default {
     MultiRecommend,
   },
   data() {
+    window.getHtmlCode = () => {
+      this.toAppMethod('getHtmlCodeCallback', { src: document.documentElement.outerHTML });
+    };
+
     return {
       disabledPullRefresh: false,
       created: false,
