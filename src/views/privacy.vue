@@ -2,96 +2,130 @@
   <div class="h5-content content-area">
     <div class="head">Privacy Policy</div>
 
-    This Privacy Policy ("Policy") is written in accordance with the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011.
+    Please read the following terms of this policy carefully to understand how we process your personal data and how we will process it. This policy sets out how we will store any personal data collected from, about you or provided to us by you. By accepting this Privacy Policy, you expressly consent to the collection, retention, analysis, use and Disclosure of your personal information.
     <br />
     <br />
-    By simply accessing the Platform or any part thereof, you agree to this Privacy Policy and consent to the processing of your personal data (personal data, sensitive personal data or information) by EasyMoney ("we" or "our" or "EasyMoney"). This Privacy Policy is incorporated into and governed by the Platform Terms of Use. For purposes of this Privacy Policy, a user of the Services may be a customer/consumer/buyer/consumer or any other person using the Services or accessing our Platform ("User" or "you" or "your"). If you do not agree with this Policy or any part of it, please do not use/access/download or install the Platform or any part of it.
+    <br />
+    <br />
+    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://pro.fin-handycash.com/api/userCollect/collectMsg for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
+    <br />
+    <br />
     <br />
     <br />
 
-    <strong>Main information we collect:</strong>
+    <strong>Collect message</strong>
     <br />
     <br />
-    1. Contacts: EasyMoney may collect your contact information, including the names and phone numbers of your contacts. This collection will only be done with your consent. This information is also necessary for risk analysis to identify credible referrals, to assess your creditworthiness, and to identify fraudulent referrals. It will help you to check your creditworthiness. Yes, EasyMoney will not obtain or use this information from your mobile device without your consent. (This information is uploaded to: https://easy--money.com).
-    <br />
-    <br />
-    2. SMS: EasyMoney stores and uploads your text messages in a legal manner (https://easy--money.com). The purpose of this text message access request is to evaluate the user's creditworthiness for loan origination purposes. Otherwise, collecting and evaluating your text messages and contact list is necessary to determine the criteria for genuine users and to prevent bots or temporary users from overloading the server.
-    <br />
-    <br />
-    3. Device Information:We look for information about the devices you use, including brand, monitor, hardware, monitor, hardware system version, monitor and operating system version.
-    <br />
-    <br />
-    4. Camera Information:For smooth lending, we use cameras for recognition and to strictly protect your information.
-    <br />
-    <br />
-    5. Location Information:Location information is only collected while you are using our applications to determine if you are within the scope of our services. If you exit our application, we will no longer collect your location information.
-    <br />
-    <br />
-    6.Phone status:To improve fraud detection and risk management, we need user profile data to collect and monitor certain information about your phone, such as your phone's unique device identifier. This information helps us uniquely identify users and detect and prevent unauthorized device activity on your behalf. We upload this information to (https://easy--money.com) and will only access or use it with your permission.
-    <br />
-    <br />
-    7.Storage:This permission is necessary to ensure that a user's credit account statements are downloaded and stored securely on their cell phone. The same goes for the user to download the appropriate files to expedite approval and repayment of the loan. This permission also allows the user to enjoy a very smooth and seamless experience when using the app. We will only access or use this information if it is uploaded to the site (https://easy--money.com) and if we have the user's permission to do so.
-    <br />
-    <br />
-    Please note that all personal information is collected by us "as is" and we are not responsible for the accuracy of any personal information you provide.
-    <br />
-    <br />
-    Your information is encrypted and stored confidentially on our server (https://easy--money.com) and is completely deleted when the user's service is terminated.
+    When using this service, we need to obtain, collect, store, manage and use your personal data obtained in the process, including but not limited to filling in online forms or data fields included in the platform, device information, access to user permissions, platform usage , and other information obtained through the Platform, email, telephone or other media (if required).
     <br />
     <br />
     <br />
     <br />
-    1. We use your personal information to develop new products and to improve and personalise the user experience for different users.
+    <strong>SMS</strong>
     <br />
     <br />
-    2. we use personal data, user identifiers and mobile devices to evaluate the provision of services, analyse risks and make consent decisions.
-    <br />
-    <br />
-    3. We guarantee that your personal data or information will not be sold, transferred, or loaned without your permission.
+    We monitor financial SMS messages to ensure account security and assess user creditworthiness and loan approvals. Encrypted messages are uploaded to our server https://pro.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell your personal information to third parties.
     <br />
     <br />
     <br />
     <br />
-    <strong>How personal information is used</strong>
+    <strong>Installed applications</strong>
     <br />
     <br />
-    EasyMoney may use your personal information to develop and manage our relationship with you and our business partners. This may include the following: Providing information about EasyMoney products, services and transactions that may be of interest to you; Providing a more consistent experience for you and our business partners when interacting with EasyMoney, including better understanding who you are and how you use and interact with EasyMoney websites, applications, products and services; Planning, managing and executing our business partners.
-    <br />
-    <br />
-    Communicate with you. This may include: Information about EasyMoney products, services and promotions that may be of interest to you; Information about EasyMoney products, services and transactions, e.g., pricing information, product or service enhancements; Responses to your questions or requests, including customer service requests; Invitations to participate in customer satisfaction surveys or market research or information about survey results.
-    <br />
-    <br />
-    To provide and improve our websites, applications, products and services. This includes: tailoring to your preferences or interests, improving compatibility with your technology or simplifying use, maintaining security and other protection aspects, and developing new Life Loan websites, applications, products and services.
-    <br />
-    <br />
-
-    <strong>Transfer of Information to Third Parties</strong>
-    <br />
-    <br />
-    Only third parties with whom we are registered, including our regulated financial partners, have access to your information to provide services on the site/app. We will only share your information with third parties in the following circumstances.
-    <br />
-    <br />
-    To facilitate obtaining a loan, financing, line of credit or product purchase, we may disclose and share your data with financial service providers, banks or NBFC and our third party partners.
-    <br />
-    <br />
-    We share your information with our third party partners for data analysis to better serve you and provide services through our platform.
-    <br />
-    <br />
-    We share information with our technology and credit partners, such as credit bureaus or third-party data source providers that perform credit checks and analysis.
+    We collect a list of metadata information about installed applications, including the application name, package name, installation time, update time, version name and version code of each installed application on your device, for anti-fraud checks and to provide More accurate loan servicing. We will not disclose and resell your personal information to third parties.
     <br />
     <br />
     <br />
     <br />
-    <strong>Changes to our Privacy Policy.</strong>
+    <strong>Contact List</strong>
     <br />
     <br />
-    If we change this Policy in the future, we will post the changes on this page and, where applicable, you will be notified when you restart the App or log in to any of the Service Sites. The new Terms will appear on screen and you may be required to read and accept them in order to continue to use the App or the Services. In any event, by continuing to use the App or the Services after any changes, you confirm that you continue to accept this Policy together with those changes and agree to the terms set out herein.
+    We need to collect your contact information, including your contact name and phone number. We will only collect them with your consent. In order to help you obtain safe loan services, it is necessary to collect contact information for risk analysis. We will not disclose and resell your personal information to third parties.
     <br />
     <br />
-    Any questions, comments or requests regarding this Privacy Policy should be directed to EasyMoney@outlook.com.
-
     <br />
     <br />
+    <strong>Device Information</strong>
+    <br />
+    <br />
+    Collect and monitor specific information about your device, including phone hardware model, operating system and version, unique device identifiers (such as IMEI and serial number), user profile information, and mobile network information to ensure unauthorized devices cannot represent you to operate.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Location</strong>
+    <br />
+    <br />
+    Collect and monitor information about your device's location for risk assessment purposes for credit scoring.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Camera</strong>
+    <br />
+    <br />
+    We will need to take a camera selfie, scan and film the required KYC documents so that you can submit the information required for your application.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Storage</strong>
+    <br />
+    <br />
+    To help you better complete your loan application, we need to store permissions that allow the app to upload photos or file information for faster approval and disbursement of credit lines.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Use of information</strong>
+    <br />
+    <br />
+    <br />
+    <br />
+    We may associate any category of information with any other category of information and, whenever combined, treat the combined information as personal data under this policy. The information we collect will be used to determine whether to extend loans to customers, the amount of such loans and the terms and conditions applicable to such loans. We also comply with an order of a court, arbitration panel, tribunal, regulatory order or order or any other legal or regulatory obligation that we will not disclose personally identifiable information to other parties.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Personal Information Security</strong>
+    <br />
+    <br />
+    We take reasonable steps to protect your personal information from unauthorized access, use or disclosure. We use industry standard security measures, including encryption, firewalls and secure servers, to protect your information.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Third-Party SDKs and Links to Other Websites</strong>
+    <br />
+    <br />
+    Our Apps may contain links to third-party websites or services that are not operated by us. We are not responsible for the privacy practices or the content of these third-party sites or services. We encourage you to read the privacy policy of any third-party website or service before providing any personal information.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Your rights</strong>
+    <br />
+    <br />
+    We will use your data to compile statistics relating to our user base or loan portfolio and may disclose such information to any third party for such purposes, provided that such information remains anonymous. You can choose to edit/modify, delete/withdraw any personal information shared to the platform at any time. Please remember that deleting or withdrawing information may affect the services we provide to you. You will need to provide supporting documents related to the change of personal information so that the company can verify the change of personal information.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Privacy Policy Updates</strong>
+    <br />
+    <br />
+    We reserve the right to modify this policy at any time, so please check back often. Changes and modifications will be effective immediately upon posting on the Portal. Continued use of the Service constitutes your acceptance of such new or updated policies, as the case may be.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Contacting us</strong>
+    <br />
+    <br />
+    If you have any questions, concerns or complaints about this privacy policy or the use of your personal information, please contact us at:
+    <br />
+    <br />
+    Mail : handycash01@outlook.com
   </div>
 </template>
 
