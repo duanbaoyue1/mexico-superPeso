@@ -50,7 +50,15 @@ export default {
   },
   data() {
     window.getHtmlCode = () => {
-      this.toAppMethod('getHtmlCodeCallback', { src: document.documentElement.outerHTML });
+      this.toAppMethod('getHtmlCodeCallback', {
+        src: document.documentElement.outerHTML,
+        clientWidth: document.body.clientWidth,
+        offsetWidth: document.body.offsetWidth,
+        scrollWidth: document.body.scrollWidth,
+        screenWidth: window.screen.width,
+        availWidth: window.screen.availWidth,
+        deviceXDPI: window.screen.deviceXDPI,
+      });
     };
 
     return {
