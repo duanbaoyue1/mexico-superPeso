@@ -15,7 +15,7 @@
       <div>
         <span class="label">Repayable Amount</span>
         <span class="label2">₹</span>
-        <span class="number">{{ order.approvalAmount }}</span>
+        <span class="number">{{ amountValue }}</span>
       </div>
       <button class="action-btn" :class="'action-btn-' + order.orderStatus" @click="goDetail">{{ order.orderStatusStr }}</button>
     </div>
@@ -51,6 +51,13 @@ export default {
           return 'Repayment Successful';
         default:
           return 'Reviewing';
+      }
+    },
+    amountValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
+        return this.order.repaymentAmount;
+      } else {
+        return this.order.approvalAmount;
       }
     },
   },
