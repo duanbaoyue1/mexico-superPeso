@@ -55,6 +55,7 @@ export default {
   right: 0;
   z-index: 9999;
   background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
   .container {
     width: 295px;
     background: #ffffff;

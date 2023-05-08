@@ -1,9 +1,9 @@
 <template>
   <div class="multi-recommend">
     <div class="order-items">
-      <div class="order-item" v-for="(order, index) in list">
-        <div class="reloan" v-if="!order.isReloan">reloan</div>
-        <div class="status" @click="checkLoan(index)">
+      <div class="order-item" v-for="(order, index) in list" :key="order.id" @click="checkLoan(index)">
+        <div class="reloan" v-if="order.isReloan">reloan</div>
+        <div class="status">
           <m-icon class="icon" :type="order.unChecked ? 'handy/未选中' : 'handy/选中'" :width="24" :height="24" />
           {{ order.productName }}
         </div>
@@ -24,7 +24,7 @@
           <span class="label">Max amout</span>
           <span class="number">
             <span class="fs-12">₹</span>
-            {{ order.maxAmount }}
+            {{ order.minAmount }}
           </span>
         </div>
       </div>
@@ -38,16 +38,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      list: [],
-    };
-  },
-
-  created() {
-    this.getList();
-  },
-
+  props: ['list'],
   methods: {
     checkLoan(index) {
       // if (this.checkedNums == 1 && !this.loans[index].unChecked) return;
@@ -63,14 +54,10 @@ export default {
     },
 
     updateHome() {
-      this.$emit('update', this.list.filter((t => !t.unChecked)));
-    },
-
-    async getList() {
-      try {
-        let res = await this.$http.post(`/api/product/mergeProduct/list`);
-        this.list = res.data.mergPushProductList || [];
-      } catch (error) {}
+      this.$emit(
+        'update',
+        this.list.filter(t => !t.unChecked)
+      );
     },
   },
 };
@@ -79,11 +66,15 @@ export default {
 <style lang="scss" scoped>
 .multi-recommend {
   width: 375px;
-  height: 732px;
-  overflow: hidden;
   background: #f6f6f6;
-  padding: 52px 0px 0px;
   box-sizing: border-box;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 88px;
+
   .select-all {
     width: 375px;
     height: 88px;
@@ -115,12 +106,12 @@ export default {
   }
 
   .order-items {
-    height: 592px;
+    height: 100%;
     overflow-y: scroll;
     .order-item {
       position: relative;
       padding: 16px;
-      margin: 0 24px 16px;
+      margin: 16px 24px;
       background: #fff;
 
       .action {

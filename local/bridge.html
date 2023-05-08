@@ -5,6 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="referrer" content="never" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    </style>
   </head>
   <body>
     <script>
@@ -43,13 +51,13 @@
       queryParams.afId = '{{afId}}';
 
       // channelCode 后端填充
-      queryParams.channelCode = '{{google}}';
+      queryParams.channelCode = '{{channelCode}}';
 
       // mobileType 后端填充
       queryParams.mobileType = '{{mobileType}}';
 
       // 公共参数高度
-      queryParams.StatusBarHeight = '{{StatusBarHeight}}'
+      queryParams.StatusBarHeight = '{{StatusBarHeight}}';
 
       let queryKeyValue = [];
       Object.keys(queryParams).forEach(item => {
@@ -63,4 +71,5 @@
 
 <!-- 1.app接口path： 这里其实就是h5的path,app想调用哪个页面就传什么path -->
 <!-- 2.拼接通用参数： 获取H5需要的客户端通用参数以key=value形式拼接： 例token=1234&gps=xxx&ip=xxx -->
-<!-- 3.替换host为h5代码部署域名 -->
+
+<!-- 3.替换h5_deploy_path为h5代码部署域名 -->

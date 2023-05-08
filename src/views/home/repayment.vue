@@ -1,21 +1,21 @@
 <template>
   <div class="order-list content-area">
     <div class="has-order" v-if="orders.length">
-      <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+      <order-item-repayment class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item-repayment>
     </div>
     <div class="no-order" v-else-if="!loading">
       <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-      <button>Apply Now</button>
+      <button @click="goHome">Apply Now</button>
     </div>
   </div>
 </template>
 
 <script>
-import OrderItem from '@/components/order-item.vue';
+import OrderItemRepayment from '@/components/order-item-repayment.vue';
 
 export default {
   components: {
-    OrderItem,
+    OrderItemRepayment,
   },
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
       title: '',
     });
   },
-  mounted() {
+  activated() {
     this.getAllOrders();
   },
   methods: {
@@ -40,6 +40,7 @@ export default {
       try {
         let res = await this.$http.post(`/api/order/unRepaymentOrderList`);
         this.orders = res.data.list || [];
+        this.setRepaymentNum(this.orders.length);
       } catch (error) {
       } finally {
         this.hideLoading();
@@ -54,6 +55,8 @@ export default {
 .order-list {
   padding: 0 24px;
   padding-bottom: 100px;
+  padding-top: 75px;
+
   .order-item {
     margin-bottom: 16px;
     &:last-child {
@@ -65,7 +68,7 @@ export default {
 .no-order {
   margin: 0 auto;
   .icon {
-    margin: 100px auto 40px;
+    margin: 80px auto 40px;
   }
   button {
     width: 327px;

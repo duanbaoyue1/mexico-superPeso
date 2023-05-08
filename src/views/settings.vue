@@ -1,5 +1,5 @@
 <template>
-  <div class="settings">
+  <div class="settings content-area">
     <div v-if="!hasPassword" class="btn" @click="$router.push({ name: 'create-password' })">Create password</div>
     <div v-else class="btn" @click="$router.push({ name: 'retrieve-password' })">Change Login Password</div>
     <div class="btn" @click="showLegal = true">Legal</div>
@@ -16,6 +16,14 @@
 
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Set up',
+    });
+  },
   data() {
     return {
       hasPassword: 0,
@@ -41,6 +49,7 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
+    z-index: 2;
     .content {
       position: absolute;
       top: 50%;

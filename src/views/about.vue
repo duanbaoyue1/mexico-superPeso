@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about content-area">
     <div class="app-info">
       <img src="../assets/img/logo@2x.png" />
       <div class="name">{{ appGlobal.appName }}</div>
@@ -11,8 +11,16 @@
 
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'About us',
+    });
+  },
   mounted() {
-    // this.innerJump('identity', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime, needRecommend: false, curNumbers: this.$route.query.curNumbers }, true);
+    // this.innerJump('identity', { orderId: this.$route.query.orderId, systemTime: this.$route.query.systemTime, needRecommend: false }, true);
   },
 };
 </script>

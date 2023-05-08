@@ -1,6 +1,6 @@
 <template>
   <div class="complete-bank content-area">
-    <template v-if="from == 'order'">
+    <template v-if="from != 'mine'">
       <div class="step">
         <complete-step :actionIndex="3"></complete-step>
       </div>
@@ -16,7 +16,7 @@
               <div class="number">{{ card.accountNumber | phoneHideFilter }}</div>
             </div>
           </div>
-          <m-icon class="choose" :type="choosedBankId == card.id ? 'handy/选中' : 'handy/形状'" :width="18" :height="18" />
+          <m-icon class="choose" :type="chooseBankId == card.id ? 'handy/选中' : 'handy/形状'" :width="18" :height="18" />
         </div>
       </div>
       <div v-else>
@@ -43,9 +43,9 @@ export default {
     CompleteStep,
   },
   watch: {
-    choosedBankId: {
+    chooseBankId: {
       handler() {
-        this.canSubmit = !!this.choosedBankId;
+        this.canSubmit = !!this.chooseBankId;
       },
       deep: true,
     },
@@ -56,25 +56,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        if (this.from == 'order') {
-          this.showMessageBox({
-            content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-            confirmBtnText: 'No',
-            cancelBtnText: 'Leave',
-            confirmCallback: () => {
-              this.hideMessageBox();
-            },
-            cancelCallback: () => {
-              this.hideMessageBox();
-              this.goAppBack();
-            },
-            iconPath: 'handy/确定退出嘛',
-          });
-        } else {
-          this.goAppBack();
-        }
-      },
+      backCallback: null,
     });
   },
   data() {
@@ -85,7 +67,7 @@ export default {
       cards: [],
       from: this.$route.query.from,
       orderId: this.$route.query.orderId,
-      choosedBankId: '',
+      chooseBankId: '',
       saving: false,
       editData: {
         friendName: '',
@@ -98,47 +80,10 @@ export default {
 
   mounted() {
     this.getBanks();
-
-    // 银行卡选择后app抓取数据回调
-    window.synDataCallback = async data => {
-      if (typeof data == 'string') {
-        data = JSON.parse(data);
-      }
-      if (data.success) {
-        this.eventTracker('bank_submit_sync_success');
-        if (!this.saving) {
-          this.saving = true;
-          try {
-            await this.$http.post(`/api/order/bindRemittanceAccount`, {
-              orderId: this.orderId,
-              remittanceAccountId: this.choosedBankId,
-            });
-            this.eventTracker('bank_submit_success');
-            let appMode = await this.getAppMode();
-            if (appMode.confirmType == 1) {
-              // 需要进确认申请页
-              this.innerJump(
-                'loan-confirm',
-                {
-                  orderId: this.orderId,
-                },
-                true
-              );
-            } else {
-              // 不需要进确认申请页
-              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
-            }
-          } catch (error) {
-            this.eventTracker('bank_submit_error');
-            this.$toast(error.message);
-          } finally {
-            this.saving = false;
-          }
-        } else {
-          this.eventTracker('bank_submit_waiting');
-        }
-      }
-    };
+    if (this.from != 'mine') {
+      this.initInfoBackControl();
+      this.eventTracker('bank_access');
+    }
   },
 
   methods: {
@@ -149,22 +94,38 @@ export default {
     async getBanks() {
       let data = await this.$http.post('/api/remittance/remittanceAccountList');
       this.cards = data.data.list;
-      this.choosedBankId = this.cards[0].id;
+      this.chooseBankId = this.cards[0].id;
     },
     chooseBank(bank) {
-      this.choosedBankId = bank.id;
+      this.chooseBankId = bank.id;
     },
     async submit() {
-      this.eventTracker('bank_submit');
+      this.showLoading();
       try {
-        if (this.$route.query.from == 'order') {
-          // 从订单进来的, 需要先通知app方法
-          this.toAppMethod('synData', {});
+        if (this.from != 'mine') {
+          this.eventTracker('bank_submit');
+          try {
+            await this.$http.post(`/api/order/bindRemittanceAccount`, {
+              orderId: this.orderId,
+              remittanceAccountId: this.chooseBankId,
+            });
+            this.eventTracker('bank_submit_success');
+            let appMode = await this.getAppMode();
+            if (appMode.confirmType == 1) {
+              // 需要进确认申请页
+              this.innerJump('loan-confirm', { orderId: this.orderId }, true);
+            } else {
+              // 不需要进确认申请页
+              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+            }
+          } catch (error) {
+            this.eventTracker('bank_submit_error');
+            this.$toast(error.message);
+          }
         } else {
-          this.showLoading();
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/api/remittance/modifyLoanCard`, {
-            remittanceAccountId: this.choosedBankId,
+            remittanceAccountId: this.chooseBankId,
           });
           this.hideLoading();
           this.goAppBack();

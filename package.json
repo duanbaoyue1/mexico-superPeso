@@ -21,6 +21,7 @@
     "dotenv": "^16.0.3",
     "element-ui": "^2.4.5",
     "enc": "^0.4.0",
+    "image-webpack-loader": "^8.1.0",
     "jquery": "^3.6.1",
     "js-md5": "^0.7.3",
     "pako": "^2.1.0",

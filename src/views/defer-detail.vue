@@ -1,5 +1,5 @@
 <template>
-  <div class="defer-detail" v-show="loaded">
+  <div class="defer-detail content-area" v-show="loaded">
     <div class="defer-head">
       <p>Defer for {{ detail.extendedTerm }} days</p>
       <p>Only pay for ₹{{ detail.amount }} today and you can defer {{ detail.extendedTerm }} days.</p>
@@ -12,8 +12,8 @@
       </div>
       <div class="step-item">
         <img :src="require('@/assets/img/handy/进度条未点亮.png')" />
-        <div class="text">Application Date</div>
-        <div class="date">{{ detail.startTime }}</div>
+        <div class="text">Due Date</div>
+        <div class="date">{{ detail.updatedDueDate }}</div>
       </div>
     </div>
 
@@ -83,6 +83,14 @@ export default {
       detail: '',
       orderUrl: '',
     };
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: true,
+      fixed: true,
+      title: 'Order Details',
+    });
   },
   async mounted() {
     this.getDetail();
@@ -231,13 +239,12 @@ export default {
   }
 }
 .defer-detail {
-  padding-bottom: 100px;
+  padding-bottom: 120px;
   background-image: url(../assets/img/handy/订单等待.png);
   background-position: top;
   background-repeat: no-repeat;
   background-size: 375px 206px;
   background-color: #f6f6f6;
-  height: 100%;
   box-sizing: border-box;
 
   .defer-head {
@@ -389,9 +396,6 @@ export default {
       justify-content: center;
       align-items: center;
       flex: 1;
-      &:first-child {
-        margin-right: 60px;
-      }
       img {
         width: 10px;
         height: 10px;

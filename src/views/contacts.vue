@@ -51,7 +51,7 @@
       <span>
         Congratulations!
         <br />
-        Your personal information has been verified
+        Your contacts information has been verified
       </span>
     </div>
   </div>
@@ -73,21 +73,7 @@ export default {
       transparent: false,
       fixed: true,
       title: 'Complete information',
-      backCallback: () => {
-        this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
-          confirmCallback: () => {
-            this.hideMessageBox();
-          },
-          cancelCallback: () => {
-            this.hideMessageBox();
-            this.goAppBack();
-          },
-          iconPath: 'handy/确定退出嘛',
-        });
-      },
+      backCallback: null,
     });
   },
   watch: {
@@ -133,6 +119,7 @@ export default {
     // this.toAppMethod('needBackControl', { need: true });
     this.getAppContactsNum();
     this.eventTracker('contact_access');
+    this.initInfoBackControl();
   },
 
   methods: {
@@ -159,11 +146,10 @@ export default {
     choosePhone(type, index) {
       this.lastPhoneType = type;
       this.lastPhoneIndex = index;
-      this.toAppMethod('choosePhone', { type });
+      this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
     },
     async submit() {
-      if (this.saving) return;
-      this.saving = true;
+      this.showLoading();
       try {
         this.eventTracker('contact_submit');
         console.log(this.familyContacts, this.friendContacts);
@@ -184,7 +170,7 @@ export default {
         this.eventTracker('contact_submit_error');
         this.$toast(error.message);
       } finally {
-        this.saving = false;
+        this.hideLoading();
       }
     },
   },
@@ -193,8 +179,8 @@ export default {
 <style lang="scss" scoped>
 .information {
   padding: 20px 24px;
-  padding-bottom: 110px;
-  min-height: 100%;
+  padding-bottom: 94px;
+  overflow-y: auto;
   background: #f6f6f6;
   padding-top: 0;
   box-sizing: border-box;
@@ -214,6 +200,7 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
     span {
       position: absolute;
       top: 50%;
@@ -252,6 +239,7 @@ export default {
     border-radius: 8px;
     padding: 0 16px;
     margin-bottom: 16px;
+
     .head {
       font-size: 14px;
       color: #000;

@@ -1,5 +1,5 @@
 <template>
-  <div class="utr">
+  <div class="utr content-area">
     <div class="utr-input">
       <div class="head flex-between">
         <span>UTR</span>
@@ -40,6 +40,14 @@ export default {
       this.canSubmit = this.utr.length == 12;
       this.showError = this.utr.length != 12;
     },
+  },
+  created() {
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'UTR',
+    });
   },
   data() {
     return {
@@ -151,7 +159,7 @@ export default {
     .help-center {
       font-size: 14px;
       font-weight: 500;
-      color: #FC2214;
+      color: #fc2214;
       line-height: 18px;
       text-align: center;
       text-decoration: underline;
@@ -179,7 +187,7 @@ export default {
       margin-bottom: 10px;
     }
     .here {
-      color: #FC2214;
+      color: #fc2214;
       text-decoration: underline;
     }
   }
