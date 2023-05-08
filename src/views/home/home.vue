@@ -52,6 +52,7 @@ export default {
     window.getHtmlCode = () => {
       this.toAppMethod('getHtmlCodeCallback', {
         src: document.documentElement.outerHTML,
+        documentElementWidth: document.documentElement.clientWidth,
         clientWidth: document.body.clientWidth,
         offsetWidth: document.body.offsetWidth,
         scrollWidth: document.body.scrollWidth,
