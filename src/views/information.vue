@@ -4,7 +4,7 @@
       <complete-step :actionIndex="1"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="line-item">
+      <!-- <div class="line-item">
         <label>Name</label>
         <input v-model="editData.firstName" placeholder="Please enter" />
       </div>
@@ -19,7 +19,7 @@
       <div class="line-item">
         <label>Email</label>
         <input v-model="editData.email" placeholder="Please enter" />
-      </div>
+      </div> -->
 
       <div class="line-item">
         <label>Gender</label>
@@ -44,6 +44,18 @@
       <div class="line-item">
         <label>Loan Purpose</label>
         <select-item :items="ALL_ATTRS.LOAN_PURPOSE" title="Loan Purpose" itemAttrs="loanPurpose" @choose="chooseEditData" />
+      </div>
+      <div class="line-item">
+        <label>Type of Accommodation</label>
+        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Contacts Info" itemAttrs="houseType" @choose="chooseEditData" />
+      </div>
+      <div class="line-item">
+        <label>Number of Children</label>
+        <select-item :items="ALL_ATTRS.CHILDREN" title="Number of Children" itemAttrs="childNum" @choose="chooseEditData" />
+      </div>
+      <div class="line-item">
+        <label>Pay Method</label>
+        <select-item :items="ALL_ATTRS.PAY_METHOD" title="Pay Method" itemAttrs="incomeWay" @choose="chooseEditData" />
       </div>
     </div>
     <div class="submit">
@@ -72,7 +84,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 10 || (Object.values(this.editData).length == 9 && !this.editData.middleName && !this.saving);
+        this.canSubmit = Object.values(this.editData).length == 9;
       },
       deep: true,
     },
@@ -124,10 +136,10 @@ export default {
       try {
         this.eventTracker('basic_submit');
         let saveData = { ...this.editData };
-        if (!this.validateEmail(saveData.email)) {
-          this.$toast('Please enter the correct email address.');
-          return;
-        }
+        // if (!this.validateEmail(saveData.email)) {
+        //   this.$toast('Please enter the correct email address.');
+        //   return;
+        // }
         let data = await this.$http.post(`/api/user/basicInfo/save`, saveData);
         if (data.returnCode == 2000) {
           this.eventTracker('basic_submit_success');

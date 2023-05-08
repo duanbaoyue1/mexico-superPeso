@@ -30,7 +30,7 @@ export default {
       default: () => [],
     },
     itemAttrs: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     placeHolder: {

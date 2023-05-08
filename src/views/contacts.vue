@@ -4,49 +4,42 @@
       <complete-step :actionIndex="2"></complete-step>
     </div>
 
-    <div class="edit-area">
-      <div class="line-item">
-        <label>Type of Accommodation</label>
-        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Contacts Info" itemAttrs="houseType" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Number of Children</label>
-        <select-item :items="ALL_ATTRS.CHILDREN" title="Number of Children" itemAttrs="childNum" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Pay Method</label>
-        <select-item :items="ALL_ATTRS.PAY_METHOD" title="Pay Method" itemAttrs="incomeWay" @choose="chooseEditData" />
+    <div class="edit-area-wrapper" v-for="(item, index) in familyContacts">
+      <div class="edit-area-header">Emergency Contact {{ index + 1 }}</div>
+      <div class="edit-area">
+        <div class="line-item">
+          <label>Family Member</label>
+          <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" :itemAttrs="index" @choose="chooseRelation" />
+        </div>
+
+        <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone', index)">
+          <label>Contact {{ index + 1 }} Phone No.</label>
+          <div>
+            <input id="familyPhone" v-model="item.mobile" disabled placeholder="Please select" />
+            <m-icon class="icon" type="right" :width="8" :height="12" />
+          </div>
+        </div>
+        <div class="line-item">
+          <label>Contact {{ index + 1 }} Name</label>
+          <input v-model="item.name" placeholder="Please enter" />
+        </div>
       </div>
     </div>
 
-    <div class="edit-area">
-      <div class="line-item">
-        <label>Select Family Member</label>
-        <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" itemAttrs="familyRelation" @choose="chooseEditData" />
-      </div>
-
-      <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone')">
-        <label>Phone No.</label>
-        <div>
-          <input id="familyPhone" v-model="editData.familyPhone" disabled type="number" placeholder="Please select" />
-          <m-icon class="icon" type="right" :width="8" :height="12" />
+    <div class="edit-area-wrapper" v-for="(item, index) in friendContacts">
+      <div class="edit-area-header">Emergency Contact {{ index + 1 + familyContacts.length }}</div>
+      <div class="edit-area">
+        <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone', index)">
+          <label>Contact {{ index + 1 + familyContacts.length }} Phone No.</label>
+          <div>
+            <input id="fiendPhone" v-model="item.mobile" disabled placeholder="Please select" />
+            <m-icon class="icon" type="right" :width="8" :height="12" />
+          </div>
         </div>
-      </div>
-      <div class="line-item">
-        <label>His or Her Name</label>
-        <input v-model="editData.familyName" placeholder="Please enter" />
-      </div>
-
-      <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone')">
-        <label>Phone No.</label>
-        <div>
-          <input id="familyPhone" v-model="editData.friendPhone" disabled type="number" placeholder="Please select" />
-          <m-icon class="icon" type="right" :width="8" :height="12" />
+        <div class="line-item">
+          <label>Contact {{ index + 1 + familyContacts.length }} Name</label>
+          <input v-model="item.name" placeholder="Please enter" />
         </div>
-      </div>
-      <div class="line-item">
-        <label>friendName</label>
-        <input v-model="editData.friendName" placeholder="Please enter" />
       </div>
     </div>
 
@@ -100,7 +93,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length > 1 && !this.saving;
+        this.canSubmit = true;
       },
       deep: true,
     },
@@ -110,27 +103,27 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      let { type, phone, name } = data;
-      if (type) {
-        this.$set(this.editData, type, phone);
-        if (type == 'familyPhone' && name) {
-          this.$set(this.editData, 'familyName', name);
-        }
-        if (type == 'friendPhone' && name) {
-          this.$set(this.editData, 'friendName', name);
+      let { mobile, name } = data;
+      if (this.lastPhoneType) {
+        if (this.lastPhoneType == 'familyPhone') {
+          this.familyContacts[this.lastPhoneIndex].mobile = mobile;
+          this.familyContacts[this.lastPhoneIndex].name = name;
+        } else {
+          this.friendContacts[this.lastPhoneIndex].mobile = mobile;
+          this.friendContacts[this.lastPhoneIndex].name = name;
         }
       }
     };
 
     return {
       ALL_ATTRS: ALL_ATTRS,
-      canSubmit: false, // 是否可以提交
+      canSubmit: true, // 是否可以提交
       submitSuccess: false,
+      friendContacts: [],
+      familyContacts: [],
+      lastPhoneType: '',
+      lastPhoneIndex: 0,
       editData: {
-        friendName: '',
-        friendPhone: '',
-        familyName: '',
-        familyPhone: '',
       },
       saving: false,
     };
@@ -138,38 +131,46 @@ export default {
 
   mounted() {
     // this.toAppMethod('needBackControl', { need: true });
+    this.getAppContactsNum();
     this.eventTracker('contact_access');
   },
 
   methods: {
-    chooseEditData(data) {
-      this.$set(this.editData, data.attr, data.value);
+    async getAppContactsNum() {
+      let familyContactsNum = 2,
+        friendContactsNum = 2;
+      try {
+        let res = await this.$http.post(`/api/app/getAppContactsNum`);
+        familyContactsNum = res.data.familyContactsNum;
+        friendContactsNum = res.data.friendContactsNum;
+      } catch (error) {
+      } finally {
+        this.familyContacts = Array.from({ length: familyContactsNum }, (v, k) => k).map(t => {
+          return { relation: '', mobile: '', name: '' };
+        });
+        this.friendContacts = Array.from({ length: friendContactsNum }, (v, k) => k).map(t => {
+          return { relation: 'Friends', mobile: '', name: '' };
+        });
+      }
     },
-    choosePhone(type) {
+    chooseRelation(data) {
+      this.familyContacts[data.attr].relation = data.value;
+    },
+    choosePhone(type, index) {
+      this.lastPhoneType = type;
+      this.lastPhoneIndex = index;
       this.toAppMethod('choosePhone', { type });
     },
-
     async submit() {
       if (this.saving) return;
       this.saving = true;
       try {
         this.eventTracker('contact_submit');
+        console.log(this.familyContacts, this.friendContacts);
         let saveData = { ...this.editData };
-        let contacts = [];
-        if (saveData.familyRelation) {
-          contacts.push({
-            name: saveData.familyName,
-            relation: saveData.familyRelation,
-            mobile: saveData.familyPhone,
-          });
-        }
-        contacts.push({
-          name: saveData.friendName,
-          relation: 'Friends',
-          mobile: saveData.friendPhone,
-        });
+        let contacts = [...this.familyContacts, ...this.friendContacts];
         saveData.contacts = contacts;
-        // TODO 这里bug报错 没有联系人信息
+        console.log(saveData);
         let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
@@ -196,8 +197,15 @@ export default {
   min-height: 100%;
   background: #f6f6f6;
   padding-top: 0;
-  height: 100%;
   box-sizing: border-box;
+  .edit-area-header {
+    font-size: 16px;
+    font-family: Roboto-Black, Roboto;
+    font-weight: 900;
+    color: #333333;
+    line-height: 24px;
+    margin-bottom: 16px;
+  }
   .submit-success {
     position: fixed;
     z-index: 222;

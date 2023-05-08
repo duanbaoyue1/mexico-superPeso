@@ -92,6 +92,7 @@ export default {
     };
   },
   async mounted() {
+    console.log('mounted');
     this.showLoading();
     try {
       await this.getUserInfo();
