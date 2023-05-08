@@ -61,6 +61,7 @@ export default {
     };
   },
   async mounted() {
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px'
     setTimeout(res => {
       this.mounted = true;
     }, 500);
