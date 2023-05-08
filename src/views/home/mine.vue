@@ -62,13 +62,13 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-      <div @click="goTestb">
+      <!-- <div @click="goTestb">
         <div>
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           testb
         </div>
         <m-icon type="handy/进入" :width="8" :height="12" />
-      </div>
+      </div> -->
 
       <!-- <div @click="innerJump('testb')">
         <div>
