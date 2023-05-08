@@ -91,6 +91,7 @@ export default {
       font-weight: 500;
       color: #333333;
       line-height: 20px;
+      word-break: break-word;
     }
     .actions {
       .confirm {
