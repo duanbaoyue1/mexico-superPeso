@@ -61,6 +61,7 @@
 import selectItem from '@/components/select-item';
 import * as ALL_ATTRS from '@/config/typeConfig';
 import CompleteStep from '@/components/complete-step.vue';
+const FIRST_GET_PHONE_KEY = 'is-getted-phone';
 
 export default {
   components: {
@@ -90,6 +91,19 @@ export default {
         data = JSON.parse(data);
       }
       let { mobile, name } = data;
+      mobile = mobile.replace(/ /g, '');
+      if (mobile.length < 10 || mobile.length > 15) {
+        this.showMessageBox({
+          content: 'The format of cell phone number is not correct, please choose again',
+          confirmBtnText: 'Ok',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          iconPath: 'handy/银行账户验证失败@2x',
+          showClose: false,
+        });
+        return;
+      }
       if (this.lastPhoneType) {
         if (this.lastPhoneType == 'familyPhone') {
           this.familyContacts[this.lastPhoneIndex].mobile = mobile;
@@ -123,8 +137,8 @@ export default {
 
   methods: {
     async getAppContactsNum() {
-      let familyContactsNum = 2,
-        friendContactsNum = 2;
+      let familyContactsNum = 1,
+        friendContactsNum = 1;
       try {
         let res = await this.$http.post(`/api/app/getAppContactsNum`);
         familyContactsNum = res.data.familyContactsNum;
@@ -145,7 +159,23 @@ export default {
     choosePhone(type, index) {
       this.lastPhoneType = type;
       this.lastPhoneIndex = index;
-      this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
+      let isGettedPhone = localStorage.getItem(FIRST_GET_PHONE_KEY);
+      console.log(isGettedPhone);
+      if (!isGettedPhone) {
+        localStorage.setItem(FIRST_GET_PHONE_KEY, 'true');
+        this.showMessageBox({
+          content: 'Please make sure that you choose a real cell phone number, otherwise the money will not be released.',
+          confirmBtnText: 'Ok',
+          confirmCallback: () => {
+            this.hideMessageBox();
+            this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
+          },
+          iconPath: 'handy/银行账户验证',
+          showClose: false,
+        });
+      } else {
+        this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
+      }
     },
     async submit() {
       this.showLoading();

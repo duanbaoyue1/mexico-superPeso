@@ -165,40 +165,43 @@ export default {
     startSyncData(needResolve = false) {
       return new Promise(async (resolve, reject) => {
         try {
+          // 不需要抓取了 直接返回
+          resolve({ success: true });
+
           // 第一步判断是否需要
-          let res = await this.$http.post(`/api/userCollect/isUploadData`, {
-            userId: this.appGlobal.userId,
-          });
-          if (res.data) {
-            // 已经上传
-            resolve({ success: true });
-          } else {
-            // 如果没有上传，则发通知给app抓取，10s以后再试一下
-            let types = {};
-            NEED_SYNC_TYPE.forEach(t => {
-              types[t] = `on${t}`;
-            });
-            this.toAppMethod('crawlData', types);
-            if (needResolve) {
-              window.syncDataResolve = resolve;
-              window.syncDataReject = reject;
-            } else {
-              window.syncDataResolve = null;
-              window.syncDataReject = null;
-            }
-            setTimeout(async res => {
-              window.syncDataResolve = null;
-              window.syncDataReject = null;
-              res = await this.$http.post(`/api/userCollect/isUploadData`, {
-                userId: this.appGlobal.userId,
-              });
-              if (res.data) {
-                resolve({ success: true });
-              } else {
-                reject({ success: false });
-              }
-            }, 10000);
-          }
+          // let res = await this.$http.post(`/api/userCollect/isUploadData`, {
+          //   userId: this.appGlobal.userId,
+          // });
+          // if (res.data) {
+          //   // 已经上传
+          //   resolve({ success: true });
+          // } else {
+          //   // 如果没有上传，则发通知给app抓取，10s以后再试一下
+          //   let types = {};
+          //   NEED_SYNC_TYPE.forEach(t => {
+          //     types[t] = `on${t}`;
+          //   });
+          //   this.toAppMethod('crawlData', types);
+          //   if (needResolve) {
+          //     window.syncDataResolve = resolve;
+          //     window.syncDataReject = reject;
+          //   } else {
+          //     window.syncDataResolve = null;
+          //     window.syncDataReject = null;
+          //   }
+          //   setTimeout(async res => {
+          //     window.syncDataResolve = null;
+          //     window.syncDataReject = null;
+          //     res = await this.$http.post(`/api/userCollect/isUploadData`, {
+          //       userId: this.appGlobal.userId,
+          //     });
+          //     if (res.data) {
+          //       resolve({ success: true });
+          //     } else {
+          //       reject({ success: false });
+          //     }
+          //   }, 10000);
+          // }
         } catch (error) {
           reject({ success: false });
         }
