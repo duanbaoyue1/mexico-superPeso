@@ -5,7 +5,8 @@
         <span>UTR</span>
         <span class="color-red" @click="goUTRHelp()">How to check UTR?</span>
       </div>
-      <input class="utr-value" v-model="utr" placeholder="Please enter UTR" />
+
+      <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="12" class="utr-value" v-model="utr" placeholder="Please enter UTR" />
       <m-icon type="handy/蓝右" class="right-icon" :width="12" :height="14" />
     </div>
 
@@ -65,9 +66,9 @@ export default {
   methods: {
     recreate() {
       if (this.type == 'repay') {
-        location.href = this.orderUrl.repaymentUrl;
+        this.openWebview(this.orderUrl.repaymentUrl);
       } else {
-        location.href = this.orderUrl.extensionUrl;
+        this.openWebview(this.orderUrl.extensionUrl);
       }
     },
     async submit() {

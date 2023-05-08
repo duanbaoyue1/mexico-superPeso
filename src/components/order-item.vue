@@ -16,7 +16,7 @@
       <div>
         <span class="label">{{ amountText }}</span>
         <span class="label2">₹</span>
-        <span class="number">{{ order.approvalAmount }}</span>
+        <span class="number">{{ amountValue }}</span>
       </div>
       <button class="action-btn" :class="'action-btn-' + order.orderStatus" @click="goDetail">{{ order.orderStatusStr }}</button>
     </div>
@@ -33,6 +33,13 @@ export default {
         return this.order.repaymentTime;
       } else {
         return this.order.applyTime;
+      }
+    },
+    amountValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
+        return this.order.repaymentAmount;
+      } else {
+        return this.order.approvalAmount;
       }
     },
 
@@ -80,7 +87,7 @@ export default {
 
   methods: {
     goFillUtr() {
-      this.innerJump('utr', { orderId: this.order.id, type: 'repay' });
+      this.innerJump('utr', { orderId: this.order.orderNo, type: 'repay' });
     },
     goDetail() {
       if (this.order.orderStatus == 10 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
