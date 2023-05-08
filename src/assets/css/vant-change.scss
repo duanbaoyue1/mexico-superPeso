@@ -67,6 +67,10 @@
   background: #f6f6f6;
 }
 
+.van-pull-refresh {
+  min-height: 100%;
+}
+
 .van-pull-refresh__head {
   position: fixed !important;
   top: 60px;
