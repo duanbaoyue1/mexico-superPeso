@@ -15,11 +15,11 @@
       <div class="line-item">
         <label>Last Name</label>
         <input v-model="editData.lastName" placeholder="Please enter" />
-      </div>
+      </div> -->
       <div class="line-item">
         <label>Email</label>
         <input v-model="editData.email" placeholder="Please enter" />
-      </div> -->
+      </div>
 
       <div class="line-item">
         <label>Gender</label>
@@ -84,7 +84,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 9;
+        this.canSubmit = Object.values(this.editData).length == 10;
       },
       deep: true,
     },
@@ -122,10 +122,10 @@ export default {
       try {
         this.eventTracker('basic_submit');
         let saveData = { ...this.editData };
-        // if (!this.validateEmail(saveData.email)) {
-        //   this.$toast('Please enter the correct email address.');
-        //   return;
-        // }
+        if (!this.validateEmail(saveData.email)) {
+          this.$toast('Please enter the correct email address.');
+          return;
+        }
         let data = await this.$http.post(`/api/user/basicInfo/save`, saveData);
         if (data.returnCode == 2000) {
           this.eventTracker('basic_submit_success');
