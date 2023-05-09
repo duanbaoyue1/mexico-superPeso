@@ -46,7 +46,7 @@
         <m-icon type="handy/进入" :width="8" :height="12" />
       </div>
 
-      <div @click="showDeleteConfirm" v-if="userInfo.isTestAccount">
+      <div @click="showDeleteConfirm" v-if="isTestAccount">
         <div>
           <m-icon class="icon" type="handy/Delete Account" :width="30" :height="30" />
           Delete Account
@@ -102,10 +102,14 @@
 export default {
   data() {
     return {
+      isTestAccount: false, // 是否google测试账号
       showLogOut: false,
     };
   },
-  async mounted() {},
+  async mounted() {
+    let data = await this.$http.post(`/api/user/mine`);
+    this.isTestAccount = data.data.isTestAccount;
+  },
   activated() {
     this.updateData();
   },

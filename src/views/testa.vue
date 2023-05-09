@@ -40,8 +40,8 @@ export default {
       platform: 'android',
       afId: '1221',
       gaId: '12221',
-      androidId: '11231111231123233',
-      imei: '2222211231112322',
+      androidId: '1123111111231123233',
+      imei: '222221121131112322',
     });
     console.log(res);
     this.updateToken({ token: res.data.token, userId: res.data.userId });
