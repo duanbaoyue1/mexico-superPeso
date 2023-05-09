@@ -131,15 +131,28 @@
 
 <script>
 export default {
-  created() {
-    this.setTabBar({
-      show: true,
-      fixed: true,
-      transparent: false,
-      title: 'Privacy',
-    });
+  created() {},
+  mounted() {
+    console.log(!this.noHeader);
+    if (!this.noHeader) {
+      this.setTabBar({
+        show: true,
+        fixed: true,
+        transparent: false,
+        title: 'Privacy',
+      });
+    } else {
+      console.log(this.noHeader);
+      this.setTabBar({
+        show: false,
+      });
+    }
   },
-  mounted() {},
+  data() {
+    return {
+      noHeader: this.$route.query.noHeader || false,
+    };
+  },
 };
 </script>
 

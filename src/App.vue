@@ -3,7 +3,7 @@
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
     <div v-else class="app-inner" :class="{ 'has-tab': $route.meta.showTab, 'has-nav': tabBar.show, 'background-fff': $route.meta.backgroundFFF }">
-      <nav-bar v-show="mounted && !$route.meta.showTab" />
+      <nav-bar v-show="mounted && tabBar.show" />
       <transition name="fade">
         <keep-alive v-if="$route.meta.keepAlive">
           <!-- 这里是会被缓存的视图组件 -->

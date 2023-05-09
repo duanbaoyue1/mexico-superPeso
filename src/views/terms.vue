@@ -209,13 +209,25 @@
 
 <script>
 export default {
-  created() {
-    this.setTabBar({
-      show: true,
-      fixed: true,
-      transparent: false,
-      title: 'Terms',
-    });
+  created() {},
+  mounted() {
+    if (!this.noHeader) {
+      this.setTabBar({
+        show: true,
+        fixed: true,
+        transparent: false,
+        title: 'Terms',
+      });
+    } else {
+      this.setTabBar({
+        show: false,
+      });
+    }
+  },
+  data() {
+    return {
+      noHeader: this.$route.query.noHeader || false,
+    };
   },
 };
 </script>
