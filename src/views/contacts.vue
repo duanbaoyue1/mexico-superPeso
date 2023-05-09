@@ -92,6 +92,7 @@ export default {
       }
       let { mobile, name } = data;
       mobile = mobile.replace(/ /g, '');
+      // 1. 验证号码是否有效
       if (mobile.length < 10 || mobile.length > 15) {
         this.showMessageBox({
           content: 'The format of cell phone number is not correct, please choose again',
@@ -100,6 +101,20 @@ export default {
             this.hideMessageBox();
           },
           iconPath: 'handy/银行账户验证失败@2x',
+          showClose: false,
+        });
+        return;
+      }
+      // 2. 验证是否有重复的
+      let currentPhone = [...this.familyContacts, ...this.friendContacts].map(t => t.mobile);
+      if(currentPhone.includes(mobile)) {
+         this.showMessageBox({
+          content: 'Duplicate cell phone number, please re-select another contact.',
+          confirmBtnText: 'Ok',
+          confirmCallback: () => {
+            this.hideMessageBox();
+          },
+          iconPath: 'handy/银行账户验证失败-重复',
           showClose: false,
         });
         return;
@@ -160,7 +175,6 @@ export default {
       this.lastPhoneType = type;
       this.lastPhoneIndex = index;
       let isGettedPhone = localStorage.getItem(FIRST_GET_PHONE_KEY);
-      console.log(isGettedPhone);
       if (!isGettedPhone) {
         localStorage.setItem(FIRST_GET_PHONE_KEY, 'true');
         this.showMessageBox({
