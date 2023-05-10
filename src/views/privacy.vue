@@ -133,7 +133,6 @@
 export default {
   created() {},
   mounted() {
-    console.log(!this.noHeader);
     if (!this.noHeader) {
       this.setTabBar({
         show: true,
@@ -142,7 +141,6 @@ export default {
         title: 'Privacy',
       });
     } else {
-      console.log(this.noHeader);
       this.setTabBar({
         show: false,
       });

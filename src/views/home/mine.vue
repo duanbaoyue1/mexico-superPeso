@@ -92,6 +92,11 @@
 </template>
 <script>
 export default {
+  created() {
+    this.setTabBar({
+      show: false,
+    });
+  },
   data() {
     return {
       isTestAccount: false, // 是否google测试账号

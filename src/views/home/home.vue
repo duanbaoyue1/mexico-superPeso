@@ -107,6 +107,9 @@ export default {
     },
   },
   async created() {
+    this.setTabBar({
+      show: false,
+    });
     if (this.from == 'bridge' && !this.query.reload) {
       location.replace(location.href + '&reload=true');
     }
