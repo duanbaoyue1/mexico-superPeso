@@ -30,14 +30,14 @@
       <div class="edit-area-header">Emergency Contact {{ index + 1 + familyContacts.length }}</div>
       <div class="edit-area">
         <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone', index)">
-          <label>Contact {{ index + 1 + familyContacts.length }} Phone No.</label>
+          <label>Friends Phone No.</label>
           <div>
             <input id="fiendPhone" v-model="item.mobile" disabled placeholder="Please select" />
             <m-icon class="icon" type="handy/phone" :width="16" :height="16" />
           </div>
         </div>
         <div class="line-item">
-          <label>Contact {{ index + 1 + familyContacts.length }} Name</label>
+          <label>Friends Name</label>
           <input v-model="item.name" placeholder="Please enter" />
         </div>
       </div>
