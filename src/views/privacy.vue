@@ -37,14 +37,6 @@
     <br />
     <br />
     <br />
-    <strong>Contact List</strong>
-    <br />
-    <br />
-    We need to collect your contact information, including your contact name and phone number. We will only collect them with your consent. In order to help you obtain safe loan services, it is necessary to collect contact information for risk analysis. We will not disclose and resell your personal information to third parties.
-    <br />
-    <br />
-    <br />
-    <br />
     <strong>Device Information</strong>
     <br />
     <br />
@@ -65,14 +57,6 @@
     <br />
     <br />
     We will need to take a camera selfie, scan and film the required KYC documents so that you can submit the information required for your application.
-    <br />
-    <br />
-    <br />
-    <br />
-    <strong>Storage</strong>
-    <br />
-    <br />
-    To help you better complete your loan application, we need to store permissions that allow the app to upload photos or file information for faster approval and disbursement of credit lines.
     <br />
     <br />
     <br />
