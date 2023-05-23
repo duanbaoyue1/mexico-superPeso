@@ -125,7 +125,7 @@ export default {
     async crawlData() {
       this.showLoading();
       try {
-        let res = await this.startSyncData();
+        await this.startSyncData();
         this.$toast('sync success');
       } catch (error) {
         this.$toast('sync error');
