@@ -24,7 +24,7 @@
     <strong>SMS</strong>
     <br />
     <br />
-    We monitor financial SMS messages to ensure account security and assess user creditworthiness and loan approvals. Encrypted messages are uploaded to our server https://pro.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell your personal information to third parties.
+    We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. Collecting SMS permissions from users is necessary to obtain financial-related SMS permissions for the purpose of preventing financial fraud and dishonest loan applications, and we will encrypt and upload this information to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose to third parties and resell your personal information.
     <br />
     <br />
     <br />
