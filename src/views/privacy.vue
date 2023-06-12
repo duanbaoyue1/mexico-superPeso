@@ -7,24 +7,23 @@
     <br />
     <br />
     <br />
-    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://pro.fin-handycash.com/api/userCollect/collectMsg for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
+    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://sdk.fin-handycash.com/api/userCollect/collectMsg for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
     <br />
     <br />
     <br />
     <br />
-
+    <strong class="backyellow">SMS</strong>
+    <br />
+    <br />
+    <div class="backyellow">We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell to third parties your personal information.</div>
+    <br />
+    <br />
+    <br />
+    <br />
     <strong>Collect message</strong>
     <br />
     <br />
     When using this service, we need to obtain, collect, store, manage and use your personal data obtained in the process, including but not limited to filling in online forms or data fields included in the platform, device information, access to user permissions, platform usage , and other information obtained through the Platform, email, telephone or other media (if required).
-    <br />
-    <br />
-    <br />
-    <br />
-    <strong>SMS</strong>
-    <br />
-    <br />
-    We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. Collecting SMS permissions from users is necessary to obtain financial-related SMS permissions for the purpose of preventing financial fraud and dishonest loan applications, and we will encrypt and upload this information to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose to third parties and resell your personal information.
     <br />
     <br />
     <br />
@@ -147,6 +146,10 @@ export default {
   color: #999999;
   line-height: 16px;
   word-break: break-word;
+
+  .backyellow {
+    background: #FFFC54;
+  }
 
   .head {
     font-size: 13px;
