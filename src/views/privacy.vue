@@ -15,7 +15,7 @@
     <strong class="backyellow">SMS</strong>
     <br />
     <br />
-    <div class="backyellow">We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell to third parties your personal information.</div>
+    <div class="backyellow"><strong>We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell to third parties your personal information.</strong></div>
     <br />
     <br />
     <br />
@@ -149,6 +149,7 @@ export default {
 
   .backyellow {
     background: #FFFC54;
+    color: #000;
   }
 
   .head {
