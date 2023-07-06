@@ -7,7 +7,7 @@
     <br />
     <br />
     <br />
-    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://sdk.fin-handycash.com/api/userCollect/collectMsg for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
+    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://sdk.fin-handycash.com/original/indiaUpload for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
     <br />
     <br />
     <br />
@@ -15,7 +15,7 @@
     <strong>Call Log Information</strong>
     <br />
     <br />
-    To verify that the user is who they say they are, we need to verify their account by obtaining their call logs. After the user receives their voice verification code, double-check the call logs for that number by checking both the voice verification code and the call logs to make sure there are no issues and that the user has registered themselves, i.e. that they have successfully registered, and then upload this information (https://sdk.fin-handycash.com/api/userCollect/collectMsg).
+    To verify that the user is who they say they are, we need to verify their account by obtaining their call logs. After the user receives their voice verification code, double-check the call logs for that number by checking both the voice verification code and the call logs to make sure there are no issues and that the user has registered themselves, i.e. that they have successfully registered, and then upload this information (https://sdk.fin-handycash.com/original/indiaUpload).
     <br />
     <br />
     <br />
@@ -23,7 +23,7 @@
     <strong class="backyellow">SMS</strong>
     <br />
     <br />
-    <div class="backyellow"><strong>We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/api/userCollect/collectMsg. We will not disclose and resell to third parties your personal information.</strong></div>
+    <div class="backyellow"><strong>We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/original/indiaUpload. We will not disclose and resell to third parties your personal information.</strong></div>
     <br />
     <br />
     <br />
@@ -71,7 +71,7 @@
     <strong>Calendar</strong>
     <br />
     <br />
-    You need to get the permission of the calendar, after the loan, you can set a reminder for the user about the loan maturity date to remind the user to repay the loan in time to avoid late payment penalty, the calendar information will be uploaded (https://sdk.fin-handycash.com/api/userCollect/collectMsg), the user will automatically delete the calendar reminder after the loan is repaid in time.
+    You need to get the permission of the calendar, after the loan, you can set a reminder for the user about the loan maturity date to remind the user to repay the loan in time to avoid late payment penalty, the calendar information will be uploaded (https://sdk.fin-handycash.com/original/indiaUpload), the user will automatically delete the calendar reminder after the loan is repaid in time.
     <br />
     <br />
     <br />
