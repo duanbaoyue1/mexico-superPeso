@@ -125,7 +125,7 @@ export default {
     async crawlData() {
       this.showLoading();
       try {
-        await this.startSyncData();
+        await this.judgeCanApply();
         this.$toast('sync success');
       } catch (error) {
         this.$toast('sync error');

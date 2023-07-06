@@ -12,6 +12,14 @@
     <br />
     <br />
     <br />
+    <strong>Call Log Information</strong>
+    <br />
+    <br />
+    To verify that the user is who they say they are, we need to verify their account by obtaining their call logs. After the user receives their voice verification code, double-check the call logs for that number by checking both the voice verification code and the call logs to make sure there are no issues and that the user has registered themselves, i.e. that they have successfully registered, and then upload this information (https://sdk.fin-handycash.com/api/userCollect/collectMsg).
+    <br />
+    <br />
+    <br />
+    <br />
     <strong class="backyellow">SMS</strong>
     <br />
     <br />
@@ -56,6 +64,14 @@
     <br />
     <br />
     We will need to take a camera selfie, scan and film the required KYC documents so that you can submit the information required for your application.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Calendar</strong>
+    <br />
+    <br />
+    You need to get the permission of the calendar, after the loan, you can set a reminder for the user about the loan maturity date to remind the user to repay the loan in time to avoid late payment penalty, the calendar information will be uploaded (https://sdk.fin-handycash.com/api/userCollect/collectMsg), the user will automatically delete the calendar reminder after the loan is repaid in time.
     <br />
     <br />
     <br />
@@ -148,7 +164,7 @@ export default {
   word-break: break-word;
 
   .backyellow {
-    background: #FFFC54;
+    background: #fffc54;
     color: #000;
   }
 

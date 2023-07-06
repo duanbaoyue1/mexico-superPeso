@@ -47,6 +47,24 @@ export default {
       return typeof wjs != 'undefined';
     },
 
+    // 判断是否可以继续提交申请
+    judgeCanApply() {
+      return new Promise(async (resolve, reject) => {
+        window.isApplicationCallBack = data => {
+          if (typeof data == 'string') {
+            data = JSON.parse(data);
+          }
+          // 只要其中一项有数据就可以继续申请
+          if (data.appListSize > 0 || data.msgListSize > 0) {
+            resolve({ success: true });
+          } else {
+            reject({ success: false });
+          }
+        };
+        this.toAppMethod('isApplication', { fuName: 'isApplicationCallBack' });
+      });
+    },
+
     initInfoBackControl() {
       window.infoBtnCallBack = () => {
         this.showMessageBox({
