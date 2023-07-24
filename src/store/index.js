@@ -17,9 +17,10 @@ export default new Vuex.Store({
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
       appVersion: 1000, // app版本号
-      userId: '', // 用户id
+      userId: '111', // 用户id
       afId: '', // afid
       gaId: '', // gaid
+      packageId: 'org.com.handycash.test',
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
       androidId: '',

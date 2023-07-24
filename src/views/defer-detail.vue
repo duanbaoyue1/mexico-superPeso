@@ -73,7 +73,9 @@
 </template>
 
 <script>
+import eventTrack from '@/mixins/event-track';
 export default {
+  mixins: [eventTrack],
   computed: {},
   data() {
     return {
@@ -107,6 +109,7 @@ export default {
       this.showPaymentTips = true;
     },
     async repay() {
+      this.sendEventTrackData({ leaveBy: 1 });
       this.innerJump('utr', { nextUrl: this.orderUrl.extensionUrl, orderId: this.orderId, type: 'defer' });
     },
     async getDetail() {

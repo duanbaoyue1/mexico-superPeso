@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
     <div v-if="!isAppChecked" class="app-error">error!</div>
     <div v-else-if="showRedirect"></div>
     <div v-else class="app-inner" :class="{ 'has-tab': $route.meta.showTab, 'has-nav': tabBar.show, 'background-fff': $route.meta.backgroundFFF }">
@@ -42,12 +42,14 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
+import eventTrack from '@/mixins/event-track';
 
 export default {
   name: 'app',
   computed: {
     ...mapState(['isAppChecked', 'appMode', 'repaymentNum']),
   },
+  mixins: [eventTrack],
   created() {
     this.setTabBar({
       show: false,
@@ -84,7 +86,7 @@ export default {
     },
 
     $route(to, from) {
-      console.log('route change', from, to, this.$route.meta.showTab);
+      // console.log('route change', from, to, this.$route.meta.showTab);
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
       this.toAppMethod('isInterceptionReturn', { isInterception: false });

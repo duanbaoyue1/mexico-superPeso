@@ -54,7 +54,10 @@
 <script>
 import ResLoans from '@/components/res-loans.vue';
 import GoogleFeedback from '@/components/google-feedback.vue';
+import eventTrack from '@/mixins/event-track';
+
 export default {
+  mixins: [eventTrack],
   components: {
     ResLoans,
     GoogleFeedback,

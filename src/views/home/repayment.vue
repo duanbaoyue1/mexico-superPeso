@@ -12,8 +12,10 @@
 
 <script>
 import OrderItemRepayment from '@/components/order-item-repayment.vue';
+import eventTrack from '@/mixins/event-track';
 
 export default {
+  mixins: [eventTrack],
   components: {
     OrderItemRepayment,
   },

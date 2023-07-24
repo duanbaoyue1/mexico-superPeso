@@ -42,7 +42,10 @@
 </template>
 
 <script>
+import eventTrack from '@/mixins/event-track';
+
 export default {
+   mixins: [eventTrack],
   watch: {
     choosed: {
       handler() {
@@ -107,6 +110,7 @@ export default {
           // 2. 真正的提交动作
           await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
           // 成功或者失败的跳转
+          this.sendEventTrackData({leaveBy: 1});
           this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
         }
       } catch (error) {

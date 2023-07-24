@@ -16,8 +16,10 @@
 
 <script>
 import OrderItem from '@/components/order-item.vue';
+import eventTrack from '@/mixins/event-track';
 
 export default {
+  mixins: [eventTrack],
   components: {
     OrderItem,
   },

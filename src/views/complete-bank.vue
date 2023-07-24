@@ -110,6 +110,7 @@ export default {
               remittanceAccountId: this.chooseBankId,
             });
             this.eventTracker('bank_submit_success');
+            this.sendEventTrackData({ leaveBy: 1 });
             let appMode = await this.getAppMode();
             if (appMode.confirmType == 1) {
               // 需要进确认申请页

@@ -76,7 +76,10 @@
 import selectItem from '@/components/select-item';
 import CompleteStep from '@/components/complete-step.vue';
 import * as ALL_ATTRS from '@/config/typeConfig';
+import eventTrack from '@/mixins/event-track';
+
 export default {
+  mixins: [eventTrack],
   components: {
     selectItem,
     CompleteStep,
@@ -151,7 +154,7 @@ export default {
   padding-bottom: 110px;
   background: #f6f6f6;
   padding-top: 0;
-  
+
   .submit-success {
     position: fixed;
     z-index: 222;

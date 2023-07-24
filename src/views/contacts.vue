@@ -62,8 +62,10 @@ import selectItem from '@/components/select-item';
 import * as ALL_ATTRS from '@/config/typeConfig';
 import CompleteStep from '@/components/complete-step.vue';
 const FIRST_GET_PHONE_KEY = 'is-getted-phone';
+import eventTrack from '@/mixins/event-track';
 
 export default {
+  mixins: [eventTrack],
   components: {
     selectItem,
     CompleteStep,
@@ -107,8 +109,8 @@ export default {
       }
       // 2. 验证是否有重复的
       let currentPhone = [...this.familyContacts, ...this.friendContacts].map(t => t.mobile);
-      if(currentPhone.includes(mobile)) {
-         this.showMessageBox({
+      if (currentPhone.includes(mobile)) {
+        this.showMessageBox({
           content: 'Duplicate cell phone number, please re-select another contact.',
           confirmBtnText: 'Ok',
           confirmCallback: () => {

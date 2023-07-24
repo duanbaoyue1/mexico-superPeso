@@ -43,8 +43,10 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import MultiRecommend from '@/components/multi-recommend.vue';
+import eventTrack from '@/mixins/event-track.js';
 
 export default {
+  mixins: [eventTrack],
   components: {
     MultiRecommend,
   },
@@ -59,7 +61,7 @@ export default {
         screenWidth: window.screen.width,
         availWidth: window.screen.availWidth,
         deviceXDPI: window.screen.deviceXDPI,
-        devicePixelRatio: window.devicePixelRatio
+        devicePixelRatio: window.devicePixelRatio,
       });
     };
 
@@ -228,6 +230,7 @@ export default {
                     });
                     this.$toast('Apply successfully');
                     setTimeout(res => {
+                      this.sendEventTrackData({leaveBy: 1});
                       this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
                     }, 1000);
                   }

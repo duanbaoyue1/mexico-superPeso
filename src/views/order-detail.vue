@@ -123,7 +123,10 @@
 </template>
 
 <script>
+import eventTrack from '@/mixins/event-track';
+
 export default {
+  mixins: [eventTrack],
   computed: {
     showDate() {
       return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
@@ -255,18 +258,15 @@ export default {
       } catch (error) {}
     },
 
-    backC() {
-      console.log('backC');
-    },
-
     async repay() {
       // 更新复贷
       try {
         await this.$http.post(`/api/order/updateOrderAutoRepeatStatus`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-
+      this.sendEventTrackData({leaveBy: 1});
       this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId, type: 'repay' });
     },
+
     applyDefer() {
       this.innerJump('defer-detail', { orderId: this.orderId });
     },
@@ -297,6 +297,7 @@ export default {
           orderId: this.orderId,
         });
         this.detail = res.data;
+        this.updateTrackerData({ key: 'productId', value: this.detail.productId });
         console.log('order detail', this.detail);
         console.log('order status', this.detail.orderStatus);
         console.log('this.orderStatus', this.orderStatusText);

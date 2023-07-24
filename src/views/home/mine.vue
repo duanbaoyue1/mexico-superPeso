@@ -99,7 +99,10 @@
   </div>
 </template>
 <script>
+import eventTrack from '@/mixins/event-track.js';
+
 export default {
+  mixins: [eventTrack],
   created() {
     this.setTabBar({
       show: false,
@@ -112,8 +115,10 @@ export default {
     };
   },
   async mounted() {
-    let data = await this.$http.post(`/api/user/mine`);
-    this.isTestAccount = data.data.isTestAccount;
+    try {
+      let data = await this.$http.post(`/api/user/mine`);
+      this.isTestAccount = data.data.isTestAccount;
+    } catch (error) {}
   },
   activated() {
     this.updateData();
