@@ -1,53 +1,57 @@
+import axios from 'axios';
+
 const PAGE_MAP = {
   home: {
-    page: '2',
+    page: 2,
     modular: 1,
   },
   'loan-success-multi': {
-    page: '2',
+    page: 2,
     modular: 1,
   },
   identity: {
-    page: '3',
+    page: 3,
     modular: 1,
   },
   information: {
-    page: '3',
+    page: 3,
     modular: 1,
   },
   contacts: {
-    page: '3',
+    page: 3,
     modular: 1,
   },
   'complete-bank': {
-    page: '3',
+    page: 3,
     modular: 1,
   },
   'loan-confirm': {
-    page: '4',
+    page: 4,
     modular: 1,
   },
   'order-list': {
-    page: '5',
+    page: 5,
     modular: 2,
   },
   repayment: {
-    page: '5',
+    page: 5,
     modular: 2,
   },
   'order-detail': {
-    page: '6',
+    page: 6,
     modular: 2,
   },
   'defer-detail': {
-    page: '6',
+    page: 6,
     modular: 2,
   },
   mine: {
-    page: '8',
+    page: 8,
     modular: 3,
   },
 };
+
+const DATA_API_HOST = process.env.VUE_APP_UPLOAD_DATA_APIPREFIX;
 
 export default {
   data() {
@@ -58,7 +62,7 @@ export default {
       touchMoved: false,
       dataSended: false,
       actionCnt: 0,
-      leaveBy: '2',
+      leaveBy: 2,
       productId: '',
     };
   },
@@ -90,7 +94,6 @@ export default {
   methods: {
     updateTrackerData({ key, value }) {
       this[key] = value;
-      console.log(this.productId);
     },
 
     sendEventTrackData({ leaveBy }) {
@@ -105,7 +108,7 @@ export default {
       let sendData = {
         userId: this.appGlobal.userId,
         appName: this.appGlobal.appName,
-        appVersion: this.appGlobal.appVersion,
+        appVersion: this.appGlobal.appVersion + "",
         modular: pageModule.modular,
         page: pageModule.page,
         startTime: this.pageStartTime,
@@ -120,8 +123,12 @@ export default {
         sendData.leaveBy = leaveBy;
       }
       this.dataSended = true;
-
-      console.log('send data:', sendData);
+      try {
+        console.log('send data:', sendData);
+        axios.post(`${DATA_API_HOST}/operate/india`, sendData);
+      } catch (error) {
+        console.error('event data send error!', error);
+      }
     },
     addActionCnt() {
       window.actionCnt++;
