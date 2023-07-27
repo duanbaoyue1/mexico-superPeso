@@ -119,6 +119,11 @@ export default {
           id: this.orderId,
         });
         this.detail = data.data;
+
+        let res = await this.$http.post(`/api/order/detail`, {
+          orderId: this.orderId,
+        });
+        this.updateTrackerData({ key: 'productId', value: res.data.productId });
       } catch (error) {
       } finally {
         this.loaded = true;
