@@ -73,7 +73,7 @@ export default {
       try {
         let user = await this.getUserInfo();
         if (parseInt(user.id) % 2 == 1) {
-          this.feedEmail = 'handycash03@outlook.com';
+          this.feedEmail = 'handycash02@outlook.com';
         }
       } catch (error) {}
     }, 200);
