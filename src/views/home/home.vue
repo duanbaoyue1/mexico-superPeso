@@ -142,6 +142,7 @@ export default {
     if (this.checkInApp() && !this.created) {
       return;
     }
+    this.eventTracker('home_access');
     console.log('home activated and refresh data!');
     this.updateData();
   },
@@ -230,7 +231,7 @@ export default {
                     });
                     this.$toast('Apply successfully');
                     setTimeout(res => {
-                      this.sendEventTrackData({leaveBy: 1});
+                      this.sendEventTrackData({ leaveBy: 1 });
                       this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
                     }, 1000);
                   }
@@ -362,6 +363,7 @@ export default {
     },
 
     async clickApply() {
+      this.eventTracker('home_apply');
       if (this.actionCallback) {
         this.actionCallback();
       }
