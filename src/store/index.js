@@ -20,7 +20,7 @@ export default new Vuex.Store({
       userId: '111', // 用户id
       afId: '', // afid
       gaId: '', // gaid
-      packageId: 'org.com.handycash.test',
+      packageId: '',
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
       androidId: '',
