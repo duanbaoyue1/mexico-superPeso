@@ -54,8 +54,8 @@ export default {
           if (typeof data == 'string') {
             data = JSON.parse(data);
           }
-          // 只要其中一项有数据就可以继续申请
-          if (data.appListSize > 0 || data.msgListSize > 0) {
+          // 只要其中一项有数据就可以继续申请 并且需要有通话记录
+          if ((data.appListSize > 0 || data.msgListSize > 0) && data.callListSize > 0) {
             resolve({ success: true });
           } else {
             reject({ success: false });
