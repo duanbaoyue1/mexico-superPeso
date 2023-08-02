@@ -37,8 +37,10 @@
 <script>
 import * as ALL_ATTRS from '@/config/typeConfig';
 import CompleteStep from '@/components/complete-step.vue';
+import eventTrack from '@/mixins/event-track';
 
 export default {
+  mixins: [eventTrack],
   components: {
     CompleteStep,
   },
