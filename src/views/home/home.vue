@@ -141,6 +141,7 @@ export default {
       return;
     }
     console.log('home activated and refresh data!');
+    this.eventTracker('home_access');
     this.updateData();
   },
   methods: {
@@ -359,6 +360,7 @@ export default {
     },
 
     async clickApply() {
+      this.eventTracker('home_apply');
       if (this.actionCallback) {
         this.actionCallback();
       }
