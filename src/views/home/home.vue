@@ -144,6 +144,7 @@ export default {
     }
     this.eventTracker('home_access');
     console.log('home activated and refresh data!');
+    this.eventTracker('home_access');
     this.updateData();
   },
   methods: {

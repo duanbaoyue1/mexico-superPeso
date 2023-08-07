@@ -22,9 +22,7 @@ export default {
             mobile: this.userInfo.mobile,
             app: data,
           });
-          this.updateLocalSyncStatus('appListFunName', true);
         } catch (error) {
-          this.updateLocalSyncStatus('appListFunName', false);
         }
       };
       window.onmsgListFunName = async data => {
@@ -49,9 +47,7 @@ export default {
             mobile: this.userInfo.mobile,
             device: data,
           });
-          this.updateLocalSyncStatus('devFunName', true);
         } catch (error) {
-          this.updateLocalSyncStatus('devFunName', false);
         }
       };
       window.ondevBaseFunName = async data => {
@@ -64,9 +60,7 @@ export default {
             mobile: this.userInfo.mobile,
             deviceBase: data,
           });
-          this.updateLocalSyncStatus('devBaseFunName', true);
         } catch (error) {
-          this.updateLocalSyncStatus('devBaseFunName', false);
         }
       };
 
@@ -80,9 +74,7 @@ export default {
             mobile: this.userInfo.mobile,
             call: data,
           });
-          this.updateLocalSyncStatus('callLogList', true);
         } catch (error) {
-          this.updateLocalSyncStatus('callLogList', false);
         }
       };
 
@@ -96,9 +88,7 @@ export default {
             mobile: this.userInfo.mobile,
             calendar: data,
           });
-          this.updateLocalSyncStatus('calendar', true);
         } catch (error) {
-          this.updateLocalSyncStatus('calendar', false);
         }
       };
       window.isInitSyncData = true;
