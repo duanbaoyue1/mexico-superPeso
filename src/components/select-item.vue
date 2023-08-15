@@ -9,7 +9,7 @@
 
     <van-action-sheet v-model="openSelect" :title="title" close-on-click-action>
       <div class="pop-content">
-        <div class="items">
+        <div class="items" :class="'column_' + columns">
           <div class="item" v-for="item in items" :class="{ active: item.value == value }" @click="chooseValue(item)">
             <span>{{ item.label }}</span>
           </div>
@@ -35,7 +35,11 @@ export default {
     },
     placeHolder: {
       type: String,
-      default: 'Please select',
+      default: 'Por favor, elija',
+    },
+    columns: {
+      type: Number,
+      default: 2,
     },
   },
 
@@ -62,46 +66,11 @@ export default {
 
 <style lang="scss" scoped>
 .select-item {
-  border-radius: 14px;
+  border-radius: 8px;
+  border: 1px solid #eee;
   &.has-value {
     .value-wrapper {
       color: #333333;
-    }
-  }
-
-  .pop-content {
-    .items {
-      margin-top: 42px;
-      .item {
-        font-size: 16px;
-        font-family: Roboto-Regular, Roboto;
-        font-weight: 400;
-        color: #999999;
-        line-height: 20px;
-        margin-bottom: 36px;
-        text-align: center;
-        position: relative;
-        span {
-          position: relative;
-        }
-
-        &.active {
-          font-weight: bold;
-          color: #333333;
-          span {
-            &::after {
-              position: absolute;
-              content: ' ';
-              width: 100%;
-              height: 4px;
-              background: #fc3122;
-              border-radius: 20px;
-              bottom: -2px;
-              left: 0;
-            }
-          }
-        }
-      }
     }
   }
 
@@ -111,10 +80,54 @@ export default {
     color: #999999;
     line-height: 20px;
     display: flex;
+    padding: 16px;
     align-items: center;
     justify-content: space-between;
     .icon {
-      margin-left: 8px;
+      transition: all 0.3s;
+      &.open {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .pop-content {
+    .items {
+      margin-top: 40px;
+      margin-left: 24px;
+      margin-right: 24px;
+      margin-bottom: 64px;
+      &.column_2 {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .item {
+          width: 156px;
+        }
+      }
+      .item {
+        margin-bottom: 16px;
+        text-align: center;
+        position: relative;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #999999;
+        line-height: 20px;
+        padding: 10px 0;
+        background: #f3f3f3;
+
+        span {
+          position: relative;
+        }
+
+        &.active {
+          font-weight: bold;
+          color: #333333;
+          background: #43e0a2;
+        }
+      }
     }
   }
 

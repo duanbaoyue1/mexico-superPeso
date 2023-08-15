@@ -1,47 +1,142 @@
 <template>
-  <div class="add-bank content-area">
+  <div class="add-bank content-area" :class="{ 'from-order': from == 'order' }">
+    <template v-if="from == 'order'">
+      <div class="step">
+        <complete-step :actionIndex="3"></complete-step>
+      </div>
+    </template>
     <div class="edit-area">
       <div class="line-item">
-        <div class="label">Name</div>
-        <input v-model="userInfo.panName" disabled placeholder="Please enter your name" />
+        <div class="label">Nombre de usuario</div>
+        <input v-model="editData.userName" :disabled="markLoanCard != ''" placeholder="Please enter your name" />
+      </div>
+
+      <!-- <div class="line-item select-bank" @click="openSelectModel">
+        <div class="label">Forma de pago</div>
+        <input v-model="selectBank.text" disabled placeholder="Por favor, elija" />
+        <m-icon class="right" type="creditomax/黑下" :width="14" :height="12" />
       </div>
       <div class="line-item">
-        <div class="label">
-          <span>IFSC Code</span>
-          <span class="color-red" @click="showIfsc = true">Dont't remember your IFSC?</span>
+        <div class="label">Número de cuenta receptora</div>
+        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="20" :disabled="markLoanCard != ''" v-model="editData.accountNumber" placeholder="Por favor escribe" />
+      </div> -->
+    </div>
+    <div class="select-area">
+      <ul class="tab">
+        <li :class="{ active: tab == 1 }" @click="tab = 1">Tarjeta de débito</li>
+        <li :class="{ active: tab == 2 }" @click="tab = 2">Clabe</li>
+      </ul>
+      <div v-if="tab == 1">
+        <div class="head">Nombre del Banco</div>
+        <div class="line-item">
+          <select-item :items="ALL_ATTRS.BANK_NAME" title="Nombre del Banco" itemAttrs="bankName" @choose="chooseEditData" />
         </div>
-        <input v-model="editData.ifsc" autocomplete="off" maxlength="11" onKeyUp="value=value.replace(/[\W]/g,'')" placeholder="Please enter IFSC code" />
+        <div class="head">Número de cuenta bancaria</div>
+        <div class="line-item">
+          <input v-model="editData.name" placeholder="Por favor escribe" />
+        </div>
+        <div class="head">Número de cuenta de entrada otra vez</div>
+        <div class="line-item">
+          <input v-model="editData.name" placeholder="Por favor escribe" />
+        </div>
       </div>
-      <div class="line-item">
-        <div class="label">Account Number</div>
-        <input v-model="editData.accountNumber" placeholder="Please enter your account number" />
+      <div v-else>
+        <div class="head">Nombre del Banco</div>
+        <div class="line-item">
+          <select-item :items="ALL_ATTRS.BANK_NAME" title="Nombre del Banco" itemAttrs="bankName" @choose="chooseEditData" />
+        </div>
+        <div class="head">Número digital clabe</div>
+        <div class="line-item">
+          <input v-model="editData.name" placeholder="Por favor escribe" />
+        </div>
+        <div class="head">Número de cuenta de entrada otra vez</div>
+        <div class="line-item">
+          <input v-model="editData.name" placeholder="Por favor escribe" />
+        </div>
       </div>
-      <div class="line-item">
-        <div class="label">Confirm Account Number</div>
-        <input v-model="editData.accountNumberConfirm" placeholder="Please enter account number again" />
-      </div>
+    </div>
+    <div class="tips">
+      Preste atención a lo siguiente:
+      <br />
+      1. Seleccione una de sus propias cuentas para recibir su préstamo.
+      <br />
+      2. Para evitar problemas de pago, si su cuenta es inválida o tiene algunos limites, intente agregar otra cuenta controlable.
+      <br />
+      3. Asegúrese de que la siguiente información sea correcta: Tipo de cuenta, Nombre bancario, Número de cuenta.
+      <br />
+      4. La información de su cuenta es segura, no dude en rellenarla.
     </div>
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="showConfirmBank">Enviar</button>
     </div>
-    <van-action-sheet v-model="showIfsc" title="Select Your IFSC" close-on-click-action>
-      <div class="pop-content">
-        <ifsc-select @complete="completeIfsc" />
+
+    <van-action-sheet class="bank-picker-sheet" v-model="openSelect" title="Elegir banco" close-on-click-action>
+      <van-picker ref="bankPicker" class="bank-picker" :columns="banks" :item-height="75">
+        <template #option="PickerOption">
+          <div class="pick-value">
+            <div>
+              {{ PickerOption.text }}
+              <span class="recommend" v-if="PickerOption.recommend">Recomendar</span>
+            </div>
+            <div>{{ PickerOption.desc || '1-2 días hábiles para llegar' }}</div>
+          </div>
+        </template>
+      </van-picker>
+      <div class="submit">
+        <button class="bottom-submit-btn" @click="confirmSelect">Enviar</button>
       </div>
     </van-action-sheet>
+
+    <van-popup v-model="showConfirmModal">
+      <div class="confirm-data">
+        <div class="content">
+          <div class="line">
+            <div class="label">Tipo</div>
+            <div class="value">{{ selectBank.text }}</div>
+          </div>
+          <div class="line">
+            <div class="label">Nombre del Banco</div>
+            <div class="value">{{ editData.accountNumber }}</div>
+          </div>
+          <div class="line">
+            <div class="label">Número de cuenta</div>
+            <div class="value">{{ editData.userName }}</div>
+          </div>
+          <div class="tips">
+            - Compruebe cuidadosamente la información anterior.
+            <br />
+            - Si la información de su cuenta bancaria es incorrecta, no podrá obtener un préstamo.
+          </div>
+        </div>
+        <div class="actions">
+          <button @click="submit">Confirmar</button>
+          <button class="cancel" @click="showConfirmModal = false">Cancelar</button>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import ifscSelect from '@/components/ifsc-select.vue';
+import CompleteStep from '@/components/complete-step.vue';
+import * as ALL_ATTRS from '@/config/typeConfig';
+
 export default {
   components: {
     ifscSelect,
+    CompleteStep,
   },
   watch: {
+    userInfo: {
+      handler() {
+        this.editData.userName = `${this.userInfo.identityName} ${this.userInfo.identityLastName}`;
+      },
+      deep: true,
+    },
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length >= 3;
+        this.canSubmit = (this.selectBank.value && this.editData.accountNumber && this.editData.userName) || this.markLoanCard;
       },
       deep: true,
     },
@@ -51,62 +146,129 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Select Bank Account',
+      title: 'Complete information',
     });
   },
   data() {
     return {
-      showIfsc: false,
+      tab: 1,
+      ALL_ATTRS: ALL_ATTRS,
+      openSelect: false,
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
-      editData: {
-        ifsc: '',
+      selectBank: {
+        text: '',
+        value: '',
       },
+      editData: {
+        userName: '',
+      },
+      markLoanCard: '',
+      from: this.$route.query.from,
+      orderId: this.$route.query.orderId,
+      showConfirmModal: true,
+      banks: ALL_ATTRS.BANKS,
       saving: false,
     };
   },
-  mounted() {
+  async mounted() {
+    if (this.from == 'order') {
+      this.initInfoBackControl();
+      let data = await this.$http.post('/api/remittance/remittanceAccountList');
+      let defaultCards = (data.data.list || []).filter(t => t.markLoanCard == 1);
+
+      // 從冷卻期过来的订单，这个时候选择默认卡绑定
+      if (defaultCards && defaultCards.length == 1) {
+        this.markLoanCard = defaultCards[0];
+        this.selectBank.text = this.markLoanCard.bank;
+        this.selectBank.value = this.markLoanCard.accountNumber;
+        this.editData.accountNumber = this.markLoanCard.accountNumber;
+      }
+    }
     setTimeout(() => {
       this.getUserInfo();
     }, 200);
   },
 
   methods: {
-    completeIfsc(data) {
-      this.editData.ifsc = data.choosedIfsc;
-      this.showIfsc = false;
+    chooseEditData(data) {
+      this.$set(this.editData, data.attr, data.value);
+    },
+    confirmSelect() {
+      this.eventTracker('bank_add_submit');
+      this.selectBank = this.$refs.bankPicker.getValues()[0];
+      this.openSelect = false;
+    },
+    showConfirmBank() {
+      // 从订单进来，如果已经有卡，直接完成绑定，进入确认页
+      if (this.from == 'order' && this.markLoanCard) {
+        this.bindCardAndJump(this.markLoanCard.id);
+        return;
+      }
+      this.showConfirmModal = true;
+    },
+    openSelectModel() {
+      if (this.from == 'order' && this.markLoanCard) {
+        return;
+      }
+      this.openSelect = true;
+    },
+    async bindCardAndJump(cardId) {
+      // 绑卡
+      await this.$http.post(`/api/order/bindRemittanceAccount`, { remittanceAccountId: cardId, orderId: this.orderId });
+      // 判断是否需要确认订单
+      let appMode = await this.getAppMode();
+      if (appMode.confirmType == 1) {
+        // 需要进确认申请页
+        this.innerJump('loan-confirm', { orderId: this.orderId }, true);
+      } else {
+        // 不需要进确认申请页
+        this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: this.getLocalSystemTimeStamp() }, true);
+      }
     },
     async submit() {
       if (this.saving) return;
       this.saving = true;
+      this.showLoading();
       try {
-        this.eventTracker('bank_add_submit');
-        if (this.editData.accountNumber != this.editData.accountNumberConfirm) {
-          this.$toast('Account number is not consistent');
-          return;
-        }
-        let saveData = { ...this.editData };
-        saveData.name = this.userInfo.panName;
-        delete saveData.accountNumberConfirm;
+        this.eventTracker('bank_confirm_submit');
+        let saveData = {
+          accountNumber: this.editData.accountNumber,
+          bank: this.selectBank.text,
+          bankCode: this.selectBank.value,
+          name: this.editData.userName,
+        };
 
-        if (saveData.ifsc.length != 11) {
-          this.$toast('Please enter correct IFSC');
-          return;
+        // 较验银行卡长度
+        let lengthLimit = this.selectBank.lengthLimit;
+        if (typeof lengthLimit != 'undefined') {
+          if (lengthLimit instanceof Array) {
+            if (saveData.accountNumber.length < lengthLimit[0] || saveData.accountNumber.length > lengthLimit[1]) {
+              throw new Error('Número de cuenta del recibo con formato incorrecto');
+            }
+          } else {
+            if (saveData.accountNumber.length != lengthLimit) {
+              throw new Error('Número de cuenta del recibo con formato incorrecto');
+            }
+          }
         }
-        if (saveData.accountNumber.length < 7 || saveData.accountNumber.length > 22) {
-          this.$toast('Please enter correct account number');
-          return;
-        }
+
         let data = await this.$http.post(`/api/remittance/addRemittanceAccount`, saveData);
         if (data.returnCode == 2000) {
-          this.innerJump('complete-bank', this.$route.query, true);
+          if (this.from == 'order') {
+            this.bindCardAndJump(data.data.id);
+          } else {
+            this.goAppBack();
+          }
         }
         this.eventTracker('bank_add_submit_success');
       } catch (error) {
+        console.log(error);
         this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
       } finally {
         this.saving = false;
+        this.hideLoading();
       }
     },
   },
@@ -115,17 +277,231 @@ export default {
 
 <style lang="scss" scoped>
 .add-bank {
-  padding: 10px 20px;
+  padding: 10px 16px;
   padding-bottom: 110px;
+
+  .bank-picker-sheet {
+    height: 560px;
+  }
+  .bank-picker {
+    position: absolute;
+    bottom: 88px;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+
+  .select-area {
+    padding-top: 24px;
+    border-top: 4px solid #eee;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    .tab {
+      display: flex;
+      font-size: 14px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #333333;
+      line-height: 24px;
+      justify-content: center;
+      margin-bottom: 24px;
+      li {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        &.active {
+          font-weight: bold;
+          &::after {
+            position: absolute;
+            content: ' ';
+            width: 56px;
+            height: 12px;
+            background: #43e0a2;
+            border-radius: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -2px;
+            z-index: -1;
+          }
+        }
+      }
+    }
+    .head {
+      font-size: 14px;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
+      color: #333333;
+      line-height: 20px;
+      margin-bottom: 8px;
+    }
+    .line-item {
+      margin-bottom: 24px;
+      font-size: 14px;
+      input {
+        width: 100%;
+        height: 52px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        padding: 0 16px;
+        font-size: 14px;
+        color: #333333;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .confirm-data {
+    width: 327px;
+    background: #ffffff;
+    border-radius: 16px;
+    .tips {
+      font-size: 12px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #999999;
+      line-height: 18px;
+      margin-top: 16px;
+      margin-bottom: 40px;
+    }
+    .content {
+      padding: 24px;
+      padding-bottom: 0;
+      .line {
+        font-size: 14px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 24px;
+      }
+    }
+    .actions {
+      margin-bottom: 16px;
+      button {
+        font-size: 16px;
+        font-weight: 900;
+        color: #ffffff;
+        line-height: 20px;
+        height: 36px;
+        width: 279px;
+        height: 36px;
+        border: none;
+        display: block;
+        margin: 0 auto;
+        background: #416cef;
+        border-radius: 8px;
+        &.cancel {
+          background: transparent;
+          color: #b0b0b0;
+          font-weight: 400;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
 
   .submit {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 22;
+    background: #fff;
+  }
+
+  .pick-value {
+    > div {
+      font-size: 10px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #a1a5fc;
+      line-height: 16px;
+      text-align: center;
+      transform: scale(0.9);
+      transition: all 0.3s;
+      &:first-child {
+        font-size: 14px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #9a9a9a;
+        line-height: 20px;
+        position: relative;
+
+        .recommend {
+          width: 74px;
+          height: 28px;
+          background: #ffdc62;
+          border-radius: 8px 8px 8px 0px;
+          font-size: 10px;
+          font-family: Roboto-Regular, Roboto;
+          font-weight: 400;
+          color: #333333;
+          line-height: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          right: -40%;
+          bottom: 0;
+          transform: scale(0.9);
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  .tips {
+    margin-top: 40px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999999;
+    line-height: 18px;
+  }
+
+  .pop-content {
+    .items {
+      margin-top: 42px;
+      .item {
+        font-size: 16px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #999999;
+        line-height: 20px;
+        margin-bottom: 36px;
+        text-align: center;
+        position: relative;
+        span {
+          position: relative;
+        }
+
+        &.active {
+          font-weight: bold;
+          color: #333333;
+          span {
+            &::after {
+              position: absolute;
+              content: ' ';
+              width: 100%;
+              height: 4px;
+              background: #434af9;
+              border-radius: 20px;
+              bottom: -2px;
+              left: 0;
+            }
+          }
+        }
+      }
+    }
   }
 
   .edit-area {
+    border-radius: 8px;
+    padding-bottom: 24px;
     .head-top {
       font-size: 18px;
       font-weight: 500;
@@ -143,7 +519,15 @@ export default {
     }
     .line-item {
       font-size: 14px;
-      margin-top: 23px;
+      padding-top: 23px;
+      &.select-bank {
+        position: relative;
+        .right {
+          position: absolute;
+          right: 0px;
+          bottom: 18px;
+        }
+      }
       .label {
         font-size: 16px;
         font-weight: 500;

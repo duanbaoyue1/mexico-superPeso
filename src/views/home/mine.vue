@@ -1,65 +1,65 @@
 <template>
   <div id="mine" class="content-area">
     <div class="user">
-      <img :src="require('@/assets/img/handy/默认头像.png')" />
+      <img :src="require('@/assets/img/superpeso/头像.png')" />
       <span class="name">{{ userInfo.mobile | phoneHideFilter }}</span>
     </div>
 
     <div class="menu">
       <div @click="innerJump('order-list')">
         <div>
-          <m-icon class="icon" type="handy/All orders" :width="30" :height="30" />
-          All orders
+          <m-icon class="icon" type="superpeso/Pedido de préstamo" :width="24" :height="24" />
+          Pedido de préstamo
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="innerJump('complete-bank', { from: 'mine' })" v-if="userInfo.remittanceAccountAuth">
         <div>
-          <m-icon class="icon" type="handy/Receipt Account" :width="30" :height="30" />
-          Receipt Account
+          <m-icon class="icon" type="superpeso/Tarjeta bancaria" :width="24" :height="24" />
+          Tarjeta bancaria
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="goHelpCenter">
         <div>
-          <m-icon class="icon" type="handy/Help Center" :width="30" :height="30" />
-          Help Center
+          <m-icon class="icon" type="superpeso/Centro de ayuda" :width="24" :height="24" />
+          Centro de ayuda
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="innerJump('about')">
         <div>
-          <m-icon class="icon" type="handy/About Us" :width="30" :height="30" />
-          About Us
+          <m-icon class="icon" type="superpeso/Permisos de la aplicación" :width="24" :height="24" />
+          Permisos de la aplicación
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="innerJump('settings')">
         <div>
-          <m-icon class="icon" type="handy/Set Up" :width="30" :height="30" />
-          Set Up
+          <m-icon class="icon" type="superpeso/Set Up" :width="24" :height="24" />
+          Configuración
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="showDeleteConfirm" v-if="isTestAccount">
         <div>
-          <m-icon class="icon" type="handy/Delete Account" :width="30" :height="30" />
-          Delete Account
+          <m-icon class="icon" type="superpeso/Delete Account" :width="24" :height="24" />
+          Eliminar cuenta
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="logout">
         <div>
-          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
+          <m-icon class="icon" type="superpeso/Delete Account" :width="24" :height="24" />
           Log Out
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <!-- <div @click="goTestb">
@@ -67,7 +67,7 @@
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           testb
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div> -->
 
       <!-- <div @click="innerJump('testb')">
@@ -75,7 +75,7 @@
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           testb
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
       <div @click="innerJump('order-detail')">
@@ -83,7 +83,7 @@
           <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
           Order Detail
         </div>
-        <m-icon type="handy/进入" :width="8" :height="12" />
+        <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div> -->
     </div>
 
@@ -115,6 +115,7 @@ export default {
     };
   },
   async mounted() {
+    document.body.style.backgroundColor = '#f9f9f9';
     try {
       let data = await this.$http.post(`/api/user/mine`);
       this.isTestAccount = data.data.isTestAccount;
@@ -160,8 +161,12 @@ export default {
 
 <style lang="scss" scoped>
 #mine {
-  padding: 74px 24px 0;
+  padding: 68px 16px 0;
   padding-bottom: 100px;
+  background-image: url(../../assets/img/superpeso/个人主页.png);
+  background-size: 375px 260px;
+  background-position: top;
+  background-repeat: no-repeat;
 
   .logout {
     width: 295px;
@@ -206,7 +211,7 @@ export default {
   }
 
   .menu {
-    width: 327px;
+    width: 343px;
     background: #ffffff;
     border-radius: 8px;
     padding: 0 16px;
@@ -239,7 +244,9 @@ export default {
 
   .user {
     display: flex;
-    font-size: 16px;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
     font-family: Roboto-Bold, Roboto;
     font-weight: bold;
     color: #333333;
@@ -249,7 +256,7 @@ export default {
     img {
       width: 60px;
       height: 60px;
-      margin-right: 20px;
+      margin-bottom: 8px;
     }
   }
 }

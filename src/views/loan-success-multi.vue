@@ -1,26 +1,29 @@
 <template>
   <div class="loan multi content-area">
     <div class="loan-tips">
-      <m-icon class="icon" type="handy/成功" :width="130" :height="130" />
+      <m-icon class="icon" type="superpeso/完成" :width="56" :height="56" />
       <div class="title" v-if="this.loans.length > 0">
-        Congratulations
-        <br />
-        Your application is successful
+        <div>Solicitud enviada con éxito</div>
+        La aplicación se revisará en 3-5 minutos y puede extenderse en el tiempo ocupado. Preste atención a la notificación del mensaje.
       </div>
-      <div v-if="!this.loans.length" class="apply" @click="check">View all orders</div>
-      <div v-else class="apply" @click="applyMulti">Increase ₹{{ totalAmount }} Amount</div>
+      <div v-else class="title">
+        <div>Enhorabuena</div>
+        Su solicitud ha sido aceptada
+      </div>
+      <div v-if="!this.loans.length" class="apply" @click="check">Consultar la solicitud</div>
+      <div v-else class="apply" @click="applyMulti">Aumento $ {{ totalAmount }} Cantidad</div>
     </div>
 
     <div class="other-loans" v-if="loans.length > 0">
-      <div class="tips">You are in our special VIP exclusive channel in view of your good qualification.</div>
-      <div class="checked-num">Already Select {{ checkedNums }} products</div>
+      <div class="tips">Usted está en nuestro canal exclusivo VIP en vista de su buena calificación.</div>
+      <div class="checked-num">Ya ha seleccionado {{ checkedNums }} productos</div>
       <div v-for="(loan, index) in loans" :key="loan.id" class="loan-item" :class="{ active: !loan.unChecked }" @click="checkLoan(index)">
         <img class="icon" :src="loan.icon" />
         <div class="info">
           <div class="name">{{ loan.productName }}</div>
           <div class="value">
-            Loan Amount (₹):
-            <span>{{ loan.minAmount }}</span>
+            <label>Importe de préstamo</label>
+            <span>${{ loan.minAmount }}</span>
           </div>
         </div>
       </div>
@@ -32,19 +35,19 @@
 
     <div class="control-back" v-if="showBackControl">
       <div class="content">
-        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="leave" />
         <div class="head">
-          <img :src="require('@/assets/img/handy/倒计时10s弹窗.png')" />
+          <img :src="require('@/assets/img/superpeso/倒计时10s弹窗.png')" />
         </div>
         <div class="content">
-          You are just one step away from a ₹{{ totalAmount }} credit limit, are you sure you want to give up your eligibility?
+          Estás a un paso de pasar directamente al límite de 4.000 pesos, ¿seguro que quieres renunciar a tu derecho?
           <div class="count">
-            Auto Abort after
-            <span>{{ count }}S</span>
+            ¡Auto-abortar después de
+            <span>{{ count }}s</span>
           </div>
         </div>
         <div class="action">
-          <button class="btn-default" @click="showBackControl = false">Think again</button>
+          <button class="btn-default" @click="showBackControl = false">Piénsalo otra vez</button>
+          <button class="btn-default cancel" @click="leave">Renunciar</button>
         </div>
       </div>
     </div>
@@ -54,10 +57,7 @@
 <script>
 import ResLoans from '@/components/res-loans.vue';
 import GoogleFeedback from '@/components/google-feedback.vue';
-import eventTrack from '@/mixins/event-track';
-
 export default {
-  mixins: [eventTrack],
   components: {
     ResLoans,
     GoogleFeedback,
@@ -81,7 +81,7 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Loan Applications',
+      title: 'Solicitud de préstamo',
       backCallback: window.loanBtnCallback,
     });
   },
@@ -108,7 +108,7 @@ export default {
       nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
-      showGoogleFeed: false,
+      showGoogleFeed: true,
       isSysNeedGoogle: false,
     };
   },
@@ -202,10 +202,10 @@ export default {
       try {
         // 1. 先同步数据
         try {
-          syncRes = await this.judgeCanApply();
+          syncRes = await this.startSyncData();
         } catch (error) {
           this.hideLoading();
-          this.$toast('Your message verification failed, please wait a minute and try again');
+          this.$toast('Carga fallida, inténtelo más tarde');
           return;
         }
         if (syncRes.success) {
@@ -218,7 +218,7 @@ export default {
             await this.$http.post(`/api/order/mergePush/apply`, {
               orderIdList: res.data.orderIdList,
             });
-            this.$toast('Apply successfully');
+            this.$toast('Solicitud enviada con éxito');
             setTimeout(res => {
               this.getRecommendLoans();
             }, 1000);
@@ -246,12 +246,12 @@ export default {
     z-index: 222;
 
     > .content {
-      width: 295px;
-      padding: 24px;
+      width: 327px;
+      padding: 24px 24px;
       padding-top: 0;
       box-sizing: border-box;
       background: #ffffff;
-      border-radius: 8px;
+      border-radius: 16px;
       position: absolute;
       top: 55%;
       left: 50%;
@@ -262,15 +262,14 @@ export default {
         height: 54px;
         img {
           position: absolute;
-          top: -27px;
+          top: -40px;
           left: 50%;
           transform: translateX(-50%);
-          width: 295px;
+          width: 327px;
           display: block;
           margin-bottom: 20px;
         }
       }
-
       .close {
         position: absolute;
         top: 16px;
@@ -282,41 +281,44 @@ export default {
         font-weight: 500;
         color: #000601;
         line-height: 24px;
-        margin-top: 80px;
+        margin-top: 8px;
 
         .count {
-          font-size: 20px;
-          font-family: Roboto-Bold, Roboto;
-          font-weight: bold;
-          color: #000601;
+          font-size: 14px;
+          font-family: Roboto-Black, Roboto;
+          font-weight: 900;
+          color: #333333;
           line-height: 24px;
-          text-align: center;
-          margin-top: 16px;
+          margin-top: 24px;
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
+          margin-bottom: 40px;
+
           span {
-            width: 68px;
-            height: 40px;
-            background: #ffeae8;
-            border-radius: 20px;
-            font-size: 20px;
-            font-family: Roboto-Bold, Roboto;
-            font-weight: bold;
-            color: #fc2214;
+            width: 100px;
+            height: 44px;
+            background: #43e0a2;
+            border-radius: 8px;
+            font-size: 18px;
+            font-family: Roboto-Black, Roboto;
+            font-weight: 900;
+            color: #333333;
             line-height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 8px auto 16px;
+            margin-left: 24px;
           }
         }
       }
 
       .action {
         .btn-default {
-          width: 247px;
+          width: 279px;
           height: 40px;
-          background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-          box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-          border-radius: 20px;
+          background: #416cef;
+          border-radius: 8px;
           border: none;
           color: #fff;
           font-size: 16px;
@@ -324,6 +326,13 @@ export default {
           font-weight: bold;
           color: #ffffff;
           line-height: 20px;
+          &.cancel {
+            color: #b0b0b0;
+            background: transparent;
+            margin-top: 10px;
+            font-weight: 400;
+            margin-bottom: -10px;
+          }
         }
       }
     }
@@ -360,8 +369,8 @@ export default {
     }
   }
   .other-loans {
-    margin: 32px 0px;
-    padding: 0 24px;
+    margin: 16px 0px;
+    padding: 0 16px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -369,33 +378,40 @@ export default {
     padding-bottom: 10px;
 
     .tips {
-      width: 327px;
-      background: #ffe48a;
+      width: 343px;
+      background: #fa0000;
       border-radius: 8px;
-      font-size: 15px;
-      font-weight: bold;
-      color: #333333;
-      line-height: 18px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 20px;
       display: flex;
       align-items: center;
-      padding: 16px;
+      padding: 8px;
     }
 
     .checked-num {
-      margin: 24px 0 16px;
+      border-top: 4px solid #eee;
+      padding-top: 24px;
+      margin: 24px 0 24px;
       font-size: 16px;
       font-weight: bold;
+      text-align: center;
       color: #333333;
       line-height: 24px;
+      width: 100%;
+      margin-left: -16px;
+      margin-right: -16px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
 
     .loan-item {
-      width: 327px;
+      width: 343px;
       height: 72px;
       background: #ffffff;
-      border-radius: 8px;
-      border: 2px solid #f3f3f3;
-
+      border-radius: 16px;
+      border: 1px solid #f3f3f3;
       padding: 16px;
       box-sizing: border-box;
       margin-bottom: 16px;
@@ -404,22 +420,27 @@ export default {
       align-items: center;
 
       .info {
+        flex-grow: 1;
         .name {
           font-size: 14px;
-          font-weight: 400;
-          color: #333333;
+          font-family: Roboto-Black, Roboto;
+          font-weight: 900;
+          color: #000000;
           line-height: 20px;
-          margin-bottom: 8px;
         }
         .value {
           font-size: 10px;
           font-weight: 400;
           color: #999999;
           line-height: 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
           span {
             font-size: 16px;
             font-weight: bold;
-            color: #333333;
+            color: #ff4b3f;
             line-height: 20px;
           }
         }
@@ -437,16 +458,12 @@ export default {
         right: 16px;
         width: 24px;
         height: 24px;
-        background-image: url(../assets/img/handy/未选中.png);
         background-repeat: no-repeat;
         background-size: contain;
       }
 
       &.active {
-        border: 2px solid #fc2214;
-        &::after {
-          background-image: url(../assets/img/handy/选中.png);
-        }
+        border: 1px solid #333333;
       }
     }
   }
@@ -457,20 +474,30 @@ export default {
       margin: 0 auto;
     }
     .title {
-      margin-top: 40px;
-      font-size: 16px;
+      margin-top: 16px;
+      font-size: 13px;
+      font-family: Roboto-Regular, Roboto;
       font-weight: 400;
-      color: #333333;
-      line-height: 20px;
+      color: #a7a7a7;
+      line-height: 15px;
       text-align: center;
+      margin-left: 32px;
+      margin-right: 32px;
+      div {
+        font-size: 16px;
+        font-family: Roboto-Medium, Roboto;
+        font-weight: 500;
+        color: #2a303c;
+        line-height: 20px;
+        margin-bottom: 10px;
+      }
     }
     .apply {
-      width: 327px;
+      width: 343px;
       height: 48px;
-      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-      border-radius: 24px;
+      border-radius: 8px;
       margin: 0 auto;
+      background: #416cef;
       display: flex;
       align-items: center;
       justify-content: center;

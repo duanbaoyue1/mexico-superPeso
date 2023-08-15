@@ -1,57 +1,37 @@
 <template>
   <div class="information content-area">
     <div class="step">
-      <complete-step :actionIndex="2"></complete-step>
+      <complete-step :actionIndex="1"></complete-step>
     </div>
 
-    <div class="edit-area-wrapper" v-for="(item, index) in familyContacts">
-      <div class="edit-area-header">Emergency Contact {{ index + 1 }}</div>
+    <div class="edit-area-wrapper" v-for="(item, index) in contacts">
+      <div class="edit-area-header">Contacto de emergencia {{ index + 1 }}</div>
       <div class="edit-area">
         <div class="line-item">
-          <label>Family Member</label>
-          <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Select Family Member" :itemAttrs="index" @choose="chooseRelation" />
+          <div class="desc">Elige el parentesco del contacto</div>
+          <select-item :items="ALL_ATTRS.RELATION_SHIPS" title="Elige el parentesco del contacto" :itemAttrs="index" @choose="chooseRelation" />
         </div>
-
-        <div class="line-item phone-select-wrapper" @click="choosePhone('familyPhone', index)">
-          <label>Contact {{ index + 1 }} Phone No.</label>
-          <div>
-            <input id="familyPhone" v-model="item.mobile" disabled placeholder="Please select" />
-            <m-icon class="icon" type="handy/phone" :width="16" :height="16" />
-          </div>
+        <div class="line-item phone-select-wrapper" @click="choosePhone(index)">
+          <div class="desc">Número de contacto</div>
+          <input id="familyPhone" v-model="item.mobile" disabled placeholder="Por favor, elija" />
+          <m-icon class="icon" type="superpeso/通讯录" :width="20" :height="20" />
         </div>
         <div class="line-item">
-          <label>Contact {{ index + 1 }} Name</label>
-          <input v-model="item.name" placeholder="Please enter" />
-        </div>
-      </div>
-    </div>
-
-    <div class="edit-area-wrapper" v-for="(item, index) in friendContacts">
-      <div class="edit-area-header">Emergency Contact {{ index + 1 + familyContacts.length }}</div>
-      <div class="edit-area">
-        <div class="line-item phone-select-wrapper" @click="choosePhone('friendPhone', index)">
-          <label>Friends Phone No.</label>
-          <div>
-            <input id="fiendPhone" v-model="item.mobile" disabled placeholder="Please select" />
-            <m-icon class="icon" type="handy/phone" :width="16" :height="16" />
-          </div>
-        </div>
-        <div class="line-item">
-          <label>Friends Name</label>
-          <input v-model="item.name" placeholder="Please enter" />
+          <div class="desc">Nombre</div>
+          <input v-model="item.name" placeholder="Por favor, elija" />
         </div>
       </div>
     </div>
 
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
       <span>
-        Congratulations!
+        ¡Enhorabuena!
         <br />
-        Your contacts information has been verified
+        Su información personal ha sido verificada
       </span>
     </div>
   </div>
@@ -62,10 +42,8 @@ import selectItem from '@/components/select-item';
 import * as ALL_ATTRS from '@/config/typeConfig';
 import CompleteStep from '@/components/complete-step.vue';
 const FIRST_GET_PHONE_KEY = 'is-getted-phone';
-import eventTrack from '@/mixins/event-track';
 
 export default {
-  mixins: [eventTrack],
   components: {
     selectItem,
     CompleteStep,
@@ -75,14 +53,15 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Complete information',
+      title: 'Información del contacto',
       backCallback: null,
     });
   },
   watch: {
-    editData: {
+    contacts: {
       handler() {
-        this.canSubmit = true;
+        console.log(this.contacts.filter(t => t.mobile).length);
+        this.canSubmit = this.contacts.filter(t => t.mobile).length == this.contacts.length;
       },
       deep: true,
     },
@@ -93,52 +72,44 @@ export default {
         data = JSON.parse(data);
       }
       let { mobile, name } = data;
+      console.log(mobile);
       mobile = mobile.replace(/ /g, '');
       // 1. 验证号码是否有效
       if (mobile.length < 10 || mobile.length > 15) {
         this.showMessageBox({
-          content: 'The format of cell phone number is not correct, please choose again',
+          content: 'El número de móvil del contacto no está en el formato correcto, por favor, vuelva a seleccionarlo',
           confirmBtnText: 'Ok',
           confirmCallback: () => {
             this.hideMessageBox();
           },
-          iconPath: 'handy/银行账户验证失败@2x',
+          iconPath: 'superpeso/校验错误弹窗提示',
           showClose: false,
         });
         return;
       }
       // 2. 验证是否有重复的
-      let currentPhone = [...this.familyContacts, ...this.friendContacts].map(t => t.mobile);
+      let currentPhone = [...this.contacts].map(t => t.mobile);
       if (currentPhone.includes(mobile)) {
         this.showMessageBox({
-          content: 'Duplicate cell phone number, please re-select another contact.',
+          content: 'Número de móvil duplicado, seleccione otro contacto',
           confirmBtnText: 'Ok',
           confirmCallback: () => {
             this.hideMessageBox();
           },
-          iconPath: 'handy/银行账户验证失败-重复',
+          iconPath: 'superpeso/紧急联系人手机号重复',
           showClose: false,
         });
         return;
       }
-      if (this.lastPhoneType) {
-        if (this.lastPhoneType == 'familyPhone') {
-          this.familyContacts[this.lastPhoneIndex].mobile = mobile;
-          this.familyContacts[this.lastPhoneIndex].name = name;
-        } else {
-          this.friendContacts[this.lastPhoneIndex].mobile = mobile;
-          this.friendContacts[this.lastPhoneIndex].name = name;
-        }
-      }
+      this.contacts[this.lastPhoneIndex].mobile = mobile;
+      this.contacts[this.lastPhoneIndex].name = name;
     };
 
     return {
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: true, // 是否可以提交
       submitSuccess: false,
-      friendContacts: [],
-      familyContacts: [],
-      lastPhoneType: '',
+      contacts: [],
       lastPhoneIndex: 0,
       editData: {},
       saving: false,
@@ -146,7 +117,6 @@ export default {
   },
 
   mounted() {
-    // this.toAppMethod('needBackControl', { need: true });
     this.getAppContactsNum();
     this.eventTracker('contact_access');
     this.initInfoBackControl();
@@ -154,39 +124,33 @@ export default {
 
   methods: {
     async getAppContactsNum() {
-      let familyContactsNum = 1,
-        friendContactsNum = 1;
+      let contactsNum = 1;
       try {
         let res = await this.$http.post(`/api/app/getAppContactsNum`);
-        familyContactsNum = res.data.familyContactsNum;
-        friendContactsNum = res.data.friendContactsNum;
+        contactsNum = res.data.num;
       } catch (error) {
       } finally {
-        this.familyContacts = Array.from({ length: familyContactsNum }, (v, k) => k).map(t => {
+        this.contacts = Array.from({ length: contactsNum }, (v, k) => k).map(t => {
           return { relation: '', mobile: '', name: '' };
-        });
-        this.friendContacts = Array.from({ length: friendContactsNum }, (v, k) => k).map(t => {
-          return { relation: 'Friends', mobile: '', name: '' };
         });
       }
     },
     chooseRelation(data) {
-      this.familyContacts[data.attr].relation = data.value;
+      this.contacts[data.attr].relation = data.value;
     },
-    choosePhone(type, index) {
-      this.lastPhoneType = type;
+    choosePhone(index) {
       this.lastPhoneIndex = index;
       let isGettedPhone = localStorage.getItem(FIRST_GET_PHONE_KEY);
       if (!isGettedPhone) {
         localStorage.setItem(FIRST_GET_PHONE_KEY, 'true');
         this.showMessageBox({
-          content: 'Please make sure that you choose a real cell phone number, otherwise the money will not be released.',
+          content: 'Por favor, asegúrate de elegir un número de móvil real o el dinero no será liberado',
           confirmBtnText: 'Ok',
           confirmCallback: () => {
             this.hideMessageBox();
             this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
           },
-          iconPath: 'handy/银行账户验证',
+          iconPath: 'superpeso/第一次吊起通讯录',
           showClose: false,
         });
       } else {
@@ -197,18 +161,16 @@ export default {
       this.showLoading();
       try {
         this.eventTracker('contact_submit');
-        console.log(this.familyContacts, this.friendContacts);
         let saveData = { ...this.editData };
-        let contacts = [...this.familyContacts, ...this.friendContacts];
+        let contacts = [...this.contacts];
         saveData.contacts = contacts;
-        console.log(saveData);
         let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           this.eventTracker('contact_submit_success');
           setTimeout(() => {
             this.submitSuccess = false;
-            this.innerJump('complete-bank', { orderId: this.$route.query.orderId, from: 'order' }, true);
+            this.innerJump('identity', { orderId: this.$route.query.orderId, from: 'order' }, true);
           }, 2000);
         }
       } catch (error) {
@@ -223,20 +185,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px 24px;
-  padding-bottom: 94px;
+  padding: 20px 0px;
+  padding-bottom: 48px;
   overflow-y: auto;
-  background: #f6f6f6;
+  background: #fff;
   padding-top: 0;
   box-sizing: border-box;
-  .edit-area-header {
-    font-size: 16px;
-    font-family: Roboto-Black, Roboto;
-    font-weight: 900;
-    color: #333333;
-    line-height: 24px;
-    margin-bottom: 16px;
-  }
+
   .submit-success {
     position: fixed;
     z-index: 222;
@@ -245,7 +200,6 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 2;
     span {
       position: absolute;
       top: 50%;
@@ -267,73 +221,89 @@ export default {
     }
   }
 
+  .edit-area-wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-bottom: 4px solid #eeeeee;
+    padding-bottom: 16px;
+    margin-bottom: 40px;
+    &:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .edit-area-header {
+      font-size: 16px;
+      font-family: Roboto-Black, Roboto;
+      font-weight: 900;
+      color: #416cef;
+      line-height: 20px;
+      margin-bottom: 16px;
+    }
+    .edit-area {
+      background: #ffffff;
+
+      .head {
+        font-size: 14px;
+        color: #000;
+        line-height: 18px;
+        margin-bottom: 10px;
+      }
+
+      .line-item {
+        font-size: 14px;
+        display: block;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        &:last-child {
+          border-bottom: none;
+        }
+        .desc {
+          font-size: 14px;
+          font-weight: 400;
+          color: #000000;
+          line-height: 20px;
+          margin-bottom: 8px;
+        }
+        input {
+          width: 100%;
+          height: 100%;
+          border: none;
+          text-align: left;
+          padding: 0 16px;
+          height: 52px;
+          font-size: 14px;
+          color: #333333;
+          box-sizing: border-box;
+          border: 1px solid #eeeeee;
+          border-radius: 8px;
+
+          &:disabled {
+            background: #fff;
+          }
+        }
+      }
+
+      .phone-select-wrapper {
+        position: relative;
+        .icon {
+          position: absolute;
+          bottom: 16px;
+          right: 17px;
+        }
+      }
+    }
+  }
+
   .submit {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #f6f6f6;
+    background: #fff;
   }
   .step {
     padding-top: 10px;
     margin-bottom: 32px;
-  }
-
-  .edit-area {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 0 16px;
-    margin-bottom: 16px;
-
-    .head {
-      font-size: 14px;
-      color: #000;
-      line-height: 18px;
-      margin-bottom: 10px;
-    }
-
-    .line-item {
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #e3e3e3;
-      height: 52px;
-      &:last-child {
-        border-bottom: none;
-      }
-      label {
-        font-size: 14px;
-        font-weight: 400;
-        color: #000000;
-        line-height: 20px;
-        flex-shrink: 0;
-        margin-right: 10px;
-      }
-      input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        text-align: right;
-        padding: 0 0px;
-        font-size: 14px;
-        color: #333333;
-        box-sizing: border-box;
-      }
-    }
-
-    .phone-select-wrapper {
-      > div {
-        display: flex;
-        align-items: center;
-        input {
-          background: transparent;
-        }
-        img {
-          margin-left: 8px;
-        }
-      }
-    }
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div class="complete-step">
-    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex >= index }">
-      <div class="red-bot">
-        <img :src="actionIndex >= index ? require('@/assets/img/handy/进度条点亮.png') : require('@/assets/img/handy/进度条未点亮.png')" />
+    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex >= index, last: index == steps.length - 1 }">
+      <div class="stat-img-wrapper">
+        <img class="stat-img" :src="actionIndex >= index ? step.activeImg : step.noActiveImg" />
       </div>
-      <img class="stat-img" :src="actionIndex >= index ? step.activeImg : step.noActiveImg" />
+      <div class="red-bot" :class="actionIndex >= index ? 'active' : ''"></div>
       <div class="text">{{ step.text }}</div>
     </div>
   </div>
@@ -17,24 +17,24 @@ export default {
     return {
       steps: [
         {
-          text: 'Identity Info',
-          activeImg: require('@/assets/img/handy/Identity Info.png'),
-          noActiveImg: require('@/assets/img/handy/Identity Info.png'),
+          text: '$2,000',
+          activeImg: require('@/assets/img/superpeso/1金.png'),
+          noActiveImg: require('@/assets/img/superpeso/灰1金.png'),
         },
         {
-          text: 'Personal Info',
-          activeImg: require('@/assets/img/handy/Personal Info.png'),
-          noActiveImg: require('@/assets/img/handy/Personal Info灰.png'),
+          text: '$4,000',
+          activeImg: require('@/assets/img/superpeso/2金.png'),
+          noActiveImg: require('@/assets/img/superpeso/灰2金.png'),
         },
         {
-          text: 'Contacts Info',
-          activeImg: require('@/assets/img/handy/Contacts Info.png'),
-          noActiveImg: require('@/assets/img/handy/Contacts Info灰.png'),
+          text: '$6,000',
+          activeImg: require('@/assets/img/superpeso/3金.png'),
+          noActiveImg: require('@/assets/img/superpeso/灰3金.png'),
         },
         {
-          text: 'Payment method',
-          activeImg: require('@/assets/img/handy/Payment method.png'),
-          noActiveImg: require('@/assets/img/handy/Payment method灰.png'),
+          text: '$8,000',
+          activeImg: require('@/assets/img/superpeso/灰1金.png'),
+          noActiveImg: require('@/assets/img/superpeso/灰4金.png'),
         },
       ],
     };
@@ -54,20 +54,19 @@ export default {
     flex-direction: column;
     align-items: center;
     white-space: nowrap;
-    font-size: 10px;
-    font-family: Roboto-Medium, Roboto;
+    font-size: 12px;
     font-weight: 500;
     line-height: 16px;
     position: relative;
     &::before {
       position: absolute;
-      width: 52px;
+      width: 76px;
       height: 2px;
-      background: #cccccc;
-      border-radius: 4px;
+      background: #e3e3e3;
       content: ' ';
-      top: 3px;
-      left: -26px;
+      top: 31px;
+      left: -38px;
+      z-index: 0;
     }
 
     &:first-child {
@@ -77,13 +76,41 @@ export default {
       }
     }
 
-    .stat-img {
-      width: 30px;
-      display: block;
-      margin-bottom: 4px;
+    &.active {
+      .red-bot {
+        background: #40e2a0;
+        outline: 2px solid #40e2a0;
+      }
     }
+
+    &.last {
+      .red-bot {
+        background: #cccccc !important;
+        outline: 2px solid #eaeaea;
+      }
+      .text {
+        color: #999999 !important;
+      }
+    }
+
+    .stat-img-wrapper {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      img {
+        width: 16px;
+        display: block;
+      }
+    }
+
     .red-bot {
-      margin-bottom: 10px;
+      margin-bottom: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background: #CCCCCC;
+      z-index: 0;
+      outline: 2px solid #EAEAEA;
       img {
         width: 10px;
         display: block;
@@ -91,14 +118,12 @@ export default {
     }
     .text {
       color: #999999;
-      transform: scale(.9);
+      font-weight: 500;
     }
     &.active {
       .text {
-        color: #fc3122;
-      }
-      &::before {
-        background: #fc3122;
+        font-weight: bold;
+        color: #333333;
       }
     }
   }

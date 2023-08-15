@@ -1,35 +1,25 @@
 <template>
   <div class="complete-bank content-area">
-    <template v-if="from != 'mine'">
-      <div class="step">
-        <complete-step :actionIndex="3"></complete-step>
-      </div>
-    </template>
-
     <div class="cards">
-      <div v-if="cards.length" class="cards-list">
-        <div v-for="card in cards" class="cards-item" :key="card.id" @click="chooseBank(card)">
+      <div class="cards-list">
+        <div v-for="card in cards" class="cards-item" :class="{ active: chooseBankId == card.id }" :key="card.id" @click="chooseBank(card)">
           <div class="card-name">
-            <m-icon class="bank" type="bank/bank" :width="24" :height="24" />
             <div>
-              <div class="name">{{ card.bank }}</div>
-              <div class="number">{{ card.accountNumber | phoneHideFilter }}</div>
+              <div class="name">{{ card.bank }}（{{ card.accountNumber | phoneHideFilter }}）</div>
             </div>
           </div>
-          <m-icon class="choose" :type="chooseBankId == card.id ? 'handy/选中' : 'handy/形状'" :width="18" :height="18" />
+          <m-icon class="choose" :class="{ active: chooseBankId == card.id }" :type="chooseBankId == card.id ? 'superpeso/选中 (1)备份' : 'superpeso/未选择'" :width="20" :height="20" />
+          <!-- <span class="default-tips" v-if="chooseBankId == card.id">Tarjeta bancaria por defecto</span> -->
         </div>
       </div>
-      <div v-else>
-        <m-icon class="none" type="handy/银行卡空状态" :width="140" :height="107" />
-      </div>
       <div class="add-card" @click="goAddCard">
-        <m-icon class="icon" type="handy/添加" :width="14" :height="14" />
-        Add New Accounts
+        <m-icon class="icon" type="superpeso/添加" :width="16" :height="16" />
+        Agregar un nuevo método
       </div>
     </div>
 
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
   </div>
 </template>
@@ -37,10 +27,8 @@
 <script>
 import * as ALL_ATTRS from '@/config/typeConfig';
 import CompleteStep from '@/components/complete-step.vue';
-import eventTrack from '@/mixins/event-track';
 
 export default {
-  mixins: [eventTrack],
   components: {
     CompleteStep,
   },
@@ -57,7 +45,7 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Complete information',
+      title: 'Tarjeta bancaria',
       backCallback: null,
     });
   },
@@ -83,7 +71,6 @@ export default {
   mounted() {
     this.getBanks();
     if (this.from != 'mine') {
-      this.initInfoBackControl();
       this.eventTracker('bank_access');
     }
   },
@@ -91,123 +78,53 @@ export default {
   methods: {
     goAddCard() {
       this.eventTracker('bank_add');
-      this.innerJump('add-bank', this.$route.query, true);
+      this.innerJump('add-bank', this.$route.query);
     },
     async getBanks() {
       let data = await this.$http.post('/api/remittance/remittanceAccountList');
       this.cards = data.data.list;
       this.chooseBankId = this.cards[0].id;
     },
-    chooseBank(bank) {
+
+    async chooseBank(bank) {
       this.chooseBankId = bank.id;
     },
+
     async submit() {
       this.showLoading();
       try {
-        if (this.from != 'mine') {
-          this.eventTracker('bank_submit');
-          try {
-            await this.$http.post(`/api/order/bindRemittanceAccount`, {
-              orderId: this.orderId,
-              remittanceAccountId: this.chooseBankId,
-            });
-            this.eventTracker('bank_submit_success');
-            this.sendEventTrackData({ leaveBy: 1 });
-            let appMode = await this.getAppMode();
-            if (appMode.confirmType == 1) {
-              // 需要进确认申请页
-              this.innerJump('loan-confirm', { orderId: this.orderId }, true);
-            } else {
-              // 不需要进确认申请页
-              this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
-            }
-          } catch (error) {
-            this.eventTracker('bank_submit_error');
-            this.$toast(error.message);
-          }
-        } else {
-          // 从个人中心进来，则是修改默认卡
-          await this.$http.post(`/api/remittance/modifyLoanCard`, {
-            remittanceAccountId: this.chooseBankId,
-          });
-          this.hideLoading();
-          this.goAppBack();
-        }
+        // 从个人中心进来，则是修改默认卡
+        await this.$http.post(`/api/remittance/modifyLoanCard`, {
+          remittanceAccountId: chooseBankId,
+        });
+        this.hideLoading();
+        this.eventTracker('bank_submit_success');
+        this.$toast('Vinculación de la tarjeta bancaria con éxito');
       } catch (error) {
         this.$toast(error.message);
       } finally {
         this.hideLoading();
       }
-      // this.showMessageBox({
-      //   content: 'The name of the bank account you submitted is inconsistent with your name, please change it to your own account.',
-      //   confirmBtnText: 'Submit',
-      //   confirmCallback: () => {
-      //     console.log('confirmCallback');
-      //     this.hideMessageBox();
-      //   },
-      //   iconPath: 'message/edit',
-      //   showClose: false,
-      // });
-      // this.showMessageBox({
-      //   content: 'Bank account verification failed, please change another bank account',
-      //   confirmBtnText: 'Ok',
-      //   confirmCallback: () => {
-      //     console.log('confirmCallback');
-      //     this.hideMessageBox();
-      //   },
-      //   iconPath: 'message/error',
-      //   showClose: false,
-      // });
-      // this.showMessageBox({
-      //   content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-      //   confirmBtnText: 'Yes',
-      //   confirmCallback: () => {
-      //     console.log('confirmCallback');
-      //     this.hideMessageBox();
-      //   },
-      //   iconPath: 'message/question',
-      //   showClose: false,
-      // });
-      // this.showMessageBox({
-      //   content: '<div><p style="color: #FF380C;font-weight: 500;margin-bottom: 20px;text-align: center">UTR has not been received</p>The order : 220624325998661663 hasn’t been repaid.</div>',
-      //   confirmBtnText: 'Repay',
-      //   confirmCallback: () => {
-      //     console.log('confirmCallback');
-      //     this.hideMessageBox();
-      //   },
-      //   cancelBtnText: 'Enter UTR',
-      //   cancelCallback: () => {
-      //     console.log('cancelCallback');
-      //     this.hideMessageBox();
-      //   },
-      //   iconPath: 'message/error',
-      //   showClose: true,
-      // });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .complete-bank {
-  padding: 20px 24px;
-  padding-bottom: 110px;
-  background: #f6f6f6;
-  height: 100%;
+  padding: 24px 16px;
+  background: #fff;
   box-sizing: border-box;
 
   .cards {
     background: #fff;
-    padding: 16px 16px 24px;
-    border-radius: 8px;
+    margin-top: 24px;
     .none {
       margin: 44px auto 40px;
     }
     .add-card {
-      width: 210px;
-      height: 40px;
+      width: 279px;
+      height: 48px;
       font-size: 16px;
-      font-weight: 500;
-      color: #ffffff;
       line-height: 22px;
       display: flex;
       align-items: center;
@@ -215,22 +132,21 @@ export default {
       padding: 0 28px;
       justify-content: space-between;
       box-sizing: border-box;
-      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-      border-radius: 20px;
+      background: #43e0a2;
+      border-radius: 8px;
       white-space: nowrap;
+      font-weight: bold;
+      color: #333333;
       img {
-        margin-right: 6px;
+        margin-right: 16px;
       }
     }
     .cards-list {
-      padding-bottom: 40px;
+      padding-bottom: 48px;
     }
 
     &-item {
-      height: 82px;
-      box-sizing: border-box;
-      border-radius: 14px 14px 0px 0px;
+      height: 52px;
       display: flex;
       align-items: center;
       padding: 0 20px;
@@ -242,18 +158,41 @@ export default {
       justify-content: space-between;
       position: relative;
       background-size: cover;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      margin-bottom: 16px;
 
-      &:nth-child(4n + 1) {
-        background-image: url('../assets/img/handy/银行卡1.png');
+      &.active {
+        border: 2px solid #333333;
+        background: #43e0a2;
+        .card-name {
+          .name {
+            color: #3b3735;
+          }
+        }
       }
-      &:nth-child(4n + 2) {
-        background-image: url('../assets/img/handy/银行卡2.png');
+
+      .choose {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        &.active {
+          background: #fff;
+          border-radius: 100%;
+        }
       }
-      &:nth-child(4n + 3) {
-        background-image: url('../assets/img/handy/银行卡3.png');
-      }
-      &:nth-child(4n + 4) {
-        background-image: url('../assets/img/handy/银行卡4.png');
+      .default-tips {
+        font-size: 10px;
+        font-family: Roboto-Black, Roboto;
+        font-weight: 900;
+        color: #333333;
+        line-height: 1;
+        background: #ffdc62;
+        border-radius: 100px 0px 0px 100px;
+        position: absolute;
+        padding: 7px 8px;
+        bottom: 8px;
+        right: 0;
       }
       &:last-child {
         margin-bottom: 0;
@@ -265,16 +204,11 @@ export default {
         display: flex;
         align-items: flex-start;
         > div {
-          font-size: 12px;
-          font-weight: 500;
-          color: #ffffff;
-          line-height: 1;
           .name {
             font-size: 16px;
             font-weight: 500;
-            color: #ffffff;
             line-height: 1;
-            margin-bottom: 10px;
+            padding-right: 20px;
           }
         }
       }
@@ -296,7 +230,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #f6f6f6;
+    background: #fff;
   }
   .step {
     margin-top: 25px;

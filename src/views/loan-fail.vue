@@ -1,9 +1,12 @@
 <template>
   <div class="loan content-area">
     <div class="loan-tips">
-      <m-icon class="icon" type="handy/失败" :width="130" :height="130" />
-      <div class="title">Sorry The application is fail!</div>
-      <div class="apply" @click="goHome">Back to Home</div>
+      <m-icon class="icon" type="superpeso/失败" :width="56" :height="56" />
+      <div class="title">
+        Error de transferencia
+        <div>Hubo un error en la transferencia de reembolso.Por favor, asegúrese de tener suficiente saldo en su cuenta bancaria</div>
+      </div>
+      <div class="apply" @click="goHome">Por favor, inténtalo de nuevo.</div>
     </div>
   </div>
 </template>
@@ -15,7 +18,7 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Loan Applications',
+      title: 'Solicitud de préstamo',
     });
   },
 };
@@ -31,18 +34,29 @@ export default {
     .title {
       margin-top: 30px;
       font-size: 16px;
-      font-weight: 400;
-      color: #333333;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
+      color: #2a303c;
       line-height: 20px;
       text-align: center;
       margin-bottom: 60px;
+      padding-left: 16px;
+      padding-right: 16px;
+
+      div {
+        font-size: 13px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #a7a7a7;
+        line-height: 15px;
+        margin-top: 10px;
+      }
     }
     .apply {
-      width: 327px;
+      width: 343px;
       height: 48px;
-      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-      border-radius: 24px;
+      background: #416cef;
+      border-radius: 8px;
       margin: 0 auto;
       display: flex;
       align-items: center;

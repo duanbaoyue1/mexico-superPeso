@@ -1,12 +1,14 @@
 <template>
   <div class="help-center content-area">
     <div class="hour-email">
+      <!-- <div>
+        <div class="head">Horario de trabajo</div>
+        <div class="item">De lunes a viernes (de 9.00 a 19.00 horas)</div>
+      </div> -->
       <div>
-        <div class="head">Working Hours</div>
-        <div class="item">Monday to Friday (9am - 7pm)</div>
-      </div>
-      <div>
-        <div class="head">E-mail</div>
+        <div class="head">
+          <m-icon type="superpeso/邮箱" :width="32" :height="28" />
+        </div>
         <div class="item">{{ feedEmail }}</div>
       </div>
     </div>
@@ -31,31 +33,31 @@
 export default {
   data() {
     return {
-      feedEmail: 'handycash01@outlook.com',
+      feedEmail: 'support@holapeso.com',
       questions: [
         {
-          desc: 'How do I apply for a loan?',
-          answer: "You can download HandyCash from the GooglePlay, register with your mobile number and sign in to apply for a loan.",
+          desc: '¿Cómo puedo obtener un préstamo instantáneo?',
+          answer: 'Todo lo que necesita es un teléfono Android, descargar CreditoMax de Google Play, preparar su C.C. ID y cuenta bancaria, y enviar su información de autenticación para una solicitud de préstamo.',
         },
         {
-          desc: 'How can I improve my application approval rate?',
-          answer: '1. Ensure that the information you submit is true and accurate 2. Complete the authorization item authentication according to the prompts 3. Repay the loan on time and without overdue',
+          desc: '¿Cuánto tardaré en recibir mi préstamo una vez aprobado?',
+          answer: 'Por lo general, los fondos tardan de 1 a 2 días hábiles en llegar, pero puede tardar hasta el tercer día hábil debido a la lentitud de procesamiento de los bancos, así que por favor sea paciente. Por favor, espere pacientemente. El tiempo de liberación está sujeto al tiempo real de llegada.<br/>Recomendamos los siguientes cuatro bancos: Nequi, Bancolombia, Daviplata, que admiten préstamos en fin de semana y festivos y tienen un tiempo de llegada rápido.',
         },
         {
-          desc: 'Why was my loan application rejected?',
-          answer: 'We are very sorry, it means that your credit score is not enough and you have not met our vetting requirements for the time being. If necessary, we suggest you try to apply again at an interval of about 7 days.',
+          desc: 'He realizado un pago pero mi pedido no se ha actualizado, ¿qué debo hacer?',
+          answer: 'Lamentamos que esté experimentando este problema, por favor tenga paciencia ya que los pagos pueden tardar hasta 24 horas en llegar. Si el pedido no se ha actualizado en más de 24 horas, póngase en contacto con nuestro servicio de atención al cliente por correo electrónico.',
         },
         {
-          desc: 'How long will it take for me to receive a release of funds after my application is successful?',
-          answer: 'Usually you will receive the money within 1 hour, however, sometimes, banks have problems with delayed arrival of funds, but usually you will receive the money within 24 hours. If it takes longer than 24 hours, please contact customer service by email, providing your borrowing information and bank documents.',
+          desc: 'Quiero cambiar mi cuenta bancaria receptora, ¿qué debo hacer?',
+          answer: 'Puede cambiar su cuenta bancaria en la página "Mi - Cuenta Bancaria" y luego volver a solicitar el préstamo.',
         },
         {
-          desc: 'Can I cancel my loan?',
-          answer: "Loan cancellation is not supported if the loan application has entered the review process. If you have already received your loan, please make your repayments on time to avoid incurring late penalties.",
+          desc: '¿Cómo puedo aumentar el importe de mi préstamo?',
+          answer: 'Nuestro sistema evaluará el importe de su préstamo en función de su solvencia, por lo que le rogamos que efectúe sus pagos puntualmente y mantenga un buen historial crediticio, ya que ello contribuirá a aumentar el importe de su préstamo.',
         },
         {
-          desc: 'Why is my order not updated even though I have made repayments?',
-          answer: 'This situation is caused by a number of reasons, which may be as follows:<br/>1. You have not filled in the utr number back after repayment or you have filled in the wrong utr number, please go to the app and submit the correct utr number<br/>2. You have submitted the correct utr number, but as you have just paid the repayment, the bank needs processing time, you can wait for 30 minutes and try to submit the utr again.<br/>3. Each time you make a repayment, please click the repayment button to get the latest repayment upi address and pay to that address. Please do not save the upi address for the next repayment as there is a possibility that the upi address has been frozen and so the order cannot be updated.<br/><br/>If the correct utr number has been submitted and it has been more than 12 hours and the order has still not been updated, please contact customer service by email with your borrowing details and a screenshot of your utr payment voucher.',
+          desc: '¿Por qué ha fallado mi solicitud de préstamo?',
+          answer: 'Lamentablemente, puede deberse a varias razones y determinamos la elegibilidad de cada prestatario basándonos en la lógica y los algoritmos que hemos establecido. Si tu préstamo no se aprueba, significa que tu perfil no se ajusta al algoritmo y al modelo de riesgo crediticio que hemos establecido.',
         },
       ],
     };
@@ -64,19 +66,19 @@ export default {
     this.setTabBar({
       show: true,
       fixed: true,
-      transparent: false,
-      title: 'Help Center',
+      transparent: true,
+      title: 'Pedido de préstamo',
     });
   },
   mounted() {
-    setTimeout(async () => {
-      try {
-        let user = await this.getUserInfo();
-        if (parseInt(user.id) % 2 == 1) {
-          this.feedEmail = 'handycash02@outlook.com';
-        }
-      } catch (error) {}
-    }, 200);
+    // setTimeout(async () => {
+    //   try {
+    //     let user = await this.getUserInfo();
+    //     if (parseInt(user.id) % 2 == 1) {
+    //       this.feedEmail = 'creditomax03@outlook.com';
+    //     }
+    //   } catch (error) {}
+    // }, 200);
   },
 
   methods: {
@@ -93,6 +95,11 @@ export default {
 <style lang="scss" scoped>
 .help-center {
   padding-bottom: 24px;
+  background-image: url(../assets/img/superpeso/贷款确认页.png);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 375px 280px;
+  background-color: #f9f9f9;
 
   .actions {
     position: fixed;
@@ -115,19 +122,22 @@ export default {
 
   .questions {
     background: #fff;
-    padding: 16px 24px;
+    padding: 24px 16px;
+    margin: auto 16px;
+    border-radius: 8px;
     .item {
-      width: 320px;
-      border-radius: 14px;
+      width: 100%;
       box-sizing: border-box;
       font-size: 12px;
       margin-bottom: 20px;
       font-weight: 400;
       color: #999999;
       line-height: 16px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
       .desc {
         font-size: 14px;
-        font-weight: 400;
+        font-weight: bold;
         line-height: 20px;
         display: flex;
         justify-content: space-between;
@@ -144,20 +154,32 @@ export default {
       }
       .answer {
         padding-top: 10px;
+        background: #ecfcf6;
+        border-radius: 8px;
+        font-weight: 400;
+        color: #333333;
+        padding: 16px;
+        margin-top: 16px;
+        line-height: 20px;
+      }
+
+      &:last-child {
+        margin-bottom: none;
       }
     }
   }
 
   .hour-email {
     background: #fff;
-    padding: 16px;
-    margin: 24px;
+    padding: 24px;
+    margin: 24px 16px;
+    margin-bottom: 16px;
     border-radius: 8px;
 
     > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      // display: flex;
+      // justify-content: space-between;
+      // align-items: center;
       margin-bottom: 24px;
       &:last-child {
         margin-bottom: 0;
@@ -170,19 +192,25 @@ export default {
       color: #999999;
       line-height: 20px;
       flex-shrink: 0;
+      img {
+        margin: 0 auto;
+        margin-bottom: 8px;
+      }
     }
 
     .item {
       flex-grow: 1;
       margin-left: 20px;
-      height: 20px;
       box-sizing: border-box;
       border: none;
-      font-size: 12px;
-      font-weight: 900;
       width: 100%;
       color: #000000;
-      text-align: right;
+      text-align: center;
+      line-height: 20px;
+      font-size: 16px;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
+      color: #2a303c;
       line-height: 20px;
     }
   }

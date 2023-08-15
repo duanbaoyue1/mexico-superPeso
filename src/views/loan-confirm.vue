@@ -1,51 +1,63 @@
 <template>
   <div class="loan-confirm content-area">
+    <div class="loan-money">
+      <div>
+        <div>Monto del préstamo</div>
+        <div>
+          <span class="dollar">$</span>
+          {{ orderInfo.estimatedRepaymentAmount }}
+        </div>
+      </div>
+      <m-icon type="creditomax/确认申请页" :width="56" :height="56" />
+    </div>
+
     <div class="loan-info">
       <div class="item">
-        <span>Repayment</span>
-        <span class="fs-24 font-bold color-orange">₹{{ orderInfo.estimatedRepaymentAmount }}</span>
+        <span>Monto total de recibo</span>
+        <span>${{ orderInfo.actualAmount }}</span>
+      </div>
+
+      <div class="item border">
+        <span>Monto total de reembolso</span>
+        <span class="color-000">${{ orderInfo.approvalAmount }}</span>
+      </div>
+      <div class="item">
+        <span>Fecha de aplicación</span>
+        <span>{{ orderInfo.applyTime }}</span>
+      </div>
+      <div class="item border">
+        <span>Fecha de reembolso</span>
+        <span>{{ orderInfo.expectedRepaymentTime }}</span>
       </div>
 
       <div class="item">
-        <span>Loan Amount</span>
-        <span class="color-000">₹{{ orderInfo.approvalAmount }}</span>
-      </div>
-      <div class="item">
-        <span>Application Date</span>
-        <span>{{ orderInfo.applyTime }}</span>
-      </div>
-      <div class="item">
-        <span>Due Date</span>
-        <span>{{ orderInfo.expectedRepaymentTime }}</span>
-      </div>
-      <div class="item">
-        <span>Disbursal Bank</span>
+        <span>Método de recibo</span>
         <span>{{ orderInfo.bankCardName }}</span>
       </div>
       <div class="item">
-        <span>Account No.</span>
+        <span>Banco de recibo</span>
+        <span>{{ orderInfo.bankCardName }}</span>
+      </div>
+      <div class="item bank">
+        <span>Número de cuenta bancaria de recibo</span>
         <span>{{ orderInfo.bankCardNo }}</span>
       </div>
     </div>
 
-    <div class="loan-desc">The specific amount will be confirmed after reviewing. If your order is approved, we will charge the processing fee, including the service fee (no more than 7%), review fee (8%-15%), and GST(18%) This page is for reference only. The amount will be credited to your account directly after approval.</div>
+    <div class="loan-tips">
+      Pago Directo
+      <br />
+      Usted recibirá el monto después de que su préstamo sea aprobado.
+    </div>
 
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">One-click to get quota</button>
-      <div class="policy" @click="togglePolicy">
-        <m-icon class="icon" :type="choosed ? 'handy/选中（小）' : 'handy/未选（小）'" :width="14" :height="14" />
-        I have read and agreed to the &nbsp;
-        <span @click="checkAgreement">loan Agreement</span>
-      </div>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Confirme el préstamo</button>
     </div>
   </div>
 </template>
 
 <script>
-import eventTrack from '@/mixins/event-track';
-
 export default {
-   mixins: [eventTrack],
   watch: {
     choosed: {
       handler() {
@@ -57,9 +69,10 @@ export default {
   created() {
     this.setTabBar({
       show: true,
+      transparent: true,
       fixed: true,
-      transparent: false,
-      title: 'Loan Application',
+      black: false,
+      title: 'Confirmación del préstamo',
     });
   },
   data() {
@@ -72,6 +85,7 @@ export default {
     };
   },
   mounted() {
+    document.body.style.backgroundColor = '#f9f9f9';
     this.eventTracker('confirm_access');
     this.getOrderInfo();
   },
@@ -100,21 +114,20 @@ export default {
       try {
         // 1. 先同步数据
         try {
-          syncRes = await this.judgeCanApply();
+          syncRes = await this.startSyncData();
         } catch (error) {
           this.hideLoading();
-          this.$toast('Your message verification failed, please wait a minute and try again');
+          this.$toast('Compruebe la red y vuelva a intentarlo');
           return;
         }
         if (syncRes.success) {
           // 2. 真正的提交动作
           await this.$http.post(`/api/order/apply`, { orderId: this.orderId });
           // 成功或者失败的跳转
-          this.sendEventTrackData({leaveBy: 1});
-          this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: new Date().getTime() }, true);
+          this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: this.getLocalSystemTimeStamp() }, true);
         }
       } catch (error) {
-        this.$toast(error.message);
+        this.$toast(error.message || 'Compruebe la red y vuelva a intentarlo');
         setTimeout(() => {
           this.innerJump('loan-fail', { orderId: this.orderId }, true);
         }, 1000);
@@ -128,52 +141,77 @@ export default {
 
 <style lang="scss" scoped>
 .loan-confirm {
-  background: #f6f6f6;
-  padding: 16px 24px;
+  padding: 16px 16px;
   padding-bottom: 90px;
-  .head {
-    padding: 20px;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 400;
-    color: #000000;
-    line-height: 24px;
-    background: #fff;
-    position: relative;
-    .icon {
-      margin-right: 20px;
+  background-image: url(../assets/img/superpeso/贷款确认页.png);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 375px 280px;
+  background-color: #f9f9f9;
+
+  .loan-money {
+    width: 100%;
+    height: 90px;
+    background: #ffffff;
+    border-radius: 14px;
+    margin-top: 14px;
+    box-sizing: border-box;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-size: 32px;
+    font-family: DINAlternate-Bold, DINAlternate;
+    font-weight: bold;
+    color: #333333;
+    line-height: 38px;
+    text-align: center;
+    .dollar {
+      font-size: 14px;
+      font-family: Roboto-Black, Roboto;
+      font-weight: 900;
+      color: #333333;
+      line-height: 20px;
     }
-    .money {
-      font-size: 24px;
-      font-weight: bold;
-      color: #1143a4;
-      line-height: 28px;
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+    div {
+      div {
+        &:first-child {
+          font-size: 12px;
+          font-family: Roboto-Regular, Roboto;
+          font-weight: 400;
+          color: #333333;
+          line-height: 20px;
+        }
+      }
     }
   }
-  .loan-desc {
-    margin-top: 16px;
-    font-size: 12px;
+  .loan-tips {
+    font-size: 14px;
+    font-family: Roboto-Regular, Roboto;
     font-weight: 400;
-    color: #333;
-    line-height: 18px;
+    color: #999999;
+    line-height: 20px;
+    margin-top: 24px;
   }
   .loan-info {
-    padding-top: 32px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 24px 16px;
+    padding-bottom: 8px;
     border-radius: 8px;
     background: #fff;
     .item {
-      padding-bottom: 24px;
+      padding-bottom: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      &.border {
+        border-bottom: 2px solid #eee;
+        margin-bottom: 16px;
+      }
+      &.bank {
+        flex-direction: column;
+        align-items: baseline;
+        span {
+          margin-bottom: 8px;
+        }
+      }
       span {
         font-size: 14px;
         font-weight: 400;
@@ -200,27 +238,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: transparent;
-
-    .policy {
-      padding: 0 20px;
-      font-size: 10px;
-      font-weight: 400;
-      color: #000000;
-      line-height: 16px;
-      display: flex;
-      align-items: center;
-      transform: scale(0.9);
-      margin-bottom: 10px;
-      width: 110%;
-      margin-left: -5%;
-      .icon {
-        margin-right: 10px;
-      }
-      span {
-        color: #fc3122;
-      }
-    }
+    background: #f9f9f9;
   }
 }
 </style>

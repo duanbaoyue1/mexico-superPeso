@@ -25,6 +25,20 @@ export default {
     dateFormate(date, format = 'yyyy/MM/dd') {
       return dateFormat(date, format);
     },
+
+    formatMonex(num) {
+      var result = [],
+        counter = 0;
+      num = (num || 0).toString().split('');
+      for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) {
+          result.unshift(',');
+        }
+      }
+      return result.join('');
+    },
   },
 
   beforeRouteLeave(to, from, next) {
@@ -68,9 +82,9 @@ export default {
     initInfoBackControl() {
       window.infoBtnCallBack = () => {
         this.showMessageBox({
-          content: 'Receive the money immediately after submitting the information. Do you really want to quit?',
-          confirmBtnText: 'No',
-          cancelBtnText: 'Leave',
+          content: '¡Espere, todavía queda un paso para obtener el dinero!',
+          confirmBtnText: 'OK',
+          cancelBtnText: 'Renunciar',
           confirmCallback: () => {
             this.hideMessageBox();
           },
@@ -78,7 +92,7 @@ export default {
             this.hideMessageBox();
             this.goAppBack();
           },
-          iconPath: 'handy/确定退出嘛',
+          iconPath: 'superpeso/添加新收款方式-退出弹窗',
         });
       };
       this.setTabBar({

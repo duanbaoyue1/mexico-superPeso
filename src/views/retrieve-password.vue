@@ -2,26 +2,26 @@
   <div class="password content-area">
     <div class="edit-area">
       <div class="line-item">
-        <div class="label">Phone Number</div>
+        <div class="label">Número de teléfono</div>
         <input v-model="userInfo.mobile" disabled />
       </div>
       <div class="line-item">
-        <div class="label">Original Password</div>
-        <input v-model="editData.oldPassword" placeholder="Enter the original password" />
+        <div class="label">Contraseña original</div>
+        <input v-model="editData.oldPassword" placeholder="Introduzca la contraseña original" />
       </div>
       <div class="line-item">
-        <div class="label">New Password</div>
-        <input v-model="editData.newPassword" placeholder="Set new password" :type="passwordType" />
+        <div class="label">Nueva contraseña</div>
+        <input v-model="editData.newPassword" placeholder="Introduzca una nueva contraseña" :type="passwordType" />
         <m-icon class="eye" :type="passwordType != 'text' ? 'password/eye-hide' : 'password/eye-show'" :width="32" :height="20" @click="togglePassword('passwordType')" />
       </div>
       <div class="line-item">
-        <div class="label">Confirm Password</div>
-        <input v-model="editData.enterPassword" placeholder="Set new password" :type="passwordAgainType" />
+        <div class="label">Confirmar contraseña</div>
+        <input v-model="editData.enterPassword" placeholder="Introduzca de nuevo la contraseña" :type="passwordAgainType" />
         <m-icon class="eye" :type="passwordAgainType != 'text' ? 'password/eye-hide' : 'password/eye-show'" :width="32" :height="20" @click="togglePassword('passwordAgainType')" />
       </div>
     </div>
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -50,7 +50,7 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Retrieve password',
+      title: 'Cambiar contraseña',
     });
   },
   data() {
@@ -80,7 +80,7 @@ export default {
     },
     async submit() {
       if (this.editData.newPassword !== this.editData.enterPassword) {
-        this.$toast('The two passwords are inconsistent');
+        this.$toast('Las dos contraseñas son incoherentes');
         return;
       }
 
@@ -93,7 +93,7 @@ export default {
         });
         this.updateToken({ token: res.data.token });
         this.toAppMethod('updateUser', res.data);
-        this.$toast('success');
+        this.$toast('Éxito');
         setTimeout(() => {
           this.goHome();
         }, 1000);
@@ -151,30 +151,30 @@ export default {
       margin-bottom: 20px;
       font-size: 14px;
       position: relative;
-      border-bottom: 2px solid #e9e9e9;
       .label {
-        font-size: 16px;
-        font-family: Roboto-Medium, Roboto;
+        font-size: 14px;
         font-weight: 500;
         color: #333333;
         line-height: 20px;
-        margin-top: 23px;
-        margin-bottom: 16px;
+        margin-top: 24px;
+        margin-bottom: 8px;
+        line-height: 1;
       }
       input {
         width: 100%;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;
-        border: none;
-        margin-bottom: 14px;
+        height: 52px;
         background: transparent;
+        border: 1px solid #eeeeee;
+        border-radius: 8px;
+        padding: 16px;
       }
       .eye {
         position: absolute;
         right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+        bottom: 18px;
       }
     }
   }

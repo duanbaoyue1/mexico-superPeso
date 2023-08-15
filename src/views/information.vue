@@ -1,72 +1,69 @@
 <template>
   <div class="information content-area">
     <div class="step">
-      <complete-step :actionIndex="1"></complete-step>
+      <complete-step :actionIndex="0"></complete-step>
     </div>
     <div class="edit-area">
       <!-- <div class="line-item">
-        <label>Name</label>
-        <input v-model="editData.firstName" placeholder="Please enter" />
+        <input v-model="editData.firstName" placeholder="Please enter your name" />
       </div>
       <div class="line-item">
-        <label>Middle Name</label>
-        <input v-model="editData.middleName" placeholder="Please enter" />
+        <input v-model="editData.middleName" placeholder="Please enter your Middle Name" />
       </div>
       <div class="line-item">
-        <label>Last Name</label>
-        <input v-model="editData.lastName" placeholder="Please enter" />
+        <input v-model="editData.lastName" placeholder="Please enter your Last Name" />
       </div> -->
+      <div class="head">Contacto Nombre</div>
       <div class="line-item">
-        <label>Email</label>
-        <input v-model="editData.email" placeholder="Please enter" />
+        <input v-model="editData.name" placeholder="Por favor escribe" />
       </div>
-
+      <div class="head">Formación académica</div>
       <div class="line-item">
-        <label>Gender</label>
-        <select-item :items="ALL_ATTRS.GENDER" title="Gender" itemAttrs="gender" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.EDUCATION" title="Formación académica" itemAttrs="education" @choose="chooseEditData" />
       </div>
+      <!-- <div class="head">Gender</div>
       <div class="line-item">
-        <label>Educational Qualification</label>
-        <select-item :items="ALL_ATTRS.EDUCATION" title="Educational Qualification" itemAttrs="education" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.GENDER" itemAttrs="gender" @choose="chooseEditData" />
+      </div> -->
+      <div class="head">Estado civil</div>
+      <div class="line-item">
+        <select-item :items="ALL_ATTRS.MARITAL_STATUS" title="Estado civil" itemAttrs="marital" @choose="chooseEditData" />
       </div>
+      <div class="head">Finalidad del préstamo</div>
       <div class="line-item">
-        <label>Occupation</label>
+        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" title="Finalidad del préstamo" itemAttrs="loanPurpose" @choose="chooseEditData" />
+      </div>
+      <div class="head">Tipo de alojamiento</div>
+      <div class="line-item">
+        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Tipo de alojamiento" itemAttrs="houseType" @choose="chooseEditData" />
+      </div>
+      <div class="head">Ingresos mensuales</div>
+      <div class="line-item">
+        <select-item :items="ALL_ATTRS.SALARY" title="Ingresos mensuales" :columns="1" itemAttrs="monthlyIncome" @choose="chooseEditData" />
+      </div>
+      <div class="head">Occupation</div>
+      <div class="line-item">
         <select-item :items="ALL_ATTRS.OCCUPATION" title="Occupation" itemAttrs="occupation" @choose="chooseEditData" />
       </div>
+
+      <!-- <div class="head">Number of Children</div>
       <div class="line-item">
-        <label>Salary Range</label>
-        <select-item :items="ALL_ATTRS.SALARY" title="Salary Range" itemAttrs="monthlyIncome" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.CHILDREN" itemAttrs="childNum" @choose="chooseEditData" />
       </div>
+      <div class="head">Pay Method</div>
       <div class="line-item">
-        <label>Marital Status</label>
-        <select-item :items="ALL_ATTRS.MARITAL_STATUS" title="Marital Status" itemAttrs="marital" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Loan Purpose</label>
-        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" title="Loan Purpose" itemAttrs="loanPurpose" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Type of Accommodation</label>
-        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Contacts Info" itemAttrs="houseType" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Number of Children</label>
-        <select-item :items="ALL_ATTRS.CHILDREN" title="Number of Children" itemAttrs="childNum" @choose="chooseEditData" />
-      </div>
-      <div class="line-item">
-        <label>Pay Method</label>
-        <select-item :items="ALL_ATTRS.PAY_METHOD" title="Pay Method" itemAttrs="incomeWay" @choose="chooseEditData" />
-      </div>
+        <select-item :items="ALL_ATTRS.PAY_METHOD" itemAttrs="incomeWay" @choose="chooseEditData" />
+      </div> -->
     </div>
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
       <span>
-        Congratulations!
+        ¡Enhorabuena!
         <br />
-        Your personal information has been verified
+        Su información personal ha sido verificada
       </span>
     </div>
   </div>
@@ -87,7 +84,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 10;
+        this.canSubmit = Object.values(this.editData).length == 7;
       },
       deep: true,
     },
@@ -150,9 +147,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px 24px;
+  padding: 20px 16px;
   padding-bottom: 110px;
-  background: #f6f6f6;
+  background: #fff;
   padding-top: 0;
 
   .submit-success {
@@ -189,47 +186,35 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #f6f6f6;
+    background: #fff;
   }
   .step {
     padding-top: 10px;
     margin-bottom: 32px;
   }
   .edit-area {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 0 16px;
+    .head-top {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333333;
+      line-height: 26px;
+      margin-bottom: 20px;
+    }
     .head {
       font-size: 14px;
-      color: #000;
-      line-height: 18px;
-      margin-bottom: 10px;
+      color: #333;
+      line-height: 20px;
+      margin-bottom: 8px;
     }
-
     .line-item {
+      margin-bottom: 24px;
       font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #e3e3e3;
-      height: 52px;
-      &:last-child {
-        border-bottom: none;
-      }
-      label {
-        font-size: 14px;
-        font-weight: 400;
-        color: #000000;
-        line-height: 20px;
-        flex-shrink: 0;
-        margin-right: 10px;
-      }
       input {
         width: 100%;
-        height: 100%;
-        border: none;
-        text-align: right;
-        padding: 0 0px;
+        height: 52px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        padding: 0 16px;
         font-size: 14px;
         color: #333333;
         box-sizing: border-box;

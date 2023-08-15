@@ -57,10 +57,10 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   z-index: 2;
   .container {
-    width: 295px;
+    width: 327px;
     background: #ffffff;
-    padding: 120px 24px 24px;
-    border-radius: 8px;
+    padding: 60px 24px 24px;
+    border-radius: 16px;
     line-height: 24px;
     position: absolute;
     top: 50%;
@@ -86,20 +86,20 @@ export default {
     }
     .content {
       margin-bottom: 32px;
-      font-size: 16px;
+      font-size: 14px;
       font-family: Roboto-Medium, Roboto;
-      font-weight: 500;
+      font-weight: 400;
       color: #333333;
       line-height: 20px;
       word-break: break-word;
+      text-align: center;
     }
     .actions {
       .confirm {
-        background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-        box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-        border-radius: 20px;
-        width: 247px;
-        height: 40px;
+        background: #416cef;
+        border-radius: 8px;
+        width: 279px;
+        height: 36px;
         font-size: 16px;
         font-weight: 900;
         color: #ffffff;

@@ -124,15 +124,14 @@ export default {
       }
       this.dataSended = true;
       try {
-        console.log('send data:', sendData);
-        axios.post(`${DATA_API_HOST}/operate/india`, sendData);
+        // console.log('send data:', sendData);
+        // axios.post(`${DATA_API_HOST}/operate/india`, sendData);
       } catch (error) {
         console.error('event data send error!', error);
       }
     },
     addActionCnt() {
       window.actionCnt++;
-      console.log('actionCnt:', window.actionCnt);
     },
     touchstart() {
       this.touchMoved = false;

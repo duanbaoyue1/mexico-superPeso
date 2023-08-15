@@ -1,53 +1,68 @@
 <template>
   <div class="information content-area">
     <div class="step">
-      <complete-step :actionIndex="0"></complete-step>
+      <complete-step :actionIndex="2"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="head-top">Pan Card</div>
       <div class="pan-img-wrapper">
-        <div class="pan-img" @click="getCapture(3)">
-          <template v-if="panFrontBase64Src">
-            <img class="back user-pic" :src="panFrontBase64Src" />
-            <img class="btn" :src="require('@/assets/img/handy/完成.png')" />
+        <div class="pan-img" @click="getCapture(1)">
+          <template v-if="cardFrontOcrStatus">
+            <img class="back" :src="cardFrontBase64Src" />
+            <img class="btn" :src="require('@/assets/img/superpeso/完成.png')" />
           </template>
           <template v-else>
-            <img class="back" :src="require('@/assets/img/handy/Pan Front.png')" />
-            <img class="btn" :src="require('@/assets/img/handy/相机.png')" />
+            <img class="back" :src="require('@/assets/img/superpeso/卡正.png')" />
+            <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
           </template>
         </div>
-        <div class="pan-text">
-          Pan
-          <span>Front</span>
-        </div>
+        <div class="pan-text">Front of INE / IFE</div>
       </div>
 
-      <!-- <div class="pan-demo">
-        <div>
-          <img class="btn" :src="require('@/assets/img/identity/Standard@2x.png')" />
-          <div>Standard</div>
+      <div class="pan-img-wrapper">
+        <div class="pan-img" @click="getCapture(2)">
+          <template v-if="cardBackOcrStatus">
+            <img class="back" :src="cardBackBase64Src" />
+            <img class="btn" :src="require('@/assets/img/superpeso/完成.png')" />
+          </template>
+          <template v-else>
+            <img class="back" :src="require('@/assets/img/superpeso/卡反.png')" />
+            <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
+          </template>
         </div>
-        <div>
-          <img class="btn" :src="require('@/assets/img/identity/Missing border@2x.png')" />
-          <div>Missing border</div>
-        </div>
-        <div>
-          <img class="btn" :src="require('@/assets/img/identity/Blurred photo@2x.png')" />
-          <div>Blurred photo</div>
-        </div>
-        <div>
-          <img class="btn" :src="require('@/assets/img/identity/Strong flash@2x.png')" />
-          <div>Strong flash</div>
-        </div>
-      </div> -->
-      <div class="pan-tips">
-        1.Ensure that all the documents uploaded are clear and not blurred
-        <br />
-        2.Incomplete information may prevent you from passing thecetification successfully
+        <div class="pan-text">Back of INE / IFE</div>
       </div>
+
+      <div class="pan-info">
+        <div class="item">
+          <label>Nombre</label>
+          <div class="value">Antonio Maldonado Evangelista</div>
+        </div>
+        <div class="item">
+          <label>Apellido paterno</label>
+          <div class="value">Makdonado</div>
+        </div>
+        <div class="item">
+          <label>Apellido materno</label>
+          <div class="value">Evangelista</div>
+        </div>
+        <div class="item">
+          <label>CURP</label>
+          <div class="value">6896 5641 5910</div>
+        </div>
+        <div class="item">
+          <label>RFC</label>
+          <div class="value">
+            12367890
+            <span class="RFC">RFC</span>
+          </div>
+        </div>
+        <div class="tips">Los últimos 3 dígitos del RFC deben ser introducidos</div>
+      </div>
+
+      <div class="pan-tips">Confirme la información básica de acuerdo con la identificación con foto cargada. Asegúrese de que la información básica sea consistente con su identificación con foto, de lo contrario afectará su préstamo.</div>
     </div>
     <div class="submit">
-      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Submit</button>
+      <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
 
     <div class="submit-success" v-show="submitSuccess">
@@ -56,11 +71,8 @@
           <div class="cur-percent" :style="{ width: curPercent + '%' }"></div>
           <div class="tips" :style="{ left: curPercent + '%' }">{{ curPercent }}%</div>
         </div>
-        <div class="tips">
-          Please be patient and wait for the
-          <br />
-          upload to unlock the credit
-        </div>
+        <div class="tips">Please be patient and wait for the upload to unlock the credit</div>
+        <m-icon class="close" type="superpeso/弹窗关闭" :width="24" :height="24" @click="submitSuccess = false" />
       </div>
     </div>
   </div>
@@ -68,10 +80,8 @@
 
 <script>
 import CompleteStep from '@/components/complete-step.vue';
-import eventTrack from '@/mixins/event-track';
 
 export default {
-  mixins: [eventTrack],
   components: {
     CompleteStep,
   },
@@ -81,63 +91,69 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Complete information',
+      title: 'Verificación de identidad',
       backCallback: null,
     });
   },
   data() {
+    window.onPhotoSelectCallback_1 = data => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.eventTracker('id_card_front_submit');
+        this.cardFrontBase64Src = `data:image/png;base64,${data.pic}`;
+        this.uploadImg(1, 'cardFrontBase64Src', this.cardFrontBase64Src);
+      }
+    };
+
+    window.onPhotoSelectCallback_2 = data => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.eventTracker('id_card_back_submit');
+        this.cardBackBase64Src = `data:image/png;base64,${data.pic}`;
+        this.uploadImg(2, 'cardBackBase64Src', this.cardBackBase64Src);
+      }
+    };
+
     window.onPhotoSelectCallback_3 = data => {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.eventTracker('id_pan_front_success');
-        this.panFrontBase64Src = `data:image/png;base64,${data.base64[0]}`;
-        this.uploadImg(3, 'panFrontBase64Src', this.panFrontBase64Src);
-      }
-    };
-
-    window.onPhotoSelectCallback_4 = data => {
-      if (typeof data == 'string') {
-        data = JSON.parse(data);
-      }
-      if (data.success) {
         this.eventTracker('id_liveness_photo_submit');
-        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.base64[0]}`);
+        this.uploadImg(3, 'livingBase64Src', `data:image/png;base64,${data.pic}`);
       }
     };
 
     return {
-      canSubmit: false, // 是否可以提交
+      canSubmit: false,
       submitSuccess: false,
-      panFrontBase64Src: '',
+      cardFrontBase64Src: '',
+      cardBackBase64Src: '',
       editData: {},
       curPercent: 0,
       saving: false,
       curInterval: null,
-      ocrChannel: 'AccV2',
+      cardFrontOcrStatus: 0,
+      cardBackOcrStatus: 0,
+      orderId: this.$route.query.orderId,
     };
   },
 
   mounted() {
     this.eventTracker('id_access');
     this.initInfoBackControl();
-    // this.getOcrChannel();
   },
 
   methods: {
-    // async getOcrChannel() {
-    //   try {
-    //     let res = await this.$http.post(`/zds/htgfuvs`);
-    //     if (res.returnCode == 2000) {
-    //       this.ocrChannel = res.data.channel;
-    //     }
-    //   } catch (error) {}
-    // },
-
     getCapture(type) {
-      if (type == 3) {
-        this.eventTracker('id_pan_front');
+      if (type == 1) {
+        this.eventTracker('id_card_front');
+      } else if (type == 2) {
+        this.eventTracker('id_card_back');
       }
       this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
@@ -150,7 +166,7 @@ export default {
         this.curInterval = null;
       }
       this.curInterval = setInterval(() => {
-        if (this.curPercent <= 99) {
+        if (this.curPercent < 99) {
           this.curPercent += 1;
         } else {
           this.stopPercent();
@@ -162,15 +178,14 @@ export default {
       window.clearInterval(this.curInterval);
     },
 
-    async createNewOrder() {
+    async goAddCard() {
       try {
         // 创建订单
         let res = await this.$http.post(`/api/product/appMaskModel`);
-        // 跳转个人信息页
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
         this.submitSuccess = false;
-        this.innerJump('information', { orderId: res.data.orderId }, true);
+        this.innerJump('add-bank', { orderId: res.data.orderId, from: 'order' }, true);
       } catch (error) {
         this.submitSuccess = false;
         this.$toast(error.message);
@@ -182,27 +197,41 @@ export default {
       this.startPercent();
       try {
         let saveData = {
-          channel: this.ocrChannel,
           mark: type,
         };
         saveData[fileName] = base64;
-        let res = await this.$http.post(`/api/ocr/saveBase64Result`, saveData);
+        let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
 
         if (res.returnCode == 2000) {
-          if (type == 3 && res.data.panFrontOcrStatus) {
+          if (type == 1) {
+            this.cardFrontOcrStatus = res.data.cardFrontOcrStatus;
+          } else if (type == 2) {
+            this.cardBackOcrStatus = res.data.cardBackOcrStatus;
+          }
+          if (type == 1 && res.data.cardFrontOcrStatus) {
             this.curPercent = 100;
             setTimeout(() => {
               this.stopPercent();
               this.submitSuccess = false;
-              // 活体检测
-              this.canSubmit = true;
             }, 1000);
-            this.eventTracker('id_submit_success');
-          } else if (type == 4 && res.data.faceComparisonStatus) {
+            this.eventTracker('id_card_front_submit_success');
+          } else if (type == 2 && res.data.cardBackOcrStatus) {
             this.curPercent = 100;
-
-            this.eventTracker('id_liveness_success');
-            this.createNewOrder();
+            setTimeout(() => {
+              this.stopPercent();
+              this.submitSuccess = false;
+            }, 1000);
+            this.eventTracker('id_card_back_submit_success');
+          } else if (type == 3 && res.data.livingStatus) {
+            // 提交人脸对比请求
+            res = await this.$http.post(`/api/ocr/saveResult`, { mark: 4 });
+            if (res.data.faceComparisonStatus) {
+              this.curPercent = 100;
+              this.eventTracker('id_liveness_success');
+              this.goAddCard();
+            } else {
+              this.logError(type);
+            }
           } else {
             this.logError(type);
           }
@@ -210,29 +239,48 @@ export default {
           this.logError(type);
         }
       } catch (error) {
-        this.logError(type, error.message);
+        this.logError(type, error);
+      } finally {
+        this.checkCanSubmit();
       }
     },
 
-    logError(type, message) {
+    checkCanSubmit() {
+      if (this.cardBackOcrStatus && this.cardFrontOcrStatus) {
+        this.canSubmit = true;
+      } else {
+        this.canSubmit = false;
+      }
+    },
+
+    logError(type, error) {
       this.stopPercent();
       this.submitSuccess = false;
       this.eventTracker('id_submit_error');
-      this.$toast(message || 'please try again!');
+      let toastMessage = 'Por favor, inténtelo de nuevo！';
+
+      if (error) {
+        if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
+          toastMessage = 'Compruebe la red y vuelva a intentarlo';
+        } else {
+          toastMessage = error.message || toastMessage;
+        }
+      }
+      this.$toast(toastMessage);
     },
 
     async submit() {
       this.eventTracker('id_submit');
-      this.getCapture(4);
+      this.getCapture(3);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px 24px;
+  padding: 20px 16px;
   padding-bottom: 110px;
-  background: #f6f6f6;
+  background: #fff;
 
   .pan-text {
     font-size: 14px;
@@ -246,12 +294,45 @@ export default {
     }
   }
 
+  .pan-info {
+    margin-top: 20px;
+    border-top: 4px solid #eee;
+    padding: 40px 16px 20px;
+    margin-left: -16px;
+    margin-right: -16px;
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #000000;
+      line-height: 20px;
+      margin-bottom: 30px;
+      .RFC {
+        color: #f95502;
+        margin-left: 4px;
+      }
+    }
+    .tips {
+      font-size: 12px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #f95502;
+      line-height: 18px;
+      margin-top: -20px;
+      text-align: right;
+    }
+  }
+
   .pan-tips {
     margin-top: 20px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
-    color: #c6c6c6;
-    line-height: 14px;
+    color: #999;
+    word-break: break-word;
+    line-height: 18px;
   }
 
   .pan-demo {
@@ -277,31 +358,24 @@ export default {
 
   .pan-img-wrapper {
     background: #fff;
-    padding: 16px 44px;
+    padding: 20px 44px;
     border-radius: 8px;
-    margin-bottom: 34px;
+
     .pan-img {
       position: relative;
-
       .back {
-        width: 240px;
-        height: 151px;
+        width: 175px;
+        height: 120px;
         margin: 0 auto;
         display: block;
-        &.user-pic {
-          height: 190px;
-          width: 120px;
-          transform: rotate(270deg);
-          transform-origin: center center;
-        }
       }
       .btn {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 48px;
-        height: 48px;
+        width: 32px;
+        height: 32px;
       }
     }
   }
@@ -314,13 +388,19 @@ export default {
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 2;
+    .close {
+      position: absolute;
+      bottom: -62px;
+      left: 50%;
+      z-index: 2;
+      transform: translateX(-50%);
+    }
 
     &-content {
       width: 320px;
       height: 144px;
       background: #ffffff;
-      border-radius: 8px;
+      border-radius: 16px;
       background: #fff;
       position: absolute;
       top: 50%;
@@ -341,7 +421,7 @@ export default {
         position: relative;
         .cur-percent {
           height: 10px;
-          background: linear-gradient(270deg, #fc2214 0%, #fe816f 100%);
+          background: linear-gradient(270deg, #434af9 0%, #696ffb 100%);
           border-radius: 5px;
           position: absolute;
           top: 0;
@@ -351,6 +431,7 @@ export default {
           position: absolute;
           top: -30px;
           width: 36px;
+          margin-left: 0px;
           height: 20px;
           display: flex;
           justify-content: center;
@@ -376,6 +457,8 @@ export default {
       }
       .tips {
         text-align: center;
+        margin: 0 24px;
+        word-break: break-word;
       }
     }
   }
@@ -389,16 +472,7 @@ export default {
   }
   .step {
     padding-top: 10px;
-    margin-bottom: 32px;
-  }
-  .edit-area {
-    .head-top {
-      font-size: 18px;
-      font-weight: 500;
-      color: #333333;
-      line-height: 26px;
-      margin-bottom: 20px;
-    }
+    margin-bottom: 20px;
   }
 }
 </style>

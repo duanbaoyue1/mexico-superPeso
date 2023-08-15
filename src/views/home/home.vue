@@ -1,40 +1,90 @@
 <template>
   <van-pull-refresh class="home" :disabled="disabledPullRefresh" v-model="loading" success-text=" " loading-text=" " loosing-text=" " pulling-text=" " @refresh="onRefresh">
+    <div class="home-title">
+      Podemos originar
+      <br />
+      préstamos rápidamente
+    </div>
     <div class="home-content">
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
-          <div class="available-text">Available Amount (₹)</div>
-          <div class="number">{{ isMultiple ? multipleCredit.remaining : curAvailableAmount }}</div>
+          <template>
+            <div class="available-text">Cantidad disponible</div>
+            <div class="number">
+              <span class="dollar">$</span>
+              {{ (isMultiple ? multipleCredit.remaining : curAvailableAmount) | formatMonex }}
+              <m-icon type="superpeso/刷新" @click="updateData" :height="14" :width="16"></m-icon>
+              <m-icon type="superpeso/锁" :height="16" :width="14"></m-icon>
+            </div>
+          </template>
+          <!-- <template>
+            <div class="no-credit">Será diferente según el método de pago</div>
+          </template> -->
+
+          <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">
+            <div class="status-tips" v-if="btnTips" v-html="btnTips">sfdasdf</div>
+            Dinero, cuando lo necesites.
+          </div>
+          <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">
+            <span>Soluciones personalizadas</span>
+            <div>
+              <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
+            </div>
+            <!-- <m-icon type="handy/蓝右" :width="12" :height="14" /> -->
+          </div>
+
           <div class="total-used">
             <div>
-              <div class="label">Total Credit (₹)</div>
-              <div class="number">{{ isMultiple ? multipleCredit.sumQuota : appMode.totalCredit }}</div>
+              <div class="label">Crédito total</div>
+              <div class="number">
+                <span>$</span>
+                {{ (isMultiple ? multipleCredit.sumQuota : appMode.totalCredit) | formatMonex }}
+              </div>
             </div>
             <div>
-              <div class="label">Used Credit (₹)</div>
-              <div class="number">{{ isMultiple ? multipleCredit.usedQuota : appMode.usedCredit }}</div>
+              <div class="label">Carta de crédito utilizada</div>
+              <div class="number">
+                <span>$</span>
+                {{ (isMultiple ? multipleCredit.usedQuota : appMode.usedCredit) | formatMonex }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="action-wrapper">
+          <div class="tips">
+            <div>
+              <m-icon type="superpeso/Aplicación fácil" :width="40" :height="40" />
+              Aplicación fácil
+            </div>
+
+            <div>
+              <m-icon type="superpeso/Bajo tipo de interés" :width="40" :height="40" />
+              Bajo tipo de interés
+            </div>
+            <div>
+              <m-icon type="superpeso/Llegada rápida" :width="40" :height="40" />
+              Llegada rápida
             </div>
           </div>
           <div class="action-btn" @click="clickApply">
-            <div class="status-tips" v-if="btnTips" v-html="btnTips"></div>
             {{ isMultiple ? multipleCredit.button : actionText }}
           </div>
+          <div class="action-tips">Demasiados préstamos ahora. Por favor, pague primero y desbloquee una cantidad de préstamo mayor.</div>
         </div>
 
-        <div class="multi-select" v-if="isMultiple" @click="clickShowRecommend">
+        <!-- <div class="multi-select" v-if="isMultiple" @click="clickShowRecommend">
           <span>Customized Solutions</span>
           <div>
             <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
             <m-icon type="handy/蓝右" :width="12" :height="14" />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <van-action-sheet v-model="showRecommend" :safe-area-inset-bottom="false" close-on-click-action class="home-recommend">
       <div class="pop-content">
-        <m-icon class="close" type="handy/关闭弹窗" :width="20" :height="20" @click="showRecommend = false" />
-        <multi-recommend @update="updateMultiSelect" :list="multiRecommendList"></multi-recommend>
+        <multi-recommend @hide="showRecommend = false" @update="updateMultiSelect" :list="multiRecommendList"></multi-recommend>
       </div>
     </van-action-sheet>
   </van-pull-refresh>
@@ -137,6 +187,8 @@ export default {
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }
+    // TODO
+    this.clickShowRecommend();
   },
   activated() {
     if (this.checkInApp() && !this.created) {
@@ -376,6 +428,7 @@ export default {
 <style lang="scss" scoped>
 .home-recommend {
   height: 80%;
+  border-radius: 16px 16px 0px 0px !important;
   .pop-content {
     position: relative;
     height: 100%;
@@ -391,17 +444,26 @@ export default {
 .home {
   height: 100%;
   box-sizing: border-box;
-  background-image: url(../../assets/img/handy/首页背景带字.png);
+  // background-image: url(../../assets/img/handy/首页背景带字.png);
   background-attachment: local;
   background-position: top;
   background-repeat: no-repeat;
   background-size: 375px 420px;
 
+  &-title {
+    margin: 60px 16px;
+    font-size: 24px;
+    font-family: Impact;
+    color: #333333;
+    line-height: 24px;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+
   &-content {
     height: 100%;
     box-sizing: border-box;
     overflow-y: auto;
-    padding: 160px 0 0;
     padding-bottom: 24px;
 
     .loan-wrapper {
@@ -417,9 +479,6 @@ export default {
       }
 
       &.multiple_true {
-        background-color: #fff;
-        border-radius: 16px;
-
         .multi-select {
           margin-top: 30px;
           padding-left: 24px;
@@ -459,41 +518,32 @@ export default {
         }
       }
 
-      .inner {
-        width: 100%;
-        height: 308px;
-        background: linear-gradient(180deg, #efccc1 0%, #f9f0ea 16%, #ffffff 41%, #ffffff 100%);
-        box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.16), inset 0px 2px 3px 0px rgba(255, 255, 255, 0.8);
-        border-radius: 16px;
-        padding: 24px 24px 20px;
-        box-sizing: border-box;
-        position: relative;
-
-        .available-text {
-          font-size: 18px;
-          font-weight: 900;
-          color: #333333;
-          line-height: 24px;
-          text-align: center;
+      .action-wrapper {
+        margin: 32px 0px;
+        .tips {
+          margin-left: 12px;
+          margin-right: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 10px;
+          font-family: Roboto-Regular, Roboto;
+          font-weight: 400;
+          color: #000000;
+          line-height: 14px;
+          img {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 8px;
+          }
         }
-        .number {
-          margin-top: 8px;
-          font-size: 48px;
-          font-family: DINAlternate-Bold, DINAlternate;
-          font-weight: bold;
-          color: #333333;
-          line-height: 54px;
-          text-align: center;
-          height: 54px;
-        }
-
         .action-btn {
-          width: 295px;
-          height: 44px;
-          background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-          box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-          border-radius: 23px;
-          font-size: 20px;
+          margin-top: 32px;
+          width: 343px;
+          height: 48px;
+          background: #416cef;
+          border-radius: 8px;
+          font-size: 18px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #ffffff;
@@ -501,59 +551,193 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: absolute;
-          bottom: 20px;
-          left: 24px;
+        }
+        .action-tips {
+          font-size: 13px;
+          font-family: Roboto-Medium, Roboto;
+          font-weight: 500;
+          margin-top: 10px;
+          color: #fa0000;
+          line-height: 20px;
+        }
+      }
+
+      .inner {
+        width: 100%;
+        background: #416cef;
+        border-radius: 8px;
+        padding-top: 24px;
+        box-sizing: border-box;
+        position: relative;
+        color: #fff;
+
+        .no-credit {
+          font-size: 24px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #ffffff;
+          line-height: 28px;
+          width: 260px;
+
+          margin: 0 auto;
+          margin-bottom: 32px;
+        }
+
+        .available-text {
+          font-size: 18px;
+          font-weight: 900;
+          line-height: 24px;
+          text-align: center;
+        }
+        .number {
+          margin-top: 8px;
+          font-size: 46px;
+          font-family: Roboto-Regular;
+          font-weight: bold;
+          line-height: 54px;
+          text-align: center;
+          height: 52px;
+          display: flex;
+          justify-content: center;
+          align-items: baseline;
+          .dollar {
+            font-size: 24px;
+            font-family: Roboto-Medium, Roboto;
+            font-weight: 500;
+            color: #ffffff;
+            line-height: 32px;
+            margin-right: 6px;
+          }
+          img {
+            margin-left: 6px;
+          }
+        }
+
+        .tips {
+          width: 263px;
+          height: 38px;
+          background: #1c1c1c;
+          border-radius: 4px;
+          font-size: 16px;
+          font-family: Roboto-Medium, Roboto;
+          font-weight: 500;
+          color: #ffffff;
+          line-height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 24px auto auto;
+          position: relative;
 
           .status-tips {
             position: absolute;
-            background: #fbe396;
+            background: #e73122;
             padding: 8px;
-            border-radius: 10px 10px 10px 0;
+            border-radius: 10px 10px 0 10px;
             font-size: 10px;
-            font-family: Roboto-Regular, Roboto;
             font-weight: 400;
-            color: #333333;
+            color: #fff;
             line-height: 12px;
             font-size: 10px;
-            font-family: Roboto-Regular, Roboto;
             font-weight: 400;
-            color: #333333;
             line-height: 12px;
-            right: -14px;
-            top: -26px;
+            right: -3px;
+            top: -18px;
             transform: scale(0.9);
           }
+          &.multiple_true {
+            width: 311px;
+            justify-content: space-between;
+            padding-left: 8px;
+            padding-right: 28px;
+            font-size: 14px;
+            font-family: Roboto-Medium, Roboto;
+            font-weight: 500;
+            color: #ffffff;
+            line-height: 20px;
+            background-image: url(../../assets/img/superpeso/白右.png);
+            background-repeat: no-repeat;
+            background-size: 16px 16px;
+            background-position: 290px 10px;
+            box-sizing: border-box;
+
+            div {
+              font-size: 10px;
+              font-family: Roboto-Medium, Roboto;
+              font-weight: 500;
+              color: #ffffff;
+              line-height: 12px;
+              padding: 6px 8px;
+              transform: scale(0.9);
+              background: #e73122;
+              border-radius: 15px;
+              &.disabled {
+                color: #7e7e7e;
+                background: #545454;
+              }
+            }
+          }
         }
+
         .total-used {
-          margin: 32px auto 40px;
+          width: 343px;
+          height: 90px;
+          background: #1c1c1c;
+          border-radius: 0px 0px 8px 8px;
           display: flex;
           justify-content: center;
           align-items: center;
           font-size: 32px;
+          margin-top: 24px;
           font-family: DINAlternate-Bold, DINAlternate;
           font-weight: bold;
           color: #333333;
           line-height: 36px;
+          padding-top: 16px;
+          padding-bottom: 24px;
+          box-sizing: border-box;
+          color: #fff;
           > div {
+            flex: 1;
+            text-align: center;
+            position: relative;
             &:first-child {
-              margin-right: 76px;
+              &::after {
+                position: absolute;
+                content: ' ';
+                width: 1px;
+                height: 42px;
+                border-right: 1px solid #5f5f5f;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+              }
             }
           }
           .label {
-            font-size: 14px;
+            font-size: 12px;
             font-family: Roboto-Regular, Roboto;
             font-weight: 400;
-            color: #333333;
+            color: #ffffff;
             line-height: 18px;
             margin-bottom: 8px;
           }
           .number {
-            font-size: 32px;
-            font-family: DINAlternate-Bold, DINAlternate;
+            font-size: 20px;
+            font-family: Roboto-Regular;
             font-weight: bold;
-            color: #333333;
-            line-height: 36px;
+            color: #ffffff;
+            line-height: 24px;
+            height: initial;
+            span {
+              font-size: 12px;
+              font-family: Roboto-Bold, Roboto;
+              font-weight: bold;
+              color: #ffffff;
+              line-height: 16px;
+              margin-right: 0px;
+              margin-right: 4px;
+            }
           }
         }
       }

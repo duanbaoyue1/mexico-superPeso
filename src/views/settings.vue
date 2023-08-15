@@ -6,9 +6,13 @@
 
     <div class="legal-modal" v-if="showLegal">
       <div class="content">
-        <div @click="goTerms">Terms of Use</div>
-        <div @click="goPrivacy">Privacy Policy</div>
-        <m-icon class="close" type="message/close" :width="24" :height="24" @click="showLegal = false" />
+        <m-icon class="close" type="superpeso/关闭弹窗" :width="16" :height="16" @click="showLegal = false" />
+        <img class="cc" :src="require('@/assets/img/superpeso/OXXO还款页提示.png')" />
+        <div class="title">Legal</div>
+        <div class="items">
+          <div @click="goTerms">Terms of Use</div>
+          <div @click="goPrivacy">Privacy Policy</div>
+        </div>
       </div>
     </div>
   </div>
@@ -20,8 +24,8 @@ export default {
     this.setTabBar({
       show: true,
       fixed: true,
-      transparent: false,
-      title: 'Set up',
+      transparent: true,
+      title: 'Configuración',
     });
   },
   data() {
@@ -50,6 +54,7 @@ export default {
     bottom: 0;
     right: 0;
     z-index: 2;
+
     .content {
       position: absolute;
       top: 50%;
@@ -61,47 +66,73 @@ export default {
       color: #333333;
       background: #fff;
       line-height: 24px;
-      width: 295px;
+      width: 327px;
       box-sizing: border-box;
       border-radius: 8px;
+      .cc {
+        margin-top: -100px;
+      }
 
-      > div {
+      .title {
+        font-size: 18px;
+        font-family: Roboto-Black, Roboto;
+        font-weight: 900;
+        color: #333333;
+        line-height: 24px;
+        margin-bottom: 36px;
+        margin-top: 10px;
         text-align: center;
-        &:first-child {
+      }
+
+      .items {
+        text-align: center;
+        margin: auto 16px;
+        > div {
+          font-size: 14px;
+          font-family: Roboto-Regular, Roboto;
+          font-weight: 400;
+          color: #000000;
+          line-height: 20px;
           border-bottom: 1px solid #cccccc;
-          padding-bottom: 20px;
-          margin-bottom: 20px;
+          padding-bottom: 16px;
+          margin-bottom: 16px;
+          &:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+          }
         }
       }
 
       .close {
         position: absolute;
-        bottom: -54px;
-        left: 50%;
-        transform: translateX(-50%);
+        top: -18px;
+        right: 18px;
       }
     }
   }
   .btn {
-    border-radius: 14px;
     position: relative;
-    margin: 24px;
+    margin: 16px;
     box-sizing: border-box;
-    font-size: 14px;
-    font-weight: 400;
-    color: #000;
-    line-height: 20px;
     display: flex;
     align-items: center;
+    font-size: 16px;
+    font-family: Roboto-Medium, Roboto;
+    font-weight: 500;
+    color: #333333;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    line-height: 20px;
     &::after {
       position: absolute;
       content: ' ';
-      width: 8px;
-      height: 12px;
+      width: 16px;
+      height: 20px;
       top: 50%;
       transform: translateY(-50%);
       right: 0px;
-      background-image: url(../assets/img/right.png);
+      background-image: url(../assets/img/superpeso/右大.png);
       background-size: contain;
       background-repeat: no-repeat;
     }

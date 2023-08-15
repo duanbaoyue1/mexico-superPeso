@@ -6,8 +6,9 @@
           <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
         </div>
         <div class="no-order" v-else-if="!loading">
-          <m-icon class="icon" type="handy/订单空状态" :width="140" :height="107" />
-          <button @click="goHome">Apply Now</button>
+          <m-icon class="icon" type="superpeso/没有订单" :width="168" :height="97" />
+          <div class="tips">Ningún pedido de préstamo</div>
+          <button @click="goHome">Aplicar ahora</button>
         </div>
       </div>
     </van-pull-refresh>
@@ -34,7 +35,7 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'All orders',
+      title: 'Pedido de préstamo',
     });
   },
   mounted() {
@@ -61,7 +62,7 @@ export default {
 .scroll-area {
   height: calc(100vh - 80px);
   overflow: auto !important;
-  padding: 0 24px;
+  padding: 0 16px;
 }
 .order-list {
   .order-item {
@@ -72,14 +73,22 @@ export default {
 .no-order {
   margin: 0 auto;
   .icon {
-    margin: 100px auto 40px;
+    margin: 100px auto 12px;
+  }
+  .tips {
+    font-size: 12px;
+    font-family: Roboto-Regular, Roboto;
+    font-weight: 400;
+    color: #999999;
+    line-height: 14px;
+    margin-bottom: 40px;
+    text-align: center;
   }
   button {
-    width: 327px;
-    height: 50px;
-    background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-    box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-    border-radius: 25px;
+    width: 343px;
+    height: 48px;
+    background: #416cef;
+    border-radius: 8px;
     margin: 0 auto;
     display: flex;
     align-items: center;
