@@ -11,12 +11,12 @@ export default new Vuex.Store({
     appGlobal: {
       // https://pro.easy--money.com
       // apiHost: 'http://test.easy--money.com',
-      apiHost: 'http://test.fin-handycash.com',
-      appName: 'handyCash',
+      apiHost: 'http://test.creditohucha.com',
+      appName: 'CreditoHucha',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
-      appVersion: 1000, // app版本号
+      appVersion: 1180, // app版本号
       userId: '111', // 用户id
       afId: '', // afid
       gaId: '', // gaid
@@ -42,8 +42,8 @@ export default new Vuex.Store({
   },
   mutations: {
     setAppGlobal(state, data) {
-      if(data && data.apiHost) {
-        data.apiHost = data.apiHost.replace('/api', '')
+      if (data && data.apiHost) {
+        data.apiHost = data.apiHost.replace('/api', '');
       }
       state.appGlobal = {
         ...state.appGlobal,
@@ -74,7 +74,7 @@ export default new Vuex.Store({
       state.isAppChecked = data;
     },
     setTabBar(state, data) {
-      if(!data.backCallback) {
+      if (!data.backCallback) {
         data.backCallback = null;
       }
       state.tabBar = {
