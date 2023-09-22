@@ -5,13 +5,13 @@
         <div class="reloan" v-if="order.isReloan">Volver a prestar</div>
 
         <div class="info">
-          <img :src="order.productImgUrl" />
+          <img :src="order.icon" />
           <div class="name">
             <div class="product">{{ order.productName }}</div>
-            <div class="info-item">
+            <!-- <div class="info-item">
               Compañía de préstamo:
               {{ order.companyName }}
-            </div>
+            </div> -->
             <div class="info-item">
               Tasa de interés :
               {{ order.interest }}% / Day
@@ -105,6 +105,8 @@ export default {
       border: none;
       &.cancel {
         border: 1px solid #999999;
+        background: transparent;
+        box-shadow: none;
         margin-right: 16px;
         width: 96px;
         font-weight: 400;
@@ -121,7 +123,7 @@ export default {
       position: relative;
       padding: 16px;
       margin: 24px 16px;
-      border-radius: 16px;
+      border-radius: 8px;
       margin-top: 0;
       background: #fff;
       border: 1px solid #eee;
@@ -131,7 +133,6 @@ export default {
 
       .reloan {
         position: absolute;
-        width: 86px;
         height: 20px;
         border-radius: 10px;
         border: 1px solid #ffbd5c;
@@ -176,6 +177,7 @@ export default {
           color: #999999;
           display: flex;
           justify-content: space-between;
+          text-overflow: ellipsis;
           .number {
             font-size: 16px;
             font-family: Roboto-Bold, Roboto;
@@ -190,6 +192,8 @@ export default {
           font-weight: 400;
           color: #333333;
           line-height: 20px;
+          overflow: hidden;
+          flex-grow: 1;
           .product {
             font-size: 14px;
             font-family: Roboto-Black, Roboto;

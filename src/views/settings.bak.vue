@@ -1,23 +1,19 @@
 <template>
   <div class="settings content-area">
-    <div v-if="!hasPassword" class="btn" @click="$router.push({ name: 'create-password' })">Crear una contraseña</div>
-    <div v-else class="btn" @click="$router.push({ name: 'retrieve-password' })">Cambiar contraseña</div>
+    <div v-if="!hasPassword" class="btn" @click="$router.push({ name: 'create-password' })">Create password</div>
+    <div v-else class="btn" @click="$router.push({ name: 'retrieve-password' })">Change Login Password</div>
     <div class="btn" @click="showLegal = true">Legal</div>
 
     <div class="legal-modal" v-if="showLegal">
       <div class="content">
         <m-icon class="close" type="superpeso/关闭弹窗" :width="16" :height="16" @click="showLegal = false" />
-         <img class="cc" :src="require('@/assets/img/superpeso/OXXO还款页提示.png')" />
+        <img class="cc" :src="require('@/assets/img/superpeso/OXXO还款页提示.png')" />
         <div class="title">Legal</div>
         <div class="items">
-          <div @click="goTerms">los términos de servicio</div>
-          <div @click="goPrivacy">las políticas de privacidad</div>
+          <div @click="goTerms">Terms of Use</div>
+          <div @click="goPrivacy">Privacy Policy</div>
         </div>
       </div>
-    </div>
-
-    <div class="submit">
-      <button class="submit-btn" @click="logout">Cerrar sesión</button>
     </div>
   </div>
 </template>
@@ -41,8 +37,8 @@ export default {
   methods: {},
   async mounted() {
     try {
-      let data = await this.$http.post(`/api/user/info`);
-      this.hasPassword = !!data.data.password;
+      let data = await this.$http.post(`/api/user/mine`);
+      this.hasPassword = data.data.hasPassword;
     } catch (error) {}
   },
 };
@@ -50,29 +46,6 @@ export default {
 
 <style lang="scss" scoped>
 .settings {
-  .submit {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    .submit-btn {
-      width: 343px;
-      height: 48px;
-      background: #ff4b3f;
-      border-radius: 24px;
-      margin: 24px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-family: Roboto-Bold, Roboto;
-      font-weight: bold;
-      color: #ffffff;
-      border: none;
-      line-height: 24px;
-    }
-  }
   .legal-modal {
     background: rgba(0, 0, 0, 0.7);
     position: fixed;

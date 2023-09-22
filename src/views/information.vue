@@ -4,22 +4,9 @@
       <complete-step :actionIndex="0"></complete-step>
     </div>
     <div class="edit-area">
-      <!-- <div class="line-item">
-        <input v-model="editData.firstName" placeholder="Please enter your name" />
-      </div>
-      <div class="line-item">
-        <input v-model="editData.middleName" placeholder="Please enter your Middle Name" />
-      </div>
-      <div class="line-item">
-        <input v-model="editData.lastName" placeholder="Please enter your Last Name" />
-      </div> -->
-      <div class="head">Contacto Nombre</div>
-      <div class="line-item">
-        <input v-model="editData.name" placeholder="Por favor escribe" />
-      </div>
       <div class="head">Formación académica</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.EDUCATION" title="Formación académica" itemAttrs="education" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.EDUCATION" :defaultOpen="curOpenFields == 'education'" title="Formación académica" itemAttrs="education" @choose="chooseEditData" />
       </div>
       <!-- <div class="head">Gender</div>
       <div class="line-item">
@@ -27,23 +14,23 @@
       </div> -->
       <div class="head">Estado civil</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.MARITAL_STATUS" title="Estado civil" itemAttrs="marital" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.MARITAL_STATUS" :defaultOpen="curOpenFields == 'marital'" title="Estado civil" itemAttrs="marital" @choose="chooseEditData" />
       </div>
       <div class="head">Finalidad del préstamo</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" title="Finalidad del préstamo" itemAttrs="loanPurpose" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.LOAN_PURPOSE" :defaultOpen="curOpenFields == 'loanPurpose'" title="Finalidad del préstamo" itemAttrs="loanPurpose" @choose="chooseEditData" />
       </div>
       <div class="head">Tipo de alojamiento</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.ACCOMMODATION" title="Tipo de alojamiento" itemAttrs="houseType" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.ACCOMMODATION" :defaultOpen="curOpenFields == 'liveType'" title="Tipo de alojamiento" itemAttrs="liveType" @choose="chooseEditData" />
       </div>
       <div class="head">Ingresos mensuales</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.SALARY" title="Ingresos mensuales" :columns="1" itemAttrs="monthlyIncome" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.SALARY" :defaultOpen="curOpenFields == 'monthlyIncome'" title="Ingresos mensuales" :columns="1" itemAttrs="monthlyIncome" @choose="chooseEditData" />
       </div>
       <div class="head">Occupation</div>
       <div class="line-item">
-        <select-item :items="ALL_ATTRS.OCCUPATION" title="Occupation" itemAttrs="occupation" @choose="chooseEditData" />
+        <select-item :items="ALL_ATTRS.OCCUPATION" :defaultOpen="curOpenFields == 'occupation'" title="Ocupación" itemAttrs="occupation" @choose="chooseEditData" />
       </div>
 
       <!-- <div class="head">Number of Children</div>
@@ -74,6 +61,7 @@ import selectItem from '@/components/select-item';
 import CompleteStep from '@/components/complete-step.vue';
 import * as ALL_ATTRS from '@/config/typeConfig';
 import eventTrack from '@/mixins/event-track';
+const ALL_FIELD = ['education', 'marital', 'loanPurpose', 'liveType', 'monthlyIncome', 'occupation'];
 
 export default {
   mixins: [eventTrack],
@@ -84,7 +72,7 @@ export default {
   watch: {
     editData: {
       handler() {
-        this.canSubmit = Object.values(this.editData).length == 7;
+        this.canSubmit = Object.values(this.editData).length == 6;
       },
       deep: true,
     },
@@ -94,12 +82,13 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Complete information',
+      title: 'Información personal',
       backCallback: null,
     });
   },
   data() {
     return {
+      curOpenFields: 'education',
       ALL_ATTRS: ALL_ATTRS,
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
@@ -115,6 +104,12 @@ export default {
   methods: {
     chooseEditData(data) {
       this.$set(this.editData, data.attr, data.value);
+      let index = ALL_FIELD.indexOf(data.attr);
+      if (index == ALL_FIELD.length - 1) {
+        this.curOpenFields = '';
+      } else {
+        this.curOpenFields = ALL_FIELD[index + 1];
+      }
     },
     async submit() {
       if (this.saving) return;
@@ -122,11 +117,11 @@ export default {
       try {
         this.eventTracker('basic_submit');
         let saveData = { ...this.editData };
-        if (!this.validateEmail(saveData.email)) {
-          this.$toast('Please enter the correct email address.');
-          return;
-        }
-        let data = await this.$http.post(`/api/user/basicInfo/save`, saveData);
+        // if (!this.validateEmail(saveData.email)) {
+        //   this.$toast('Please enter the correct email address.');
+        //   return;
+        // }
+        let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode == 2000) {
           this.eventTracker('basic_submit_success');
           this.submitSuccess = true;

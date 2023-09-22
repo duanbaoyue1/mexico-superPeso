@@ -49,6 +49,10 @@ td {
   margin: 0;
   padding: 0;
 }
+
+* {
+  box-sizing: border-box;
+}
 body {
   /* font-family: 'Microsoft YaHei', Avenir, Arial, Helvetica, sans-serif, '宋体'; */
   font-family: Roboto-Regular, Roboto;

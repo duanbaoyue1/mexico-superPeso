@@ -9,8 +9,6 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      // https://pro.easy--money.com
-      // apiHost: 'http://test.easy--money.com',
       apiHost: 'http://test.creditohucha.com',
       appName: 'CreditoHucha',
       token: '63fdfd55e4b0f6a603fac657',

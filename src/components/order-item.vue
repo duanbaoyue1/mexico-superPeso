@@ -5,8 +5,8 @@
       <img :src="order.productIconImageUrl" />
       <div class="name">
         <div class="product">{{ order.productName }}</div>
-        <div class="info-item">Fecha de préstamo : 01-01-2023</div>
-        <div class="info-item">Fecha de vencimiento : 01-01-2023</div>
+        <div class="info-item" v-if="order.orderStatus != 40 && order.orderStatus != 10">Fecha de préstamo : {{ order.loanTime }}</div>
+        <div class="info-item">{{ dateText }} : {{ dateValue }}</div>
         <div class="info-item">
           {{ amountText }} :
           <span class="number">
@@ -36,13 +36,6 @@ export default {
   props: ['order'],
 
   computed: {
-    dateValue() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
-        return this.order.repaymentTime;
-      } else {
-        return this.order.applyTime;
-      }
-    },
     amountValue() {
       if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
         return this.order.repaymentAmount;
@@ -52,17 +45,24 @@ export default {
     },
 
     amountText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
         return `Monto de reembolso`;
       } else {
         return `Importe de préstamo`;
       }
     },
-    dateText() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
-        return `Due Date`;
+    dateValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.orderStatus == 100 || this.orderStatus == 101) {
+        return this.order.repaymentTime;
       } else {
-        return `Apply Date`;
+        return this.order.applyTime;
+      }
+    },
+    dateText() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.orderStatus == 100 || this.orderStatus == 101) {
+        return `Fecha de vencimiento`;
+      } else {
+        return `Fecha de aplicación`;
       }
     },
     statusText() {
@@ -196,6 +196,7 @@ export default {
       font-weight: 400;
       color: #333333;
       line-height: 20px;
+      flex-grow: 1;
 
       .info-item {
         margin-top: 8px;

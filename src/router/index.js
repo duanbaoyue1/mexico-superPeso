@@ -256,6 +256,14 @@ const routes = [
         },
       },
       {
+        path: 'pay-history',
+        name: 'pay-history',
+        component: () => import(/* webpackChunkName: "pay-history" */ '../views/pay-history.vue'),
+        meta: {
+          title: 'Detalles del pedido',
+        },
+      },
+      {
         path: 'testa',
         name: 'testa',
         component: () => import(/* webpackChunkName: "testa" */ '../views/testa.vue'),

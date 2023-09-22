@@ -21,7 +21,7 @@
       </div>
       <div class="submit">
         <button @click="submit">{{ curStar > 3 ? 'Ir a GooglePlay Comentarios' : 'Ir a GooglePlay Comentarios' }}</button>
-        <button class="cancel" @click="">Cancelar</button>
+        <button class="cancel" @click="hide">Cancelar</button>
       </div>
     </div>
   </div>
@@ -168,7 +168,7 @@ export default {
       line-height: 18px;
       text-align: center;
       .tips1 {
-        font-size: 12px;
+        font-size: 11px;
         font-family: Roboto-Black, Roboto;
         font-weight: 900;
         color: #333333;

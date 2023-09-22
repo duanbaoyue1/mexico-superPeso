@@ -41,6 +41,27 @@ export default {
       type: Number,
       default: 2,
     },
+    defaultOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  created() {
+    this.value = this.defaultValue;
+    this.openSelect = this.defaultOpen;
+  },
+
+  watch: {
+    defaultOpen() {
+      this.openSelect = this.defaultOpen;
+    },
+    defaultValue: {
+      handler() {
+        this.value = this.defaultValue;
+      },
+      deep: true,
+    },
   },
 
   data() {
@@ -92,6 +113,8 @@ export default {
   }
 
   .pop-content {
+    max-height: 400px;
+    overflow-y: auto;
     .items {
       margin-top: 40px;
       margin-left: 24px;

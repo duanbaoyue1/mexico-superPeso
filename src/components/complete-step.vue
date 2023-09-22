@@ -79,14 +79,14 @@ export default {
     &.active {
       .red-bot {
         background: #40e2a0;
-        outline: 2px solid #40e2a0;
+        box-shadow: 0 0 0 2px #40e2a0;
       }
     }
 
     &.last {
       .red-bot {
         background: #cccccc !important;
-        outline: 2px solid #eaeaea;
+        box-shadow: 0 0 0 2px #eaeaea;
       }
       .text {
         color: #999999 !important;
@@ -108,9 +108,9 @@ export default {
       width: 4px;
       height: 4px;
       border-radius: 100%;
-      background: #CCCCCC;
+      background: #cccccc;
       z-index: 0;
-      outline: 2px solid #EAEAEA;
+      box-shadow: 0 0 0 2px #eaeaea;
       img {
         width: 10px;
         display: block;

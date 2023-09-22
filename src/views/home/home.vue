@@ -14,17 +14,14 @@
               <span class="dollar">$</span>
               {{ (isMultiple ? multipleCredit.remaining : curAvailableAmount) | formatMonex }}
               <m-icon type="superpeso/刷新" @click="updateData" :height="14" :width="16"></m-icon>
-              <m-icon type="superpeso/锁" :height="16" :width="14"></m-icon>
+              <m-icon type="superpeso/锁" v-if="showLock" :height="16" :width="14"></m-icon>
             </div>
           </template>
           <!-- <template>
             <div class="no-credit">Será diferente según el método de pago</div>
           </template> -->
 
-          <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">
-            <div class="status-tips" v-if="btnTips" v-html="btnTips">sfdasdf</div>
-            Dinero, cuando lo necesites.
-          </div>
+          <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">Dinero, cuando lo necesites.</div>
           <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">
             <span>Soluciones personalizadas</span>
             <div>
@@ -67,11 +64,11 @@
             </div>
           </div>
           <div class="action-btn" @click="clickApply">
+            <div class="status-tips" v-if="btnTips" v-html="btnTips">sfdasdf</div>
             {{ isMultiple ? multipleCredit.button : actionText }}
           </div>
-          <div class="action-tips">Demasiados préstamos ahora. Por favor, pague primero y desbloquee una cantidad de préstamo mayor.</div>
+          <div class="action-tips" v-if="!isMultiple && (appMode.orderStatus == 80 || appMode.orderStatus == 90)">Demasiados préstamos ahora. Por favor, pague primero y desbloquee una cantidad de préstamo mayor.</div>
         </div>
-
         <!-- <div class="multi-select" v-if="isMultiple" @click="clickShowRecommend">
           <span>Customized Solutions</span>
           <div>
@@ -101,21 +98,8 @@ export default {
     MultiRecommend,
   },
   data() {
-    window.getHtmlCode = () => {
-      this.toAppMethod('getHtmlCodeCallback', {
-        src: document.documentElement.outerHTML,
-        documentElementWidth: document.documentElement.clientWidth,
-        clientWidth: document.body.clientWidth,
-        offsetWidth: document.body.offsetWidth,
-        scrollWidth: document.body.scrollWidth,
-        screenWidth: window.screen.width,
-        availWidth: window.screen.availWidth,
-        deviceXDPI: window.screen.deviceXDPI,
-        devicePixelRatio: window.devicePixelRatio,
-      });
-    };
-
     return {
+      showLock: false,
       disabledPullRefresh: false,
       created: false,
       query: this.$route.query,
@@ -125,7 +109,7 @@ export default {
       multiRecommendList: [], // 多推的产品
       isMultiple: !!localStorage.getItem('app-is-multi'), // 是否多推首页
       showRecommend: false,
-      actionText: 'Apply',
+      actionText: 'Aplicar ahora',
       btnTips: '',
       actionCallback: null, // 按纽回调
       multipleCredit: {},
@@ -133,12 +117,12 @@ export default {
   },
   computed: {
     curAvailableAmount() {
-      if (typeof this.appMode.availableCredit != 'undefined') {
+      if (typeof this.appMode.availableCredit != 'undefined' && this.appMode.availableCredit) {
         return this.appMode.availableCredit;
       } else if (typeof this.appMode.amount != 'undefined') {
         return this.appMode.amount;
       } else {
-        return 10000;
+        return '';
       }
     },
   },
@@ -173,9 +157,6 @@ export default {
     },
   },
   async created() {
-    this.setTabBar({
-      show: false,
-    });
     if (this.from == 'bridge' && !this.query.reload) {
       location.replace(location.href + '&reload=true');
     }
@@ -187,16 +168,16 @@ export default {
     if (!this.checkInApp()) {
       window.getCommonParametersCallback();
     }
-    // TODO
-    this.clickShowRecommend();
   },
   activated() {
+    this.setTabBar({
+      show: false,
+    });
     if (this.checkInApp() && !this.created) {
       return;
     }
     this.eventTracker('home_access');
     console.log('home activated and refresh data!');
-    this.eventTracker('home_access');
     this.updateData();
   },
   methods: {
@@ -250,14 +231,15 @@ export default {
     updateTextAndAction() {
       // 清除数据
       this.btnTips = '';
-      this.actionText = 'Apply';
+      this.showLock = false;
+      this.actionText = 'Aplicar ahora';
       this.actionCallback = () => {
-        this.$toast('please try later!');
+        this.$toast('Por favor, inténtelo de nuevo！');
       };
 
       if (this.appMode.maskModel == 1) {
-        this.actionText = this.multipleCredit.button || 'Apply';
-        if (this.actionText == 'Apply immediately') {
+        this.actionText = this.multipleCredit.button || 'Aplicar ahora';
+        if (this.actionText == 'Aplicar ahora') {
           // 有可借
           this.actionCallback = async () => {
             // 多推
@@ -270,7 +252,7 @@ export default {
                   syncRes = await this.judgeCanApply();
                 } catch (error) {
                   this.hideLoading();
-                  this.$toast('Your message verification failed, please wait a minute and try again');
+                  this.$toast('Carga fallida, inténtelo más tarde');
                   return;
                 }
                 // 2. 真正提交
@@ -282,11 +264,10 @@ export default {
                     await this.$http.post(`/api/order/mergePush/apply`, {
                       orderIdList: res.data.orderIdList,
                     });
-                    this.$toast('Apply successfully');
+                    this.$toast('Solicitud enviada con éxito');
                     setTimeout(res => {
-                      this.sendEventTrackData({ leaveBy: 1 });
-                      this.innerJump('loan-success-multi', { systemTime: new Date().getTime() });
-                    }, 1000);
+                      this.innerJump('loan-success-multi', { systemTime: this.getLocalSystemTimeStamp() });
+                    }, 1500);
                   }
                 }
               } catch (error) {
@@ -296,79 +277,86 @@ export default {
               }
             }
           };
-        } else if (this.actionText == 'Repay') {
-          this.btnTips = 'Too many loans now. Please repay<br/> first and unlock a higher loan amount.';
+        } else if (this.actionText == 'Ir a reembolsar') {
+          this.showLock = true;
+          this.btnTips = 'Demasiados préstamos ahora. Por favor, pagar primero y desbloquear una mayor cantidad del préstamo.';
           // 有待还款或逾期，无可借
           this.actionCallback = () => {
             this.innerJump('repayment');
           };
-        } else if (this.actionText == 'Reviewing' || this.actionText == 'Disbursing') {
+        } else if (this.actionText == 'En revisión' || this.actionText == 'Desembolsando') {
+          this.showLock = true;
           // 无可借，订单全部放款中或者审核中
           this.actionCallback = () => {
             this.innerJump('order-list');
           };
-        } else if (this.actionText == 'Rejected') {
+        } else if (this.actionText == 'Rechazo') {
           // 无可借，订单全被拒绝
+          this.showLock = true;
           this.actionCallback = () => {
-            this.$toast('The order was rejected. Please try again after 0:00');
+            this.$toast('Por favor, inténtelo de nuevo después de 0:00');
           };
         }
       } else if (this.appMode.maskModel == 3 || this.appMode.maskModel == 0) {
-        this.actionText = 'Apply';
+        this.actionText = this.appMode.button || 'Aplicar ahora';
         //未认证跳转
-        if (this.appMode.identityAuth == 0) {
-          this.btnTips = 'Almost:95%';
-          this.actionCallback = () => {
-            this.innerJump('identity', { orderId: this.appMode.orderId });
-          };
-        } else if (this.appMode.basicInfoAuth == 0) {
-          this.btnTips = 'Almost:96%';
+        if (this.appMode.addInfoAuth == 0) {
+          this.btnTips = 'Casi:95%';
           this.actionCallback = () => {
             this.innerJump('information', { orderId: this.appMode.orderId });
           };
-        } else if (this.appMode.addInfoAuth == 0) {
-          this.btnTips = 'Almost:97%';
+        } else if (this.appMode.basicInfoAuth == 0) {
+          this.btnTips = 'Casi:96%';
           this.actionCallback = () => {
             this.innerJump('contacts', { orderId: this.appMode.orderId });
           };
-        } else if (this.appMode.remittanceAccountAuth == 0) {
-          this.btnTips = 'Almost:98%';
+        } else if (this.appMode.identityAuth == 0) {
+          this.btnTips = 'Casi:97%';
           this.actionCallback = () => {
-            this.innerJump('complete-bank', { orderId: this.appMode.orderId, from: 'order' });
+            this.innerJump('identity', { orderId: this.appMode.orderId });
           };
+        } else if (this.appMode.remittanceAccountAuth == 0) {
+          this.btnTips = 'Casi:98%';
+          if (this.appMode.maskModel == 3) {
+            this.actionCallback = () => {
+              this.innerJump('add-bank', { orderId: this.appMode.orderId, from: 'order' });
+            };
+          } else {
+            this.actionCallback = () => {
+              this.innerJump('complete-bank', { orderId: this.appMode.orderId, from: 'order' });
+            };
+          }
         } else if (this.appMode.orderId && typeof this.appMode.orderStatus != 'undefined') {
           // 默认都跳订单详情页
           this.actionCallback = () => {
             this.innerJump('order-detail', { orderId: this.appMode.orderId });
           };
-
           if (this.appMode.orderStatus == 20 || this.appMode.orderStatus == 21) {
             // 订单审核中
-            this.actionText = 'Reviewing';
+            this.showLock = true;
           } else if (this.appMode.orderStatus == 80 || this.appMode.orderStatus == 90) {
             // 待还款 | 逾期
-            this.actionText = 'Repay';
-            this.btnTips = 'Please repay first and unlock a higher loan amount';
+            this.showLock = true;
+            this.btnTips = 'Primer Ministro y desbloquee un monte de Prestamo mas alto.';
           } else if (this.appMode.orderStatus == 40) {
             // 拒绝
-            this.actionText = 'Rejected';
             this.actionCallback = () => {
-              this.$toast('The order was rejected. Please try again after 0:00!');
+              this.$toast('Por favor, inténtelo de nuevo después de 0:00!');
             };
           } else if (this.appMode.orderStatus == 30 || this.appMode.orderStatus == 70) {
             // 放款中
-            this.actionText = 'Disbursing';
+            // this.actionText = 'Desembolsando';
           } else {
-            this.btnTips = 'Almost:99%';
+            this.btnTips = 'Casi:99%';
             this.actionCallback = () => {
               this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
             };
           }
         }
       } else if (this.appMode.maskModel == 2) {
-        this.actionText = 'Rejected';
+        this.actionText = 'Rechazo';
         this.actionCallback = () => {
-          this.$toast('The order was rejected. Please try again after 0:00!');
+          this.$toast('Por favor, inténtelo de nuevo después de 0:00!');
         };
       }
     },
@@ -404,6 +392,7 @@ export default {
         console.log(error);
       } finally {
         this.loading = false;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
     },
 
@@ -472,7 +461,6 @@ export default {
       margin: 0 auto;
 
       &.multiple_false {
-        background-image: url(../../assets/img/handy/Money.png);
         background-position: bottom;
         background-repeat: no-repeat;
         background-size: 343px 94px;
@@ -551,6 +539,23 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          position: relative;
+          .status-tips {
+            position: absolute;
+            background: #e73122;
+            padding: 8px;
+            border-radius: 10px 10px 0 10px;
+            font-size: 10px;
+            font-weight: 400;
+            color: #fff;
+            line-height: 12px;
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 12px;
+            right: -3px;
+            bottom: 32px;
+            transform: scale(0.9);
+          }
         }
         .action-tips {
           font-size: 13px;
@@ -629,22 +634,6 @@ export default {
           margin: 24px auto auto;
           position: relative;
 
-          .status-tips {
-            position: absolute;
-            background: #e73122;
-            padding: 8px;
-            border-radius: 10px 10px 0 10px;
-            font-size: 10px;
-            font-weight: 400;
-            color: #fff;
-            line-height: 12px;
-            font-size: 10px;
-            font-weight: 400;
-            line-height: 12px;
-            right: -3px;
-            top: -18px;
-            transform: scale(0.9);
-          }
           &.multiple_true {
             width: 311px;
             justify-content: space-between;

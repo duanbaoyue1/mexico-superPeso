@@ -1,24 +1,15 @@
 <template>
   <div class="res-loans-model" v-if="this.loans.length">
-    <img class="cc" :src="require('@/assets/img/loan/congratinations.png')" />
-    <div class="res-total">
-      <div>
-        You have successfully applied for
-        <span>
-          {{ this.loans.length }}
-          <span>products</span>
-        </span>
-      </div>
-      <div class="tips">The audit result is expected within 5 minutes</div>
-    </div>
-
     <div v-for="(loan, index) in loans" :key="loan.id" class="loan-item">
       <img class="icon" :src="loan.productIconImageUrl" />
       <div class="info">
         <div class="name">{{ loan.productName }}</div>
         <div class="value">
-          Loan Amount (₹):
-          <span>{{ loan.approvalAmount }}</span>
+          Importe de préstamo
+          <span>
+            <span class="dollar">$</span>
+            {{ loan.approvalAmount }}
+          </span>
         </div>
 
         <div class="action" :class="'order_' + loan.orderStatus" @click="goDetail(loan.orderNo)">{{ loan.orderStatusStr }}</div>
@@ -135,37 +126,49 @@ export default {
   }
 
   .loan-item {
-    width: 320px;
+    width: 343px;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 14px;
-    border: 2px solid #cccccc;
+    border: 1px solid #eee;
     padding: 16px;
     height: 72px;
     box-sizing: border-box;
     box-sizing: border-box;
-    margin-top: 20px;
+    margin-top: 8px;
     position: relative;
     display: flex;
     align-items: center;
     .info {
+      flex-grow: 1;
       .name {
         font-size: 14px;
-        font-weight: 400;
         color: #333333;
         line-height: 20px;
         margin-bottom: 8px;
+        font-weight: 900;
       }
       .value {
         font-size: 10px;
         font-weight: 400;
         color: #999999;
         line-height: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         span {
           font-size: 16px;
+          font-family: Roboto-Bold, Roboto;
           font-weight: bold;
-          color: #333333;
-          line-height: 20px;
+          color: #ff4b3f;
+          line-height: 18px;
+        }
+        .dollar {
+          font-size: 10px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #ff4b3f;
+          line-height: 16px;
         }
       }
     }
@@ -178,9 +181,8 @@ export default {
 
     .action {
       position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+      right: 16px;
+      top: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -190,7 +192,7 @@ export default {
       min-width: 80px;
       box-sizing: border-box;
       padding: 0 10px;
-      height: 30px;
+      height: 20px;
       background: #f125a8;
       border-radius: 14px;
 

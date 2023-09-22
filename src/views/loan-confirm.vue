@@ -8,7 +8,6 @@
           {{ orderInfo.estimatedRepaymentAmount }}
         </div>
       </div>
-      <m-icon type="creditomax/确认申请页" :width="56" :height="56" />
     </div>
 
     <div class="loan-info">
@@ -32,13 +31,13 @@
 
       <div class="item">
         <span>Método de recibo</span>
-        <span>{{ orderInfo.bankCardName }}</span>
+        <span>{{ orderInfo.receiveWay == 0 ? 'Tarjeta de débito' : 'Clabe' }}</span>
       </div>
       <div class="item">
         <span>Banco de recibo</span>
         <span>{{ orderInfo.bankCardName }}</span>
       </div>
-      <div class="item bank">
+      <div class="item">
         <span>Número de cuenta bancaria de recibo</span>
         <span>{{ orderInfo.bankCardNo }}</span>
       </div>
@@ -72,6 +71,7 @@ export default {
       transparent: true,
       fixed: true,
       black: false,
+      color: 'white',
       title: 'Confirmación del préstamo',
     });
   },
@@ -88,6 +88,11 @@ export default {
     document.body.style.backgroundColor = '#f9f9f9';
     this.eventTracker('confirm_access');
     this.getOrderInfo();
+  },
+  beforeDestroy() {
+    this.setTabBar({
+      color: 'black',
+    });
   },
   methods: {
     checkAgreement() {
@@ -114,7 +119,7 @@ export default {
       try {
         // 1. 先同步数据
         try {
-          syncRes = await this.startSyncData();
+          syncRes = await this.judgeCanApply();
         } catch (error) {
           this.hideLoading();
           this.$toast('Compruebe la red y vuelva a intentarlo');
@@ -200,7 +205,7 @@ export default {
       padding-bottom: 16px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       &.border {
         border-bottom: 2px solid #eee;
         margin-bottom: 16px;
@@ -217,17 +222,16 @@ export default {
         font-weight: 400;
         color: #333333;
         line-height: 18px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
 
         &:first-child {
           font-size: 14px;
           font-weight: 400;
           color: #000000;
           line-height: 18px;
-          flex-shrink: 0;
           margin-right: 20px;
+        }
+        &:last-child {
+          flex-shrink: 0;
         }
       }
     }

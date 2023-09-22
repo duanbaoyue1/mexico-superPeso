@@ -1,71 +1,80 @@
 <template>
   <div class="defer-detail content-area" v-show="loaded">
     <div class="defer-head">
-      <p>Defer for {{ detail.extendedTerm }} days</p>
-      <p>Only pay for ₹{{ detail.amount }} today and you can defer {{ detail.extendedTerm }} days.</p>
+      <p>Retraso de {{ detail.extendedTerm }} días</p>
+      <p>Sólo necesita pagar {{ detail.amount }} pesos hoy y luego puedes aplazar el pago durante {{ detail.extendedTerm }} días.</p>
     </div>
+
     <div class="step">
-      <div class="step-item status">
-        <img :src="require('@/assets/img/handy/进度条点亮.png')" />
-        <div class="text">Application Date</div>
+      <div class="step-item">
+        <div class="text">Fecha de aplicación</div>
         <div class="date">{{ detail.startTime }}</div>
       </div>
       <div class="step-item">
-        <img :src="require('@/assets/img/handy/进度条未点亮.png')" />
-        <div class="text">Due Date</div>
+        <div class="text">Fecha de vencimiento</div>
         <div class="date">{{ detail.updatedDueDate }}</div>
       </div>
     </div>
 
     <div class="order-info">
-      <div class="period">
-        <span class="fs-16 font-bold">Repayment this period</span>
+      <div class="period" @click="showMoreInfo = !showMoreInfo">
+        <span class="fs-16 font-bold">Costes para reembolso diferido</span>
         <div>
-          <span class="color-orange">₹</span>
-          <span class="value">{{ detail.amount }}</span>
-          <!-- <m-icon class="icon" type="gray-down" :width="16" :height="12" /> -->
+          <m-icon class="icon" :class="{ open: showMoreInfo }" type="superpeso/向右" :width="16" :height="16" />
         </div>
       </div>
-      <div class="flex-between">
-        <span>Interest</span>
-        <span>₹ {{ detail.interest }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Deferment fee</span>
-        <span>₹ {{ detail.defermentFee }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Overdue fee</span>
-        <span>₹ {{ detail.overDueFee }}</span>
+      <div class="order-info-more" v-show="showMoreInfo">
+        <div class="fee">
+          <div class="flex-between">
+            <span>Tasa de interés</span>
+            <span>$ {{ detail.interest }}</span>
+          </div>
+          <div class="flex-between">
+            <span>Tarifa de servicio</span>
+            <span>$ {{ detail.defermentFee }}</span>
+          </div>
+          <div class="flex-between">
+            <span>Tarifa vencida</span>
+            <span>$ {{ detail.overDueFee }}</span>
+          </div>
+        </div>
+
+        <div class="flex-between">
+          <span>Monto reembolsado</span>
+          <span>$ {{ detail.receiveAmount }}</span>
+        </div>
+
+        <div class="flex-between">
+          <span>monto de reembolso pendiente</span>
+          <span>$ {{ detail.repaidAmount }}</span>
+        </div>
+        <div class="history" @click="goDeferPayHis" v-if="deferHis.length > 0">Ver el historial de pagos de reembolsos >></div>
       </div>
     </div>
 
-    <div class="desc">Description: After paying deferment fee, the repayment due date will be defered by 7 days. After 7-day derferment, you need to repay the principal + the interest of the new period + the service fee.</div>
+    <div class="desc">Nota: Después de pagar los costes para reembolso diferido, la fecha de pago del reembolso se prorrogará 7 días, tras lo cual tendrá que reembolsar el principal + los nuevos intereses + la tasa de servicio</div>
 
     <div class="actions">
       <div class="btns">
-        <button class="btn-default" @click="defer">Defer the repayment</button>
+        <button class="btn-default" @click="defer">Reembolso diferido</button>
       </div>
-      <div class="help-center" @click="goHelpCenter">Help Center?</div>
+      <!-- <div class="help-center" @click="goHelpCenter">Help Center?</div> -->
     </div>
 
     <div class="modal" v-if="showPaymentTips">
       <div class="modal-content payment-success-container">
-        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showPaymentTips = false" />
-        <m-icon class="icon" type="handy/还款弹窗" />
+        <m-icon class="close" type="close" :width="15" :height="15" @click="showPaymentTips = false" />
+        <m-icon class="icon" type="superpeso/还款方式" />
 
         <div class="content">
-          <div class="remember">Remember</div>
-          When payment is completed,
-          <div>
-            remember to
-            <span @click="goFillUtr" class="color-orange fill">fill in the UTR</span>
-            in this app
+          <div class="head">Método de reembolso</div>
+          <div class="banks">
+            <div class="default" @click="selectBank('OnLine')">
+              En línea
+              <span>Recomendado</span>
+            </div>
+            <div @click="selectBank('OffLine')">Tienda</div>
           </div>
-        </div>
-        <div class="action">
-          <div class="cancel" @click="goTutorial">Tutorial</div>
-          <div class="confirm" @click="repay">Repay</div>
         </div>
       </div>
     </div>
@@ -79,11 +88,13 @@ export default {
   computed: {},
   data() {
     return {
+      showMoreInfo: false, // 是否显示更多信息
       orderId: this.$route.query.orderId,
       loaded: false,
       showPaymentTips: false,
       detail: '',
       orderUrl: '',
+      deferHis: [],
     };
   },
   created() {
@@ -91,14 +102,35 @@ export default {
       show: true,
       transparent: true,
       fixed: true,
-      title: 'Order Details',
+      color: 'white',
+      title: 'Detalles del pedido',
     });
   },
   async mounted() {
+    document.body.style.backgroundColor = '#f9f9f9';
     this.getDetail();
-    this.orderUrl = await this.getOrderRelateUrl(this.orderId);
+    // this.orderUrl = await this.getOrderRelateUrl(this.orderId);
+  },
+  beforeDestroy() {
+    this.setTabBar({
+      color: 'black',
+    });
   },
   methods: {
+    async getDeferHistory() {
+      let res = await this.$http.post('/api/extension/repaymentHistory', {
+        id: this.detail.extensionOrderBillId,
+      });
+      this.deferHis = res.data.list || [];
+    },
+    async selectBank(payType) {
+      this.showPaymentTips = false;
+      this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`);
+      this.sendEventTrackData({ leaveBy: 1 });
+    },
+    goDeferPayHis() {
+      this.innerJump('pay-history', { id: this.detail.extensionOrderBillId, type: 'bill' });
+    },
     goFillUtr() {
       this.innerJump('utr', { orderId: this.orderId, type: 'defer' });
     },
@@ -119,12 +151,14 @@ export default {
           id: this.orderId,
         });
         this.detail = data.data;
-
+        this.getDeferHistory();
         let res = await this.$http.post(`/api/order/detail`, {
           orderId: this.orderId,
         });
         this.updateTrackerData({ key: 'productId', value: res.data.productId });
       } catch (error) {
+        console.log(error);
+        console.log('222222');
       } finally {
         this.loaded = true;
       }
@@ -135,51 +169,16 @@ export default {
 
 <style lang="scss" scoped>
 .payment-success-container {
-  width: 295px;
-  box-sizing: border-box;
-  border-radius: 8px;
-  .policy {
-    display: flex;
-    align-items: flex-start;
-    font-size: 12px;
-    font-weight: 400;
-    margin: 50px 0px 0;
-    color: #000601;
-    position: relative;
-    .tips {
-      position: absolute;
-      top: -30px;
-      left: -8px;
-      width: 130px;
-      height: 20px;
-      background: #fbe396;
-      border-radius: 24px 24px 24px 0px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-      font-weight: bold;
-      color: #333333;
-      line-height: 12px;
-      transform: scale(0.9);
-    }
-    .m-icon {
-      margin-top: -2px;
-    }
-    span {
-      margin-left: 0px;
-      transform: scale(0.9);
-      margin-top: -10px;
-    }
-  }
+  width: 327px;
+  border-radius: 12px;
   .icon {
     position: absolute;
-    top: -25px;
+    top: -48px;
     left: 50%;
     transform: translateX(-50%);
     background: transparent;
-    width: 295px !important;
-    height: 154px !important;
+    width: 327px !important;
+    height: 96px !important;
   }
   .close {
     position: absolute;
@@ -188,76 +187,68 @@ export default {
     z-index: 2;
   }
   .content {
-    padding-top: 140px;
-    margin-bottom: 40px;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 500;
-    color: #000601;
-    text-align: left;
-    margin-left: 24px;
-    margin-right: 24px;
-    .fill {
-      text-decoration: underline;
-    }
-    .remember {
-      font-size: 20px;
-      font-weight: bold;
-      color: #000601;
-      line-height: 24px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    a {
-      color: #1143a4;
-      text-decoration: underline;
-    }
-  }
-  .action {
-    margin: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 24px;
-    > div {
-      width: 143px;
-      height: 40px;
-      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-      border-radius: 20px;
-      font-size: 16px;
+    padding-top: 70px;
+    text-align: center;
+    padding-bottom: 16px;
+    .head {
+      font-size: 18px;
+      font-family: Roboto-Black, Roboto;
       font-weight: 900;
-      color: #ffffff;
+      color: #333333;
       line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-
-      &.cancel {
-        border: 1px solid #999999;
-        color: #999;
-        position: relative;
-        width: 88px;
-        background: transparent;
-        box-shadow: none;
-        margin-right: 16px;
-        flex-grow: 1;
+    }
+    .banks {
+      > div {
+        margin: 0 16px;
+        padding-top: 36px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+        &.default {
+          position: relative;
+          span {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 96px;
+            height: 20px;
+            border-radius: 10px 10px 10px 0px;
+            font-size: 12px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ec4655;
+          }
+        }
+        &:last-child {
+          border-bottom: none;
+        }
       }
     }
   }
 }
 .defer-detail {
   padding-bottom: 120px;
-  background-image: url(../assets/img/handy/订单等待.png);
+  background-image: url(../assets/img/superpeso/展期背景.png);
   background-position: top;
   background-repeat: no-repeat;
-  background-size: 375px 206px;
-  background-color: #f6f6f6;
+  background-size: 375px 232px;
+  background-color: #f9f9f9;
   box-sizing: border-box;
 
   .defer-head {
     padding: 24px;
-    color: #fff;
+    padding-bottom: 16px;
+    color: #333;
+    text-align: center;
     p {
       margin-bottom: 0;
       font-size: 11px;
@@ -266,6 +257,7 @@ export default {
       word-break: break-word;
       margin-top: 0;
       &:first-child {
+        max-width: 100%;
         margin-bottom: 7px;
         font-size: 16px;
         font-weight: 900;
@@ -280,21 +272,17 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: transparent;
 
     .btns {
       padding-top: 10px;
-      padding-left: 20px;
-      padding-right: 20px;
-      margin-bottom: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
       display: flex;
       justify-content: space-between;
-
       .btn-default {
-        background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-        box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-        border-radius: 25px;
-        height: 46px;
+        background: #416cef;
+        border-radius: 8px;
+        height: 48px;
         border: none;
         color: #ffffff;
         font-weight: bold;
@@ -316,31 +304,47 @@ export default {
 
   .order-info {
     background: #fff;
-    padding: 16px;
+    padding: 24px 16px;
     background: #ffffff;
     border-radius: 8px;
-    margin: 24px;
+    margin: 16px;
     margin-bottom: 16px;
     margin-top: 0;
+    .history {
+      font-size: 14px;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
+      color: #ff4b3f;
+      line-height: 24px;
+      margin-top: 8px;
+      text-align: right;
+    }
 
     .period {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      .dolar {
+        color: #eaa411;
+      }
+
       div {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         .value {
           margin-left: 4px;
           margin-right: 0px;
           font-size: 24px;
           font-weight: bold;
-          color: #fe5404;
+          color: #eaa411;
           line-height: 24px;
         }
         .icon {
-          margin-top: -4px;
+          margin-left: 8px;
+          transition: all 0.3s;
+          &.open {
+            transform: rotate(90deg);
+          }
         }
       }
 
@@ -353,11 +357,21 @@ export default {
       }
     }
 
-    > div {
+    .order-info-more {
+      margin-top: 24px;
+      .fee {
+        background: #ecfcf6;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .flex-between {
       margin-bottom: 16px;
       font-size: 14px;
       font-weight: 400;
-      color: #000;
+      color: #333;
       line-height: 18px;
       &:last-child {
         margin-bottom: 0;
@@ -366,66 +380,45 @@ export default {
   }
 
   .desc {
-    font-size: 12px;
+    font-size: 14px;
+    font-family: Roboto-Regular, Roboto;
     font-weight: 400;
-    color: #333;
-    line-height: 18px;
-    margin: 0 24px;
-    word-break: break-word;
+    color: #999999;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
   .step {
-    width: 327px;
-    height: 93px;
+    width: 343px;
     background: #ffffff;
     border-radius: 8px;
-    padding: 16px 30px 9px;
+    padding: 24px 16px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
     box-sizing: border-box;
+    padding-bottom: 0;
     position: relative;
-
-    &::after {
-      position: absolute;
-      content: ' ';
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 2px;
-      background: #cccccc;
-    }
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 
     &-item {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       flex: 1;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #333333;
+      line-height: 24px;
       img {
         width: 10px;
         height: 10px;
       }
-
-      .text {
-        font-size: 12px;
-        font-family: Roboto-Regular, Roboto;
-        font-weight: 400;
-        color: #999999;
-        line-height: 18px;
-        margin: 8px auto;
-      }
-      .date {
-        font-size: 18px;
-        font-family: Roboto-Medium, Roboto;
-        font-weight: 500;
-        color: #333333;
-        line-height: 24px;
-      }
-      .step-wrapper {
-        flex-grow: 1;
+      &:last-child {
+        border-bottom: 2px solid #eee;
+        padding-bottom: 16px;
+        margin-bottom: 0;
       }
     }
   }

@@ -174,7 +174,8 @@ export default {
 
       .choose {
         position: absolute;
-        top: 16px;
+        top: 50%;
+        transform: translateY(-50%);
         right: 16px;
         &.active {
           background: #fff;

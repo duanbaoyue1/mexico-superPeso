@@ -1,123 +1,153 @@
 <template>
   <div class="order-detail content-area" :class="'order_' + detail.orderStatus">
-    <div class="status-text">{{ orderStatusText }}</div>
-
-    <div class="order-info">
-      <div class="flex-between">
-        <span>Product</span>
-        <span>{{ detail.productName }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Lending Company</span>
-        <span>{{ detail.companyName }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Application Date</span>
-        <span>{{ detail.applyTime }}</span>
-      </div>
-
-      <div class="flex-between" v-if="showDate">
-        <span>Due Date</span>
-        <span>{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
-      </div>
+    <div class="status-text">
+      <m-icon type="superpeso/订单等待" v-if="detail.orderStatus == 70 || detail.orderStatus == 80 || detail.orderStatus == 20 || detail.orderStatus == 21" :width="24" :height="24" />
+      <m-icon type="superpeso/订单完成" v-else-if="detail.orderStatus == 30 || detail.orderStatus == 100 || detail.orderStatus == 101" :width="24" :height="24" />
+      <m-icon type="superpeso/逾期" v-else-if="detail.orderStatus == 90" :width="24" :height="24" />
+      <m-icon type="superpeso/订单失败" v-else :width="24" :height="24" />
+      {{ orderStatusText }}
+      <div class="status-desc">{{ orderStatusDesc }}</div>
     </div>
 
-    <div class="order-info">
-      <div class="flex-between">
-        <span>Disbursal Bank</span>
-        <span>{{ detail.bankCardName }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Account No.</span>
-        <span>{{ detail.bankCardNo }}</span>
-      </div>
-      <div class="flex-between">
-        <span>Loan ID</span>
-        <span>{{ detail.orderNo }}</span>
-      </div>
-    </div>
-
-    <div class="order-info">
-      <div class="flex-between">
-        <span>Loan Amount</span>
-        <span class="font-bold color-000">
-          ₹
-          <span>{{ detail.approvalAmount }}</span>
-        </span>
-      </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80">
-        <span>Loan agreement</span>
-        <div class="color-blue" @click="checkAgreement">
-          check
-          <m-icon class="icon" type="blue-right" :width="8" :height="12" />
+    <div class="order-info-wrapper">
+      <div class="order-info" v-if="detail.orderStatus == 80 || detail.orderStatus == 90">
+        <div class="flex-between">
+          <span>Monto de reembolso</span>
+          <span class="fs-18 fw-900 color-red">$ {{ detail.remainingRepaymentAmount }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Fecha de vencimiento</span>
+          <span>{{ detail.expectedRepaymentTime || detail.actualRepaymentTime }}</span>
         </div>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80">
-        <span>Received</span>
-        <span class="font-bold color-blue">
-          ₹
-          <span>{{ detail.actualAmount }}</span>
-        </span>
+
+      <div class="order-info">
+        <div class="flex-between">
+          <span>ID del préstamo</span>
+          <span>{{ detail.orderNo }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Monto del préstamo</span>
+          <span>$ {{ detail.approvalAmount }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Monto total de recibo</span>
+          <span>$ {{ detail.actualAmount }}</span>
+        </div>
       </div>
-      <div class="flex-between" v-if="detail.penaltyInterest > 0">
-        <span>Overdue fee</span>
-        <span class="font-bold color-blue">
-          ₹
-          <span>{{ detail.penaltyInterest }}</span>
-        </span>
+
+      <div class="order-info">
+        <div class="flex-between">
+          <span>Tasa de interés</span>
+          <span>$ {{ detail.interest }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Tarifa de servicio</span>
+          <span>
+            <span>$ {{ detail.incidentalAmount }}</span>
+          </span>
+        </div>
+        <div class="flex-between" v-if="detail.penaltyInterest > 0">
+          <span>Tarifa vencida</span>
+          <span>$ {{ detail.penaltyInterest }}</span>
+        </div>
+
+        <div class="flex-between">
+          <span>Monto total de reembolso</span>
+          <span>$ {{ detail.estimatedRepaymentAmount }}</span>
+        </div>
       </div>
-      <div class="flex-between" v-if="detail.orderStatus >= 80">
-        <span>Repayment</span>
-        <span class="font-bold color-orange align-end" style="line-height: 26px">
-          ₹
-          <span class="fs-24">{{ detail.estimatedRepaymentAmount }}</span>
-        </span>
+
+      <div class="order-info" v-if="showDate">
+        <div class="flex-between">
+          <span>Monto reembolsado</span>
+          <span>$ {{ detail.actualRepaymentAmount }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Monto de reembolso pendiente</span>
+          <span>$ {{ detail.remainingRepaymentAmount }}</span>
+        </div>
       </div>
-      <div class="flex-between" v-if="deferTimes > 0 || (detail.orderStatus >= 80 && detail.showExtension == 1)" @click="goDeferHis">
-        <span>History of deferment</span>
-        <div class="color-blue">
-          {{ deferTimes }} times
-          <m-icon class="icon" type="blue-right" :width="8" :height="12" />
+
+      <div class="order-info" v-if="detail.repayRecord && detail.repayRecord.length > 0">
+        <div class="flex-between" @click="goPayHis">
+          <span class="color-333">Historial de transacciones</span>
+          <div class="color-blue font-bold">
+            <m-icon class="icon" type="right" :width="8" :height="12" />
+          </div>
+        </div>
+      </div>
+
+      <div class="order-info" v-if="deferTimes > 0 || (showDate && detail.showExtension == 1)">
+        <div class="flex-between" @click="goDeferHis">
+          <span class="color-333">Historial de reembolso diferido</span>
+          <div>
+            <span class="veces">{{ deferTimes }} veces</span>
+            <m-icon class="icon" type="right" :width="8" :height="12" />
+          </div>
+        </div>
+      </div>
+
+      <div class="order-info" v-if="(detail.orderStatus >= 80 || detail.orderStatus == 30 || detail.orderStatus == 70) && detail.bankCardNo">
+        <div class="flex-between">
+          <span>Banco de recibo</span>
+          <span>{{ detail.bankCardName }}</span>
+        </div>
+        <div class="flex-between">
+          <span>Método de recibo</span>
+          <span>{{ detail.receiveWay == 0 ? 'Tarjeta de débito' : 'Clabe' }}</span>
+        </div>
+        <div class="flex-between bank-no">
+          <span>Número de cuenta bancaria de recibo</span>
+          <span>{{ detail.bankCardNo }}</span>
+        </div>
+      </div>
+
+      <div class="order-info">
+        <div class="flex-between">
+          <span>Fecha de aplicación</span>
+          <span class="fw-500">{{ detail.applyTime }}</span>
+        </div>
+        <div class="flex-between" v-if="showDate && detail.loanTime">
+          <span>Fecha de recibo</span>
+          <span class="fw-500">{{ detail.loanTime }}</span>
+        </div>
+        <div class="flex-between" v-if="showDate">
+          <span>Fecha de reembolso</span>
+          <span class="fw-500">{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
         </div>
       </div>
     </div>
 
     <div class="modal" v-if="showPaymentTips">
       <div class="modal-content payment-success-container">
-        <m-icon class="close" type="handy/路径" :width="20" :height="20" @click="showPaymentTips = false" />
-        <m-icon class="icon" type="handy/还款弹窗" />
-
+        <m-icon class="close" type="close" :width="15" :height="15" @click="showPaymentTips = false" />
+        <m-icon class="icon" type="superpeso/还款方式" />
         <div class="content">
-          <div class="remember">Remember</div>
-          When payment is completed,
-          <div>
-            remember to
-            <span @click="goFillUtr" class="color-orange fill">fill in the UTR</span>
-            in this app
+          <div class="head">Método de reembolso</div>
+          <div class="banks">
+            <div class="default" @click="selectBank('OnLine')">
+              En línea
+              <span>Recomendado</span>
+            </div>
+            <div @click="selectBank('OffLine')">Tienda</div>
           </div>
         </div>
-        <div class="action">
-          <div class="cancel" @click="goTutorial">Tutorial</div>
-          <div class="confirm" @click="repay">Repay</div>
-        </div>
-
         <div class="policy" v-if="showAuto">
-          <div class="tips">99% of users opened!</div>
-          <m-icon class="icon-i" :type="choosed ? 'handy/开启' : 'handy/未开启'" :width="28" :height="14" @click="choosed = !choosed" />
-          <span>VIP privilege, you will get automatic reloan if repay successfully, and loan limit up with 100% possible.</span>
+          <m-icon class="icon-i" :type="choosed ? 'hucha/授权页选中' : 'hucha/授权页未选中'" :width="28" :height="14" @click="choosed = !choosed" />
+          <span>Para reducir las operaciones innecesarias, el représtamo se iniciará automáticamente después del reembolso exitoso, y aumentará significativamente su límite de préstamo.</span>
         </div>
       </div>
     </div>
 
     <div class="actions">
-      <div class="btns" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40 || detail.orderStatus == 80 || detail.orderStatus == 90">
-        <button class="btn-default" v-if="detail.orderStatus == 100 || detail.orderStatus == 101 || detail.orderStatus == 40" @click="goHome">More Loan Products</button>
+      <div class="btns" v-if="detail.orderStatus == 110 || detail.orderStatus == 80 || detail.orderStatus == 90">
+        <button class="btn-default" v-if="detail.orderStatus == 110" @click="goCompleteBank">Cambio de cuenta de cobro</button>
         <template v-else-if="detail.orderStatus == 80 || detail.orderStatus == 90">
-          <button class="btn-line" v-if="detail.showExtension == 1" @click="applyDefer">Apply deferment</button>
-          <button class="btn-default" @click="showPaymentTips = true">Repay Now</button>
+          <button class="btn-line" @click="applyDefer">Reembolso diferido</button>
+          <button class="btn-default" @click="showPaymentTips = true">Ir a reembolsar</button>
         </template>
       </div>
-      <div class="help-center" @click="goHelpCenter">Help Center?</div>
     </div>
   </div>
 </template>
@@ -134,38 +164,55 @@ export default {
     orderStatusText() {
       switch (this.detail.orderStatus) {
         case 20:
-          return 'Reviewing';
+          return 'Bajo revisión';
         case 21:
-          return 'Reviewing';
+          return 'Bajo revisión';
         case 30:
-          return 'Disbursing';
+          return 'Aprobado';
         case 40:
-          return 'Rejected';
+          return 'Rechazado';
         case 70:
-          return 'Disbursing';
+          return 'Pagando';
         case 80:
-          return 'Pending Repayment';
+          return 'En reembolso';
         case 90:
-          return 'Overdue';
+          return 'Atrasado';
         case 100:
-          return 'Repayment Successful';
+          return 'Completado';
         case 101:
-          return 'Repayment Successful';
+          return 'Completado';
+        case 110:
+          return 'Transferencia fallida';
         default:
-          return 'Reviewing';
+          return '';
       }
     },
-  },
-  created() {
-    this.setTabBar({
-      show: true,
-      transparent: true,
-      fixed: true,
-      title: 'Order Details',
-      backCallback: () => {
-        this.goAppBack();
-      },
-    });
+    orderStatusDesc() {
+      switch (this.detail.orderStatus) {
+        case 20:
+          return 'En revisión, espere pacientemente';
+        case 21:
+          return 'En revisión, espere pacientemente';
+        case 30:
+          return 'El pedido ya está aprobado. Por favor confirme lo antes posible';
+        case 40:
+          return 'El pedido ya está cancelada';
+        case 70:
+          return 'Está pagando, por favor espere pacientemente';
+        case 80:
+          return 'Ha recibido con éxito el dinero';
+        case 90:
+          return 'Está atrasado en reembolsar, por favor reembolse lo antes posible';
+        case 100:
+          return 'Ha pagado con éxito';
+        case 101:
+          return 'Ha pagado con éxito';
+        case 110:
+          return 'Pago fallido, vuelva a aplicar y vincule la cuenta de pago correcta';
+        default:
+          return '';
+      }
+    },
   },
   data() {
     // /**
@@ -235,36 +282,59 @@ export default {
   },
 
   mounted() {
+    this.setTabBar({
+      show: true,
+      transparent: true,
+      fixed: true,
+      color: 'white',
+      title: 'Detalles del pedido',
+      backCallback: () => {
+        this.goAppBack();
+      },
+    });
     this.getDetail();
     this.getDeferTimes();
     this.queryOrderReloan();
+    document.body.style.backgroundColor = '#f9f9f9';
+  },
+
+  beforeDestroy() {
+    this.setTabBar({
+      color: 'black',
+      backgroundColor: '#fff',
+    });
   },
 
   methods: {
+    goCompleteBank() {
+      this.innerJump('complete-bank', { orderId: this.orderId, from: 'mine' });
+    },
     async queryOrderReloan() {
       try {
         // 判断全局状态
-        let data = await this.$http.post(`/api/order/isOpenOrderAutoRepeatNew`, { orderId: this.orderId });
-        this.showAuto = data.data.isOpen;
-        this.choosed = data.data.isGive;
-        console.log('update choosed1', data.data.isGive);
+        let data = await this.$http.post(`/api/order/isOpenOrderAutoRepeat`, { orderId: this.orderId });
+        this.showAuto = data.data;
 
         // 查询当前订单是否开启自动复贷
         data = await this.$http.post(`/api/order/getOrderIsOpenOrderAutoRepeat`, { orderId: this.orderId });
         if (data.data != null && typeof data.data != 'undefined') {
           this.choosed = data.data;
-          console.log('update choosed', this.choosed);
         }
       } catch (error) {}
     },
 
-    async repay() {
+    async selectBank(payType) {
+      this.showPaymentTips = false;
       // 更新复贷
       try {
         await this.$http.post(`/api/order/updateOrderAutoRepeatStatus`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-      this.sendEventTrackData({leaveBy: 1});
-      this.innerJump('utr', { nextUrl: this.orderUrl.repaymentUrl, orderId: this.orderId, type: 'repay' });
+      this.openWebview(`${this.appGlobal.apiHost}/api/repayment/prepay?id=${this.detail.orderBillId}&payType=${payType}`);
+      this.sendEventTrackData({ leaveBy: 1 });
+    },
+
+    goPayHis() {
+      this.innerJump('pay-history', { id: this.orderId, type: 'order' });
     },
 
     applyDefer() {
@@ -298,9 +368,7 @@ export default {
         });
         this.detail = res.data;
         this.updateTrackerData({ key: 'productId', value: this.detail.productId });
-        console.log('order detail', this.detail);
-        console.log('order status', this.detail.orderStatus);
-        console.log('this.orderStatus', this.orderStatusText);
+
         if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
           this.orderUrl = await this.getOrderRelateUrl(this.orderId);
         }
@@ -315,62 +383,32 @@ export default {
 
 <style lang="scss" scoped>
 .payment-success-container {
-  width: 295px;
-  box-sizing: border-box;
-  border-radius: 8px;
+  width: 327px;
+  border-radius: 12px;
+
   .policy {
     display: flex;
     align-items: flex-start;
     font-size: 12px;
     font-weight: 400;
-    margin: 16px 24px 0;
+    margin: 0px 24px 0;
     color: #000601;
     position: relative;
-    .tips {
-      position: absolute;
-      top: -30px;
-      left: -8px;
-      width: 130px;
-      height: 20px;
-      background: #fbe396;
-      border-radius: 24px 24px 24px 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-      font-weight: bold;
-      color: #333333;
-      line-height: 12px;
-      transform: scale(0.9);
-      &::after {
-        position: absolute;
-        content: ' ';
-        width: 1px;
-        height: 1px;
-        border-width: 6px 6px;
-        border-style: solid;
-        border-color: #fbe396 transparent transparent transparent;
-        bottom: -10px;
-        left: 11px;
-      }
-    }
-    .m-icon {
-      margin-top: -2px;
-    }
     span {
       margin-left: 0px;
       transform: scale(0.9);
       margin-top: -10px;
     }
   }
+
   .icon {
     position: absolute;
-    top: -25px;
+    top: -48px;
     left: 50%;
     transform: translateX(-50%);
     background: transparent;
-    width: 295px !important;
-    height: 154px !important;
+    width: 327px !important;
+    height: 96px !important;
   }
   .close {
     position: absolute;
@@ -379,123 +417,115 @@ export default {
     z-index: 2;
   }
   .content {
-    padding-top: 140px;
-    margin-bottom: 40px;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 500;
-    color: #000601;
-    text-align: left;
-    margin-left: 24px;
-    margin-right: 24px;
-    .fill {
-      text-decoration: underline;
-    }
-    .remember {
-      font-size: 20px;
-      font-weight: bold;
-      color: #000601;
-      line-height: 24px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    a {
-      color: #1143a4;
-      text-decoration: underline;
-    }
-  }
-  .action {
-    margin: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 24px;
-    > div {
-      width: 143px;
-      height: 40px;
-      background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-      box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
-      border-radius: 20px;
-      font-size: 16px;
+    padding-top: 70px;
+    text-align: center;
+    padding-bottom: 16px;
+    .head {
+      font-size: 18px;
+      font-family: Roboto-Black, Roboto;
       font-weight: 900;
-      color: #ffffff;
+      color: #333333;
       line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-
-      &.cancel {
-        border: 1px solid #999999;
-        color: #999;
-        position: relative;
-        width: 88px;
-        background: transparent;
-        box-shadow: none;
-        margin-right: 16px;
-        flex-grow: 1;
+    }
+    .banks {
+      > div {
+        margin: 0 16px;
+        padding-top: 36px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+        &.default {
+          position: relative;
+          span {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 96px;
+            height: 20px;
+            border-radius: 10px 10px 10px 0px;
+            font-size: 12px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ec4655;
+          }
+        }
+        &:last-child {
+          border-bottom: none;
+        }
       }
     }
   }
 }
 
 .order-detail {
-  padding-bottom: 120px;
-  background-image: url(../assets/img/handy/订单等待.png);
+  padding-bottom: 24px;
+  background-image: url(../assets/img/superpeso/订单背景1.png);
   background-position: top;
   background-repeat: no-repeat;
-  background-size: 375px 206px;
-  background-color: #f6f6f6;
+  background-size: 375px 279px;
+  background-color: #f9f9f9;
   box-sizing: border-box;
   background-attachment: local;
+
   &.order_40,
+  &.order_110,
   &.order_90 {
-    background-image: url(../assets/img/handy/订单失败.png);
-  }
-  &.order_100,
-  &.order_101 {
-    background-image: url(../assets/img/handy/订单成功.png);
+    background-image: url(../assets/img/superpeso/订单背景2.png);
   }
 
-  .status-text {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ffffff;
-    line-height: 32px;
-    margin-bottom: 24px;
-    padding-left: 24px;
-    padding-right: 24px;
+  &.order_30,
+  &.order_100,
+  &.order_101 {
+    background-image: url(../assets/img/superpeso/订单背景3.png);
   }
+  &.order_110,
+  &.order_80,
+  &.order_90 {
+    padding-bottom: 120px;
+  }
+
   .actions {
     position: fixed;
     padding-bottom: 20px;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #f6f6f6;
-
+    background-color: #fff;
+    box-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.08);
     .btns {
-      padding-top: 10px;
-      padding-left: 20px;
-      padding-right: 20px;
-      margin-bottom: 20px;
+      padding-top: 16px;
+      padding-left: 16px;
+      padding-right: 16px;
       display: flex;
       justify-content: space-between;
 
       .btn-default {
-        background: linear-gradient(180deg, #fe816f 0%, #fc2214 100%);
-        box-shadow: 0px 4px 10px 0px #f7b5ae, inset 0px 1px 4px 0px #ffc7c0;
+        background: #416cef;
         border-radius: 25px;
-        height: 46px;
-        border: none;
+        height: 48px;
         color: #ffffff;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        border: 1px solid #416cef;
       }
       .btn-line {
         border-radius: 25px;
-        border: 1px solid #999999;
-        font-size: 18px;
+        font-weight: bold;
+        font-size: 16px;
         color: #999;
+        border-radius: 8px;
+        border: 1px solid #999999;
       }
       button {
         // width: 100%;
@@ -505,13 +535,91 @@ export default {
         }
       }
     }
-    .help-center {
-      font-size: 14px;
-      font-weight: 500;
-      color: #fc2214;
-      line-height: 18px;
-      text-align: center;
-      text-decoration: underline;
+  }
+  .status-text {
+    font-size: 24px;
+    font-family: Roboto-Medium, Roboto;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 24px;
+    margin: 16px auto 16px;
+    padding: 16px;
+    width: 343px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 8px;
+    min-height: 102px;
+    color: #2a303c;
+    font-size: 16px;
+    font-family: Roboto-Medium, Roboto;
+    font-weight: 500;
+    color: #2a303c;
+    line-height: 20px;
+    .status-desc {
+      font-size: 12px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #333333;
+      line-height: 14px;
+    }
+
+    img {
+      margin: 0 auto 4px;
+    }
+  }
+
+  .pay-wrapper {
+    margin: 16px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    .pay-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      font-size: 11px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
+      color: #bcbcbc;
+      line-height: 13px;
+      > div {
+        &:last-child {
+          text-align: right;
+        }
+      }
+      .money {
+        font-size: 27px;
+        font-family: Roboto-Bold, Roboto;
+        font-weight: bold;
+        color: #356dfe;
+        line-height: 32px;
+      }
+      .date {
+        font-size: 20px;
+        font-family: Roboto-Medium, Roboto;
+        font-weight: 500;
+        color: #333333;
+        line-height: 30px;
+      }
+    }
+    button {
+      width: 311px;
+      height: 48px;
+      background: #c9e9ff;
+      border-radius: 22px;
+      border: none;
+      font-size: 20px;
+      font-family: Roboto-Bold, Roboto;
+      font-weight: bold;
+      color: #0098ff;
+      line-height: 24px;
+      &.confirm {
+        background: linear-gradient(135deg, #1fb2fd 0%, #3767fe 100%);
+        box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+        margin-bottom: 16px;
+        color: #fff;
+      }
     }
   }
   .order-more {
@@ -535,35 +643,80 @@ export default {
       }
     }
   }
-  .order-info {
-    padding: 20px;
-    width: 327px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-sizing: border-box;
+  .order-info-wrapper {
+    position: relative;
+    padding: 24px 16px;
+    padding-top: 30px;
+    width: 343px;
     margin: 0 auto;
-    margin-bottom: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
 
-    > div {
+    .back {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 359px;
+    }
+    .order-info {
+      margin: 0 auto;
       margin-bottom: 16px;
-      font-size: 14px;
-      font-weight: 400;
-      color: #333333;
-      line-height: 18px;
-      div {
-        display: flex;
-        align-items: center;
-      }
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
       &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
         margin-bottom: 0;
       }
-      > span {
-        white-space: nowrap;
+
+      .bank-no {
+        flex-direction: column;
+        align-items: flex-start;
+        span {
+          &:last-child {
+            margin-left: 0 !important;
+            margin-top: 6px;
+          }
+        }
+      }
+
+      > div {
+        margin-bottom: 16px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #333333;
+        line-height: 18px;
+        .veces {
+          font-size: 10px;
+          font-family: Roboto-Medium, Roboto;
+          font-weight: 500;
+          color: #ffffff;
+          line-height: 12px;
+          background: #e73122;
+          padding: 6px 8px;
+          transform: scale(0.9);
+          border-radius: 20px;
+          margin-right: 8px;
+        }
+        div {
+          display: flex;
+          align-items: center;
+        }
         &:last-child {
-          text-align: right;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          margin-left: 20px;
+          margin-bottom: 0;
+        }
+        > span {
+          white-space: nowrap;
+          &.color-333 {
+            color: #333;
+          }
+          &:last-child {
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 20px;
+          }
         }
       }
     }

@@ -3,12 +3,12 @@
     <div class="loan-tips">
       <m-icon class="icon" type="superpeso/完成" :width="56" :height="56" />
       <div class="title" v-if="this.loans.length > 0">
-        <div>Solicitud enviada con éxito</div>
-        La aplicación se revisará en 3-5 minutos y puede extenderse en el tiempo ocupado. Preste atención a la notificación del mensaje.
-      </div>
-      <div v-else class="title">
         <div>Enhorabuena</div>
         Su solicitud ha sido aceptada
+      </div>
+      <div v-else class="title">
+        <div>Solicitud enviada con éxito</div>
+        La aplicación se revisará en 3-5 minutos y puede extenderse en el tiempo ocupado. Preste atención a la notificación del mensaje.
       </div>
       <div v-if="!this.loans.length" class="apply" @click="check">Consultar la solicitud</div>
       <div v-else class="apply" @click="applyMulti">Aumento $ {{ totalAmount }} Cantidad</div>
@@ -87,10 +87,10 @@ export default {
   },
 
   data() {
-    window.loanBtnCallback = () => {
-      if (this.loans.length) {
+    window.loanBtnCallback = async () => {
+      if (this.loans.length > 0) {
         this.showBackModal();
-      } else if (this.isSysNeedGoogle) {
+      } else if (await this.getNeedGoogle()) {
         this.nextStep = 'goBack';
         this.showGoogleFeed = true;
       } else {
@@ -108,15 +108,11 @@ export default {
       nextStep: '',
       showBackControl: false,
       backInterval: null, // 回退倒计时
-      showGoogleFeed: true,
-      isSysNeedGoogle: false,
+      showGoogleFeed: false,
     };
   },
   mounted() {
     this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'loanBtnCallback' });
-
-    // 从系统读取是否需要弹google窗
-    this.getNeedGoogle();
 
     if (this.needRecommend) {
       this.getRecommendLoans();
@@ -144,11 +140,15 @@ export default {
 
     async getNeedGoogle() {
       try {
-        let res = await this.$http.post(`/api/product/favourableComment`);
+        let res = await this.$http.post(`/api/popup/favourableComment`);
         if (res.returnCode == 2000) {
-          this.isSysNeedGoogle = res.data;
+          return res.data;
+        } else {
+          return false;
         }
-      } catch (error) {}
+      } catch (error) {
+        return false;
+      }
     },
 
     async getRecommendLoans() {
@@ -173,9 +173,9 @@ export default {
         this.hideLoading();
       }
     },
-    check() {
+    async check() {
       // 没有贷款产品且需要google弹窗
-      if (!this.loans.length && this.isSysNeedGoogle) {
+      if (!this.loans.length && (await this.getNeedGoogle())) {
         this.nextStep = 'goAllOrders';
         this.showGoogleFeed = true;
       } else {
@@ -202,7 +202,7 @@ export default {
       try {
         // 1. 先同步数据
         try {
-          syncRes = await this.startSyncData();
+          syncRes = await this.judgeCanApply();
         } catch (error) {
           this.hideLoading();
           this.$toast('Carga fallida, inténtelo más tarde');
@@ -399,7 +399,7 @@ export default {
       text-align: center;
       color: #333333;
       line-height: 24px;
-      width: 100%;
+      width: 200%;
       margin-left: -16px;
       margin-right: -16px;
       padding-left: 16px;

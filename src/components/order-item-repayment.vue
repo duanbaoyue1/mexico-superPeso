@@ -4,19 +4,28 @@
     <div class="info">
       <img :src="order.productIconImageUrl" />
       <div class="name">
-        <div>{{ order.productName }}</div>
-        <div class="date">
-          <span>Due Date</span>
-          <span>{{ order.repaymentTime }}</span>
+        <div class="product">{{ order.productName }}</div>
+        <div class="info-item" v-if="order.orderStatus != 40 && order.orderStatus != 10">Fecha de préstamo : {{ order.loanTime }}</div>
+        <div class="info-item">{{ dateText }} : {{ dateValue }}</div>
+        <div class="info-item">
+          {{ amountText }} :
+          <span class="number">
+            <span class="fs-12">$</span>
+            {{ amountValue }}
+          </span>
         </div>
       </div>
+
+      <!-- <div class="name">
+        <div>{{ order.productName }}</div>
+        <div class="date">
+          <span>{{ dateText }}</span>
+          <span>{{ dateValue }}</span>
+          <span class="repaid" v-if="order.orderStatus == 80 || order.orderStatus == 90" @click="goFillUtr">Repaid?</span>
+        </div>
+      </div> -->
     </div>
     <div class="action">
-      <div>
-        <span class="label">Repayable Amount</span>
-        <span class="label2">₹</span>
-        <span class="number">{{ amountValue }}</span>
-      </div>
       <button class="action-btn" :class="'action-btn-' + order.orderStatus" @click="goDetail">{{ order.orderStatusStr }}</button>
     </div>
   </div>
@@ -27,6 +36,35 @@ export default {
   props: ['order'],
 
   computed: {
+    amountValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
+        return this.order.repaymentAmount;
+      } else {
+        return this.order.approvalAmount;
+      }
+    },
+
+    amountText() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
+        return `Monto de reembolso`;
+      } else {
+        return `Importe de préstamo`;
+      }
+    },
+    dateValue() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.orderStatus == 100 || this.orderStatus == 101) {
+        return this.order.repaymentTime;
+      } else {
+        return this.order.applyTime;
+      }
+    },
+    dateText() {
+      if (this.order.orderStatus == 80 || this.order.orderStatus == 90 || this.orderStatus == 100 || this.orderStatus == 101) {
+        return `Fecha de vencimiento`;
+      } else {
+        return `Fecha de aplicación`;
+      }
+    },
     statusText() {
       switch (this.order.orderStatus) {
         case 10:
@@ -53,18 +91,14 @@ export default {
           return 'Reviewing';
       }
     },
-    amountValue() {
-      if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
-        return this.order.repaymentAmount;
-      } else {
-        return this.order.approvalAmount;
-      }
-    },
   },
 
   methods: {
+    goFillUtr() {
+      this.innerJump('utr', { orderId: this.order.orderNo, type: 'repay' });
+    },
     goDetail() {
-      if (this.order.orderStatus == 10) {
+      if (this.order.orderStatus == 10 || this.order.orderStatus == 100 || this.order.orderStatus == 101) {
         this.goHome();
       } else {
         this.innerJump('order-detail', { orderId: this.order.orderNo });
@@ -76,50 +110,35 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-  width: 327px;
+  width: 343px;
   background: #ffffff;
   border-radius: 16px;
   margin: 0 auto;
   padding: 16px 16px 14px;
   box-sizing: border-box;
   position: relative;
+  border: 1px solid #eee;
   .action {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 11px;
-    .number {
-      font-size: 24px;
-      font-family: DINAlternate-Bold, DINAlternate;
-      font-weight: bold;
-      color: #333333;
-      line-height: 24px;
-    }
-    .label {
-      font-size: 12px;
-      font-family: Roboto-Regular, Roboto;
-      font-weight: 400;
-      color: #999999;
-      line-height: 14px;
-      margin-right: 8px;
-    }
-    .label2 {
-      font-size: 12px;
-      font-family: Helvetica-Bold, Helvetica;
-      font-weight: bold;
-      color: #333333;
-      line-height: 12px;
-    }
+
     &-btn {
       font-size: 12px;
       font-family: Roboto-Medium, Roboto;
       font-weight: 500;
       color: #ffffff;
       line-height: 18px;
-      padding: 4px 8px;
       background: #ffbc41;
       border-radius: 16px;
       border: none;
+      width: 311px;
+      height: 32px;
+      background: #04ca1c;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &-10 {
         background: #ffbc41;
@@ -164,32 +183,54 @@ export default {
     display: flex;
     align-items: flex-start;
     padding-bottom: 16px;
-    border-bottom: 1px solid #e9e9e9;
+    flex-grow: 1;
     img {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       display: block;
       margin-right: 16px;
     }
     .name {
       font-size: 14px;
+      font-family: Roboto-Regular, Roboto;
+      font-weight: 400;
       color: #333333;
-      line-height: 18px;
-      > div {
-        &:first-child {
-          margin-bottom: 18px;
+      line-height: 20px;
+      flex-grow: 1;
+
+      .info-item {
+        margin-top: 8px;
+        font-size: 10px;
+        color: #999999;
+        display: flex;
+        justify-content: space-between;
+        .number {
+          font-size: 16px;
+          font-family: Roboto-Bold, Roboto;
+          font-weight: bold;
+          color: #ff4b3f;
+          line-height: 18px;
         }
       }
-      .date {
-        span {
-          &:first-child {
-            font-size: 10px;
-            font-family: Roboto-Regular, Roboto;
-            font-weight: 400;
-            color: #999999;
-            line-height: 12px;
-            margin-right: 8px;
-          }
+      .product {
+        font-size: 14px;
+        font-family: Roboto-Black, Roboto;
+        font-weight: 900;
+        color: #000000;
+        line-height: 20px;
+      }
+
+      .label {
+        font-size: 10px;
+        font-family: Roboto-Regular, Roboto;
+        font-weight: 400;
+        color: #999999;
+        line-height: 12px;
+        margin-right: 8px;
+      }
+      > div {
+        &:first-child {
+          margin-bottom: 10px;
         }
       }
     }

@@ -114,6 +114,10 @@ export default {
       var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
       return reg.test(email);
     },
+    
+    getLocalSystemTimeStamp() {
+      return new Date().getTime();
+    },
 
     logout() {
       this.toAppMethod('outLogin');

@@ -8,7 +8,7 @@
     <div class="edit-area">
       <div class="line-item">
         <div class="label">Nombre de usuario</div>
-        <input v-model="editData.userName" :disabled="markLoanCard != ''" placeholder="Please enter your name" />
+        <input v-model="userInfo.customName" placeholder="Please enter your name" />
       </div>
 
       <!-- <div class="line-item select-bank" @click="openSelectModel">
@@ -23,35 +23,35 @@
     </div>
     <div class="select-area">
       <ul class="tab">
-        <li :class="{ active: tab == 1 }" @click="tab = 1">Tarjeta de débito</li>
-        <li :class="{ active: tab == 2 }" @click="tab = 2">Clabe</li>
+        <li :class="{ active: tab == 0 }" @click="tab = 0">Tarjeta de débito</li>
+        <li :class="{ active: tab == 1 }" @click="tab = 1">Clabe</li>
       </ul>
-      <div v-if="tab == 1">
+      <div v-if="tab == 0">
         <div class="head">Nombre del Banco</div>
         <div class="line-item">
-          <select-item :items="ALL_ATTRS.BANK_NAME" title="Nombre del Banco" itemAttrs="bankName" @choose="chooseEditData" />
+          <select-item :items="banks" :defaultValue="editData.bank" title="Nombre del Banco" itemAttrs="bank" @choose="chooseEditData" />
         </div>
         <div class="head">Número de cuenta bancaria</div>
         <div class="line-item">
-          <input v-model="editData.name" placeholder="Por favor escribe" />
+          <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="16" v-model="editData.accountNumber" placeholder="Por favor escribe" />
         </div>
         <div class="head">Número de cuenta de entrada otra vez</div>
         <div class="line-item">
-          <input v-model="editData.name" placeholder="Por favor escribe" />
+          <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="16" v-model="editData.accountNumberAgain" placeholder="Por favor escribe" />
         </div>
       </div>
       <div v-else>
         <div class="head">Nombre del Banco</div>
         <div class="line-item">
-          <select-item :items="ALL_ATTRS.BANK_NAME" title="Nombre del Banco" itemAttrs="bankName" @choose="chooseEditData" />
+          <select-item :items="banks" title="Nombre del Banco" itemAttrs="bank" @choose="chooseEditData" />
         </div>
         <div class="head">Número digital clabe</div>
         <div class="line-item">
-          <input v-model="editData.name" placeholder="Por favor escribe" />
+          <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="18" v-model="editData.accountNumber" placeholder="Por favor escribe" />
         </div>
         <div class="head">Número de cuenta de entrada otra vez</div>
         <div class="line-item">
-          <input v-model="editData.name" placeholder="Por favor escribe" />
+          <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="18" v-model="editData.accountNumberAgain" placeholder="Por favor escribe" />
         </div>
       </div>
     </div>
@@ -92,15 +92,15 @@
         <div class="content">
           <div class="line">
             <div class="label">Tipo</div>
-            <div class="value">{{ selectBank.text }}</div>
+            <div class="value">{{ tab == 0 ? 'Tarjeta de débito' : 'Clabe' }}</div>
           </div>
           <div class="line">
             <div class="label">Nombre del Banco</div>
-            <div class="value">{{ editData.accountNumber }}</div>
+            <div class="value">{{ editData.bank }}</div>
           </div>
           <div class="line">
             <div class="label">Número de cuenta</div>
-            <div class="value">{{ editData.userName }}</div>
+            <div class="value">{{ editData.accountNumber }}</div>
           </div>
           <div class="tips">
             - Compruebe cuidadosamente la información anterior.
@@ -116,7 +116,6 @@
     </van-popup>
   </div>
 </template>
-
 <script>
 import ifscSelect from '@/components/ifsc-select.vue';
 import CompleteStep from '@/components/complete-step.vue';
@@ -128,6 +127,13 @@ export default {
     CompleteStep,
   },
   watch: {
+    tab: {
+      handler() {
+        this.$set(this.editData, 'accountNumber', '');
+        this.$set(this.editData, 'accountNumberAgain', '');
+      },
+      deep: true,
+    },
     userInfo: {
       handler() {
         this.editData.userName = `${this.userInfo.identityName} ${this.userInfo.identityLastName}`;
@@ -136,7 +142,7 @@ export default {
     },
     editData: {
       handler() {
-        this.canSubmit = (this.selectBank.value && this.editData.accountNumber && this.editData.userName) || this.markLoanCard;
+        this.canSubmit = this.editData.bank && this.editData.accountNumber && this.editData.accountNumber == this.editData.accountNumberAgain;
       },
       deep: true,
     },
@@ -146,44 +152,32 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Complete information',
+      title: 'Información bancaria',
     });
   },
   data() {
     return {
-      tab: 1,
+      tab: 0,
       ALL_ATTRS: ALL_ATTRS,
       openSelect: false,
       canSubmit: false, // 是否可以提交
       submitSuccess: false,
-      selectBank: {
-        text: '',
-        value: '',
-      },
       editData: {
         userName: '',
+        bank: '',
       },
-      markLoanCard: '',
       from: this.$route.query.from,
       orderId: this.$route.query.orderId,
-      showConfirmModal: true,
-      banks: ALL_ATTRS.BANKS,
+      showConfirmModal: false,
+      banks: [],
       saving: false,
     };
   },
   async mounted() {
+    this.eventTracker('bank_add_access');
+    this.queryBanks();
     if (this.from == 'order') {
       this.initInfoBackControl();
-      let data = await this.$http.post('/api/remittance/remittanceAccountList');
-      let defaultCards = (data.data.list || []).filter(t => t.markLoanCard == 1);
-
-      // 從冷卻期过来的订单，这个时候选择默认卡绑定
-      if (defaultCards && defaultCards.length == 1) {
-        this.markLoanCard = defaultCards[0];
-        this.selectBank.text = this.markLoanCard.bank;
-        this.selectBank.value = this.markLoanCard.accountNumber;
-        this.editData.accountNumber = this.markLoanCard.accountNumber;
-      }
     }
     setTimeout(() => {
       this.getUserInfo();
@@ -191,6 +185,17 @@ export default {
   },
 
   methods: {
+    async queryBanks(parentId) {
+      parentId = parentId || '';
+      // 查询所有的银行
+      let data = await this.$http.post(`/api/remittance/remittanceBankList`, { parentId: parentId });
+      this.banks = data.data.list.map(t => {
+        return {
+          label: t,
+          value: t,
+        };
+      });
+    },
     chooseEditData(data) {
       this.$set(this.editData, data.attr, data.value);
     },
@@ -200,19 +205,10 @@ export default {
       this.openSelect = false;
     },
     showConfirmBank() {
-      // 从订单进来，如果已经有卡，直接完成绑定，进入确认页
-      if (this.from == 'order' && this.markLoanCard) {
-        this.bindCardAndJump(this.markLoanCard.id);
-        return;
-      }
       this.showConfirmModal = true;
+      this.eventTracker('bank_add_submit');
     },
-    openSelectModel() {
-      if (this.from == 'order' && this.markLoanCard) {
-        return;
-      }
-      this.openSelect = true;
-    },
+
     async bindCardAndJump(cardId) {
       // 绑卡
       await this.$http.post(`/api/order/bindRemittanceAccount`, { remittanceAccountId: cardId, orderId: this.orderId });
@@ -234,25 +230,17 @@ export default {
         this.eventTracker('bank_confirm_submit');
         let saveData = {
           accountNumber: this.editData.accountNumber,
-          bank: this.selectBank.text,
-          bankCode: this.selectBank.value,
-          name: this.editData.userName,
+          bank: this.editData.bank,
+          name: this.userInfo.customName,
+          type: this.tab,
         };
-
+        console.log(this.tab, saveData.accountNumber.length);
         // 较验银行卡长度
-        let lengthLimit = this.selectBank.lengthLimit;
-        if (typeof lengthLimit != 'undefined') {
-          if (lengthLimit instanceof Array) {
-            if (saveData.accountNumber.length < lengthLimit[0] || saveData.accountNumber.length > lengthLimit[1]) {
-              throw new Error('Número de cuenta del recibo con formato incorrecto');
-            }
-          } else {
-            if (saveData.accountNumber.length != lengthLimit) {
-              throw new Error('Número de cuenta del recibo con formato incorrecto');
-            }
-          }
+        if ((this.tab == 0 && saveData.accountNumber.length != 16) || (this.tab == 1 && saveData.accountNumber.length != 18)) {
+          this.showConfirmModal = false;
+          this.$toast('Número de cuenta del recibo con formato incorrecto');
+          return;
         }
-
         let data = await this.$http.post(`/api/remittance/addRemittanceAccount`, saveData);
         if (data.returnCode == 2000) {
           if (this.from == 'order') {
@@ -260,10 +248,12 @@ export default {
           } else {
             this.goAppBack();
           }
+        } else {
+          throw new Error(data.message);
         }
         this.eventTracker('bank_add_submit_success');
       } catch (error) {
-        console.log(error);
+        this.showConfirmModal = false;
         this.eventTracker('bank_add_submit_error');
         this.$toast(error.message);
       } finally {
@@ -274,7 +264,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .add-bank {
   padding: 10px 16px;

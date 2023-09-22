@@ -218,8 +218,8 @@ const BANK_NAME = [
     value: 'Nombre del Banco',
   },
   {
-    label: 'ACCENDO DANCO',
-    value: 'ACCENDO DANCO',
+    label: 'ACCENDO BANCO',
+    value: 'ACCENDO BANCO',
   },
   {
     label: 'VCTINVER',

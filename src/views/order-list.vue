@@ -60,7 +60,6 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-area {
-  height: calc(100vh - 80px);
   overflow: auto !important;
   padding: 0 16px;
 }

@@ -4,93 +4,61 @@ import { dateFormat } from '@/utils/mUtils';
 window.isInitSyncData = false;
 window.syncDataResolve = null;
 window.syncDataReject = null;
-const SYNC_LOCAL_KEY = 'sync-app-data-status';
+const SYNC_LOCAL_KEY = 'sync-app-data-num';
 const DATA_API_HOST = process.env.VUE_APP_UPLOAD_DATA_APIPREFIX;
-//const NEED_SYNC_TYPE = ['appListFunName', 'imageListFunName', 'contactsListFunName', 'msgListFunName', 'devFunName', 'devBaseFunName'];
-const NEED_SYNC_TYPE = ['appListFunName', 'msgListFunName', 'devFunName', 'devBaseFunName', 'callLogListFunName', 'calendarFunName'];
+const DATA_UPLOAD_PATH = '/original/mexicoUpload';
+
+const NEED_SYNC_TYPE = [
+  {
+    type: 'appListFunName',
+    numKey: 'appListSize',
+    saveDataKey: 'app',
+  },
+  {
+    type: 'msgListFunName',
+    numKey: 'msgListSize',
+    saveDataKey: 'msg',
+  },
+  {
+    type: 'devFunName',
+    saveDataKey: 'device',
+  },
+  {
+    type: 'devBaseFunName',
+    saveDataKey: 'deviceBase',
+  },
+  {
+    type: 'callLogListFunName',
+    numKey: 'callListSize',
+    saveDataKey: 'call',
+  },
+  {
+    type: 'calendarFunName',
+    saveDataKey: 'calendar',
+  },
+];
 
 export default {
   data() {
     if (!window.isInitSyncData) {
-      window.onappListFunName = async data => {
-        console.log('收到onappListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            app: data,
-          });
-        } catch (error) {
-        }
-      };
-      window.onmsgListFunName = async data => {
-        console.log('收到onmsgListFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            msg: data,
-          });
-        } catch (error) {}
-      };
-      window.ondevFunName = async data => {
-        console.log('收到ondevFunName data:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            device: data,
-          });
-        } catch (error) {
-        }
-      };
-      window.ondevBaseFunName = async data => {
-        console.log('收到ondevBaseFunName:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            deviceBase: data,
-          });
-        } catch (error) {
-        }
-      };
-
-      window.oncallLogListFunName = async data => {
-        console.log('收到oncallLogListFunName:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            call: data,
-          });
-        } catch (error) {
-        }
-      };
-
-      window.oncalendarFunName = async data => {
-        console.log('收到oncalendarFunName:' + JSON.stringify(data));
-        if (typeof data == 'string') {
-          data = JSON.parse(data);
-        }
-        try {
-          await axios.post(`${DATA_API_HOST}/original/indiaUpload`, {
-            mobile: this.userInfo.mobile,
-            calendar: data,
-          });
-        } catch (error) {
-        }
-      };
+      NEED_SYNC_TYPE.forEach(t => {
+        window[`on${t.type}`] = async data => {
+          console.log(`收到${t.type} data:` + JSON.stringify(data));
+          if (typeof data == 'string') {
+            data = JSON.parse(data);
+          }
+          if (t.numKey) {
+            this.updateLocalSyncNum(t.numKey, data.length);
+          }
+          if (t.saveDataKey) {
+            try {
+              let saveData = { mobile: this.userInfo.mobile };
+              saveData[t.saveDataKey] = data;
+              await axios.post(`${DATA_API_HOST}${DATA_UPLOAD_PATH}`, saveData);
+            } catch (error) {}
+          }
+        };
+      });
       window.isInitSyncData = true;
     }
 
@@ -99,41 +67,38 @@ export default {
   mounted() {},
 
   methods: {
-    updateLocalSyncStatus(type, isSuccess) {
+    updateLocalSyncNum(type, num) {
       let status = localStorage.getItem(SYNC_LOCAL_KEY);
+      console.log('update local sync num', type, num);
       if (!status) {
         status = {};
       } else {
         status = JSON.parse(status);
       }
-      status[type] = isSuccess;
+      status[type] = num;
+      localStorage.setItem(SYNC_LOCAL_KEY, JSON.stringify(status));
+    },
 
-      // 如果任意一个失败都算失败
-      if (!isSuccess && window.syncDataReject) {
-        console.log('1');
-        window.syncDataReject({ success: false });
-        window.syncDataReject = null;
-      }
-      if (Object.keys(status).length == NEED_SYNC_TYPE.length) {
-        // 都已经上传完了
-        let successNum = Object.values(status).filter((t = !!t)).length;
-        if (successNum == NEED_SYNC_TYPE.length) {
-          // 全部成功
-          if (window.syncDataResolve) {
-            window.syncDataResolve({ success: true });
-            window.syncDataResolve = null;
-          }
+    // 判断是否可以继续提交申请
+    judgeCanApply() {
+      return new Promise(async (resolve, reject) => {
+        let status = localStorage.getItem(SYNC_LOCAL_KEY);
+        if (!status) {
+          status = {};
         } else {
-          // 部分失败
-          if (window.syncDataReject) {
-            window.syncDataReject({ success: false });
-            window.syncDataReject = null;
-          }
+          status = JSON.parse(status);
         }
-      } else {
-        // 否则部分传完
-        localStorage.setItem(SYNC_LOCAL_KEY, JSON.stringify(status));
-      }
+        if (!this.checkInApp()) {
+          resolve({ success: true });
+        }
+        console.log('judge can apply:', status);
+        // 只要其中一项有数据就可以继续申请 并且需要有通话记录
+        if ((status.appListSize > 0 || status.msgListSize > 0) && status.callListSize > 0) {
+          resolve({ success: true });
+        } else {
+          reject({ success: false });
+        }
+      });
     },
 
     startSyncData(needResolve = false) {
@@ -144,30 +109,9 @@ export default {
           }
           let types = {};
           NEED_SYNC_TYPE.forEach(t => {
-            types[t] = `on${t}`;
+            types[t.type] = `on${t.type}`;
           });
           this.toAppMethod('crawlData', types);
-          if (needResolve) {
-            window.syncDataResolve = resolve;
-            window.syncDataReject = reject;
-          } else {
-            window.syncDataResolve = null;
-            window.syncDataReject = null;
-          }
-          // setTimeout(async res => {
-          //   window.syncDataResolve = null;
-          //   window.syncDataReject = null;
-          //   res = await axios.post(`${DATA_API_HOST}/original/indiaIsUpload`, {
-          //     mobile: this.userInfo.mobile,
-          //   });
-
-          //   // 是否msg+applist至少有一个抓取完成并且数据不为空，抓取完成则正常申请，失败错误提示
-          //   if (res.data && ((res.data.data.isHaveMsg == true && JSON.stringify(initData.msgListFunName).length > 0) || (res.data.data.isHaveApp && JSON.stringify(initData.appListFunName).length > 0))) {
-          //     resolve({ success: true });
-          //   } else {
-          //     reject({ success: false });
-          //   }
-          // }, 10000);
         } catch (error) {
           reject({ success: false });
         }

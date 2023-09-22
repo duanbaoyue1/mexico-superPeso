@@ -164,7 +164,7 @@ export default {
         let saveData = { ...this.editData };
         let contacts = [...this.contacts];
         saveData.contacts = contacts;
-        let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
+        let data = await this.$http.post(`/api/user/basicInfo/save`, saveData);
         if (data.returnCode === 2000) {
           this.submitSuccess = true;
           this.eventTracker('contact_submit_success');

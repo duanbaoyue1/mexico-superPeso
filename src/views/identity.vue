@@ -18,7 +18,7 @@
         <div class="pan-text">Front of INE / IFE</div>
       </div>
 
-      <div class="pan-img-wrapper">
+      <!-- <div class="pan-img-wrapper">
         <div class="pan-img" @click="getCapture(2)">
           <template v-if="cardBackOcrStatus">
             <img class="back" :src="cardBackBase64Src" />
@@ -30,30 +30,30 @@
           </template>
         </div>
         <div class="pan-text">Back of INE / IFE</div>
-      </div>
+      </div> -->
 
-      <div class="pan-info">
+      <div class="pan-info" v-if="cardFrontOcrStatus">
         <div class="item">
           <label>Nombre</label>
-          <div class="value">Antonio Maldonado Evangelista</div>
+          <div class="value">{{ cardFrontOcrInfo.realName }}</div>
         </div>
         <div class="item">
           <label>Apellido paterno</label>
-          <div class="value">Makdonado</div>
+          <div class="value">{{ cardFrontOcrInfo.fatherName }}</div>
         </div>
         <div class="item">
           <label>Apellido materno</label>
-          <div class="value">Evangelista</div>
+          <div class="value">{{ cardFrontOcrInfo.motherName }}</div>
         </div>
         <div class="item">
           <label>CURP</label>
-          <div class="value">6896 5641 5910</div>
+          <div class="value">{{ cardFrontOcrInfo.idNumber }}</div>
         </div>
         <div class="item">
           <label>RFC</label>
           <div class="value">
-            12367890
-            <span class="RFC">RFC</span>
+            {{ cardFrontOcrInfo.idNumber.slice(0, 10) }}
+            <input class="RFC" v-model="rfc" @keyup="checkCanSubmit" placeholder="RFC" />
           </div>
         </div>
         <div class="tips">Los últimos 3 dígitos del RFC deben ser introducidos</div>
@@ -91,23 +91,25 @@ export default {
       show: true,
       transparent: false,
       fixed: true,
-      title: 'Verificación de identidad',
+      title: 'Información sobre la identidad',
       backCallback: null,
     });
   },
   data() {
     window.onPhotoSelectCallback_1 = data => {
+      this.hideLoading();
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
-        this.eventTracker('id_card_front_submit');
+        this.eventTracker('id_ine_front_submit');
         this.cardFrontBase64Src = `data:image/png;base64,${data.pic}`;
         this.uploadImg(1, 'cardFrontBase64Src', this.cardFrontBase64Src);
       }
     };
 
     window.onPhotoSelectCallback_2 = data => {
+      this.hideLoading();
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
@@ -118,14 +120,20 @@ export default {
       }
     };
 
-    window.onPhotoSelectCallback_3 = data => {
+    window.onPhotoSelectCallback_4 = data => {
+      this.hideLoading();
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
       if (data.success) {
         this.eventTracker('id_liveness_photo_submit');
-        this.uploadImg(3, 'livingBase64Src', `data:image/png;base64,${data.pic}`);
+        // this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.pic}`);
+        this.uploadImg(4, 'livenessId', data.livenessId);
       }
+    };
+
+    window.onPhotoBackCallback = data => {
+      this.showLoading();
     };
 
     return {
@@ -136,6 +144,11 @@ export default {
       editData: {},
       curPercent: 0,
       saving: false,
+      rfc: '',
+      cardFrontOcrInfo: {
+        idNumber: '',
+      },
+      license: '',
       curInterval: null,
       cardFrontOcrStatus: 0,
       cardBackOcrStatus: 0,
@@ -144,18 +157,30 @@ export default {
   },
 
   mounted() {
+    document.body.style.backgroundColor = '#fff';
     this.eventTracker('id_access');
     this.initInfoBackControl();
+    this.getLicense();
   },
 
   methods: {
+    async getLicense() {
+      try {
+        let res = await this.$http.post(`/api/ocr/advanceLicense`);
+        this.license = res.data.license;
+      } catch (error) {}
+    },
+
     getCapture(type) {
       if (type == 1) {
-        this.eventTracker('id_card_front');
+        this.eventTracker('id_ine_front');
       } else if (type == 2) {
         this.eventTracker('id_card_back');
       }
-      this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
+
+      let params = { type: type, callbackMethodName: `onPhotoSelectCallback_${type}`, license: this.license };
+      params.photoBackMethodName = 'onPhotoBackCallback';
+      this.toAppMethod('getCapture', params);
     },
 
     startPercent() {
@@ -181,7 +206,7 @@ export default {
     async goAddCard() {
       try {
         // 创建订单
-        let res = await this.$http.post(`/api/product/appMaskModel`);
+        let res = await this.$http.post(`/api/product/appMaskModelNew`);
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
         this.submitSuccess = false;
@@ -192,19 +217,20 @@ export default {
       }
     },
 
-    async uploadImg(type, fileName, base64) {
+    async uploadImg(type, fileName, fileContent) {
       // 上传活动后显示进度条
       this.startPercent();
       try {
         let saveData = {
           mark: type,
         };
-        saveData[fileName] = base64;
+        saveData[fileName] = fileContent;
         let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
 
         if (res.returnCode == 2000) {
           if (type == 1) {
             this.cardFrontOcrStatus = res.data.cardFrontOcrStatus;
+            this.cardFrontOcrInfo = res.data.cardFrontOcrInfo;
           } else if (type == 2) {
             this.cardBackOcrStatus = res.data.cardBackOcrStatus;
           }
@@ -214,7 +240,7 @@ export default {
               this.stopPercent();
               this.submitSuccess = false;
             }, 1000);
-            this.eventTracker('id_card_front_submit_success');
+            this.eventTracker('id_ine_front_submit_success');
           } else if (type == 2 && res.data.cardBackOcrStatus) {
             this.curPercent = 100;
             setTimeout(() => {
@@ -222,9 +248,9 @@ export default {
               this.submitSuccess = false;
             }, 1000);
             this.eventTracker('id_card_back_submit_success');
-          } else if (type == 3 && res.data.livingStatus) {
+          } else if (type == 4 && res.data.livingStatus) {
             // 提交人脸对比请求
-            res = await this.$http.post(`/api/ocr/saveResult`, { mark: 4 });
+            res = await this.$http.post(`/api/ocr/saveResult`, { mark: 5 });
             if (res.data.faceComparisonStatus) {
               this.curPercent = 100;
               this.eventTracker('id_liveness_success');
@@ -246,7 +272,7 @@ export default {
     },
 
     checkCanSubmit() {
-      if (this.cardBackOcrStatus && this.cardFrontOcrStatus) {
+      if (this.cardFrontOcrStatus && this.rfc) {
         this.canSubmit = true;
       } else {
         this.canSubmit = false;
@@ -271,7 +297,24 @@ export default {
 
     async submit() {
       this.eventTracker('id_submit');
-      this.getCapture(3);
+      if (!this.rfc) {
+        this.$toast('please input rfc!');
+        return;
+      }
+      try {
+        let saveData = {
+          mark: 3,
+          rfc: `${this.cardFrontOcrInfo.idNumber.slice(0, 10)}${this.rfc}`,
+        };
+        let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
+        if (res.returnCode == 2000) {
+          this.getCapture(4);
+        } else {
+          this.$toast('error!');
+        }
+      } catch (error) {
+        this.$toast(error.message);
+      }
     },
   },
 };
@@ -313,6 +356,33 @@ export default {
       .RFC {
         color: #f95502;
         margin-left: 4px;
+        width: 30px;
+        border: none;
+        text-align: right;
+        &::-webkit-input-placeholder {
+          color: #f95502;
+        }
+        &::-moz-placeholder {
+          color: #f95502;
+        }
+        &::-moz-placeholder {
+          color: #f95502;
+        }
+        &:-ms-input-placeholder {
+          color: #f95502;
+        }
+        &:focus::-webkit-input-placeholder {
+          color: transparent;
+        }
+        &:focus:-moz-placeholder {
+          color: transparent;
+        }
+        &:focus::-moz-placeholder {
+          color: transparent;
+        }
+        &:focus:-ms-input-placeholder {
+          color: transparent;
+        }
       }
     }
     .tips {

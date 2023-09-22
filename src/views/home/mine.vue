@@ -61,30 +61,6 @@
         </div>
         <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
-
-      <!-- <div @click="goTestb">
-        <div>
-          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
-          testb
-        </div>
-        <m-icon type="superpeso/向右" :width="8" :height="12" />
-      </div> -->
-
-      <!-- <div @click="innerJump('testb')">
-        <div>
-          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
-          testb
-        </div>
-        <m-icon type="superpeso/向右" :width="8" :height="12" />
-      </div>
-
-      <div @click="innerJump('order-detail')">
-        <div>
-          <m-icon class="icon" type="handy/Log Out" :width="30" :height="30" />
-          Order Detail
-        </div>
-        <m-icon type="superpeso/向右" :width="8" :height="12" />
-      </div> -->
     </div>
 
     <van-overlay :show="showLogOut" @click="showLogOut = false">

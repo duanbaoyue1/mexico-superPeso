@@ -1,26 +1,23 @@
 <template>
   <div class="defer-history content-area">
     <div class="items" v-for="(item, index) in lists" :key="index">
-      <div class="head fs-18">Deferment {{ index + 1 }}</div>
       <div class="flex-between">
-        <span>Deferment term</span>
-        <span>{{ item.extendedTerm }} days</span>
-      </div>
-
-      <div class="flex-between">
-        <span>Application date</span>
+        <span>Fecha de la solicitud</span>
         <span>{{ item.approvalDate }}</span>
       </div>
-
       <div class="flex-between">
-        <span>Updated due date</span>
+        <span>Monto del reembolso</span>
+        <span class="color-red fw-900">$ {{ item.amount }}</span>
+      </div>
+      <!-- <div class="flex-between">
+        <span>Deferment term</span>
+        <span>{{ item.extendedTerm }} days</span>
+      </div> -->
+      <div class="flex-between">
+        <span>Actualizar la fecha de vencimiento del reembolso</span>
         <span>{{ item.updatedDueDate }}</span>
       </div>
-
-      <div class="flex-between">
-        <span>Repayment amount</span>
-        <span>₹ {{ item.amount }}</span>
-      </div>
+      <div class="pay" @click="goPayHis(item)">Ver el historial de pagos de reembolsos >></div>
     </div>
   </div>
 </template>
@@ -32,10 +29,11 @@ export default {
       show: true,
       fixed: true,
       transparent: false,
-      title: 'Deferment',
+      backgroundColor: '#f9f9f9',
+      title: 'Historial de reembolso diferido',
     });
   },
-  
+
   data() {
     return {
       lists: [],
@@ -43,10 +41,20 @@ export default {
   },
 
   mounted() {
+    document.body.style.backgroundColor = '#f9f9f9';
     this.getDeferHistory();
   },
 
+  beforeDestroy() {
+    this.setTabBar({
+      backgroundColor: '#fff',
+    });
+  },
+
   methods: {
+    goPayHis(item) {
+      this.innerJump('pay-history', { type: 'bill', id: item.id });
+    },
     async getDeferHistory() {
       let res = await this.$http.post('/api/extension/history', {
         id: this.$route.query.orderId,
@@ -59,19 +67,29 @@ export default {
 
 <style lang="scss" scoped>
 .defer-history {
-  padding-top: 14px;
+  padding-top: 24px;
+  background: #f9f9f9;
+  margin-top: 16px;
+
   .items {
     font-size: 14px;
     font-weight: 400;
     color: #333333;
     line-height: 18px;
-    padding: 16px;
+    padding: 24px 16px;
     background: #ffffff;
     border-radius: 8px;
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
     margin-bottom: 16px;
-
+    .pay {
+      font-size: 14px;
+      font-family: Roboto-Medium, Roboto;
+      font-weight: 500;
+      color: #ff4b3f;
+      line-height: 24px;
+      margin-top: 8px;
+    }
     &:last-child {
       border-bottom: none;
     }
@@ -82,8 +100,14 @@ export default {
       color: #333333;
       line-height: 24px;
     }
-    > div {
-      margin-bottom: 24px;
+    .flex-between {
+      span {
+        &:first-child {
+          color: #999999;
+          max-width: 220px;
+        }
+      }
+      margin-bottom: 16px;
       &:last-child {
         margin-bottom: 0;
       }

@@ -33,31 +33,39 @@
 export default {
   data() {
     return {
-      feedEmail: 'support@holapeso.com',
+      feedEmail: 'CreditoHucha@outlook.com',
       questions: [
         {
+          desc: '¿Qué es CréditoCash?',
+          answer: 'CréditoCash es un prestamista en línea con licencia que ofrece préstamos instantáneos y reembolsos de facturas',
+        },
+        {
+          desc: '¿Por qué elegir CréditoCash?',
+          answer: 'CréditoCash es una plataforma de préstamos personales segura, sencilla y rápida. Antes de recibir su salario, si necesita comprar algún producto electrónico u otra cosa en caso de emergencia, puede solicitar un préstamo personal a corto plazo desde CréditoCash.',
+        },
+        {
           desc: '¿Cómo puedo obtener un préstamo instantáneo?',
-          answer: 'Todo lo que necesita es un teléfono Android, descargar CreditoMax de Google Play, preparar su C.C. ID y cuenta bancaria, y enviar su información de autenticación para una solicitud de préstamo.',
+          answer: 'Necesita un teléfono Android. Descargue la aplicación CréditoCash desde Google Play Store. Se registra con el número de teléfono, responde algunas preguntas y confirma la identidad para recibir una oferta de préstamo. Si la acepta, recibirá tu préstamo instantáneamente en su cuenta bancaria preferida!',
         },
         {
-          desc: '¿Cuánto tardaré en recibir mi préstamo una vez aprobado?',
-          answer: 'Por lo general, los fondos tardan de 1 a 2 días hábiles en llegar, pero puede tardar hasta el tercer día hábil debido a la lentitud de procesamiento de los bancos, así que por favor sea paciente. Por favor, espere pacientemente. El tiempo de liberación está sujeto al tiempo real de llegada.<br/>Recomendamos los siguientes cuatro bancos: Nequi, Bancolombia, Daviplata, que admiten préstamos en fin de semana y festivos y tienen un tiempo de llegada rápido.',
+          desc: '¿Qué puedo hacer si no puedo recibir la OTP cuando inicio sesión en la aplicación?',
+          answer: 'El problema de red puede afectar la generación de OTP. Reinicia la aplicación/teléfono e intenta de nuevo. Si realmente no funciona después de algunas veces, no duda en contactar con nosotros a través de nuestro centro de ayuda en la aplicación CréditoCash.',
         },
         {
-          desc: 'He realizado un pago pero mi pedido no se ha actualizado, ¿qué debo hacer?',
-          answer: 'Lamentamos que esté experimentando este problema, por favor tenga paciencia ya que los pagos pueden tardar hasta 24 horas en llegar. Si el pedido no se ha actualizado en más de 24 horas, póngase en contacto con nuestro servicio de atención al cliente por correo electrónico.',
+          desc: '¿Por qué fue rechazada mi solicitud de préstamo?',
+          answer: 'Disculpa por eso, puede ser por diferentes razones:<br/>1. No se ha encontrado suficiente información en el teléfono: Debe incrementar el uso del teléfono (llamadas/mensajes) para ser elegible.<br/>2. Decidimos no darle un crédito en este momento después de analizar su perfil.',
         },
         {
-          desc: 'Quiero cambiar mi cuenta bancaria receptora, ¿qué debo hacer?',
-          answer: 'Puede cambiar su cuenta bancaria en la página "Mi - Cuenta Bancaria" y luego volver a solicitar el préstamo.',
+          desc: 'Pasé la auditoría y confirmé obtener el préstamo, pero no recibí el dinero de inmediato, ¿por qué?',
+          answer: 'En algunos casos, pueden pasar hasta 24 horas para que se apruebe el préstamo y, en consecuencia, se acredite en su cuenta bancaria.',
         },
         {
-          desc: '¿Cómo puedo aumentar el importe de mi préstamo?',
-          answer: 'Nuestro sistema evaluará el importe de su préstamo en función de su solvencia, por lo que le rogamos que efectúe sus pagos puntualmente y mantenga un buen historial crediticio, ya que ello contribuirá a aumentar el importe de su préstamo.',
+          desc: '¿Puedo pagar por adelantado en CréditoCash?',
+          answer: 'Sí, puede pagar por adelantado en CréditoCash antes de la fecha de vencimiento, esto ayudará a aumentar su puntaje crediticio.',
         },
         {
-          desc: '¿Por qué ha fallado mi solicitud de préstamo?',
-          answer: 'Lamentablemente, puede deberse a varias razones y determinamos la elegibilidad de cada prestatario basándonos en la lógica y los algoritmos que hemos establecido. Si tu préstamo no se aprueba, significa que tu perfil no se ajusta al algoritmo y al modelo de riesgo crediticio que hemos establecido.',
+          desc: '¿Se divulgará mi información personal?',
+          answer: 'Hemos agregado un acuerdo confidencial a la aplicación para proteger toda la información personal del usuario y nos aseguramos de que la información no se divulgue a otros. ',
         },
       ],
     };
@@ -65,9 +73,11 @@ export default {
   created() {
     this.setTabBar({
       show: true,
+      transparent: false,
       fixed: true,
-      transparent: true,
-      title: 'Pedido de préstamo',
+      color: 'white',
+      backgroundColor: 'rgba(93, 221, 155, 0.28)',
+      title: 'Centro de ayuda',
     });
   },
   mounted() {
@@ -79,6 +89,13 @@ export default {
     //     }
     //   } catch (error) {}
     // }, 200);
+  },
+
+  beforeDestroy() {
+    this.setTabBar({
+      color: 'black',
+      backgroundColor: '#fff',
+    });
   },
 
   methods: {
