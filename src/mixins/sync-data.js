@@ -111,7 +111,7 @@ export default {
           NEED_SYNC_TYPE.forEach(t => {
             types[t.type] = `on${t.type}`;
           });
-          this.toAppMethod('crawlData', types);
+          this.toAppMethod('dataUpLoad', types);
         } catch (error) {
           reject({ success: false });
         }

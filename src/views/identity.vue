@@ -180,7 +180,7 @@ export default {
 
       let params = { type: type, callbackMethodName: `onPhotoSelectCallback_${type}`, license: this.license };
       params.photoBackMethodName = 'onPhotoBackCallback';
-      this.toAppMethod('getCapture', params);
+      this.toAppMethod('inCapture', params);
     },
 
     startPercent() {

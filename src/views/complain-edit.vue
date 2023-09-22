@@ -78,7 +78,7 @@ export default {
       this.imgs.splice(index, 1);
     },
     addImg() {
-      this.toAppMethod('getCapture', { type: 5, multiple: 3 - this.imgs.length, callbackMethodName: `onPhotoSelectCallback` });
+      this.toAppMethod('inCapture', { type: 5, multiple: 3 - this.imgs.length, callbackMethodName: `onPhotoSelectCallback` });
     },
 
     async submit() {

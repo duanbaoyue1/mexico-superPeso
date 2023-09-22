@@ -85,7 +85,7 @@ service.interceptors.response.use(
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
           let appGlobal = JSON.parse(localStorage.getItem('app-local'));
-          wjs[`errorCode_${appGlobal.appName}`](JSON.stringify({ code: res.returnCode, msg: res.message }));
+          wjs[`badCodeCall`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {
           return Promise.reject(res || 'error');
         }

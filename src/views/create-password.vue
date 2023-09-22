@@ -97,7 +97,7 @@ export default {
         if (res.returnCode == 2000) {
           this.submitSuccess = true;
           this.updateToken({ token: res.data.token });
-          this.toAppMethod('updateUser', res.data);
+          this.toAppMethod('inBookMaps', res.data);
           this.$toast('Éxito');
           setTimeout(() => {
             this.goHome();

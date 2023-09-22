@@ -43,7 +43,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     this.hideLoading();
-    this.toAppMethod('isInterceptionReturn', { isInterception: false });
+    this.toAppMethod('physicalReturnKeyInterception', { isInterception: false });
     next();
   },
 
@@ -98,7 +98,7 @@ export default {
       this.setTabBar({
         backCallback: window.infoBtnCallBack,
       });
-      this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'infoBtnCallBack' });
+      this.toAppMethod('physicalReturnKeyInterception', { isInterception: true, fuName: 'infoBtnCallBack' });
     },
 
     previewImg(imgs, startIndex) {
@@ -114,13 +114,13 @@ export default {
       var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
       return reg.test(email);
     },
-    
+
     getLocalSystemTimeStamp() {
       return new Date().getTime();
     },
 
     logout() {
-      this.toAppMethod('outLogin');
+      this.toAppMethod('outToLogin');
     },
 
     mergeTwoArray(arr1, arr2) {
@@ -213,7 +213,7 @@ export default {
     },
 
     openWebview(url, type = 0) {
-      this.toAppMethod('openWebView', { path: url, type: type });
+      this.toAppMethod('inNewPage', { path: url, type: type });
     },
 
     async getOrderRelateUrl(orderId) {
@@ -230,9 +230,9 @@ export default {
       params = params || {};
       if (!this.checkInApp()) return;
       try {
-        console.log('start method:', `${name}_${this.appGlobal.appName}`);
+        console.log('start method:', `${name}`);
         console.log('params:', JSON.stringify(params));
-        wjs[`${name}_${this.appGlobal.appName}`](JSON.stringify(params));
+        wjs[`${name}`](JSON.stringify(params));
         return true;
       } catch (error) {
         console.log('no such method:', `${name}_${this.appGlobal.appName}`);
@@ -295,7 +295,7 @@ export default {
     },
     // app埋点
     eventTracker(key) {
-      this.toAppMethod('afLogEvent', { key: key });
+      this.toAppMethod('logDeed', { key: key });
     },
     sumArr(arr) {
       return arr.reduce(function (prev, cur) {

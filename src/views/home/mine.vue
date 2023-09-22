@@ -110,7 +110,7 @@ export default {
           this.hideMessageBox();
         },
         cancelCallback: () => {
-          this.toAppMethod('toLoginPage');
+          this.toAppMethod('inLoginPage');
         },
         iconPath: 'handy/编组 11',
       });

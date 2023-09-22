@@ -112,7 +112,7 @@ export default {
     };
   },
   mounted() {
-    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'loanBtnCallback' });
+    this.toAppMethod('physicalReturnKeyInterception', { isInterception: true, fuName: 'loanBtnCallback' });
 
     if (this.needRecommend) {
       this.getRecommendLoans();
@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     leave() {
-      this.toAppMethod('isInterceptionReturn', { isInterception: false });
+      this.toAppMethod('physicalReturnKeyInterception', { isInterception: false });
       this.goHome();
     },
     showBackModal() {

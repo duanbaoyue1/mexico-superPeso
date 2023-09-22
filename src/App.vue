@@ -88,7 +88,7 @@ export default {
     $route(to, from) {
       document.body.style.overflow = '';
       document.title = to.meta.title || '';
-      this.toAppMethod('isInterceptionReturn', { isInterception: false });
+      this.toAppMethod('physicalReturnKeyInterception', { isInterception: false });
       this.checkAndSetAppLocal();
       if (to.query.nextUrl && from && from.name) {
         // 为了解决进到还款页面以后退出到utr页面的问题

@@ -64,7 +64,7 @@ export default {
         if (res.returnCode == 2000) {
           this.$toast('submit success!');
           if (this.curStar >= 4) {
-            this.toAppMethod('goGoogleStore');
+            this.toAppMethod('goToMarket');
           }
           setTimeout(res => {
             this.$emit('update:show', false);

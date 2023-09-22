@@ -74,7 +74,7 @@ export default {
       if (data.success) {
         this.base64 = data.pic;
         this.base64ImgData = `data:image/png;base64,${data.base64[0]}`;
-        this.toAppMethod('getCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
+        this.toAppMethod('inCapture', { type: 4, callbackMethodName: `onPhotoSelectCallback_4` });
       }
     };
 
@@ -106,7 +106,7 @@ export default {
     };
   },
   mounted() {
-    this.toAppMethod('isInterceptionReturn', { isInterception: true, fuName: 'btnCallBack' });
+    this.toAppMethod('physicalReturnKeyInterception', { isInterception: true, fuName: 'btnCallBack' });
   },
 
   methods: {
@@ -115,7 +115,7 @@ export default {
       this.openWebview('https://www.baidu.com');
     },
     toLoginPage() {
-      this.toAppMethod('toLoginPage');
+      this.toAppMethod('inLoginPage');
     },
     openNewPage() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
@@ -134,7 +134,7 @@ export default {
       }
     },
     goGoogleStore() {
-      this.toAppMethod('goGoogleStore');
+      this.toAppMethod('goToMarket');
     },
     openNewPageFinishOld() {
       let routeInfo = this.$router.resolve({ name: 'help-center', query: { type: 3 } });
@@ -152,7 +152,7 @@ export default {
         alert('更新App信息:');
         alert(JSON.stringify(this.appGlobal));
       };
-      this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersKeyCallback' });
+      this.toAppMethod('commonParametersMaps', { fuName: 'getCommonParametersKeyCallback' });
     },
 
     tracker() {
@@ -160,7 +160,7 @@ export default {
     },
 
     getCapture(type) {
-      this.toAppMethod('getCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
+      this.toAppMethod('inCapture', { type: type, callbackMethodName: `onPhotoSelectCallback_${type}` });
     },
     /**
      * 获取用户拍照的图片信息

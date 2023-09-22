@@ -202,7 +202,7 @@ export default {
         this.updateData();
         this.created = true;
       };
-      this.toAppMethod('getCommonParameters', { fuName: 'getCommonParametersCallback' });
+      this.toAppMethod('commonParametersMaps', { fuName: 'getCommonParametersCallback' });
     },
 
     clickShowRecommend() {

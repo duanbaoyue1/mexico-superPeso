@@ -3,7 +3,7 @@ export default Vue => {
   let loadingComp = Vue.extend(loading);
   let loadingDom;
   function showLoading(msg, duration = 3e3) {
-    if (!this.toAppMethod('showAppLoading')) {
+    if (!this.toAppMethod('loadingGo')) {
       // 调用app loading 不成功
       try {
         hideLoading();
@@ -22,7 +22,7 @@ export default Vue => {
 
   function hideLoading() {
     try {
-      this.toAppMethod('dismissAppLoading');
+      this.toAppMethod('loadingFinish');
     } catch (error) {}
     try {
       loadingDom.show = false;
