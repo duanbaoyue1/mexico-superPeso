@@ -148,13 +148,13 @@ export default {
           confirmBtnText: 'Ok',
           confirmCallback: () => {
             this.hideMessageBox();
-            this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
+            this.toAppMethod('inBookMaps', { fuName: 'choosePhoneCallback' });
           },
           iconPath: 'superpeso/第一次吊起通讯录',
           showClose: false,
         });
       } else {
-        this.toAppMethod('getContactsContent', { fuName: 'choosePhoneCallback' });
+        this.toAppMethod('inBookMaps', { fuName: 'choosePhoneCallback' });
       }
     },
     async submit() {
