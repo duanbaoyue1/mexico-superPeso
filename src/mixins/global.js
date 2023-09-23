@@ -235,21 +235,21 @@ export default {
         wjs[`${name}`](JSON.stringify(params));
         return true;
       } catch (error) {
-        console.log('no such method:', `${name}_${this.appGlobal.appName}`);
+        console.log('no such method:', `${name}`);
         return false;
       }
     },
 
     bindAppCallbackMethod(name, callback) {
       try {
-        window[`${name}_${this.appGlobal.appName}`] = function (recieveData) {
+        window[`${name}`] = function (recieveData) {
           recieveData = recieveData || '';
           console.log('receive app method', name);
           console.log(recieveData);
           callback && callback.apply(this, [JSON.parse(recieveData)]);
         };
       } catch (error) {
-        console.log('no such callback method', `${name}_${this.appGlobal.appName}`);
+        console.log('no such callback method', `${name}`);
       }
     },
     goPrivacy() {

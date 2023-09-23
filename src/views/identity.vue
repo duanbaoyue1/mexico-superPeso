@@ -101,6 +101,7 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
+      console.log(data);
       if (data.success) {
         this.eventTracker('id_ine_front_submit');
         this.cardFrontBase64Src = `data:image/png;base64,${data.pic}`;
@@ -113,6 +114,7 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
+      console.log(data);
       if (data.success) {
         this.eventTracker('id_card_back_submit');
         this.cardBackBase64Src = `data:image/png;base64,${data.pic}`;
@@ -125,6 +127,7 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
+      console.log(data);
       if (data.success) {
         this.eventTracker('id_liveness_photo_submit');
         // this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.pic}`);

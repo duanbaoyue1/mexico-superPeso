@@ -55,7 +55,7 @@
             </div>
 
             <div>
-              <m-icon type="superpeso/Bajo tipo de interés" :width="40" :height="40" />
+              <m-icon type="superpeso/Bajo tipo de inters" :width="40" :height="40" />
               Bajo tipo de interés
             </div>
             <div>
