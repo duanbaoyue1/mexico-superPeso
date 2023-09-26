@@ -9,12 +9,12 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiHost: 'http://test.creditohucha.com',
-      appName: 'CreditoHucha',
+      apiHost: 'https://mexico-loan-test.6688-epoch.com',
+      appName: 'SuperPeso',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式
       mobileType: '2', // 手机类型
-      appVersion: 1180, // app版本号
+      appVersion: 1000, // app版本号
       userId: '111', // 用户id
       afId: '', // afid
       gaId: '', // gaid
