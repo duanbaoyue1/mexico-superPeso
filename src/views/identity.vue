@@ -4,34 +4,6 @@
       <complete-step :actionIndex="2"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="pan-img-wrapper">
-        <div class="pan-img" @click="getCapture(1)">
-          <template v-if="cardFrontOcrStatus">
-            <img class="back" :src="cardFrontBase64Src" />
-            <img class="btn" :src="require('@/assets/img/superpeso/完成.png')" />
-          </template>
-          <template v-else>
-            <img class="back" :src="require('@/assets/img/superpeso/卡正.png')" />
-            <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
-          </template>
-        </div>
-        <div class="pan-text">Front of INE / IFE</div>
-      </div>
-
-      <!-- <div class="pan-img-wrapper">
-        <div class="pan-img" @click="getCapture(2)">
-          <template v-if="cardBackOcrStatus">
-            <img class="back" :src="cardBackBase64Src" />
-            <img class="btn" :src="require('@/assets/img/superpeso/完成.png')" />
-          </template>
-          <template v-else>
-            <img class="back" :src="require('@/assets/img/superpeso/卡反.png')" />
-            <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
-          </template>
-        </div>
-        <div class="pan-text">Back of INE / IFE</div>
-      </div> -->
-
       <div class="pan-info" v-if="cardFrontOcrStatus">
         <div class="item">
           <label>Nombre</label>
@@ -53,10 +25,24 @@
           <label>RFC</label>
           <div class="value">
             {{ cardFrontOcrInfo.idNumber.slice(0, 10) }}
-            <input class="RFC" v-model="rfc" @keyup="checkCanSubmit" placeholder="RFC" />
+            <input class="RFC" ref="rfcItem" @click="clickRFC" v-model="rfc" placeholder="RFC" />
           </div>
         </div>
         <div class="tips">Los últimos 3 dígitos del RFC deben ser introducidos</div>
+      </div>
+
+      <div class="pan-img-wrapper">
+        <div class="pan-img" @click="getCapture(1)">
+          <template v-if="cardFrontOcrStatus">
+            <img class="back" :src="cardFrontBase64Src" />
+            <img class="btn" :src="require('@/assets/img/superpeso/完成.png')" />
+          </template>
+          <template v-else>
+            <img class="back" :src="require('@/assets/img/superpeso/卡正.png')" />
+            <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
+          </template>
+        </div>
+        <div class="pan-text">Front of INE / IFE</div>
       </div>
 
       <div class="pan-tips">Confirme la información básica de acuerdo con la identificación con foto cargada. Asegúrese de que la información básica sea consistente con su identificación con foto, de lo contrario afectará su préstamo.</div>
@@ -71,8 +57,7 @@
           <div class="cur-percent" :style="{ width: curPercent + '%' }"></div>
           <div class="tips" :style="{ left: curPercent + '%' }">{{ curPercent }}%</div>
         </div>
-        <div class="tips">Please be patient and wait for the upload to unlock the credit</div>
-        <m-icon class="close" type="superpeso/弹窗关闭" :width="24" :height="24" @click="submitSuccess = false" />
+        <div class="tips">Tenga paciencia y espere a que se desbloquee el límite de crédito</div>
       </div>
     </div>
   </div>
@@ -80,6 +65,7 @@
 
 <script>
 import CompleteStep from '@/components/complete-step.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -101,7 +87,6 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      console.log(data);
       if (data.success) {
         this.eventTracker('id_ine_front_submit');
         this.cardFrontBase64Src = `data:image/png;base64,${data.pic}`;
@@ -114,7 +99,6 @@ export default {
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      console.log(data);
       if (data.success) {
         this.eventTracker('id_card_back_submit');
         this.cardBackBase64Src = `data:image/png;base64,${data.pic}`;
@@ -122,16 +106,27 @@ export default {
       }
     };
 
+    // 活体检测advance 人脸SDK验证
     window.onPhotoSelectCallback_4 = data => {
       this.hideLoading();
       if (typeof data == 'string') {
         data = JSON.parse(data);
       }
-      console.log(data);
       if (data.success) {
         this.eventTracker('id_liveness_photo_submit');
-        // this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.pic}`);
         this.uploadImg(4, 'livenessId', data.livenessId);
+      }
+    };
+
+    // 活体检测acc 人脸拍照
+    window.onPhotoSelectCallback_8 = data => {
+      this.hideLoading();
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
+      if (data.success) {
+        this.eventTracker('id_liveness_photo_submit');
+        this.uploadImg(4, 'livingBase64Src', `data:image/png;base64,${data.pic}`);
       }
     };
 
@@ -156,22 +151,34 @@ export default {
       cardFrontOcrStatus: 0,
       cardBackOcrStatus: 0,
       orderId: this.$route.query.orderId,
+      ocrChannel: 'ADVANCE-Mexico',
     };
   },
 
   mounted() {
-    document.body.style.backgroundColor = '#fff';
+    document.body.style.backgroundColor = '#f9f9f9';
     this.eventTracker('id_access');
     this.initInfoBackControl();
     this.getLicense();
+    this.getOcrChannel();
   },
 
   methods: {
+    async getOcrChannel() {
+      try {
+        let res = await axios.post(`${process.env.VUE_APP_UPLOAD_DATA_APIPREFIX}/ocr/mexico/documentChannel`);
+        this.ocrChannel = res.data.data.mexico.channel;
+      } catch (error) {}
+    },
     async getLicense() {
       try {
         let res = await this.$http.post(`/api/ocr/advanceLicense`);
         this.license = res.data.license;
       } catch (error) {}
+    },
+
+    clickRFC() {
+      this.eventTracker('id_rfc_click');
     },
 
     getCapture(type) {
@@ -183,7 +190,7 @@ export default {
 
       let params = { type: type, callbackMethodName: `onPhotoSelectCallback_${type}`, license: this.license };
       params.photoBackMethodName = 'onPhotoBackCallback';
-      this.toAppMethod('inCapture', params);
+      this.toAppMethod('getCapture', params);
     },
 
     startPercent() {
@@ -244,6 +251,7 @@ export default {
               this.submitSuccess = false;
             }, 1000);
             this.eventTracker('id_ine_front_submit_success');
+            this.canSubmit = true;
           } else if (type == 2 && res.data.cardBackOcrStatus) {
             this.curPercent = 100;
             setTimeout(() => {
@@ -269,16 +277,6 @@ export default {
         }
       } catch (error) {
         this.logError(type, error);
-      } finally {
-        this.checkCanSubmit();
-      }
-    },
-
-    checkCanSubmit() {
-      if (this.cardFrontOcrStatus && this.rfc) {
-        this.canSubmit = true;
-      } else {
-        this.canSubmit = false;
       }
     },
 
@@ -298,12 +296,22 @@ export default {
       this.$toast(toastMessage);
     },
 
+    toLive() {
+      if (this.ocrChannel == 'ADVANCE-Mexico') {
+        this.getCapture(4);
+      } else {
+        this.getCapture(8);
+      }
+    },
+
     async submit() {
       this.eventTracker('id_submit');
       if (!this.rfc) {
-        this.$toast('please input rfc!');
+        this.$toast('Los últimos 3 dígitos del RFC deben ser introducidos!');
+        this.$refs.rfcItem.focus();
         return;
       }
+      this.showLoading();
       try {
         let saveData = {
           mark: 3,
@@ -311,12 +319,15 @@ export default {
         };
         let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
         if (res.returnCode == 2000) {
-          this.getCapture(4);
+          this.toLive();
+          this.eventTracker('id_rfc_done');
         } else {
           this.$toast('error!');
         }
       } catch (error) {
         this.$toast(error.message);
+      } finally {
+        this.hideLoading();
       }
     },
   },
@@ -324,9 +335,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .information {
-  padding: 20px 16px;
+  padding: 20px 0px;
   padding-bottom: 110px;
-  background: #fff;
+  background: #f9f9f9;
 
   .pan-text {
     font-size: 14px;
@@ -341,11 +352,9 @@ export default {
   }
 
   .pan-info {
-    margin-top: 20px;
     border-top: 4px solid #eee;
-    padding: 40px 16px 20px;
-    margin-left: -16px;
-    margin-right: -16px;
+    padding: 16px 16px 10px;
+    background: #fff;
     .item {
       display: flex;
       align-items: center;
@@ -355,7 +364,7 @@ export default {
       font-weight: 400;
       color: #000000;
       line-height: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       .RFC {
         color: #f95502;
         margin-left: 4px;
@@ -400,7 +409,7 @@ export default {
   }
 
   .pan-tips {
-    margin-top: 20px;
+    margin: 16px;
     font-size: 12px;
     font-weight: 400;
     color: #999;
@@ -432,7 +441,7 @@ export default {
   .pan-img-wrapper {
     background: #fff;
     padding: 20px 44px;
-    border-radius: 8px;
+    padding-bottom: 30px;
 
     .pan-img {
       position: relative;
@@ -468,7 +477,6 @@ export default {
       z-index: 2;
       transform: translateX(-50%);
     }
-
     &-content {
       width: 320px;
       height: 144px;
@@ -494,7 +502,7 @@ export default {
         position: relative;
         .cur-percent {
           height: 10px;
-          background: linear-gradient(270deg, #434af9 0%, #696ffb 100%);
+          background: #3767fe;
           border-radius: 5px;
           position: absolute;
           top: 0;
@@ -541,11 +549,12 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: #f9f9f9;
   }
   .step {
     padding-top: 10px;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
+    background: #fff;
   }
 }
 </style>

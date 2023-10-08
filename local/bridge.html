@@ -126,6 +126,9 @@
   </head>
   <body>
     <script>
+      try {
+        wjs.loadingGo('{}');
+      } catch (error) {}
       let queryParams = {};
 
       const h5_deploy_path = '{{h5_deploy_path}}';

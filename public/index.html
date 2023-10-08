@@ -10,6 +10,11 @@
     <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="https://cdn.staticfile.org/pako/1.0.10/pako.min.js"></script>
+    <script>
+      try {
+        wjs.loadingGo('{}');
+      } catch (error) {}
+    </script>
   </head>
   <body>
     <noscript>
