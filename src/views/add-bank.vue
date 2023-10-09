@@ -10,16 +10,6 @@
         <div class="label">Nombre de usuario</div>
         <input v-model="userInfo.customName" placeholder="Please enter your name" />
       </div>
-
-      <!-- <div class="line-item select-bank" @click="openSelectModel">
-        <div class="label">Forma de pago</div>
-        <input v-model="selectBank.text" disabled placeholder="Por favor, elija" />
-        <m-icon class="right" type="creditomax/黑下" :width="14" :height="12" />
-      </div>
-      <div class="line-item">
-        <div class="label">Número de cuenta receptora</div>
-        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="20" :disabled="markLoanCard != ''" v-model="editData.accountNumber" placeholder="Por favor escribe" />
-      </div> -->
     </div>
     <div class="select-area">
       <ul class="tab">

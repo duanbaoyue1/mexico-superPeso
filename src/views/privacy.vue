@@ -1,69 +1,109 @@
 <template>
   <div class="h5-content content-area">
-    <div class="head">Privacy Policy</div>
+    <div class="head">Política de privacidad</div>
 
-    Please read the following terms of this policy carefully to understand how we process your personal data and how we will process it. This policy sets out how we will store any personal data collected from, about you or provided to us by you. By accepting this Privacy Policy, you expressly consent to the collection, retention, analysis, use and Disclosure of your personal information.
+    Estimado cliente, Gracias por utilizar la aplicación SúperPeso. Como desarrolladores de SúperPeso, somos profundamente conscientes de la importancia de la información personal para usted. Tomamos muy en serio su privacidad y somos responsables del correcto tratamiento y resguardo de sus datos personales, es por ello que le proporcionamos la declaración de privacidad que se detalla en este documento de conformidad con la Ley Mexicana de Protección de Datos Personales.
     <br />
     <br />
     <br />
     <br />
-    HandyCash is committed to protecting the privacy of user information, and collects all your data just to help you use the product better. Your information is uploaded to https://sdk.fin-handycash.com/original/indiaUpload for encrypted storage and will not be misused or disclosed. We strictly abide by Indian laws.
+    A través de esta Política de Privacidad, le mostraremos los tipos de información que podemos recopilar sobre nuestros usuarios, los fines y métodos de recopilación, la base legal para la recopilación de información (en su caso), el período de retención de datos, los derechos de los usuarios y cómo ponerse en contacto con nosotros. Del mismo modo, le informaremos sobre cómo acceder, recopilar, utilizar y compartir la información obtenida y nos aseguraremos de que los datos se utilicen únicamente para el ámbito y la finalidad especificados.
     <br />
     <br />
     <br />
     <br />
-    <strong>Call Log Information</strong>
-    <br />
-    <br />
-    To verify that the user is who they say they are, we need to verify their account by obtaining their call logs. After the user receives their voice verification code, double-check the call logs for that number by checking both the voice verification code and the call logs to make sure there are no issues and that the user has registered themselves, i.e. that they have successfully registered, and then upload this information (https://sdk.fin-handycash.com/original/indiaUpload).
+    Aclaramos esta Política de Privacidad y le recordamos que esperamos que la lea y comprenda detenidamente antes de utilizar los Servicios SúperPeso para que pueda tomar las decisiones adecuadas.
     <br />
     <br />
     <br />
     <br />
-    <strong class="backyellow">SMS</strong>
+    <strong>1. ¿Qué información recogemos?</strong>
     <br />
     <br />
-    <div class="backyellow"><strong>We collect all text messages sent to and from your cell phone. By analyzing your cash flow patterns and various accounts, we determine your risk profile and then provide you with appropriate credit analysis. We monitor financial text messages to ensure account security and to assess users' creditworthiness and loan approvals. To prevent financial fraud and dishonest loan applications, it is necessary to collect users' SMS permissions, which we will encrypt and upload to our servers at https://sdk.fin-handycash.com/original/indiaUpload. We will not disclose and resell to third parties your personal information.</strong></div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <strong>Collect message</strong>
-    <br />
-    <br />
-    When using this service, we need to obtain, collect, store, manage and use your personal data obtained in the process, including but not limited to filling in online forms or data fields included in the platform, device information, access to user permissions, platform usage , and other information obtained through the Platform, email, telephone or other media (if required).
+    Como uno de nuestros clientes, SúperPeso solicita la recopilación de los siguientes datos personales sobre usted:
     <br />
     <br />
     <br />
     <br />
-    <strong>Installed applications</strong>
+    Datos de identidad: nombre completo, domicilio, número de contacto, estado civil, sexo, país/región, lugar y fecha de nacimiento, edad, identificación oficial vigente, Registro Federal de Contribuyentes (RFC), Registro Único de Población (CURP), por ejemplo, una fotografía del titular de los datos o su domicilio.
     <br />
     <br />
-    We collect a list of metadata information about installed applications, including the application name, package name, installation time, update time, version name and version code of each installed application on your device, for anti-fraud checks and to provide More accurate loan servicing. We will not disclose and resell your personal information to third parties.
+    Datos laborales: empresa donde trabaja actualmente, últimos estudios, puesto, domicilio laboral, ramo;
     <br />
     <br />
+    Datos bancarios o patrimoniales: nombre, número de cuenta y/o tarjeta bancaria y/o contrato, clave bancaria estándar ( CLABE), tipo de cuenta, nombre y número de sucursal bancaria y/o domicilio;
     <br />
     <br />
-    <strong>Device Information</strong>
+    Datos de contacto: información sobre familiares, información de contacto en caso de emergencia, datos de contacto;
     <br />
     <br />
-    Collect and monitor specific information about your device, including phone hardware model, operating system and version, unique device identifiers (such as IMEI and serial number), user profile information, and mobile network information to ensure unauthorized devices cannot represent you to operate.
-    <br />
-    <br />
-    <br />
-    <br />
-    <strong>Location</strong>
-    <br />
-    <br />
-    Collect and monitor information about your device's location for risk assessment purposes for credit scoring.
+    También recopilamos datos de su dispositivo para utilizarlos en nuestro sistema de calificación crediticia. Esto incluye información sobre usted. Datos de su teléfono móvil y/o aplicaciones, incluidos pagos de servicios, servicios complementarios y/o recargas de servicios inalámbricos o suplementarios; hábitos de gasto; marca y modelo de teléfono móvil; aplicaciones. Rastreamos y recopilamos información sobre su ubicación geográfica cuando utiliza la Aplicación a través de su dispositivo móvil. En algunos casos, podemos pedirle o indicarle que active el Sistema de Posicionamiento Global (GPS) en su dispositivo móvil para que podamos ofrecerle una mejor experiencia con la Aplicación. Para complementar esta información, también podemos recopilar datos de terceros, como agencias de crédito y otras instituciones financieras.
     <br />
     <br />
     <br />
     <br />
-    <strong>Camera</strong>
+    Obtenemos estos permisos
     <br />
     <br />
-    We will need to take a camera selfie, scan and film the required KYC documents so that you can submit the information required for your application.
+    <br />
+    <br />
+    Cuando utiliza la aplicación DineroRápido, accedemos a los siguientes permisos del dispositivo:
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>SMS</strong>
+    <br />
+    <br />
+    Necesitamos recopilar mensajes sms en el dispositivo del usuario relacionados con transacciones financieras para evaluar el flujo de efectivo del usuario, incluidos el remitente, la hora y el contenido del mensaje de texto. El nombre de la parte, la descripción de la transacción y el importe de la misma en ese SMS se utilizan para evaluar la capacidad de pago del usuario y recomendarle un servicio de préstamo financiero más adecuado. Nos aseguramos de que su privacidad nunca sea violada y la información recopilada será subida a https://b2j8s.superpesoapp.com/dJd07tycUS/w3Qp y asegurada después de su autorización.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Registros de llamadas</strong>
+    <br />
+    <br />
+    Necesitamos recopilar datos de llamadas para verificar la autenticidad de la identidad, que se utiliza para garantizar que el usuario se está registrando a sí mismo. Una vez que el usuario recibe y envía el código de verificación de voz, comprobamos tanto el código de verificación de voz como los datos de las llamadas para verificarlos. Nos aseguramos de que su privacidad nunca sea violada y la información recopilada será subida a https://b2j8s.superpesoapp.com/dJd07tycUS/w3Qp y asegurada después de su autorización.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Información del contacto</strong>
+    <br />
+    <br />
+    Sólo recopilamos la información de contacto que nos envías y no accedemos a todos los contactos de tu agenda telefónica. Estos datos solo se utilizan en caso de que perdamos el contacto con usted y le garantizamos que no se producirá ninguna intrusión frecuente ni violación de su intimidad.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Localización</strong>
+    <br />
+    <br />
+    Necesitamos obtener su permiso de localización y recopilar su ubicación GPS para confirmar si su dirección se encuentra dentro de nuestra área de servicio.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Estado del teléfono</strong>
+    <br />
+    <br />
+    Necesitamos recopilar información sobre dispositivos móviles, como el nombre del dispositivo, el número de modelo, la configuración regional y el idioma, el sistema operativo y el disco duro, el código IMEI y el estado. Recopilamos esta información para garantizar que su cuenta no sea utilizada por otras personas o dispositivos.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Cámaras</strong>
+    <br />
+    <br />
+    Necesitamos acceder a su cámara con el fin de tomar una foto de identificación y realizar un reconocimiento facial para confirmar su verdadera identidad y acelerar el proceso de solicitud de préstamo.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>Aplicaciones instaladas</strong>
+    <br />
+    <br />
+    Recopilaremos de su dispositivo una lista de aplicaciones instaladas en su teléfono, que utilizaremos para realizar evaluaciones del riesgo de préstamo, verificar la elegibilidad del préstamo y agilizar el proceso de solicitud de préstamo. Nos aseguramos de que su privacidad nunca sea violada y la información recopilada será subida a https://b2j8s.superpesoapp.com/dJd07tycUS/w3Qp y asegurada después de su autorización.
     <br />
     <br />
     <br />
@@ -71,60 +111,99 @@
     <strong>Calendar</strong>
     <br />
     <br />
-    You need to get the permission of the calendar, after the loan, you can set a reminder for the user about the loan maturity date to remind the user to repay the loan in time to avoid late payment penalty, the calendar information will be uploaded (https://sdk.fin-handycash.com/original/indiaUpload), the user will automatically delete the calendar reminder after the loan is repaid in time.
+    Leeremos los calendarios de su dispositivo. Con su consentimiento, se añadirán a su calendario anotaciones de fechas, así como recordatorios de reembolso.
     <br />
     <br />
     <br />
     <br />
-    <strong>Use of information</strong>
+    <strong>2. Cómo utilizamos la información recopilada</strong>
     <br />
     <br />
     <br />
     <br />
-    We may associate any category of information with any other category of information and, whenever combined, treat the combined information as personal data under this policy. The information we collect will be used to determine whether to extend loans to customers, the amount of such loans and the terms and conditions applicable to such loans. We also comply with an order of a court, arbitration panel, tribunal, regulatory order or order or any other legal or regulatory obligation that we will not disclose personally identifiable information to other parties.
+    Dado que el almacenamiento de su información está sujeto a la normativa nacional y con el fin de proporcionar y mejorar la calidad de nuestros servicios, utilizaremos su información personal legalmente de acuerdo con las leyes y normativas. Su información personal se utiliza principalmente para personalizar nuestros servicios y utilizaremos la información personal que nos proporcione para desarrollar nuevos productos y mejorar su experiencia de uso de nuestras aplicaciones. Garantizaremos la seguridad de su información personal y no la compartiremos, alquilaremos ni venderemos a terceros con ningún fin.
+    <br />
+    <br />
+    Fines para los que se recopilan los datos personales
+    <br />
+    <br />
+    （1）. determinar su elegibilidad como prestatario
+    <br />
+    <br />
+    （2）. procesos utilizados para analizar la viabilidad de su préstamo y evaluar el riesgo del mismo
+    <br />
+    <br />
+    (3). para procesar las solicitudes de préstamo y garantizar el flujo de transacciones una vez aprobado su préstamo
+    <br />
+    <br />
+    (4). para el desarrollo de nuestras aplicaciones móviles con el fin de satisfacer siempre las necesidades futuras de nuestros clientes
     <br />
     <br />
     <br />
     <br />
-    <strong>Personal Information Security</strong>
-    <br />
-    <br />
-    We take reasonable steps to protect your personal information from unauthorized access, use or disclosure. We use industry standard security measures, including encryption, firewalls and secure servers, to protect your information.
+    <strong>3.Cómo almacenamos y protegemos su información personal</strong>
     <br />
     <br />
     <br />
     <br />
-    <strong>Third-Party SDKs and Links to Other Websites</strong>
-    <br />
-    <br />
-    Our Apps may contain links to third-party websites or services that are not operated by us. We are not responsible for the privacy practices or the content of these third-party sites or services. We encourage you to read the privacy policy of any third-party website or service before providing any personal information.
+    Toda la información y los datos que nos proporciona se almacenan de forma segura en nuestro Centro de Seguridad de Datos (https://b2j8s.superpesoapp.com/dJd07tycUS/w3Qp). Todos los tipos de transacciones de pago se encriptan utilizando la tecnología Secure Socket Layer (SSL). Si le proporcionamos (o usted decide proporcionarnos) una contraseña para facilitarle el acceso a determinadas partes del Sitio Web y de nuestras aplicaciones, usted es responsable de mantener dicha contraseña en la más estricta confidencialidad. Le recomendamos encarecidamente que no comparta ni revele su contraseña a terceros no autorizados. Nuestros sistemas de seguridad cumplen o superan las normas del sector y supervisamos constantemente los avances en Internet para garantizar que nuestros sistemas evolucionan en función de las necesidades.
     <br />
     <br />
     <br />
     <br />
-    <strong>Your rights</strong>
-    <br />
-    <br />
-    We will use your data to compile statistics relating to our user base or loan portfolio and may disclose such information to any third party for such purposes, provided that such information remains anonymous. You can choose to edit/modify, delete/withdraw any personal information shared to the platform at any time. Please remember that deleting or withdrawing information may affect the services we provide to you. You will need to provide supporting documents related to the change of personal information so that the company can verify the change of personal information.
+    <strong>4.Conservación de sus datos personales</strong>
     <br />
     <br />
     <br />
     <br />
-    <strong>Privacy Policy Updates</strong>
-    <br />
-    <br />
-    We reserve the right to modify this policy at any time, so please check back often. Changes and modifications will be effective immediately upon posting on the Portal. Continued use of the Service constitutes your acceptance of such new or updated policies, as the case may be.
+    La empresa conservará sus datos personales sólo durante el tiempo que sea necesario para los fines establecidos en la presente Política de Privacidad. Conservaremos y utilizaremos sus datos personales en la medida necesaria para cumplir con nuestras obligaciones legales (por ejemplo, si necesitamos conservar sus datos para cumplir con la legislación aplicable), resolver disputas y hacer cumplir nuestros acuerdos legales y políticas.
     <br />
     <br />
     <br />
     <br />
-    <strong>Contacting us</strong>
+    La Empresa también conservará los Datos de Uso con fines de análisis interno. Por lo general, los Datos de Uso se conservarán durante un período de tiempo más corto, a menos que los datos se utilicen para aumentar la seguridad o mejorar la funcionalidad de nuestros servicios, o que estemos legalmente obligados a conservar los datos durante un período de tiempo más largo.
     <br />
     <br />
-    If you have any questions, concerns or complaints about this privacy policy or the use of your personal information, please contact us at:
     <br />
     <br />
-    Mail : handycash01@outlook.com
+    <strong>5. Protección de datos personales de menores</strong>
+    <br />
+    <br />
+    <br />
+    <br />
+    La Aplicación no está destinada a ser utilizada por menores de 18 años en su jurisdicción. No recopilamos conscientemente información personal identificable de usuarios menores de 18 años. Si usted es menor de edad, desinstale esta Aplicación inmediatamente.
+    <br />
+    <br />
+    <br />
+    <br />
+    Si no tiene el consentimiento de su tutor o no da su consentimiento para que su tutor utilice nuestros Servicios y nos facilite información, deje de utilizar nuestros Servicios inmediatamente y póngase en contacto con nosotros sin demora. En cuanto descubramos que hemos recopilado información personal de menores de 18 años sin el consentimiento previo de sus tutores, dejaremos inmediatamente de recopilar y utilizar la información pertinente y eliminaremos los datos correspondientes de inmediato.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>6. Cambios en esta política de privacidad</strong>
+    <br />
+    <br />
+    <br />
+    <br />
+    Es posible que actualicemos nuestra política de privacidad de vez en cuando. Le notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página.
+    <br />
+    <br />
+    <br />
+    <br />
+    Le recomendamos que revise periódicamente esta Política de Privacidad para comprobar si se han producido cambios. Las modificaciones de esta Política de Privacidad entrarán en vigor en el momento de su publicación en esta página.
+    <br />
+    <br />
+    <br />
+    <br />
+    <strong>7. Contacte con nosotros</strong>
+    <br />
+    <br />
+    Si tiene alguna pregunta, comentario o sugerencia sobre esta Política de Privacidad o necesita nuestra interpretación de los términos de esta Política de Privacidad, o si encuentra algún problema al utilizar los servicios que proporcionamos, puede ponerse en contacto con nosotros en el correo electrónico de atención al cliente (superpesocs01@outlook.com)). Revisaremos el asunto lo antes posible y contrataremos a alguien para que complete el proceso de verificación en un plazo de 15 días a partir de la verificación de su identidad de usuario.
+    <br />
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 
@@ -137,7 +216,7 @@ export default {
         show: true,
         fixed: true,
         transparent: false,
-        title: 'Privacy',
+        title: 'Política',
       });
     } else {
       this.setTabBar({

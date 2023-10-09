@@ -33,40 +33,36 @@
 export default {
   data() {
     return {
-      feedEmail: 'CreditoHucha@outlook.com',
+      feedEmail: 'superpesocs01@outlook.com',
       questions: [
         {
-          desc: '¿Qué es CréditoCash?',
-          answer: 'CréditoCash es un prestamista en línea con licencia que ofrece préstamos instantáneos y reembolsos de facturas',
+          desc: '¿Cómo solicito un préstamo?',
+          answer: 'Puede descargar SúperPeso desde la tienda de aplicaciones o la tienda de juegos, registrarse con su número de móvil e iniciar sesión para solicitar un préstamo.',
         },
         {
-          desc: '¿Por qué elegir CréditoCash?',
-          answer: 'CréditoCash es una plataforma de préstamos personales segura, sencilla y rápida. Antes de recibir su salario, si necesita comprar algún producto electrónico u otra cosa en caso de emergencia, puede solicitar un préstamo personal a corto plazo desde CréditoCash.',
+          desc: '¿Cómo obtengo el importe de un préstamo?',
+          answer: 'Inicia sesión en la aplicación. Tras seguir el proceso e introducir la información personal solicitada, evaluaremos tu solicitud una vez completada. Esto determinará si se le concederá una línea de crédito. Para asegurarse de que obtiene el importe del préstamo, le recomendamos que verifique la validez de toda su información.',
         },
         {
-          desc: '¿Cómo puedo obtener un préstamo instantáneo?',
-          answer: 'Necesita un teléfono Android. Descargue la aplicación CréditoCash desde Google Play Store. Se registra con el número de teléfono, responde algunas preguntas y confirma la identidad para recibir una oferta de préstamo. Si la acepta, recibirá tu préstamo instantáneamente en su cuenta bancaria preferida!',
+          desc: 'He cometido un error al rellenar mi perfil, ¿puedo modificarlo?',
+          answer: 'Con el fin de conservar y proteger los datos personales, después de que sus datos se envíen correctamente no se permite la modificación. Por favor, compruebe cuidadosamente la información introducida antes de enviarla.',
         },
         {
-          desc: '¿Qué puedo hacer si no puedo recibir la OTP cuando inicio sesión en la aplicación?',
-          answer: 'El problema de red puede afectar la generación de OTP. Reinicia la aplicación/teléfono e intenta de nuevo. Si realmente no funciona después de algunas veces, no duda en contactar con nosotros a través de nuestro centro de ayuda en la aplicación CréditoCash.',
+          desc: '¿Puedo pagar anticipadamente?',
+          answer: 'Absolutamente, pagar por adelantado le ayudará a mejorar su puntuación de crédito y a desbloquear un límite más alto, por lo que podrá pedir más dinero prestado la próxima vez.',
         },
         {
-          desc: '¿Por qué fue rechazada mi solicitud de préstamo?',
-          answer: 'Disculpa por eso, puede ser por diferentes razones:<br/>1. No se ha encontrado suficiente información en el teléfono: Debe incrementar el uso del teléfono (llamadas/mensajes) para ser elegible.<br/>2. Decidimos no darle un crédito en este momento después de analizar su perfil.',
+          desc: '¿Cuánto tarda el proceso de aprobación del préstamo?',
+          answer: 'Después de rellenar todos tus datos personales y enviar tu solicitud de préstamo, ésta se tramitará en unos minutos o hasta en 1 hora.',
         },
         {
-          desc: 'Pasé la auditoría y confirmé obtener el préstamo, pero no recibí el dinero de inmediato, ¿por qué?',
-          answer: 'En algunos casos, pueden pasar hasta 24 horas para que se apruebe el préstamo y, en consecuencia, se acredite en su cuenta bancaria.',
+          desc: '¿Puedo cancelar mi préstamo después de haberlo solicitado?',
+          answer: 'Hola, no es posible cancelar el préstamo si la solicitud ya está en proceso de revisión. Si ya ha recibido su préstamo, le rogamos que efectúe los reembolsos a tiempo para evitar sanciones por demora.',
         },
         {
-          desc: '¿Puedo pagar por adelantado en CréditoCash?',
-          answer: 'Sí, puede pagar por adelantado en CréditoCash antes de la fecha de vencimiento, esto ayudará a aumentar su puntaje crediticio.',
-        },
-        {
-          desc: '¿Se divulgará mi información personal?',
-          answer: 'Hemos agregado un acuerdo confidencial a la aplicación para proteger toda la información personal del usuario y nos aseguramos de que la información no se divulgue a otros. ',
-        },
+          desc: '¿Puedo cambiar mi cuenta bancaria receptora?',
+          answer: 'Hola, puede vincular una nueva tarjeta bancaria en Centro Personal - Cuenta receptora y establecerla como tarjeta receptora por defecto, cuando solicite un nuevo préstamo, el importe del préstamo se transferirá a su nueva tarjeta bancaria. Nota: Si hay una orden de préstamo que está siendo solicitada, el importe del préstamo para esta orden seguirá siendo transferido a su tarjeta bancaria anterior, incluso si cambia a una nueva tarjeta bancaria.',
+        }
       ],
     };
   },
