@@ -32,6 +32,17 @@ export default {
   components: {
     CompleteStep,
   },
+  computed: {
+    computedType() {
+      return card => {
+        if (this.chooseBankId == card.id) {
+          return card.type == 0 ? 'hucha/卡选中图标' : 'hucha/clabe点亮';
+        } else {
+          return card.type == 0 ? 'hucha/卡未选中图标' : 'hucha/Clabe灰';
+        }
+      };
+    },
+  },
   watch: {
     chooseBankId: {
       handler() {
@@ -59,6 +70,7 @@ export default {
       orderId: this.$route.query.orderId,
       chooseBankId: '',
       saving: false,
+      curChooseBank: '',
       editData: {
         friendName: '',
         friendPhone: '',
@@ -69,6 +81,7 @@ export default {
   },
 
   mounted() {
+    document.body.style.backgroundColor = '#fff';
     this.getBanks();
     if (this.from != 'mine') {
       this.eventTracker('bank_access');
@@ -78,28 +91,58 @@ export default {
   methods: {
     goAddCard() {
       this.eventTracker('bank_add');
-      this.innerJump('add-bank', this.$route.query);
+      this.innerJump('add-bank', { orderId: this.orderId });
     },
     async getBanks() {
       let data = await this.$http.post('/api/remittance/remittanceAccountList');
-      this.cards = data.data.list;
-      this.chooseBankId = this.cards[0].id;
+      this.cards = data.data.list || [];
+      let chooseBank = this.cards.filter(t => t.markLoanCard == 1);
+      if (chooseBank.length) {
+        this.chooseBankId = chooseBank[0].id;
+        this.curChooseBank = chooseBank[0];
+      } else if (this.cards.length > 0) {
+        this.chooseBankId = this.cards[0].id;
+        this.curChooseBank = this.cards[0];
+      }
     },
 
     async chooseBank(bank) {
+      this.curChooseBank = bank;
       this.chooseBankId = bank.id;
     },
 
     async submit() {
       this.showLoading();
+      this.eventTracker('bank_submit');
       try {
-        // 从个人中心进来，则是修改默认卡
-        await this.$http.post(`/api/remittance/modifyLoanCard`, {
-          remittanceAccountId: chooseBankId,
-        });
-        this.hideLoading();
-        this.eventTracker('bank_submit_success');
-        this.$toast('Vinculación de la tarjeta bancaria con éxito');
+        if (this.from == 'order') {
+          // 绑卡
+          await this.$http.post(`/api/order/bindRemittanceAccount`, { remittanceAccountId: this.chooseBankId, orderId: this.orderId });
+          // 判断是否需要确认订单
+          let appMode = await this.getAppMode();
+          if (appMode.confirmType == 1) {
+            // 需要进确认申请页
+            this.innerJump('loan-confirm', { orderId: this.orderId }, true);
+          } else {
+            // 不需要进确认申请页
+            this.innerJump('loan-success-multi', { orderId: this.orderId, single: true, systemTime: this.getLocalSystemTimeStamp() }, true);
+          }
+        } else {
+          // 从个人中心进来，则是修改默认卡
+          await this.$http.post(`/api/remittance/modifyLoanCard`, {
+            // remittanceAccountId: this.chooseBankId,
+            accountNumber: this.curChooseBank.accountNumber,
+            bank: this.curChooseBank.bank,
+            name: this.curChooseBank.name,
+            type: this.curChooseBank.type,
+          });
+          this.hideLoading();
+          this.eventTracker('bank_submit_success');
+          this.$toast('Vinculación de la tarjeta bancaria con éxito');
+          setTimeout(res => {
+            this.innerJump('mine');
+          }, 1000);
+        }
       } catch (error) {
         this.$toast(error.message);
       } finally {

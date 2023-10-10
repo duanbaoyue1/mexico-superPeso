@@ -213,7 +213,7 @@ export default {
   mounted() {
     if (!this.noHeader) {
       this.setTabBar({
-        show: true,
+        show: false,
         fixed: true,
         transparent: false,
         title: 'Política',
