@@ -4,6 +4,7 @@
       <div class="cards-list">
         <div v-for="card in cards" class="cards-item" :class="{ active: chooseBankId == card.id }" :key="card.id" @click="chooseBank(card)">
           <div class="card-name">
+            <m-icon :class="{ active: chooseBankId == card.id }" :type="computedType(card)" :width="32" :height="32" />
             <div>
               <div class="name">{{ card.bank }}（{{ card.accountNumber | phoneHideFilter }}）</div>
             </div>
@@ -36,9 +37,9 @@ export default {
     computedType() {
       return card => {
         if (this.chooseBankId == card.id) {
-          return card.type == 0 ? 'hucha/卡选中图标' : 'hucha/clabe点亮';
+          return card.type == 0 ? 'superpeso/银行卡点亮' : 'superpeso/Clabe点亮';
         } else {
-          return card.type == 0 ? 'hucha/卡未选中图标' : 'hucha/Clabe灰';
+          return card.type == 0 ? 'superpeso/银行卡未点亮' : 'superpeso/Clabe灰';
         }
       };
     },
@@ -130,7 +131,6 @@ export default {
         } else {
           // 从个人中心进来，则是修改默认卡
           await this.$http.post(`/api/remittance/modifyLoanCard`, {
-            // remittanceAccountId: this.chooseBankId,
             accountNumber: this.curChooseBank.accountNumber,
             bank: this.curChooseBank.bank,
             name: this.curChooseBank.name,
@@ -192,7 +192,7 @@ export default {
       height: 52px;
       display: flex;
       align-items: center;
-      padding: 0 20px;
+      padding: 0 16px;
       font-size: 15px;
       font-weight: 400;
       color: #3b3735;
@@ -209,6 +209,7 @@ export default {
         border: 2px solid #333333;
         background: #43e0a2;
         .card-name {
+
           .name {
             color: #3b3735;
           }
@@ -246,7 +247,10 @@ export default {
       }
       .card-name {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
+        img {
+          margin-right: 8px;
+        }
         > div {
           .name {
             font-size: 16px;

@@ -34,12 +34,12 @@ export default {
 
     // this.toAppMethod('needBackControl', { need: true });
     let res = await this.$http.post(`/api/user/smsLogin`, {
-      loginName: '5555210095',
+      loginName: '5556210099',
       smsCode: '0000',
       platform: 'android',
       afId: '12212',
       gaId: '122221',
-      androidId: '1123233',
+      androidId: '11232333',
       imei: '222222322',
     });
     console.log(res);

@@ -1,7 +1,6 @@
 <template>
   <van-nav-bar :class="{ transparent: tabBar.transparent, white: tabBar.color == 'white' }" :style="{ background: backgroundColor }" :fixed="tabBar.fixed" :title="tabBar.title" @click-left="onBack">
     <template #left>
-      <!-- <m-icon v-if="tabBar.color == 'white'" type="hucha/白返回" :width="16" :height="16" /> -->
       <m-icon type="superpeso/返回" :width="16" :height="16" />
     </template>
   </van-nav-bar>

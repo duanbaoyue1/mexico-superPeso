@@ -3,7 +3,7 @@
     <div class="pay-item" v-for="(item, index) in lists" :key="item.repaymentTime" @click="showContent(index)">
       <div class="head">
         <span>{{ item.repaymentTime }}</span>
-        <m-icon class="icon" :class="{ open: item.showContent }" type="hucha/黑右" :width="16" :height="16" />
+        <m-icon class="icon" :class="{ open: item.showContent }" type="superpeso/黑右" :width="16" :height="16" />
       </div>
       <div class="content-1">
         <span>Monto del reembolso del préstamo</span>

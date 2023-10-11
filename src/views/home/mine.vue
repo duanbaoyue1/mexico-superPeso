@@ -30,13 +30,13 @@
         <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
-      <div @click="innerJump('about')">
+      <!-- <div @click="innerJump('about')">
         <div>
           <m-icon class="icon" type="superpeso/Permisos de la aplicación" :width="24" :height="24" />
           Permisos de la aplicación
         </div>
         <m-icon type="superpeso/向右" :width="8" :height="12" />
-      </div>
+      </div> -->
 
       <div @click="innerJump('settings')">
         <div>
