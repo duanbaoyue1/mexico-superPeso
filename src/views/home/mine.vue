@@ -62,16 +62,6 @@
         <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
     </div>
-
-    <van-overlay :show="showLogOut" @click="showLogOut = false">
-      <div class="logout" @click.stop>
-        <img :src="require('@/assets/img/handy/个人中心推出弹窗.png')" />
-        <div class="content">
-          <div>Are you sure you want to log out?</div>
-          <button @click="logout">Yes</button>
-        </div>
-      </div>
-    </van-overlay>
   </div>
 </template>
 <script>
@@ -87,7 +77,6 @@ export default {
   data() {
     return {
       isTestAccount: false, // 是否google测试账号
-      showLogOut: false,
     };
   },
   async mounted() {
