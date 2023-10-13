@@ -55,6 +55,7 @@ service.interceptors.request.use(
     config.headers['gps'] = store.getters.appGlobal.gps;
     config.headers['gpsAddress'] = encodeURIComponent(store.getters.appGlobal.gpsAddress);
     config.headers['afId'] = store.getters.appGlobal.afId;
+    config.headers['fbId'] = store.getters.appGlobal.fbId;
     config.headers['gaId'] = store.getters.appGlobal.gaId;
     config.headers['appName'] = store.getters.appGlobal.appName;
     config.headers['appVersion'] = store.getters.appGlobal.appVersion;

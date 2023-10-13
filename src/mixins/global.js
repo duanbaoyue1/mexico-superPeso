@@ -203,7 +203,7 @@ export default {
 
     async getAppMode() {
       try {
-        let data = await this.$http.post(`/api/product/appMaskModel`);
+        let data = await this.$http.post(`/api/product/appMaskModelNew`);
         let appMode = data.data;
         this.setAppMode(appMode);
         return appMode;

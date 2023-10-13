@@ -18,6 +18,7 @@ export default new Vuex.Store({
       userId: '111', // 用户id
       afId: '', // afid
       gaId: '', // gaid
+      fbId: '', // fbId
       packageId: '',
       gpsAddress: '', // gps地址
       channelCode: 'google', // 渠道号
