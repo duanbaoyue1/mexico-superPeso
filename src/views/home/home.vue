@@ -193,6 +193,11 @@ export default {
         data = data || {};
         delete data.apiHost;
         if (data.appVersionCode) {
+          if (+data?.appVersionCode > +this.$route.query.appVersion) {
+            this.hideLoading();
+            this.toAppMethod('inLoginPage');
+            return;
+          }
           data.appVersion = data.appVersionCode;
         }
         if (data.appVersionName) {
