@@ -42,7 +42,7 @@
             <img class="btn" :src="require('@/assets/img/superpeso/相机.png')" />
           </template>
         </div>
-        <div class="pan-text">Front of INE / IFE</div>
+        <div class="pan-text">Fachada del INE / IFE</div>
       </div>
 
       <div class="pan-tips">Confirme la información básica de acuerdo con la identificación con foto cargada. Asegúrese de que la información básica sea consistente con su identificación con foto, de lo contrario afectará su préstamo.</div>
