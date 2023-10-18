@@ -36,7 +36,7 @@
     </div>
 
     <div class="submit">
-      <button :disabled="!content" @click="submit">Ok</button>
+      <button :disabled="!content" @click="submit">OK</button>
     </div>
   </div>
 </template>

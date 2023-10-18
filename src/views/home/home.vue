@@ -564,7 +564,7 @@ export default {
         }
         .action-tips {
           font-size: 13px;
-          font-family: Roboto-Medium, Roboto;
+          font-family: Roboto-Regular, Roboto;
           font-weight: 500;
           margin-top: 10px;
           color: #fa0000;
@@ -612,7 +612,7 @@ export default {
           align-items: baseline;
           .dollar {
             font-size: 24px;
-            font-family: Roboto-Medium, Roboto;
+            font-family: Roboto-Regular, Roboto;
             font-weight: 500;
             color: #ffffff;
             line-height: 32px;
@@ -629,7 +629,7 @@ export default {
           background: #1c1c1c;
           border-radius: 4px;
           font-size: 16px;
-          font-family: Roboto-Medium, Roboto;
+          font-family: Roboto-Regular, Roboto;
           font-weight: 500;
           color: #ffffff;
           line-height: 20px;
@@ -645,7 +645,7 @@ export default {
             padding-left: 8px;
             padding-right: 28px;
             font-size: 14px;
-            font-family: Roboto-Medium, Roboto;
+            font-family: Roboto-Regular, Roboto;
             font-weight: 500;
             color: #ffffff;
             line-height: 20px;
@@ -657,7 +657,7 @@ export default {
 
             div {
               font-size: 10px;
-              font-family: Roboto-Medium, Roboto;
+              font-family: Roboto-Regular, Roboto;
               font-weight: 500;
               color: #ffffff;
               line-height: 12px;
@@ -725,7 +725,7 @@ export default {
             height: initial;
             span {
               font-size: 12px;
-              font-family: Roboto-Bold, Roboto;
+              font-family: Roboto-regular, Roboto;
               font-weight: bold;
               color: #ffffff;
               line-height: 16px;

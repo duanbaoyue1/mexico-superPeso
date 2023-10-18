@@ -93,7 +93,7 @@ export default {
         return;
       }
       try {
-        let res = await this.$http.post(`/api/user/createPassword`, { passwd: md5(this.editData.passwd) });
+        let res = await this.$http.post(`/api/user/createPassword`, { phoneNumber: this.userInfo.mobile, appType: 1, passwd: md5(this.editData.passwd) });
         if (res.returnCode == 2000) {
           this.submitSuccess = true;
           this.updateToken({ token: res.data.token });

@@ -140,7 +140,7 @@ export default {
         right: 16px;
         font-size: 10px;
         padding: 0 6px;
-        font-family: Roboto-Medium, Roboto;
+        font-family: Roboto-Regular, Roboto;
         font-weight: 500;
         color: #ffbd5c;
         line-height: 12px;

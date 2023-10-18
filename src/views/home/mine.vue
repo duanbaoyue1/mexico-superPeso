@@ -54,13 +54,13 @@
         <m-icon type="superpeso/向右" :width="8" :height="12" />
       </div>
 
-      <div @click="logout">
+      <!-- <div @click="logout">
         <div>
           <m-icon class="icon" type="superpeso/Delete Account" :width="24" :height="24" />
           Log Out
         </div>
         <m-icon type="superpeso/向右" :width="8" :height="12" />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -149,7 +149,7 @@ export default {
     .content {
       padding-top: 20px;
       font-size: 16px;
-      font-family: Roboto-Medium, Roboto;
+      font-family: Roboto-Regular, Roboto;
       font-weight: 500;
       color: #333333;
       line-height: 20px;

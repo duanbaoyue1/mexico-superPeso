@@ -310,7 +310,7 @@ export default {
     }
     .head {
       font-size: 14px;
-      font-family: Roboto-Medium, Roboto;
+      font-family: Roboto-Regular, Roboto;
       font-weight: 500;
       color: #333333;
       line-height: 20px;

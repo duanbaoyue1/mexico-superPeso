@@ -312,7 +312,7 @@ export default {
     margin-top: 0;
     .history {
       font-size: 14px;
-      font-family: Roboto-Medium, Roboto;
+      font-family: Roboto-Regular, Roboto;
       font-weight: 500;
       color: #ff4b3f;
       line-height: 24px;

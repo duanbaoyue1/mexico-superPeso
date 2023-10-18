@@ -144,7 +144,7 @@ export default {
     display: flex;
     align-items: center;
     font-size: 16px;
-    font-family: Roboto-Medium, Roboto;
+    font-family: Roboto-Regular, Roboto;
     font-weight: 500;
     color: #333333;
     padding-bottom: 24px;

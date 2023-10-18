@@ -87,7 +87,7 @@ export default {
     .content {
       margin-bottom: 32px;
       font-size: 14px;
-      font-family: Roboto-Medium, Roboto;
+      font-family: Roboto-Regular, Roboto;
       font-weight: 400;
       color: #333333;
       line-height: 20px;

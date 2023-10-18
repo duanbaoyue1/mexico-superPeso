@@ -78,7 +78,7 @@ export default {
       if (mobile.length < 10 || mobile.length > 15) {
         this.showMessageBox({
           content: 'El número de móvil del contacto no está en el formato correcto, por favor, vuelva a seleccionarlo',
-          confirmBtnText: 'Ok',
+          confirmBtnText: 'OK',
           confirmCallback: () => {
             this.hideMessageBox();
           },
@@ -92,7 +92,7 @@ export default {
       if (currentPhone.includes(mobile)) {
         this.showMessageBox({
           content: 'Número de móvil duplicado, seleccione otro contacto',
-          confirmBtnText: 'Ok',
+          confirmBtnText: 'OK',
           confirmCallback: () => {
             this.hideMessageBox();
           },
@@ -145,7 +145,7 @@ export default {
         localStorage.setItem(FIRST_GET_PHONE_KEY, 'true');
         this.showMessageBox({
           content: 'Por favor, asegúrate de elegir un número de móvil real o el dinero no será liberado',
-          confirmBtnText: 'Ok',
+          confirmBtnText: 'OK',
           confirmCallback: () => {
             this.hideMessageBox();
             this.toAppMethod('inBookMaps', { fuName: 'choosePhoneCallback' });

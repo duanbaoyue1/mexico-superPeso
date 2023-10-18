@@ -15,21 +15,21 @@
 
       <van-tabbar route name="fade" v-if="$route.meta.showTab">
         <van-tabbar-item replace to="/home">
-          <span>Loans</span>
+          <span>Préstamos</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'superpeso/Loans1' : 'superpeso/Loans未点击'" class="nav-icon" :width="24" :height="24" />
           </template>
         </van-tabbar-item>
 
         <van-tabbar-item replace to="/repayment" :badge="repaymentNum > 0 ? repaymentNum : ''" v-if="showRepayment">
-          <span>Repayment</span>
+          <span>Reembolsando</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'superpeso/rapayment' : 'superpeso/repayment-未点'" class="nav-icon" :width="22" :height="24" />
           </template>
         </van-tabbar-item>
 
         <van-tabbar-item replace to="/mine">
-          <span>Me</span>
+          <span>Mi</span>
           <template #icon="props">
             <m-icon :type="props.active ? 'superpeso/Me点亮' : 'superpeso/Me'" class="nav-icon" :width="24" :height="24" />
           </template>

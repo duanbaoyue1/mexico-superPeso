@@ -67,7 +67,7 @@ export default {
       color: #000000;
       line-height: 30px;
       margin-bottom: 40px;
-      font-family: Roboto-Medium, Roboto;
+      font-family: Roboto-Regular, Roboto;
     }
     .select {
       div {

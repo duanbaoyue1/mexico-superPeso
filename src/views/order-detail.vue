@@ -538,7 +538,7 @@ export default {
   }
   .status-text {
     font-size: 24px;
-    font-family: Roboto-Medium, Roboto;
+    font-family: Roboto-Regular, Roboto;
     font-weight: 500;
     color: #ffffff;
     line-height: 24px;
@@ -551,7 +551,7 @@ export default {
     min-height: 102px;
     color: #2a303c;
     font-size: 16px;
-    font-family: Roboto-Medium, Roboto;
+    font-family: Roboto-Regular, Roboto;
     font-weight: 500;
     color: #2a303c;
     line-height: 20px;
@@ -597,7 +597,7 @@ export default {
       }
       .date {
         font-size: 20px;
-        font-family: Roboto-Medium, Roboto;
+        font-family: Roboto-Regular, Roboto;
         font-weight: 500;
         color: #333333;
         line-height: 30px;
@@ -689,7 +689,7 @@ export default {
         line-height: 18px;
         .veces {
           font-size: 10px;
-          font-family: Roboto-Medium, Roboto;
+          font-family: Roboto-Regular, Roboto;
           font-weight: 500;
           color: #ffffff;
           line-height: 12px;

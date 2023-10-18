@@ -485,7 +485,7 @@ export default {
       margin-right: 32px;
       div {
         font-size: 16px;
-        font-family: Roboto-Medium, Roboto;
+        font-family: Roboto-Regular, Roboto;
         font-weight: 500;
         color: #2a303c;
         line-height: 20px;

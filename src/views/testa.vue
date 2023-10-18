@@ -34,7 +34,7 @@ export default {
 
     // this.toAppMethod('needBackControl', { need: true });
     let res = await this.$http.post(`/api/user/smsLogin`, {
-      loginName: '5556210099',
+      loginName: '5656210099',
       smsCode: '0000',
       platform: 'android',
       afId: '12212',
