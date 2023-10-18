@@ -68,27 +68,29 @@ export default {
     statusText() {
       switch (this.order.orderStatus) {
         case 10:
-          return 'Pending to apply';
+          return 'Pendiente de aplicar';
         case 20:
-          return 'Reviewing';
+          return 'Revisand';
         case 21:
-          return 'Reviewing';
+          return 'Evaluando';
         case 30:
-          return 'Disbursing';
+          return 'Aprobado';
         case 40:
-          return 'Rejected';
+          return 'Rechazad';
         case 70:
-          return 'Disbursing';
+          return 'Desembolsand';
         case 80:
-          return 'Pending Repayment';
+          return 'Reembolsando';
         case 90:
-          return 'Overdue';
+          return 'Atrasado';
         case 100:
-          return 'Repayment Successful';
+          return 'Completado';
         case 101:
-          return 'Repayment Successful';
+          return 'Completado';
+        case 110:
+          return 'Fracaso';
         default:
-          return 'Reviewing';
+          return 'Evaluando';
       }
     },
   },

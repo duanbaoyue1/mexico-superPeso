@@ -7,7 +7,7 @@
     <div class="legal-modal" v-if="showLegal">
       <div class="content">
         <m-icon class="close" type="superpeso/关闭弹窗" :width="16" :height="16" @click="showLegal = false" />
-         <img class="cc" :src="require('@/assets/img/superpeso/OXXO还款页提示.png')" />
+         <img class="cc" :src="require('@/assets/img/superpeso/法律.png')" />
         <div class="title">Legal</div>
         <div class="items">
           <div @click="goTerms">los términos de servicio</div>

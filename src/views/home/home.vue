@@ -13,8 +13,8 @@
             <div class="number">
               <span class="dollar">$</span>
               {{ (isMultiple ? multipleCredit.remaining : curAvailableAmount) | formatMonex }}
-              <m-icon type="superpeso/刷新" @click="updateData" :height="14" :width="16"></m-icon>
               <m-icon type="superpeso/锁" v-if="showLock" :height="16" :width="14"></m-icon>
+              <m-icon type="superpeso/刷新" v-else @click="updateData" :height="14" :width="16"></m-icon>
             </div>
           </template>
           <!-- <template>
@@ -24,9 +24,7 @@
           <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">Dinero, cuando lo necesites.</div>
           <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">
             <span>Soluciones personalizadas</span>
-            <div>
-              <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
-            </div>
+            <div :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</div>
             <!-- <m-icon type="handy/蓝右" :width="12" :height="14" /> -->
           </div>
 
@@ -67,15 +65,8 @@
             <div class="status-tips" v-if="btnTips" v-html="btnTips">sfdasdf</div>
             {{ isMultiple ? multipleCredit.button : actionText }}
           </div>
-          <div class="action-tips" v-if="!isMultiple && (appMode.orderStatus == 80 || appMode.orderStatus == 90)">Demasiados préstamos ahora. Por favor, pague primero y desbloquee una cantidad de préstamo mayor.</div>
+          <div class="action-tips" v-if="actionTips" v-html="actionTips"></div>
         </div>
-        <!-- <div class="multi-select" v-if="isMultiple" @click="clickShowRecommend">
-          <span>Customized Solutions</span>
-          <div>
-            <span :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</span>
-            <m-icon type="handy/蓝右" :width="12" :height="14" />
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -111,6 +102,7 @@ export default {
       showRecommend: false,
       actionText: 'Aplicar ahora',
       btnTips: '',
+      actionTips: '',
       actionCallback: null, // 按纽回调
       multipleCredit: {},
     };
@@ -236,6 +228,7 @@ export default {
     updateTextAndAction() {
       // 清除数据
       this.btnTips = '';
+      this.actionTips = '';
       this.showLock = false;
       this.actionText = 'Aplicar ahora';
       this.actionCallback = () => {
@@ -284,7 +277,7 @@ export default {
           };
         } else if (this.actionText == 'Ir a reembolsar') {
           this.showLock = true;
-          this.btnTips = 'Demasiados préstamos ahora. Por favor, pagar primero y desbloquear una mayor cantidad del préstamo.';
+          this.actionTips = 'Demasiados préstamos ahora. Por favor, pagar primero y desbloquear una mayor cantidad del préstamo.';
           // 有待还款或逾期，无可借
           this.actionCallback = () => {
             this.innerJump('repayment');
@@ -342,7 +335,7 @@ export default {
           } else if (this.appMode.orderStatus == 80 || this.appMode.orderStatus == 90) {
             // 待还款 | 逾期
             this.showLock = true;
-            this.btnTips = 'Primer Ministro y desbloquee un monte de Prestamo mas alto.';
+            this.actionTips = 'Primer Ministro y desbloquee un monte de Prestamo mas alto.';
           } else if (this.appMode.orderStatus == 40) {
             // 拒绝
             this.actionCallback = () => {
@@ -469,46 +462,6 @@ export default {
         background-position: bottom;
         background-repeat: no-repeat;
         background-size: 343px 94px;
-      }
-
-      &.multiple_true {
-        .multi-select {
-          margin-top: 30px;
-          padding-left: 24px;
-          padding-right: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          font-size: 16px;
-          font-family: Roboto-Regular, Roboto;
-          font-weight: 400;
-          color: #333333;
-          line-height: 24px;
-          > div {
-            display: flex;
-            align-items: center;
-
-            span {
-              background: #e9e9e9;
-              font-size: 10px;
-              font-family: Roboto-Regular, Roboto;
-              font-weight: 400;
-              color: #999999;
-              line-height: 12px;
-              transform: scale(0.9);
-              padding: 6px 10px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 20px;
-              margin-right: 10px;
-              &.has-num {
-                background: #ff4b3f;
-                color: #fff;
-              }
-            }
-          }
-        }
       }
 
       .action-wrapper {
@@ -663,11 +616,12 @@ export default {
               line-height: 12px;
               padding: 6px 8px;
               transform: scale(0.9);
-              background: #e73122;
+              color: #7e7e7e;
+              background: #545454;
               border-radius: 15px;
-              &.disabled {
-                color: #7e7e7e;
-                background: #545454;
+              &.has-num {
+                background: #e73122;
+                color: #fff;
               }
             }
           }

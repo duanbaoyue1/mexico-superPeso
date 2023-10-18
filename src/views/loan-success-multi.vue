@@ -39,7 +39,7 @@
           <img :src="require('@/assets/img/superpeso/倒计时10s弹窗.png')" />
         </div>
         <div class="content">
-          Estás a un paso de pasar directamente al límite de 4.000 pesos, ¿seguro que quieres renunciar a tu derecho?
+          Estás a un paso de pasar directamente al límite de {{ totalAmount }} pesos, ¿seguro que quieres renunciar a tu derecho?
           <div class="count">
             ¡Auto-abortar después de
             <span>{{ count }}s</span>
@@ -76,15 +76,6 @@ export default {
       deep: true,
     },
   },
-  created() {
-    this.setTabBar({
-      show: true,
-      fixed: true,
-      transparent: false,
-      title: 'Solicitud de préstamo',
-      backCallback: window.loanBtnCallback,
-    });
-  },
 
   data() {
     window.loanBtnCallback = async () => {
@@ -112,8 +103,15 @@ export default {
     };
   },
   mounted() {
-    this.toAppMethod('physicalReturnKeyInterception', { isInterception: true, fuName: 'loanBtnCallback' });
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: false,
+      title: 'Solicitud de préstamo',
+      backCallback: window.loanBtnCallback,
+    });
 
+    this.toAppMethod('physicalReturnKeyInterception', { isInterception: true, fuName: 'loanBtnCallback' });
     if (this.needRecommend) {
       this.getRecommendLoans();
     }

@@ -33,7 +33,7 @@ export default {
         },
         {
           text: '$8,000',
-          activeImg: require('@/assets/img/superpeso/灰1金.png'),
+          activeImg: require('@/assets/img/superpeso/灰4金.png'),
           noActiveImg: require('@/assets/img/superpeso/灰4金.png'),
         },
       ],
@@ -83,15 +83,15 @@ export default {
       }
     }
 
-    &.last {
-      .red-bot {
-        background: #cccccc !important;
-        box-shadow: 0 0 0 2px #eaeaea;
-      }
-      .text {
-        color: #999999 !important;
-      }
-    }
+    // &.last {
+    //   .red-bot {
+    //     background: #cccccc !important;
+    //     box-shadow: 0 0 0 2px #eaeaea;
+    //   }
+    //   .text {
+    //     color: #999999 !important;
+    //   }
+    // }
 
     .stat-img-wrapper {
       height: 30px;
