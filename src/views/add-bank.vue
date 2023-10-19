@@ -291,6 +291,7 @@ export default {
         flex: 1;
         text-align: center;
         position: relative;
+        z-index: 0;
         &.active {
           font-weight: bold;
           &::after {
