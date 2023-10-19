@@ -52,7 +52,7 @@
           <span>$ {{ detail.penaltyInterest }}</span>
         </div>
 
-        <div class="flex-between">
+        <div class="flex-between" v-if="detail.orderStatus != 40">
           <span>Monto total de reembolso</span>
           <span>$ {{ detail.estimatedRepaymentAmount }}</span>
         </div>
@@ -112,7 +112,7 @@
           <span>Fecha de recibo</span>
           <span class="fw-500">{{ detail.loanTime }}</span>
         </div>
-        <div class="flex-between" v-if="showDate">
+        <div class="flex-between" v-if="detail.orderStatus == 100 || detail.orderStatus == 101">
           <span>Fecha de reembolso</span>
           <span class="fw-500">{{ detail.actualRepaymentTime || detail.expectedRepaymentTime }}</span>
         </div>
@@ -154,6 +154,14 @@
 
 <script>
 import eventTrack from '@/mixins/event-track';
+const COLOR_MAPS = {
+  40: 'rgb(255 75 56)',
+  110: 'rgb(255 75 56)',
+  90: 'rgb(255 75 56)',
+  30: 'rgb(51 186 13)',
+  100: 'rgb(51 186 13)',
+  101: 'rgb(51 186 13)',
+};
 
 export default {
   mixins: [eventTrack],
@@ -367,8 +375,11 @@ export default {
           orderId: this.orderId,
         });
         this.detail = res.data;
+        this.setTabBar({
+          transparent: false,
+          backgroundColor: COLOR_MAPS[this.detail.orderStatus] || 'rgb(255 182 53)',
+        });
         this.updateTrackerData({ key: 'productId', value: this.detail.productId });
-
         if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
           this.orderUrl = await this.getOrderRelateUrl(this.orderId);
         }

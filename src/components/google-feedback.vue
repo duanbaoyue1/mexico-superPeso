@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="submit">
-        <button @click="submit">{{ curStar > 3 ? 'Ir a GooglePlay Comentarios' : 'Ir a GooglePlay Comentarios' }}</button>
+        <button @click="submit">{{ curStar > 3 ? 'Ir a GooglePlay Comentarios' : 'Enviar' }}</button>
         <button class="cancel" @click="hide">Cancelar</button>
       </div>
     </div>
@@ -51,7 +51,7 @@ export default {
     },
     async submit() {
       if (this.curStar <= 3 && !this.comments.length) {
-        this.$toast('Please enter comments or suggestions');
+        this.$toast('Por favor, introduzca su sugerencia');
         return;
       }
 
@@ -62,7 +62,7 @@ export default {
           content: this.comments,
         });
         if (res.returnCode == 2000) {
-          this.$toast('submit success!');
+          this.$toast('Enviado con éxito');
           if (this.curStar >= 4) {
             this.toAppMethod('goToMarket');
           }
@@ -173,8 +173,6 @@ export default {
         font-weight: 900;
         color: #333333;
         line-height: 18px;
-        margin-left: 10px;
-        margin-right: 10px;
         span {
           color: #ff0000;
           font-size: 16px;
