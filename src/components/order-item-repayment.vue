@@ -5,8 +5,7 @@
       <img :src="order.productIconImageUrl" />
       <div class="name">
         <div class="product">{{ order.productName }}</div>
-        <div class="info-item" v-if="order.orderStatus != 40 && order.orderStatus != 10">Fecha de préstamo : {{ order.loanTime }}</div>
-        <div class="info-item">{{ dateText }} : {{ dateValue }}</div>
+        <div class="info-item" v-if="order.orderStatus != 40 && order.orderStatus != 10">{{ dateText }} : {{ dateValue }}</div>
         <div class="info-item">
           {{ amountText }} :
           <span class="number">
@@ -15,15 +14,6 @@
           </span>
         </div>
       </div>
-
-      <!-- <div class="name">
-        <div>{{ order.productName }}</div>
-        <div class="date">
-          <span>{{ dateText }}</span>
-          <span>{{ dateValue }}</span>
-          <span class="repaid" v-if="order.orderStatus == 80 || order.orderStatus == 90" @click="goFillUtr">Repaid?</span>
-        </div>
-      </div> -->
     </div>
     <div class="action">
       <button class="action-btn" :class="'action-btn-' + order.orderStatus" @click="goDetail">{{ order.orderStatusStr }}</button>
@@ -46,7 +36,7 @@ export default {
 
     amountText() {
       if (this.order.orderStatus == 80 || this.order.orderStatus == 90) {
-        return `Monto de reembolso`;
+        return `Importe por reembolsar`;
       } else {
         return `Importe de préstamo`;
       }
