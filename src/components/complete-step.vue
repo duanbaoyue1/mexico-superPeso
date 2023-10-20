@@ -33,8 +33,8 @@ export default {
         },
         {
           text: '$8,000',
-          activeImg: require('@/assets/img/superpeso/灰4金.png'),
-          noActiveImg: require('@/assets/img/superpeso/灰4金.png'),
+          activeImg: require('@/assets/img/superpeso/4金.png'),
+          noActiveImg: require('@/assets/img/superpeso/4金.png'),
         },
       ],
     };

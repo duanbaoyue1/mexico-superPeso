@@ -52,7 +52,7 @@
           <span>$ {{ detail.penaltyInterest }}</span>
         </div>
 
-        <div class="flex-between" v-if="detail.orderStatus != 40">
+        <div class="flex-between" v-if="detail.orderStatus != 40 && detail.orderStatus != 20 && detail.orderStatus != 21">
           <span>Monto total de reembolso</span>
           <span>$ {{ detail.estimatedRepaymentAmount }}</span>
         </div>
