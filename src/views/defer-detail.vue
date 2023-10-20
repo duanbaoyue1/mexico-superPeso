@@ -2,7 +2,7 @@
   <div class="defer-detail content-area" v-show="loaded">
     <div class="defer-head">
       <p>Retraso de {{ detail.extendedTerm }} días</p>
-      <p>Sólo necesita pagar {{ detail.amount }} pesos hoy y luego puedes aplazar el pago durante {{ detail.extendedTerm }} días.</p>
+      <p>Sólo necesita pagar ${{ detail.amount }} pesos hoy y luego puedes aplazar el pago durante {{ detail.extendedTerm }} días.</p>
     </div>
 
     <div class="step">
@@ -125,7 +125,7 @@ export default {
     },
     async selectBank(payType) {
       this.showPaymentTips = false;
-      this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`);
+      this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, 'Reembolso en tienda');
       this.sendEventTrackData({ leaveBy: 1 });
     },
     goDeferPayHis() {

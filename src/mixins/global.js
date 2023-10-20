@@ -212,8 +212,8 @@ export default {
       }
     },
 
-    openWebview(url, type = 0) {
-      this.toAppMethod('inNewPage', { path: url, type: type });
+    openWebview(url, type = 0, title = '') {
+      this.toAppMethod('inNewPage', { path: url, type: type, title: title });
     },
 
     async getOrderRelateUrl(orderId) {

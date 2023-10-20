@@ -16,7 +16,7 @@
           <span>$ {{ item.actualAmount }}</span>
         </div>
         <div class="line">
-          <span>Tarifa de transacción en línea (impuestos incluidos)</span>
+          <span>Tarifa de transacción en línea <br/>(impuestos incluidos)</span>
           <span>$ {{ item.feeAmount }}</span>
         </div>
         <div class="line">
@@ -117,7 +117,6 @@ export default {
       margin-top: 16px;
       .money {
         font-size: 18px;
-        font-family: Roboto-Black, Roboto;
         font-weight: 900;
         color: #fc0f0f;
         line-height: 24px;

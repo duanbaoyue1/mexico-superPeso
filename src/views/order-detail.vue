@@ -338,7 +338,7 @@ export default {
       try {
         await this.$http.post(`/api/order/updateOrderAutoRepeatStatus`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
-      this.openWebview(`${this.appGlobal.apiHost}/api/repayment/prepay?id=${this.detail.orderBillId}&payType=${payType}`);
+      this.openWebview(`${this.appGlobal.apiHost}/api/repayment/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, 'Reembolso en tienda');
       this.sendEventTrackData({ leaveBy: 1 });
     },
 
