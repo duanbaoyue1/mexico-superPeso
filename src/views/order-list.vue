@@ -1,6 +1,6 @@
 <template>
   <div class="scroll-area content-area order-list">
-    <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders">
+    <!-- <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders"> -->
       <div>
         <div class="has-order" v-if="orders.length">
           <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
@@ -11,7 +11,7 @@
           <button @click="goHome">Aplicar ahora</button>
         </div>
       </div>
-    </van-pull-refresh>
+    <!-- </van-pull-refresh> -->
   </div>
 </template>
 
