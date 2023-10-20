@@ -125,7 +125,8 @@ export default {
     },
     async selectBank(payType) {
       this.showPaymentTips = false;
-      this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, 'Reembolso en tienda');
+      let title = payType == 'OnLine' ? 'Reembolso en línea' : 'Reembolso en tienda';
+      this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, title);
       this.sendEventTrackData({ leaveBy: 1 });
     },
     goDeferPayHis() {
