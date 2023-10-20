@@ -1,8 +1,8 @@
 <template>
   <div class="complete-step">
-    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex >= index, last: index == steps.length - 1 }">
+    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex > index, first: index == 0, last: index == steps.length - 1, cur: actionIndex == index }">
       <div class="stat-img-wrapper">
-        <img class="stat-img" :src="actionIndex >= index ? step.activeImg : step.noActiveImg" />
+        <img class="stat-img" :src="actionIndex > index ? step.activeImg : step.noActiveImg" />
       </div>
       <div class="red-bot" :class="actionIndex >= index ? 'active' : ''"></div>
       <div class="text">{{ step.text }}</div>
@@ -33,8 +33,8 @@ export default {
         },
         {
           text: '$8,000',
-          activeImg: require('@/assets/img/superpeso/4金.png'),
-          noActiveImg: require('@/assets/img/superpeso/4金.png'),
+          activeImg: require('@/assets/img/superpeso/灰4金.png'),
+          noActiveImg: require('@/assets/img/superpeso/灰4金.png'),
         },
       ],
     };
@@ -60,12 +60,12 @@ export default {
     position: relative;
     &::before {
       position: absolute;
-      width: 76px;
+      width: 86px;
       height: 2px;
       background: #e3e3e3;
       content: ' ';
-      top: 31px;
-      left: -38px;
+      top: 33px;
+      left: -43px;
       z-index: 0;
     }
 
@@ -77,21 +77,38 @@ export default {
     }
 
     &.active {
+      &::before {
+        background: #40e2a0;
+      }
+
       .red-bot {
         background: #40e2a0;
-        box-shadow: 0 0 0 2px #40e2a0;
       }
     }
 
-    // &.last {
-    //   .red-bot {
-    //     background: #cccccc !important;
-    //     box-shadow: 0 0 0 2px #eaeaea;
-    //   }
-    //   .text {
-    //     color: #999999 !important;
-    //   }
-    // }
+    &.first {
+       .red-bot {
+        background: #40e2a0;
+      }
+    }
+    &.cur {
+      &::before {
+        background: #40e2a0;
+      }
+      .text {
+        font-weight: bold;
+        color: #333333;
+      }
+    }
+
+    &.last {
+      .red-bot {
+        background: #cccccc !important;
+      }
+      // .text {
+      //   color: #999999 !important;
+      // }
+    }
 
     .stat-img-wrapper {
       height: 30px;
@@ -105,12 +122,11 @@ export default {
 
     .red-bot {
       margin-bottom: 13px;
-      width: 4px;
-      height: 4px;
+      width: 8px;
+      height: 8px;
       border-radius: 100%;
       background: #cccccc;
       z-index: 0;
-      box-shadow: 0 0 0 2px #eaeaea;
       img {
         width: 10px;
         display: block;

@@ -186,6 +186,8 @@ export default {
   .step {
     padding-top: 10px;
     margin-bottom: 32px;
+    margin-left: -16px;
+    margin-right: -16px;
   }
   .edit-area {
     .head-top {
