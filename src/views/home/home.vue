@@ -25,7 +25,6 @@
           <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">
             <span>Soluciones personalizadas</span>
             <div :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</div>
-            <!-- <m-icon type="handy/蓝右" :width="12" :height="14" /> -->
           </div>
 
           <div class="total-used">
@@ -431,7 +430,6 @@ export default {
 .home {
   height: 100%;
   box-sizing: border-box;
-  // background-image: url(../../assets/img/handy/首页背景带字.png);
   background-attachment: local;
   background-position: top;
   background-repeat: no-repeat;

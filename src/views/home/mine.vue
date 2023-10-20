@@ -101,7 +101,7 @@ export default {
         cancelCallback: () => {
           this.toAppMethod('inLoginPage');
         },
-        iconPath: 'handy/编组 11',
+        iconPath: 'superpeso/紧急联系人手机号重复',
       });
     },
     async updateData() {

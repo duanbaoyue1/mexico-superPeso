@@ -292,10 +292,11 @@ export default {
   mounted() {
     this.setTabBar({
       show: true,
-      transparent: true,
+      transparent: false,
       fixed: true,
       color: 'white',
       title: 'Detalles del pedido',
+      backgroundColor: 'rgb(255 182 53)',
       backCallback: () => {
         this.goAppBack();
       },
