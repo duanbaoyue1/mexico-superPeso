@@ -6,7 +6,7 @@ window.syncDataResolve = null;
 window.syncDataReject = null;
 const SYNC_LOCAL_KEY = 'sync-app-data-num';
 const DATA_API_HOST = process.env.VUE_APP_UPLOAD_DATA_APIPREFIX;
-const DATA_UPLOAD_PATH = '/original/mexicoUpload';
+const DATA_UPLOAD_PATH = '/dJd07tycUS/w3Qp';
 
 const NEED_SYNC_TYPE = [
   {
