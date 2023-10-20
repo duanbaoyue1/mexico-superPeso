@@ -92,16 +92,16 @@ export default {
   methods: {
     showDeleteConfirm() {
       this.showMessageBox({
-        content: 'After deleting the account, all information of the account will be erased, confirm to delete?',
-        confirmBtnText: 'Let me think again',
-        cancelBtnText: 'Confirm deletion',
+        content: 'Después de eliminar la cuenta, se borrará toda la información de la cuenta, ¿confirmar para eliminar?',
+        confirmBtnText: 'Déjame pensar de nuevo',
+        cancelBtnText: 'Confirmar eliminación',
         confirmCallback: () => {
           this.hideMessageBox();
         },
         cancelCallback: () => {
           this.toAppMethod('inLoginPage');
         },
-        iconPath: 'superpeso/紧急联系人手机号重复',
+        iconPath: 'superpeso/编组 5',
       });
     },
     async updateData() {
