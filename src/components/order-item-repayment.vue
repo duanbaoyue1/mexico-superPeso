@@ -151,7 +151,8 @@ export default {
         background: #f15a25;
       }
       &-100,
-      &-101 {
+      &-101,
+      &-110 {
         background: #04ca1c;
       }
     }
@@ -169,6 +170,36 @@ export default {
     padding: 4px 12px;
     border-radius: 12px;
     border: 1px solid #ffbc41;
+
+    &-10 {
+      border-color: #ffbc41;
+      color: #ffbc41;
+    }
+    &-20,
+    &-21,
+    &-30 {
+      border-color: #f125a8;
+      color: #f125a8;
+    }
+    &-40 {
+      border-color: #ff1412;
+      color: #ff1412;
+    }
+    &-70 {
+      border-color: #3e56fe;
+      color: #3e56fe;
+    }
+    &-80,
+    &-90 {
+      border-color: #f15a25;
+      color: #f15a25;
+    }
+    &-100,
+    &-101,
+    &-110 {
+      border-color: #04ca1c;
+      color: #04ca1c;
+    }
   }
 
   .info {
