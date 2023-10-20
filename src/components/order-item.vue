@@ -5,7 +5,7 @@
       <img :src="order.productIconImageUrl" />
       <div class="name">
         <div class="product">{{ order.productName }}</div>
-        <div class="info-item" v-if="order.orderStatus != 40 && order.orderStatus != 10">{{ dateText }} : {{ dateValue }}</div>
+        <div class="info-item">{{ dateText }} : {{ dateValue }}</div>
         <div class="info-item">
           {{ amountText }} :
           <span class="number">

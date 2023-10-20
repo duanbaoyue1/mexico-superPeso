@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       feedEmail: 'superpesocs01@outlook.com',
+      noHeader: this.$route.query.noHeader || false,
       questions: [
         {
           desc: '¿Cómo solicito un préstamo?',
@@ -62,21 +63,26 @@ export default {
         {
           desc: '¿Puedo cambiar mi cuenta bancaria receptora?',
           answer: 'Hola, puede vincular una nueva tarjeta bancaria en Centro Personal - Cuenta receptora y establecerla como tarjeta receptora por defecto, cuando solicite un nuevo préstamo, el importe del préstamo se transferirá a su nueva tarjeta bancaria. Nota: Si hay una orden de préstamo que está siendo solicitada, el importe del préstamo para esta orden seguirá siendo transferido a su tarjeta bancaria anterior, incluso si cambia a una nueva tarjeta bancaria.',
-        }
+        },
       ],
     };
   },
-  created() {
-    this.setTabBar({
-      show: true,
-      transparent: false,
-      fixed: true,
-      color: 'white',
-      backgroundColor: 'rgba(93, 221, 155, 0.28)',
-      title: 'Centro de ayuda',
-    });
-  },
   mounted() {
+    if (!this.noHeader) {
+      this.setTabBar({
+        show: true,
+        transparent: false,
+        fixed: true,
+        color: 'white',
+        backgroundColor: 'rgba(93, 221, 155, 0.28)',
+        title: 'Centro de ayuda',
+      });
+    } else {
+      this.setTabBar({
+        show: false,
+      });
+    }
+
     // setTimeout(async () => {
     //   try {
     //     let user = await this.getUserInfo();
@@ -113,6 +119,8 @@ export default {
   background-repeat: no-repeat;
   background-size: 375px 280px;
   background-color: #f9f9f9;
+  padding-top: 20px;
+  
 
   .actions {
     position: fixed;
@@ -186,6 +194,7 @@ export default {
     background: #fff;
     padding: 24px;
     margin: 24px 16px;
+    margin-top: 0;
     margin-bottom: 16px;
     border-radius: 8px;
 
