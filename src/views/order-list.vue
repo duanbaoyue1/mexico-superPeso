@@ -3,7 +3,7 @@
     <!-- <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders"> -->
       <div>
         <div class="has-order" v-if="orders.length">
-          <order-item class="order-item" v-for="item in orders" :key="item.id" :order="item"></order-item>
+          <order-item class="order-item" v-for="item in orders" v-if="item.orderStatus != 110" :key="item.id" :order="item"></order-item>
         </div>
         <div class="no-order" v-else-if="!loading">
           <m-icon class="icon" type="superpeso/没有订单" :width="168" :height="97" />

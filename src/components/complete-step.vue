@@ -19,7 +19,7 @@ export default {
         {
           text: '$2,000',
           activeImg: require('@/assets/img/superpeso/1金.png'),
-          noActiveImg: require('@/assets/img/superpeso/灰1金.png'),
+          noActiveImg: require('@/assets/img/superpeso/1金.png'),
         },
         {
           text: '$4,000',
