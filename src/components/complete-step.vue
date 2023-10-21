@@ -1,8 +1,8 @@
 <template>
   <div class="complete-step">
-    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex > index, first: index == 0, last: index == steps.length - 1, cur: actionIndex == index }">
+    <div class="step" v-for="(step, index) in steps" :class="{ active: actionIndex >= index, first: index == 0, last: index == steps.length - 1, cur: actionIndex == index }">
       <div class="stat-img-wrapper">
-        <img class="stat-img" :src="actionIndex > index ? step.activeImg : step.noActiveImg" />
+        <img class="stat-img" :src="actionIndex >= index ? step.activeImg : step.noActiveImg" />
       </div>
       <div class="red-bot" :class="actionIndex >= index ? 'active' : ''"></div>
       <div class="text">{{ step.text }}</div>
@@ -105,9 +105,9 @@ export default {
       .red-bot {
         background: #cccccc !important;
       }
-      // .text {
-      //   color: #999999 !important;
-      // }
+      .text {
+        color: #999999 !important;
+      }
     }
 
     .stat-img-wrapper {
