@@ -8,7 +8,10 @@
     <div class="home-content">
       <div class="loan-wrapper" :class="'multiple_' + isMultiple">
         <div class="inner">
-          <template>
+          <template v-if="!isMultiple && (appMode.orderStatus == 80 || appMode.orderStatus == 90)">
+            <div class="no-credit">Será diferente según el método de pago</div>
+          </template>
+           <template v-else>
             <div class="available-text">Cantidad disponible</div>
             <div class="number">
               <span class="dollar">$</span>
@@ -17,9 +20,6 @@
               <m-icon type="superpeso/刷新" v-else @click="updateData" :height="14" :width="16"></m-icon>
             </div>
           </template>
-          <!-- <template>
-            <div class="no-credit">Será diferente según el método de pago</div>
-          </template> -->
 
           <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">Dinero, cuando lo necesites.</div>
           <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">

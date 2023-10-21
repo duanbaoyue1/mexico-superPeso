@@ -229,7 +229,6 @@ export default {
         justify-content: space-between;
         .number {
           font-size: 16px;
-          font-family: Roboto-Bold, Roboto;
           font-weight: bold;
           color: #ff4b3f;
           line-height: 18px;

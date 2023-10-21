@@ -5,7 +5,7 @@
       <img :src="order.productIconImageUrl" />
       <div class="name">
         <div class="product">{{ order.productName }}</div>
-        <div class="info-item">{{ dateText }} : {{ dateValue }}</div>
+        <div class="info-item" v-if="order.orderStatus != 10">{{ dateText }} : {{ dateValue }}</div>
         <div class="info-item">
           {{ amountText }} :
           <span class="number">
@@ -172,8 +172,8 @@ export default {
     border: 1px solid #ffbc41;
 
     &-10 {
-      border-color: #ffbc41;
-      color: #ffbc41;
+      border-color: #ff1412;
+      color: #ff1412;
     }
     &-20,
     &-21,
@@ -189,10 +189,13 @@ export default {
       border-color: #3e56fe;
       color: #3e56fe;
     }
-    &-80,
-    &-90 {
+    &-80 {
       border-color: #f15a25;
       color: #f15a25;
+    }
+    &-90 {
+      border-color: #ff1412;
+      color: #ff1412;
     }
     &-100,
     &-101,
@@ -229,7 +232,6 @@ export default {
         justify-content: space-between;
         .number {
           font-size: 16px;
-          font-family: Roboto-Bold, Roboto;
           font-weight: bold;
           color: #ff4b3f;
           line-height: 18px;
