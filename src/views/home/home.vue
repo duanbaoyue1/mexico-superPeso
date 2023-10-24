@@ -47,7 +47,7 @@
         <div class="action-wrapper">
           <div class="tips">
             <div>
-              <m-icon type="superpeso/Aplicación fácil" :width="40" :height="40" />
+              <m-icon type="superpeso/Aplicaciil" :width="40" :height="40" />
               Aplicación fácil
             </div>
 
@@ -56,7 +56,7 @@
               Bajo tipo de interés
             </div>
             <div>
-              <m-icon type="superpeso/Llegada rápida" :width="40" :height="40" />
+              <m-icon type="superpeso/Llegada" :width="40" :height="40" />
               Llegada rápida
             </div>
           </div>

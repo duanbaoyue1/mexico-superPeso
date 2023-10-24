@@ -5,7 +5,7 @@ import store from '@/store';
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base api url + request url
   // withCredentials: false, // send cookies when cross-domain requests
-  timeout: 20000, // request timeout
+  timeout: 40000, // request timeout
 });
 
 function unzip(b64Data) {
