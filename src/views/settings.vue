@@ -10,8 +10,8 @@
          <img class="cc" :src="require('@/assets/img/superpeso/法律.png')" />
         <div class="title">Legal</div>
         <div class="items">
-          <div @click="goTerms">los términos de servicio</div>
-          <div @click="goPrivacy">las políticas de privacidad</div>
+          <div @click="goTerms">términos de servicio</div>
+          <div @click="goPrivacy">políticas de privacidad</div>
         </div>
       </div>
     </div>

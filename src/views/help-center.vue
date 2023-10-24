@@ -222,7 +222,6 @@ export default {
 
     .item {
       flex-grow: 1;
-      margin-left: 20px;
       box-sizing: border-box;
       border: none;
       width: 100%;

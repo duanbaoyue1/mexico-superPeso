@@ -24,7 +24,7 @@
           <div class="tips" :class="'multiple_' + isMultiple" v-if="!isMultiple">Dinero, cuando lo necesites.</div>
           <div class="tips" :class="'multiple_' + isMultiple" v-else @click="clickShowRecommend">
             <span>Soluciones personalizadas</span>
-            <div :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} products</div>
+            <div :class="{ 'has-num': selectItems.length > 0 }">{{ selectItems.length }} productos</div>
           </div>
 
           <div class="total-used">
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="action-btn" @click="clickApply">
-            <div class="status-tips" v-if="btnTips" v-html="btnTips">sfdasdf</div>
+            <div class="status-tips" v-if="btnTips" v-html="btnTips"></div>
             {{ isMultiple ? multipleCredit.button : actionText }}
           </div>
           <div class="action-tips" v-if="actionTips" v-html="actionTips"></div>
