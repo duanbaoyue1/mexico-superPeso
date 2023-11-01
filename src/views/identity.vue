@@ -4,7 +4,7 @@
       <complete-step :actionIndex="2"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="pan-info" v-if="cardFrontOcrStatus">
+      <div class="pan-info">
         <div class="item">
           <label>Nombre</label>
           <div class="value">{{ cardFrontOcrInfo.realName }}</div>
@@ -47,7 +47,7 @@
 
       <div class="pan-tips">Confirme la información básica de acuerdo con la identificación con foto cargada. Asegúrese de que la información básica sea consistente con su identificación con foto, de lo contrario afectará su préstamo.</div>
     </div>
-    <div class="submit">
+    <div class="submit1">
       <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
     </div>
 
@@ -364,7 +364,11 @@ export default {
       font-weight: 400;
       color: #000000;
       line-height: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      &:nth-last-of-type(2) {
+        margin-bottom: 20px;
+      }
+
       .RFC {
         color: #f95502;
         margin-left: 4px;
@@ -460,6 +464,10 @@ export default {
         height: 32px;
       }
     }
+  }
+
+  .submit1 {
+    margin-top: 40px;
   }
 
   .submit-success {
