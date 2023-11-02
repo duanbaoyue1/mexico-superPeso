@@ -4,13 +4,11 @@ import router from './router';
 import store from './store';
 import request from '@/utils/request';
 Vue.prototype.$http = request;
-import cookieFun from './utils/cookieFun.js'; // 封装cookieFun的js
 import 'amfe-flexible';
 
 import mIcon from '@/components/m-icon.vue';
 Vue.component('m-icon', mIcon);
 
-// Vue.prototype.$cookieFun = cookieFun;
 import '@/assets/css/index.scss';
 Vue.config.productionTip = false;
 
@@ -31,14 +29,14 @@ import syncData from '@/mixins/sync-data';
 Vue.mixin(global);
 Vue.mixin(syncData);
 
-// import Vconsole from 'vconsole';
-// if (process.env.NODE_ENV == 'production') {
-//   let vConsole = new Vconsole();
-//   Vue.use(vConsole);
-// }
+import Vconsole from 'vconsole';
+if (process.env.NODE_ENV == 'development') {
+  let vConsole = new Vconsole();
+  Vue.use(vConsole);
+}
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App),
 }).$mount('#app');

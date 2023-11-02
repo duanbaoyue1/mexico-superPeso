@@ -4,7 +4,7 @@
       <complete-step :actionIndex="2"></complete-step>
     </div>
     <div class="edit-area">
-      <div class="pan-info">
+      <div class="pan-info" v-if="cardFrontOcrStatus">
         <div class="item">
           <label>Nombre</label>
           <div class="value">{{ cardFrontOcrInfo.realName }}</div>
@@ -365,9 +365,6 @@ export default {
       color: #000000;
       line-height: 20px;
       margin-bottom: 15px;
-      &:nth-last-of-type(2) {
-        margin-bottom: 20px;
-      }
 
       .RFC {
         color: #f95502;
