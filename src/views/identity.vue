@@ -318,11 +318,19 @@ export default {
           rfc: `${this.cardFrontOcrInfo.idNumber.slice(0, 10)}${this.rfc}`,
         };
         let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
+        // 手机号不一致错误码
+        if (res.returnCode === 6018) {
+          this.eventTracker('rfc_phone_fail');
+        }
+        // RFC不一致错误码
+        if (res.returnCode === 6016) {
+          this.eventTracker('rfc_number_fail');
+        }
         if (res.returnCode == 2000) {
           this.toLive();
           this.eventTracker('id_rfc_done');
         } else {
-          this.$toast('error!');
+          this.$toast(res.message);
         }
       } catch (error) {
         this.$toast(error.message);
