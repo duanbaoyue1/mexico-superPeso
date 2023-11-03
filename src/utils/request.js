@@ -81,11 +81,14 @@ service.interceptors.response.use(
     }
     console.log(response.config.url, res);
     if (res.returnCode && res.returnCode !== 2000) {
+      // 身份证认证RFC埋点使用
+      if (response.config.url === '/api/ocr/saveResult' && (res.returnCode === 6016 || res.returnCode === 6018)) {
+        return Promise.resolve(res);
+      }
       // 4005: 登录超时,重新登录
       // 4006: 强制升级
       if (res.returnCode === 4005 || res.returnCode === 4006) {
         try {
-          let appGlobal = JSON.parse(localStorage.getItem('app-local'));
           wjs[`badCodeCall`](JSON.stringify({ code: res.returnCode, msg: res.message }));
         } catch (error) {
           return Promise.reject(res || 'error');
