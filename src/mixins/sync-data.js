@@ -64,7 +64,6 @@ export default {
 
     return {};
   },
-  mounted() {},
 
   methods: {
     updateLocalSyncNum(type, num) {
@@ -101,7 +100,7 @@ export default {
       });
     },
 
-    startSyncData(needResolve = false) {
+    startSyncData() {
       return new Promise(async (resolve, reject) => {
         try {
           if (!this.userInfo || !this.userInfo.mobile) {
