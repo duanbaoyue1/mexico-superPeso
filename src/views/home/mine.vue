@@ -65,10 +65,7 @@
   </div>
 </template>
 <script>
-import eventTrack from '@/mixins/event-track.js';
-
 export default {
-  mixins: [eventTrack],
   created() {
     this.setTabBar({
       show: false,
@@ -87,6 +84,8 @@ export default {
     } catch (error) {}
   },
   activated() {
+    this.setEventTrackStartTime();
+
     this.updateData();
   },
   methods: {
@@ -99,6 +98,8 @@ export default {
           this.hideMessageBox();
         },
         cancelCallback: () => {
+          this.sendEventTrackData({ leaveBy: 2, page: 'mine' });
+
           this.toAppMethod('inLoginPage');
         },
         iconPath: 'superpeso/编组 5',

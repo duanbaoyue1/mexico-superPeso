@@ -62,20 +62,6 @@ export default {
     ResLoans,
     GoogleFeedback,
   },
-  watch: {
-    showGoogleFeed: {
-      handler() {
-        if (!this.showGoogleFeed && this.nextStep) {
-          if (this.nextStep == 'goBack') {
-            this.goAppBack();
-          } else if (this.nextStep == 'goAllOrders') {
-            this.innerJump('order-list', {}, true);
-          }
-        }
-      },
-      deep: true,
-    },
-  },
 
   data() {
     window.loanBtnCallback = async () => {
@@ -102,7 +88,23 @@ export default {
       showGoogleFeed: false,
     };
   },
+  watch: {
+    showGoogleFeed: {
+      handler() {
+        if (!this.showGoogleFeed && this.nextStep) {
+          if (this.nextStep == 'goBack') {
+            this.goAppBack();
+          } else if (this.nextStep == 'goAllOrders') {
+            this.innerJump('order-list', {}, true);
+          }
+        }
+      },
+      deep: true,
+    },
+  },
   mounted() {
+    this.setEventTrackStartTime();
+
     this.setTabBar({
       show: true,
       fixed: true,
@@ -118,6 +120,8 @@ export default {
   },
   methods: {
     leave() {
+      this.sendEventTrackData({});
+
       this.toAppMethod('physicalReturnKeyInterception', { isInterception: false });
       this.goHome();
     },
@@ -219,6 +223,7 @@ export default {
             this.$toast('Solicitud enviada con éxito');
             setTimeout(res => {
               this.getRecommendLoans();
+              this.sendEventTrackData({ leaveBy: 1 });
             }, 1000);
           }
         }

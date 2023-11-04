@@ -42,14 +42,12 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 const NeedTabbarsPathNames = ['home', 'repayment', 'mine'];
-import eventTrack from '@/mixins/event-track';
 
 export default {
   name: 'app',
   computed: {
     ...mapState(['isAppChecked', 'appMode', 'repaymentNum']),
   },
-  mixins: [eventTrack],
   created() {
     this.setTabBar({
       show: false,

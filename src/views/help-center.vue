@@ -68,6 +68,8 @@ export default {
     };
   },
   mounted() {
+    this.setEventTrackStartTime();
+
     if (!this.noHeader) {
       this.setTabBar({
         show: true,
@@ -120,7 +122,6 @@ export default {
   background-size: 375px 280px;
   background-color: #f9f9f9;
   padding-top: 20px;
-  
 
   .actions {
     position: fixed;

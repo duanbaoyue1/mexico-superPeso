@@ -72,15 +72,6 @@ export default {
     CompleteStep,
   },
 
-  created() {
-    this.setTabBar({
-      show: true,
-      transparent: false,
-      fixed: true,
-      title: 'Información sobre la identidad',
-      backCallback: null,
-    });
-  },
   data() {
     window.onPhotoSelectCallback_1 = data => {
       this.hideLoading();
@@ -154,8 +145,17 @@ export default {
       ocrChannel: 'ADVANCE-Mexico',
     };
   },
-
+  created() {
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Información sobre la identidad',
+      backCallback: null,
+    });
+  },
   mounted() {
+    this.setEventTrackStartTime();
     document.body.style.backgroundColor = '#f9f9f9';
     this.eventTracker('id_access');
     this.initInfoBackControl();
@@ -220,6 +220,7 @@ export default {
         console.log('订单创建结果:', res);
         this.eventTracker('id_submit_create_order_success');
         this.submitSuccess = false;
+        this.sendEventTrackData({ leaveBy: 1 });
         this.innerJump('add-bank', { orderId: res.data.orderId, from: 'order' }, true);
       } catch (error) {
         this.submitSuccess = false;

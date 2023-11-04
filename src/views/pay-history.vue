@@ -16,7 +16,11 @@
           <span>$ {{ item.actualAmount }}</span>
         </div>
         <div class="line">
-          <span>Tarifa de transacción en línea <br/>(impuestos incluidos)</span>
+          <span>
+            Tarifa de transacción en línea
+            <br />
+            (impuestos incluidos)
+          </span>
           <span>$ {{ item.feeAmount }}</span>
         </div>
         <div class="line">
@@ -30,14 +34,6 @@
 
 <script>
 export default {
-  created() {
-    this.setTabBar({
-      show: true,
-      fixed: true,
-      transparent: true,
-      title: 'Detalles del pedido',
-    });
-  },
   data() {
     return {
       id: this.$route.query.id,
@@ -47,7 +43,26 @@ export default {
   },
 
   mounted() {
+    if (this.type != 'bill') {
+      this.setEventTrackStartTime();
+    }
+
     this.getData();
+
+    this.setTabBar({
+      show: true,
+      fixed: true,
+      transparent: true,
+      title: 'Detalles del pedido',
+      backCallback: () => {
+        this.updateTrackerData({ key: 'productId', value: this.$route.query.productId });
+        this.updateTrackerData({ key: 'status', value: this.ORDER_STATUS_LIST[this.$route.query.orderStatus] });
+        if (this.type != 'bill') {
+          this.sendEventTrackData({});
+        }
+        this.goAppBack();
+      },
+    });
   },
 
   methods: {
@@ -68,7 +83,7 @@ export default {
         });
         this.lists = res.data.repayRecord.map(t => {
           t.payType = t.repayWay;
-          t.repaymentTime = `${t.successDay} ${t.successTime}`
+          t.repaymentTime = `${t.successDay} ${t.successTime}`;
           t.feeAmount = t.charge;
           t.actualAmount = t.repaymentAmount;
           return t;

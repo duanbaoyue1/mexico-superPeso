@@ -10,7 +10,7 @@
           <div class="confirm" v-if="prop.confirmBtnText" @click="prop.confirmCallback">
             {{ prop.confirmBtnText }}
           </div>
-          <div class="cancel" v-if="prop.cancelBtnText" @click="prop.cancelCallback">
+          <div class="cancel" v-if="prop.cancelBtnText" @click="cancelCallback">
             {{ prop.cancelBtnText }}
           </div>
         </div>
@@ -29,15 +29,18 @@ export default {
       prop: state => state.messageBox.messageInfo,
     }),
   },
+  methods: {
+    cancelCallback() {
+      this.prop.cancelCallback();
+      if (['information', 'contacts', 'identity', 'add-bank'].includes(this.$route.name)) {
+        this.sendEventTrackData({});
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// .v-enter-active,
-// .v-leave-active {
-//   transition: all 500ms;
-// }
-
 .v-enter-active {
   transition: all 500ms;
 }

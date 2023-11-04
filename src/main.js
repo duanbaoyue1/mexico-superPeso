@@ -26,8 +26,10 @@ Vue.component('message-box', MessageBox);
 // 注册全局mixins
 import global from '@/mixins/global';
 import syncData from '@/mixins/sync-data';
+import eventTrack from '@/mixins/event-track';
 Vue.mixin(global);
 Vue.mixin(syncData);
+Vue.mixin(eventTrack);
 
 import Vconsole from 'vconsole';
 if (process.env.NODE_ENV == 'development') {

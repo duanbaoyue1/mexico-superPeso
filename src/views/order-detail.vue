@@ -153,7 +153,6 @@
 </template>
 
 <script>
-import eventTrack from '@/mixins/event-track';
 const COLOR_MAPS = {
   40: 'rgb(255 75 56)',
   110: 'rgb(255 75 56)',
@@ -164,7 +163,6 @@ const COLOR_MAPS = {
 };
 
 export default {
-  mixins: [eventTrack],
   computed: {
     showDate() {
       return this.detail.orderStatus == 80 || this.detail.orderStatus == 90 || this.detail.orderStatus == 100 || this.detail.orderStatus == 101;
@@ -290,6 +288,8 @@ export default {
   },
 
   mounted() {
+    this.setEventTrackStartTime();
+
     this.setTabBar({
       show: true,
       transparent: false,
@@ -298,6 +298,7 @@ export default {
       title: 'Detalles del pedido',
       backgroundColor: 'rgb(255 182 53)',
       backCallback: () => {
+        this.sendEventTrackData({});
         this.goAppBack();
       },
     });
@@ -339,12 +340,18 @@ export default {
         await this.$http.post(`/api/order/updateOrderAutoRepeatStatus`, { orderId: this.orderId, isOpen: this.choosed ? 1 : 0 });
       } catch (error) {}
       let title = payType == 'OnLine' ? 'Reembolso en línea' : 'Reembolso en tienda';
-      this.openWebview(`${this.appGlobal.apiHost}/api/repayment/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, title);
+      // 离开
       this.sendEventTrackData({ leaveBy: 1 });
+
+      // 支付
+      this.setEventTrackStartTime();
+      this.sendEventTrackData({ leaveBy: 1, page: 'payment' });
+
+      this.openWebview(`${this.appGlobal.apiHost}/api/repayment/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, title);
     },
 
     goPayHis() {
-      this.innerJump('pay-history', { id: this.orderId, type: 'order' });
+      this.innerJump('pay-history', { id: this.orderId, type: 'order', productId: this.detail.productId, orderStatus: this.detail.orderStatus });
     },
 
     applyDefer() {
@@ -357,7 +364,7 @@ export default {
       location.href = this.orderUrl.utrVideoUrl;
     },
     goDeferHis() {
-      this.innerJump('defer-history', { orderId: this.orderId });
+      this.innerJump('defer-history', { orderId: this.orderId, productId: this.detail.productId, orderStatus: this.detail.orderStatus });
     },
     goFillUtr() {
       this.innerJump('utr', { orderId: this.orderId, type: 'repay' });
@@ -382,6 +389,7 @@ export default {
           backgroundColor: COLOR_MAPS[this.detail.orderStatus] || 'rgb(255 182 53)',
         });
         this.updateTrackerData({ key: 'productId', value: this.detail.productId });
+        this.updateTrackerData({ key: 'status', value: this.ORDER_STATUS_LIST[this.detail.orderStatus] });
         if (this.orderStatusText == 'Rejected' || this.orderStatusText == 'Repayment Successful' || this.orderStatusText == 'Pending Repayment' || this.orderStatusText == 'Overdue') {
           this.orderUrl = await this.getOrderRelateUrl(this.orderId);
         }

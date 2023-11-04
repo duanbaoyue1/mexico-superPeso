@@ -33,34 +33,7 @@ export default {
   components: {
     CompleteStep,
   },
-  computed: {
-    computedType() {
-      return card => {
-        if (this.chooseBankId == card.id) {
-          return card.type == 0 ? 'superpeso/银行卡点亮' : 'superpeso/Clabe点亮';
-        } else {
-          return card.type == 0 ? 'superpeso/银行卡未点亮' : 'superpeso/Clabe灰';
-        }
-      };
-    },
-  },
-  watch: {
-    chooseBankId: {
-      handler() {
-        this.canSubmit = !!this.chooseBankId;
-      },
-      deep: true,
-    },
-  },
-  created() {
-    this.setTabBar({
-      show: true,
-      transparent: false,
-      fixed: true,
-      title: 'Tarjeta bancaria',
-      backCallback: null,
-    });
-  },
+
   data() {
     return {
       ALL_ATTRS: ALL_ATTRS,
@@ -80,15 +53,49 @@ export default {
       },
     };
   },
-
+  watch: {
+    chooseBankId: {
+      handler() {
+        this.canSubmit = !!this.chooseBankId;
+      },
+      deep: true,
+    },
+  },
   mounted() {
+    this.setEventTrackStartTime();
+
+    this.setTabBar({
+      show: true,
+      transparent: false,
+      fixed: true,
+      title: 'Tarjeta bancaria',
+      backCallback: () => {
+        if (this.from == 'order') {
+          this.sendEventTrackData({ page: 'add-bank' });
+        } else {
+          this.sendEventTrackData({});
+        }
+        this.goAppBack();
+      },
+    });
+
     document.body.style.backgroundColor = '#fff';
     this.getBanks();
     if (this.from != 'mine') {
       this.eventTracker('bank_access');
     }
   },
-
+  computed: {
+    computedType() {
+      return card => {
+        if (this.chooseBankId == card.id) {
+          return card.type == 0 ? 'superpeso/银行卡点亮' : 'superpeso/Clabe点亮';
+        } else {
+          return card.type == 0 ? 'superpeso/银行卡未点亮' : 'superpeso/Clabe灰';
+        }
+      };
+    },
+  },
   methods: {
     goAddCard() {
       this.eventTracker('bank_add');
@@ -121,6 +128,7 @@ export default {
           await this.$http.post(`/api/order/bindRemittanceAccount`, { remittanceAccountId: this.chooseBankId, orderId: this.orderId });
           // 判断是否需要确认订单
           let appMode = await this.getAppMode();
+          this.sendEventTrackData({ leaveBy: 1, page: 'add-bank' });
           if (appMode.confirmType == 1) {
             // 需要进确认申请页
             this.innerJump('loan-confirm', { orderId: this.orderId }, true);
@@ -140,6 +148,7 @@ export default {
           this.eventTracker('bank_submit_success');
           this.$toast('Vinculación de la tarjeta bancaria con éxito');
           setTimeout(res => {
+            this.sendEventTrackData({ leaveBy: 1 });
             this.innerJump('mine');
           }, 1000);
         }
@@ -209,7 +218,6 @@ export default {
         border: 2px solid #333333;
         background: #43e0a2;
         .card-name {
-
           .name {
             color: #3b3735;
           }

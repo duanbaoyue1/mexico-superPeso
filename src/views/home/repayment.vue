@@ -13,10 +13,8 @@
 
 <script>
 import OrderItemRepayment from '@/components/order-item-repayment.vue';
-import eventTrack from '@/mixins/event-track';
 
 export default {
-  mixins: [eventTrack],
   components: {
     OrderItemRepayment,
   },
@@ -35,7 +33,15 @@ export default {
     });
   },
   activated() {
+    this.setEventTrackStartTime();
+
     this.getAllOrders();
+  },
+  beforeRouteLeave(to, from, next) {
+    if (['home', 'mine'].includes(to.name)) {
+      this.sendEventTrackData({});
+    }
+    next();
   },
   methods: {
     async getAllOrders() {

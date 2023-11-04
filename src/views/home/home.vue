@@ -11,7 +11,7 @@
           <template v-if="!isMultiple && (appMode.orderStatus == 80 || appMode.orderStatus == 90)">
             <div class="no-credit">Será diferente según el método de pago</div>
           </template>
-           <template v-else>
+          <template v-else>
             <div class="available-text">Cantidad disponible</div>
             <div class="number">
               <span class="dollar">$</span>
@@ -80,10 +80,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import MultiRecommend from '@/components/multi-recommend.vue';
-import eventTrack from '@/mixins/event-track.js';
 
 export default {
-  mixins: [eventTrack],
   components: {
     MultiRecommend,
   },
@@ -161,6 +159,8 @@ export default {
     }
   },
   activated() {
+    this.setEventTrackStartTime();
+
     this.setTabBar({
       show: false,
     });
@@ -263,6 +263,8 @@ export default {
                     });
                     this.$toast('Solicitud enviada con éxito');
                     setTimeout(res => {
+                      this.sendEventTrackData({ leaveBy: 1 });
+
                       this.innerJump('loan-success-multi', { systemTime: this.getLocalSystemTimeStamp() });
                     }, 1500);
                   }
@@ -346,6 +348,8 @@ export default {
           } else {
             this.btnTips = 'Casi:99%';
             this.actionCallback = () => {
+              this.sendEventTrackData({ leaveBy: 1 });
+
               this.innerJump('loan-confirm', { orderId: this.appMode.orderId });
             };
           }

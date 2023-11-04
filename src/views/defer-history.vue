@@ -24,23 +24,30 @@
 
 <script>
 export default {
-  created() {
+  data() {
+    return {
+      productId: this.$route.query.productId,
+      orderStatus: this.$route.query.orderStatus,
+      lists: [],
+    };
+  },
+
+  mounted() {
+    this.setEventTrackStartTime();
+
     this.setTabBar({
       show: true,
       fixed: true,
       transparent: false,
       backgroundColor: '#f9f9f9',
       title: 'Historial de reembolso diferido',
+      backCallback: () => {
+        this.updateTrackerData({ key: 'productId', value: this.productId });
+        this.updateTrackerData({ key: 'status', value: this.ORDER_STATUS_LIST[this.orderStatus] });
+        this.sendEventTrackData({});
+        this.goAppBack();
+      },
     });
-  },
-
-  data() {
-    return {
-      lists: [],
-    };
-  },
-
-  mounted() {
     document.body.style.backgroundColor = '#f9f9f9';
     this.getDeferHistory();
   },
@@ -53,7 +60,8 @@ export default {
 
   methods: {
     goPayHis(item) {
-      this.innerJump('pay-history', { type: 'bill', id: item.id });
+      this.sendEventTrackData({});
+      this.innerJump('pay-history', { type: 'bill', id: item.id, productId: this.$route.query.productId, orderStatus: this.$route.query.orderStatus });
     },
     async getDeferHistory() {
       let res = await this.$http.post('/api/extension/history', {

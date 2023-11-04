@@ -82,10 +82,7 @@
 </template>
 
 <script>
-import eventTrack from '@/mixins/event-track';
 export default {
-  mixins: [eventTrack],
-  computed: {},
   data() {
     return {
       showMoreInfo: false, // 是否显示更多信息
@@ -95,18 +92,24 @@ export default {
       detail: '',
       orderUrl: '',
       deferHis: [],
+      infoDetail: {},
     };
   },
-  created() {
+  async mounted() {
+    this.setEventTrackStartTime();
+
     this.setTabBar({
       show: true,
       transparent: true,
       fixed: true,
       color: 'white',
       title: 'Detalles del pedido',
+      backCallback: () => {
+        this.sendEventTrackData({ page: 'payment' });
+        this.goAppBack();
+      },
     });
-  },
-  async mounted() {
+
     document.body.style.backgroundColor = '#f9f9f9';
     this.getDetail();
     // this.orderUrl = await this.getOrderRelateUrl(this.orderId);
@@ -126,11 +129,14 @@ export default {
     async selectBank(payType) {
       this.showPaymentTips = false;
       let title = payType == 'OnLine' ? 'Reembolso en línea' : 'Reembolso en tienda';
+      // 更新埋点触发时间
+      this.setEventTrackStartTime();
+      this.sendEventTrackData({ leaveBy: 1, page: 'payment' });
+
       this.openWebview(`${this.appGlobal.apiHost}/api/extension/prepay?id=${this.detail.orderBillId}&payType=${payType}`, 0, title);
-      this.sendEventTrackData({ leaveBy: 1 });
     },
     goDeferPayHis() {
-      this.innerJump('pay-history', { id: this.detail.extensionOrderBillId, type: 'bill' });
+      this.innerJump('pay-history', { id: this.detail.extensionOrderBillId, type: 'bill', productId: this.infoDetail.productId, orderStatus: this.infoDetail.orderStatus });
     },
     goFillUtr() {
       this.innerJump('utr', { orderId: this.orderId, type: 'defer' });
@@ -140,10 +146,6 @@ export default {
     },
     defer() {
       this.showPaymentTips = true;
-    },
-    async repay() {
-      this.sendEventTrackData({ leaveBy: 1 });
-      this.innerJump('utr', { nextUrl: this.orderUrl.extensionUrl, orderId: this.orderId, type: 'defer' });
     },
     async getDetail() {
       console.log('this.orderId', this.orderId);
@@ -156,7 +158,9 @@ export default {
         let res = await this.$http.post(`/api/order/detail`, {
           orderId: this.orderId,
         });
+        this.infoDetail = res.data;
         this.updateTrackerData({ key: 'productId', value: res.data.productId });
+        this.updateTrackerData({ key: 'status', value: this.ORDER_STATUS_LIST[res.data.orderStatus] });
       } catch (error) {
         console.log(error);
         console.log('222222');

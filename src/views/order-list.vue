@@ -1,26 +1,24 @@
 <template>
   <div class="scroll-area content-area order-list">
     <!-- <van-pull-refresh class=" " v-model="loading" success-text=" " loading-text="loading" loosing-text="loading" pulling-text="loading" @refresh="getAllOrders"> -->
-      <div>
-        <div class="has-order" v-if="orders.length">
-          <order-item class="order-item" v-for="item in orders" v-if="item.orderStatus != 110" :key="item.id" :order="item"></order-item>
-        </div>
-        <div class="no-order" v-else-if="!loading">
-          <m-icon class="icon" type="superpeso/没有订单" :width="168" :height="97" />
-          <div class="tips">Ningún pedido de préstamo</div>
-          <button @click="goHome">Aplicar ahora</button>
-        </div>
+    <div>
+      <div class="has-order" v-if="orders.length">
+        <order-item class="order-item" v-for="item in orders" v-if="item.orderStatus != 110" :key="item.id" :order="item"></order-item>
       </div>
+      <div class="no-order" v-else-if="!loading">
+        <m-icon class="icon" type="superpeso/没有订单" :width="168" :height="97" />
+        <div class="tips">Ningún pedido de préstamo</div>
+        <button @click="goHome">Aplicar ahora</button>
+      </div>
+    </div>
     <!-- </van-pull-refresh> -->
   </div>
 </template>
 
 <script>
 import OrderItem from '@/components/order-item.vue';
-import eventTrack from '@/mixins/event-track';
 
 export default {
-  mixins: [eventTrack],
   components: {
     OrderItem,
   },
@@ -39,6 +37,8 @@ export default {
     });
   },
   mounted() {
+    this.setEventTrackStartTime();
+
     this.getAllOrders();
   },
   methods: {

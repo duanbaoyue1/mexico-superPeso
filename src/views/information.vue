@@ -8,10 +8,6 @@
       <div class="line-item">
         <select-item :items="ALL_ATTRS.EDUCATION" :defaultOpen="curOpenFields == 'education'" title="Formación académica" itemAttrs="education" @choose="chooseEditData" />
       </div>
-      <!-- <div class="head">Gender</div>
-      <div class="line-item">
-        <select-item :items="ALL_ATTRS.GENDER" itemAttrs="gender" @choose="chooseEditData" />
-      </div> -->
       <div class="head">Estado civil</div>
       <div class="line-item">
         <select-item :items="ALL_ATTRS.MARITAL_STATUS" :defaultOpen="curOpenFields == 'marital'" title="Estado civil" itemAttrs="marital" @choose="chooseEditData" />
@@ -32,15 +28,6 @@
       <div class="line-item">
         <select-item :items="ALL_ATTRS.OCCUPATION" :defaultOpen="curOpenFields == 'occupation'" title="Ocupación" itemAttrs="occupation" @choose="chooseEditData" />
       </div>
-
-      <!-- <div class="head">Number of Children</div>
-      <div class="line-item">
-        <select-item :items="ALL_ATTRS.CHILDREN" itemAttrs="childNum" @choose="chooseEditData" />
-      </div>
-      <div class="head">Pay Method</div>
-      <div class="line-item">
-        <select-item :items="ALL_ATTRS.PAY_METHOD" itemAttrs="incomeWay" @choose="chooseEditData" />
-      </div> -->
     </div>
     <div class="submit">
       <button class="bottom-submit-btn" :disabled="!canSubmit" @click="submit">Enviar</button>
@@ -60,14 +47,23 @@
 import selectItem from '@/components/select-item';
 import CompleteStep from '@/components/complete-step.vue';
 import * as ALL_ATTRS from '@/config/typeConfig';
-import eventTrack from '@/mixins/event-track';
 const ALL_FIELD = ['education', 'marital', 'loanPurpose', 'liveType', 'monthlyIncome', 'occupation'];
 
 export default {
-  mixins: [eventTrack],
   components: {
     selectItem,
     CompleteStep,
+  },
+  data() {
+    return {
+      curOpenFields: 'education',
+      ALL_ATTRS: ALL_ATTRS,
+      canSubmit: false, // 是否可以提交
+      submitSuccess: false,
+      editData: {},
+      saving: false,
+      orderId: this.$route.query.orderId,
+    };
   },
   watch: {
     editData: {
@@ -86,18 +82,9 @@ export default {
       backCallback: null,
     });
   },
-  data() {
-    return {
-      curOpenFields: 'education',
-      ALL_ATTRS: ALL_ATTRS,
-      canSubmit: false, // 是否可以提交
-      submitSuccess: false,
-      editData: {},
-      saving: false,
-      orderId: this.$route.query.orderId,
-    };
-  },
   mounted() {
+    this.setEventTrackStartTime();
+
     this.eventTracker('basic_access');
     this.initInfoBackControl();
   },
@@ -117,16 +104,15 @@ export default {
       try {
         this.eventTracker('basic_submit');
         let saveData = { ...this.editData };
-        // if (!this.validateEmail(saveData.email)) {
-        //   this.$toast('Please enter the correct email address.');
-        //   return;
-        // }
         let data = await this.$http.post(`/api/user/addInfo/save`, saveData);
         if (data.returnCode == 2000) {
           this.eventTracker('basic_submit_success');
           this.submitSuccess = true;
           setTimeout(() => {
             this.submitSuccess = false;
+
+            this.sendEventTrackData({ leaveBy: 1 });
+
             this.innerJump('contacts', { orderId: this.orderId }, true);
           }, 1000);
         }

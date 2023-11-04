@@ -57,10 +57,6 @@ const PAGE_MAP = {
     page: 9,
     modular: 3,
   },
-  activity: {
-    page: 5,
-    modular: 1,
-  },
   payment: {
     page: 8,
     modular: 2,

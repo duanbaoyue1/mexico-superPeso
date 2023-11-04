@@ -7,7 +7,7 @@
     <div class="legal-modal" v-if="showLegal">
       <div class="content">
         <m-icon class="close" type="superpeso/关闭弹窗" :width="16" :height="16" @click="showLegal = false" />
-         <img class="cc" :src="require('@/assets/img/superpeso/法律.png')" />
+        <img class="cc" :src="require('@/assets/img/superpeso/法律.png')" />
         <div class="title">Legal</div>
         <div class="items">
           <div @click="goTerms">términos de servicio</div>
@@ -38,8 +38,9 @@ export default {
       showLegal: false,
     };
   },
-  methods: {},
   async mounted() {
+    this.setEventTrackStartTime();
+
     try {
       let data = await this.$http.post(`/api/user/info`);
       this.hasPassword = !!data.data.password;
