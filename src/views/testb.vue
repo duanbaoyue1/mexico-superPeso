@@ -175,7 +175,6 @@ export default {
 
       this.showLoading();
       try {
-        // const file = this.base64ToFile(this.base64ImgData, new Date().getTime());
         let formData = new FormData();
         formData.append('channel', 'AccV2');
         formData.append('panImg', this.base64ImgData);

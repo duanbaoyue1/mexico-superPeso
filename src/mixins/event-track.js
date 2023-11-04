@@ -5,24 +5,28 @@ const PAGE_MAP = {
     page: 2,
     modular: 1,
   },
-  'loan-success-multi': {
-    page: 2,
-    modular: 1,
-  },
-  identity: {
-    page: 3,
-    modular: 1,
-  },
   information: {
-    page: 3,
+    page: 31,
     modular: 1,
   },
   contacts: {
-    page: 3,
+    page: 32,
+    modular: 1,
+  },
+  identity: {
+    page: 33,
+    modular: 1,
+  },
+  'add-bank': {
+    page: 34,
     modular: 1,
   },
   'complete-bank': {
-    page: 3,
+    page: 10,
+    modular: 3,
+  },
+  'loan-success-multi': {
+    page: 5,
     modular: 1,
   },
   'loan-confirm': {
@@ -30,119 +34,128 @@ const PAGE_MAP = {
     modular: 1,
   },
   'order-list': {
-    page: 5,
+    page: 6,
     modular: 2,
   },
   repayment: {
-    page: 5,
+    page: 6,
     modular: 2,
   },
   'order-detail': {
-    page: 6,
+    page: 7,
     modular: 2,
   },
-  'defer-detail': {
-    page: 6,
+  'pay-history': {
+    page: 11,
+    modular: 2,
+  },
+  'defer-history': {
+    page: 11,
     modular: 2,
   },
   mine: {
-    page: 8,
+    page: 9,
     modular: 3,
+  },
+  activity: {
+    page: 5,
+    modular: 1,
+  },
+  payment: {
+    page: 8,
+    modular: 2,
   },
 };
 
-const DATA_API_HOST = process.env.VUE_APP_UPLOAD_DATA_APIPREFIX;
+// 订单状态枚举
+const ORDER_STATUS_LIST = {
+  20: '1', // 审核中
+  21: '1', // 审核中
+  30: '2', // 审核通过
+  40: '3', // 审核拒绝
+  70: '4', // 等待放款
+  80: '5', // 在途
+  90: '6', // 逾期
+  100: '7', // 结清
+  101: '8', // 结清-有逾期
+  110: '9', // 废弃订单
+};
 
 export default {
   data() {
     return {
+      ORDER_STATUS_LIST,
       pageStartTime: 0,
-      pageEndTime: 0,
-      duration: 0,
       touchMoved: false,
       dataSended: false,
       actionCnt: 0,
       leaveBy: 2,
-      productId: '',
+      productId: null,
+      status: null,
     };
-  },
-  activated() {
-    window.actionCnt = 0;
-    this.dataSended = false;
-  },
-  mounted() {
-    window.actionCnt = 0;
-    this.dataSended = false;
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      console.log('page start time:', new Date().getTime());
-      vm.pageStartTime = new Date().getTime();
-    });
-  },
-  beforeRouteLeave(to, from, next) {
-    console.log('page leave time:', new Date().getTime());
-    if (!this.dataSended) {
-      if ((from.name == 'identity' && to.name == 'information') || (from.name == 'information' && to.name == 'contacts') || (from.name == 'contacts' && to.name == 'complete-bank')) {
-        // 这些条件不发送
-      } else {
-        this.sendEventTrackData({});
-      }
-    }
-    next();
   },
   methods: {
     updateTrackerData({ key, value }) {
       this[key] = value;
     },
-
-    sendEventTrackData({ leaveBy }) {
+    sendEventTrackData({ leaveBy, page }) {
+      console.log(this.$route.name, '***********this.$route.name');
       // 页面类型
-      let pageModule = PAGE_MAP[this.$route.name];
-      if (!pageModule) {
-        console.error('page not found!!!');
+      let pageModule = '';
+      if (typeof page != 'undefined') {
+        pageModule = PAGE_MAP[page];
+      } else {
+        pageModule = PAGE_MAP[this.$route.name];
+        if (!pageModule) {
+          console.error('page not found!!!');
+        }
       }
-      this.pageEndTime = new Date().getTime();
-      this.duration = (this.pageEndTime - this.pageStartTime) / 1000;
+
+      const pageEndTime = new Date().getTime();
+
       // 调用app方法
       let sendData = {
         userId: this.appGlobal.userId,
+        phone: this.appGlobal.mobile,
         appName: this.appGlobal.appName,
-        appVersion: this.appGlobal.appVersion + "",
-        modular: pageModule.modular,
-        page: pageModule.page,
-        startTime: this.pageStartTime,
-        endTime: this.pageEndTime,
-        duration: parseInt((this.pageEndTime - this.pageStartTime) / 1000),
-        packageId: this.appGlobal.packageId, // TODO
-        leaveBy: this.leaveBy, //
-        productId: this.productId,
-        actionCnt: window.actionCnt,
+        appVersion: this.appGlobal.appVersion + '',
+        modular: pageModule?.modular,
+        page: pageModule?.page,
+        startTime: this.eventTrackStartTime,
+        endTime: pageEndTime,
+        duration: parseInt(pageEndTime - this.eventTrackStartTime),
+        packageId: this.appGlobal.packageId,
+        leaveBy: this.leaveBy,
+        actionCnt: this.eventTrackerActionCnt,
       };
+      // 1：申请/完成认证/确认借款/点击进入/还款/新增绑卡 2：退出
       if (typeof leaveBy != 'undefined') {
         sendData.leaveBy = leaveBy;
       }
-      this.dataSended = true;
+      // 产品ID
+      if (this.productId) {
+        sendData.productId = this.productId;
+      }
+      // 订单详情页 订单状态
+      if (this.status) {
+        sendData.status = this.status;
+      }
+
+      if (typeof page != 'undefined' && page === 'payment') {
+        delete sendData.endTime;
+        delete sendData.duration;
+        delete sendData.actionCnt;
+      }
       try {
-        // console.log('send data:', sendData);
-        // axios.post(`${DATA_API_HOST}/operate/india`, sendData);
+        console.log('send data:', sendData);
+        axios.post('https://r3vfk.vlndxw.fun/operate/risk', sendData);
+        this.setEventTrackerActionCnt(0);
       } catch (error) {
         console.error('event data send error!', error);
       }
     },
-    addActionCnt() {
-      window.actionCnt++;
-    },
-    touchstart() {
-      this.touchMoved = false;
-    },
-    touchmove() {
-      this.touchMoved = true;
-    },
-    touchend(e) {
-      // if (this.touchMoved) {
-      this.addActionCnt();
-      // }
+    touchend() {
+      this.setEventTrackerActionCnt();
     },
   },
 };
