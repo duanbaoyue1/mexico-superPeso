@@ -82,7 +82,7 @@ service.interceptors.response.use(
     console.log(response.config.url, res);
     if (res.returnCode && res.returnCode !== 2000) {
       // 身份证认证RFC埋点使用
-      if (response.config.url === '/api/ocr/saveResult' && (res.returnCode === 6016 || res.returnCode === 6018)) {
+      if (response.config.url === '/api/ocr/saveRfcResult' && (res.returnCode === 6016 || res.returnCode === 6018)) {
         return Promise.resolve(res);
       }
       // 4005: 登录超时,重新登录

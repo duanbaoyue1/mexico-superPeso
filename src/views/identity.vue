@@ -317,7 +317,7 @@ export default {
           mark: 3,
           rfc: `${this.cardFrontOcrInfo.idNumber.slice(0, 10)}${this.rfc}`,
         };
-        let res = await this.$http.post(`/api/ocr/saveResult`, saveData);
+        let res = await this.$http.post(`/api/ocr/saveRfcResult`, saveData);
         // RFC不一致错误码
         if (res.returnCode === 6016) {
           this.eventTracker('rfc_number_fail');
