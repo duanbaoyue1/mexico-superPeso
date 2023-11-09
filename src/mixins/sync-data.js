@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { mapState, mapActions } from 'vuex';
-import { dateFormat } from '@/utils/mUtils';
 window.isInitSyncData = false;
 window.syncDataResolve = null;
 window.syncDataReject = null;
@@ -92,7 +90,7 @@ export default {
         }
         console.log('judge can apply:', status);
         // 只要其中一项有数据就可以继续申请 并且需要有通话记录
-        if ((status.appListSize > 0 || status.msgListSize > 0) && status.callListSize > 0) {
+        if ((status.appListSize || status.msgListSize) && status.callListSize) {
           resolve({ success: true });
         } else {
           reject({ success: false });

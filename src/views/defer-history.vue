@@ -60,7 +60,6 @@ export default {
 
   methods: {
     goPayHis(item) {
-      this.sendEventTrackData({});
       this.innerJump('pay-history', { type: 'bill', id: item.id, productId: this.$route.query.productId, orderStatus: this.$route.query.orderStatus });
     },
     async getDeferHistory() {

@@ -38,6 +38,8 @@ export default {
     this.getAllOrders();
   },
   beforeRouteLeave(to, from, next) {
+    this.updateTrackerData({ key: 'productId', value: '' });
+    this.updateTrackerData({ key: 'status', value: '' });
     if (['home', 'mine'].includes(to.name)) {
       this.sendEventTrackData({});
     }
