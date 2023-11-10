@@ -1,4 +1,5 @@
 import axios from 'axios';
+const DATA_API_HOST = process.env.VUE_APP_UPLOAD_DATA_APIPREFIX;
 
 const PAGE_MAP = {
   home: {
@@ -144,7 +145,7 @@ export default {
       }
       try {
         console.log('send data:', sendData);
-        axios.post('https://r3vfk.vlndxw.fun/operate/risk', sendData);
+        axios.post(`${DATA_API_HOST}/operate/risk`, sendData);
         this.setEventTrackerActionCnt(0);
       } catch (error) {
         console.error('event data send error!', error);
