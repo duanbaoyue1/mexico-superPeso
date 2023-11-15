@@ -9,7 +9,8 @@ export default new Vuex.Store({
       messageInfo: {},
     },
     appGlobal: {
-      apiHost: 'https://mexico-loan-test.6688-epoch.com',
+      apiHost: 'https://vlndxw.fun', // 正式
+      // apiHost: 'https://mexico-loan-test.6688-epoch.com', // 测试
       appName: 'SuperPeso',
       token: '63fdfd55e4b0f6a603fac657',
       debug: '', // 是否调试模式

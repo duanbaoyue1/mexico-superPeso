@@ -312,6 +312,10 @@ export default {
     this.setTabBar({
       color: 'black',
       backgroundColor: '#fff',
+      backCallback: () => {
+        this.sendEventTrackData({});
+        this.goAppBack();
+      },
     });
   },
 
@@ -387,6 +391,10 @@ export default {
         this.setTabBar({
           transparent: false,
           backgroundColor: COLOR_MAPS[this.detail.orderStatus] || 'rgb(255 182 53)',
+          backCallback: () => {
+            this.sendEventTrackData({});
+            this.goAppBack();
+          },
         });
         this.updateTrackerData({ key: 'productId', value: this.detail.productId });
         this.updateTrackerData({ key: 'status', value: this.ORDER_STATUS_LIST[this.detail.orderStatus] });
