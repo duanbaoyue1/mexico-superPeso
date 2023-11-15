@@ -105,7 +105,6 @@ export default {
       color: 'white',
       title: 'Detalles del pedido',
       backCallback: () => {
-        this.sendEventTrackData({ page: 'payment' });
         this.goAppBack();
       },
     });
