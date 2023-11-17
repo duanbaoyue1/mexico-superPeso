@@ -299,6 +299,8 @@ export default {
       backgroundColor: 'rgb(255 182 53)',
       backCallback: () => {
         this.sendEventTrackData({});
+        this.updateTrackerData({ key: 'productId', value: '' });
+        this.updateTrackerData({ key: 'status', value: '' });
         this.goAppBack();
       },
     });
@@ -314,6 +316,8 @@ export default {
       backgroundColor: '#fff',
       backCallback: () => {
         this.sendEventTrackData({});
+        this.updateTrackerData({ key: 'productId', value: '' });
+        this.updateTrackerData({ key: 'status', value: '' });
         this.goAppBack();
       },
     });
@@ -393,6 +397,8 @@ export default {
           backgroundColor: COLOR_MAPS[this.detail.orderStatus] || 'rgb(255 182 53)',
           backCallback: () => {
             this.sendEventTrackData({});
+            this.updateTrackerData({ key: 'productId', value: '' });
+            this.updateTrackerData({ key: 'status', value: '' });
             this.goAppBack();
           },
         });
