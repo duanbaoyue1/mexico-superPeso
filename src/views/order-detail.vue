@@ -325,6 +325,7 @@ export default {
 
   methods: {
     goCompleteBank() {
+      this.sendEventTrackData({ leaveBy: 1 });
       this.innerJump('complete-bank', { orderId: this.orderId, from: 'mine' });
     },
     async queryOrderReloan() {
@@ -359,10 +360,12 @@ export default {
     },
 
     goPayHis() {
+      this.sendEventTrackData({ leaveBy: 1 });
       this.innerJump('pay-history', { id: this.orderId, type: 'order', productId: this.detail.productId, orderStatus: this.detail.orderStatus });
     },
 
     applyDefer() {
+      this.sendEventTrackData({ leaveBy: 1 });
       this.innerJump('defer-detail', { orderId: this.orderId });
     },
     checkAgreement() {
@@ -372,12 +375,9 @@ export default {
       location.href = this.orderUrl.utrVideoUrl;
     },
     goDeferHis() {
+      this.sendEventTrackData({ leaveBy: 1 });
       this.innerJump('defer-history', { orderId: this.orderId, productId: this.detail.productId, orderStatus: this.detail.orderStatus });
     },
-    goFillUtr() {
-      this.innerJump('utr', { orderId: this.orderId, type: 'repay' });
-    },
-
     async getDeferTimes() {
       let data = await this.$http.post(`/api/extension/historyNum`, {
         id: this.orderId,
